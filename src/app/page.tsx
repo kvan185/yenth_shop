@@ -299,17 +299,31 @@ export default function Home() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <header className="site-header">
-        <Link className="brand" href="/">
-          YenTH<span>.shop</span>
-        </Link>
-        <nav aria-label="Điều hướng chính">
-          <Link href="#dich-vu">Dịch vụ</Link>
+        <div className="header-primary">
+          <Link className="brand" href="/">
+            YenTH<span>.shop</span>
+          </Link>
+          <nav aria-label="Điều hướng chính">
+            <Link href="#dich-vu">Dịch vụ</Link>
+            <Link href="#bang-gia">Giá</Link>
+            <Link href="/blog">Blog</Link>
+            <Link
+              href="#lien-he"
+              className="header-cta"
+              data-track="header_cta_click"
+              data-track-category="conversion"
+              data-track-label="Header audit"
+            >
+              Audit miễn phí
+            </Link>
+          </nav>
+        </div>
+        <div className="header-secondary" aria-label="Điều hướng phụ">
           <Link href="#local-seo">Local SEO</Link>
-          <Link href="/blog">Blog</Link>
           <Link href="#quy-trinh">Quy trình</Link>
-          <Link href="#bang-gia">Bảng giá</Link>
-          <Link href="#lien-he">Liên hệ</Link>
-        </nav>
+          <Link href="#mau-giao-dien">Mẫu giao diện</Link>
+          <a href="tel:0375266538">0375 266 538</a>
+        </div>
       </header>
 
       <section className="hero">
@@ -699,28 +713,49 @@ export default function Home() {
       </section>
 
       <footer className="footer">
-        <strong>YenTH.shop</strong>
-        <span>Dịch vụ xây dựng website online cho cá nhân, cửa hàng và doanh nghiệp nhỏ.</span>
+        <div className="footer-primary">
+          <strong>YenTH.shop</strong>
+          <span>Dịch vụ xây dựng website online cho cá nhân, cửa hàng và doanh nghiệp nhỏ.</span>
+        </div>
+        <div className="footer-secondary">
+          <Link href="/blog">Blog SEO</Link>
+          <Link href="#local-seo">Local SEO</Link>
+          <Link href="#bang-gia">Gói giá</Link>
+          <a href="mailto:khanhvan18052004@gmail.com">Email</a>
+        </div>
       </footer>
-      <div className="live-chat" aria-label="Liên hệ nhanh">
-        <a
-          href="https://zalo.me/0375266538"
-          target="_blank"
-          rel="noreferrer"
-          data-track="floating_zalo_click"
-          data-track-category="conversion"
-          data-track-label="Live chat Zalo"
-        >
-          Chat Zalo
-        </a>
-        <a
-          href="tel:0375266538"
-          data-track="floating_phone_click"
-          data-track-category="conversion"
-          data-track-label="Floating phone"
-        >
-          Gọi nhanh
-        </a>
+      <div className="bottom-dock" aria-label="Thanh liên hệ cố định">
+        <div className="bottom-dock-primary">
+          <span>Audit website miễn phí trong 24h</span>
+          <a
+            href="#lien-he"
+            data-track="bottom_dock_form_click"
+            data-track-category="conversion"
+            data-track-label="Bottom dock form"
+          >
+            Gửi nhu cầu
+          </a>
+        </div>
+        <div className="bottom-dock-secondary">
+          <a
+            href="https://zalo.me/0375266538"
+            target="_blank"
+            rel="noreferrer"
+            data-track="bottom_dock_zalo_click"
+            data-track-category="conversion"
+            data-track-label="Bottom dock Zalo"
+          >
+            Chat Zalo
+          </a>
+          <a
+            href="tel:0375266538"
+            data-track="bottom_dock_phone_click"
+            data-track-category="conversion"
+            data-track-label="Bottom dock phone"
+          >
+            Gọi nhanh
+          </a>
+        </div>
       </div>
     </main>
   );
