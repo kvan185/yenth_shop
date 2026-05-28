@@ -98,6 +98,21 @@ const templates = [
   },
 ];
 
+const proofCases = [
+  {
+    title: 'Trang dịch vụ YenTH Shop',
+    image: '/previews/home-desktop.png',
+    desc: 'Trang chủ có hero rõ dịch vụ, CTA, form conversion, Local SEO, blog SEO, sitemap, robots và tracking sự kiện.',
+    result: 'Phù hợp dịch vụ cá nhân, cửa hàng nhỏ, tư vấn, spa, lớp học hoặc thương hiệu mới.',
+  },
+  {
+    title: 'Mẫu portfolio cá nhân',
+    image: '/previews/portfolio-demo-desktop.png',
+    desc: 'Mẫu portfolio có câu chuyện cá nhân, dự án nổi bật, lời chứng thực, form liên hệ và bố cục tối ưu cho mobile.',
+    result: 'Phù hợp freelancer, chuyên gia, creator, tư vấn viên hoặc người làm thương hiệu cá nhân.',
+  },
+];
+
 const trustSignals = [
   ['3 nhóm', 'website đang nhận làm'],
   ['7 ngày', 'có bản demo đầu tiên'],
@@ -111,10 +126,61 @@ const trustBadges = [
   'Hướng dẫn quản trị sau bàn giao',
 ];
 
+const trustStack = [
+  {
+    title: 'Đo được chuyển đổi',
+    text: 'CTA, click gọi điện, click Zalo, click email và submit form đều được gắn event để biết khách đến từ đâu và hành động gì.',
+  },
+  {
+    title: 'Không mất tài sản số',
+    text: 'Bạn giữ mã nguồn, tài khoản deploy, domain, Search Console, sitemap và toàn bộ nội dung đã triển khai.',
+  },
+  {
+    title: 'Có checklist bàn giao',
+    text: 'Trước khi public, tôi kiểm tra responsive, metadata, Open Graph, robots.txt, sitemap, schema, form và các link liên hệ.',
+  },
+  {
+    title: 'Có người giải thích sau khi xong',
+    text: 'Bạn được hướng dẫn cách cập nhật nội dung, đọc chỉ số cơ bản và biết phần nào nên tối ưu tiếp sau khi website có traffic.',
+  },
+];
+
+const trackingPlan = [
+  ['view_home', 'Người dùng vào trang chủ'],
+  ['hero_cta_click', 'Bấm CTA audit miễn phí'],
+  ['pricing_cta_click', 'Bấm chọn gói giá'],
+  ['phone_click / zalo_click', 'Liên hệ nhanh qua điện thoại hoặc Zalo'],
+  ['lead_form_submit', 'Gửi form tư vấn website'],
+];
+
 const localHighlights = [
   'Thiết kế website cho cá nhân, cửa hàng và dịch vụ tại TP. Hồ Chí Minh',
   'Tư vấn online, nhận dự án ở Bình Thạnh, Thủ Đức, Gò Vấp, Quận 1 và toàn quốc',
   'Tối ưu NAP, sitemap, robots.txt, Search Console và schema ngay khi bàn giao',
+];
+
+const localAreas = [
+  'Thiết kế website tại Bình Thạnh',
+  'Thiết kế landing page tại Thủ Đức',
+  'Website bán hàng tại Gò Vấp',
+  'Website dịch vụ tại Quận 1',
+  'Website cá nhân tại TP. Hồ Chí Minh',
+  'Tư vấn làm website online toàn quốc',
+];
+
+const seoContentBlocks = [
+  {
+    title: 'Thiết kế website bán hàng cần rõ sản phẩm, giá trị và cách đặt mua',
+    text: 'Một website bán hàng tốt không chỉ đẹp. Trang cần có danh mục dễ hiểu, ảnh sản phẩm đáng tin, mô tả lợi ích, chính sách giao hàng, nút gọi/Zalo và cấu trúc SEO để Google hiểu cửa hàng đang bán gì.',
+  },
+  {
+    title: 'Landing page dịch vụ cần thuyết phục trong vài giây đầu',
+    text: 'Khách thường không đọc hết trang nếu phần đầu không nói rõ dịch vụ, khu vực phục vụ, lợi ích và bước tiếp theo. Vì vậy landing page cần hook mạnh, proof trực quan, cam kết, bảng giá neo tâm lý và form hỏi đúng thông tin.',
+  },
+  {
+    title: 'Website địa phương cần Local SEO ngay từ khi public',
+    text: 'Local SEO không chỉ là nhắc tên TP. Hồ Chí Minh. Website cần NAP nhất quán, schema dịch vụ, sitemap, robots, Google Search Console, blog trả lời câu hỏi thật và nội dung khu vực được viết tự nhiên.',
+  },
 ];
 
 const guarantees = [
@@ -134,6 +200,12 @@ const guarantees = [
     title: 'Không bỏ quên mobile',
     text: 'Các trang chính được kiểm tra trên điện thoại để CTA, form, chữ và hình ảnh không bị lệch hoặc khó thao tác.',
   },
+];
+
+const brandPrinciples = [
+  'Trang web phải giúp khách hiểu nhanh bạn bán gì, phục vụ ai và vì sao nên tin.',
+  'Thiết kế phải phục vụ chuyển đổi, không chỉ để nhìn đẹp trong ảnh chụp màn hình.',
+  'SEO nền tảng, tracking và tài sản bàn giao là một phần của sản phẩm, không phải phụ kiện.',
 ];
 
 const localBusinessSchema = {
@@ -168,6 +240,48 @@ const localBusinessSchema = {
   ],
   sameAs: ['https://zalo.me/0375266538'],
 };
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'YenTH Shop',
+  url: 'https://yenth.shop',
+  inLanguage: 'vi-VN',
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: 'https://yenth.shop/blog?search={search_term_string}',
+    'query-input': 'required name=search_term_string',
+  },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'YenTH Shop làm những loại website nào?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'YenTH Shop làm website bán hàng, landing page dịch vụ, portfolio cá nhân, website doanh nghiệp nhỏ và các trang có nền SEO, tracking, form conversion.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Website có được tối ưu SEO và Local SEO không?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Có. Website được triển khai metadata, sitemap, robots.txt, schema, Open Graph, Search Console và nội dung khu vực phục vụ phù hợp với dịch vụ.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Sau khi bàn giao có theo dõi chuyển đổi được không?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Có. Website có thể gắn GA4 hoặc Google Tag Manager qua biến môi trường và theo dõi CTA, click gọi điện, Zalo, email, form submit.',
+      },
+    },
+  ],
+};
 
 export default function Home() {
   return (
@@ -175,6 +289,14 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(localBusinessSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <header className="site-header">
         <Link className="brand" href="/">
@@ -214,9 +336,9 @@ export default function Home() {
               className="btn btn-primary"
               data-track="hero_cta_click"
               data-track-category="conversion"
-              data-track-label="Nhận tư vấn website miễn phí"
+              data-track-label="Nhận audit website miễn phí"
             >
-              Nhận tư vấn website miễn phí
+              Nhận audit website miễn phí trong 24h
             </Link>
             <Link
               href="#mau-giao-dien"
@@ -228,7 +350,7 @@ export default function Home() {
               Xem mẫu đã dựng
             </Link>
           </div>
-          <p className="cta-note">Gửi nhu cầu, tôi phản hồi hướng triển khai và chi phí dự kiến trong 24 giờ.</p>
+          <p className="cta-note">Bạn nhận lại checklist trang cần có, hướng SEO/CTA và khoảng chi phí phù hợp trước khi quyết định làm.</p>
           <div className="trust-metrics" aria-label="Cam kết và năng lực triển khai">
             {trustSignals.map(([value, label]) => (
               <div key={label}>
@@ -258,6 +380,49 @@ export default function Home() {
         </p>
       </section>
 
+      <section className="brand-depth section">
+        <div className="section-heading">
+          <p className="eyebrow">Chiều sâu thương hiệu</p>
+          <h2>YenTH Shop không bán “một trang web”, mà bán một nền tảng nhỏ để bạn được khách tin và liên hệ.</h2>
+        </div>
+        <div className="brand-depth-grid">
+          <div className="brand-story">
+            <h3>Góc nhìn triển khai</h3>
+            <p>
+              Tôi xây website cho cá nhân, cửa hàng và dịch vụ nhỏ nên ưu tiên thứ rất thực tế:
+              khách đọc có hiểu không, có tin không, có biết bấm vào đâu không, và chủ website có
+              tự quản trị được sau khi bàn giao không.
+            </p>
+          </div>
+          <div className="brand-principles">
+            {brandPrinciples.map((item) => (
+              <p key={item}>{item}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="proof section">
+        <div className="section-heading">
+          <p className="eyebrow">Proof thực tế</p>
+          <h2>Không chỉ nói “làm website đẹp”, đây là các mẫu đã dựng để bạn kiểm tra bố cục thật.</h2>
+        </div>
+        <div className="proof-grid">
+          {proofCases.map((item) => (
+            <article className="proof-card" key={item.title}>
+              <div className="proof-image-wrap">
+                <Image src={item.image} alt={item.title} fill sizes="(max-width: 820px) 100vw, 50vw" />
+              </div>
+              <div>
+                <h3>{item.title}</h3>
+                <p>{item.desc}</p>
+                <strong>{item.result}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="dich-vu" className="section services">
         <div className="section-heading">
           <p className="eyebrow">Dịch vụ</p>
@@ -268,6 +433,21 @@ export default function Home() {
             <article className="service-card" key={service.title}>
               <h3>{service.title}</h3>
               <p>{service.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="trust-system section">
+        <div className="section-heading">
+          <p className="eyebrow">Trust signals</p>
+          <h2>Niềm tin không chỉ nằm ở lời hứa, mà nằm ở những thứ bạn kiểm tra được sau bàn giao.</h2>
+        </div>
+        <div className="trust-system-grid">
+          {trustStack.map((item) => (
+            <article className="trust-system-card" key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
             </article>
           ))}
         </div>
@@ -299,6 +479,45 @@ export default function Home() {
               ))}
             </ul>
           </article>
+        </div>
+        <div className="area-tags" aria-label="Khu vực và nhu cầu Local SEO">
+          {localAreas.map((area) => (
+            <span key={area}>{area}</span>
+          ))}
+        </div>
+      </section>
+
+      <section className="seo-content section">
+        <div className="section-heading">
+          <p className="eyebrow">SEO content</p>
+          <h2>Nội dung trên trang được viết để khách hiểu nhanh và Google hiểu đúng dịch vụ.</h2>
+        </div>
+        <div className="seo-content-grid">
+          {seoContentBlocks.map((item) => (
+            <article className="seo-content-card" key={item.title}>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="tracking-system section">
+        <div className="section-heading">
+          <p className="eyebrow">Tracking system</p>
+          <h2>Website được chuẩn bị để đo lead, không chỉ để “có mặt trên mạng”.</h2>
+          <p>
+            Khi bạn thêm GA4 hoặc Google Tag Manager trên Vercel, các hành động quan trọng sẽ được
+            đẩy vào dataLayer/gtag để phân tích nguồn lead và tối ưu CTA.
+          </p>
+        </div>
+        <div className="tracking-grid">
+          {trackingPlan.map(([eventName, meaning]) => (
+            <article key={eventName}>
+              <code>{eventName}</code>
+              <span>{meaning}</span>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -411,7 +630,12 @@ export default function Home() {
       <section id="bang-gia" className="section pricing">
         <div className="section-heading">
           <p className="eyebrow">Gói tham khảo</p>
-          <h2>Chọn mức phù hợp, rồi tinh chỉnh theo nhu cầu thật.</h2>
+          <h2>Gói Custom đặt neo giá trị, để gói Growth trở thành lựa chọn hợp lý nhất.</h2>
+          <p className="pricing-note">
+            Nếu bạn chỉ cần hiện diện nhanh, Starter là đủ. Nếu bạn cần SEO, tracking, form
+            conversion và tài sản bàn giao rõ, Growth là điểm cân bằng. Custom cho dự án cần chiều
+            sâu nội dung, blog, tính năng riêng hoặc nhiều trang.
+          </p>
         </div>
         <div className="pricing-grid">
           {packages.map((item) => (

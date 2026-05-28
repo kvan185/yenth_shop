@@ -39,17 +39,17 @@ export default function OpenGraphImage() {
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ color: '#f2c06a', fontSize: 26, fontWeight: 800, marginBottom: 24 }}>
-            Thiết kế website bán hàng, landing page và portfolio
+            Audit website miễn phí trong 24h
           </div>
           <div style={{ maxWidth: 940, fontSize: 72, fontWeight: 900, lineHeight: 0.98 }}>
-            Website đẹp, rõ dịch vụ, có SEO nền tảng.
+            Website có proof, CTA mạnh và Local SEO rõ ràng.
           </div>
         </div>
         <div style={{ display: 'flex', gap: 18, fontSize: 24, fontWeight: 700 }}>
-          <span>Responsive</span>
-          <span>SEO local</span>
-          <span>Google Search Console</span>
-          <span>Bàn giao mã nguồn</span>
+          <span>Demo thật</span>
+          <span>Blog SEO</span>
+          <span>TP.HCM</span>
+          <span>0375 266 538</span>
         </div>
       </div>
     ),
