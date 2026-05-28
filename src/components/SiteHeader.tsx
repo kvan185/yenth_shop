@@ -13,6 +13,7 @@ export function SiteHeader() {
           <Link href="/mau">Mẫu web</Link>
           <Link href="/bang-gia">Giá</Link>
           <Link href="/blog">Blog</Link>
+          <Link href="/dang-nhap">Đăng nhập</Link>
           <Link className="header-cta" href="/lien-he" data-track="header_cta_click" data-track-category="conversion">
             Audit miễn phí
           </Link>

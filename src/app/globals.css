@@ -1675,6 +1675,107 @@ h3 {
   background: var(--green-dark);
 }
 
+.auth-page {
+  min-height: 100vh;
+  padding: 118px clamp(18px, 6vw, 84px) 82px;
+  background:
+    radial-gradient(circle at 82% 18%, rgba(14, 111, 92, 0.18), transparent 28rem),
+    var(--paper);
+}
+
+.auth-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.72fr);
+  gap: 46px;
+  align-items: center;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+.auth-copy h1 {
+  max-width: 760px;
+  font-size: clamp(2.6rem, 5.5vw, 5rem);
+}
+
+.auth-copy p:not(.eyebrow) {
+  max-width: 640px;
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+.auth-form {
+  display: grid;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 26px;
+  background: var(--white);
+  box-shadow: 0 24px 80px rgba(38, 52, 48, 0.12);
+}
+
+.auth-form label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.auth-form input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 13px 14px;
+  color: var(--ink);
+  background: var(--paper);
+  outline: none;
+}
+
+.auth-form input:focus {
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(14, 111, 92, 0.12);
+}
+
+.auth-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+
+.auth-check {
+  display: inline-flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+}
+
+.auth-check input {
+  width: auto;
+}
+
+.auth-row a,
+.auth-form p a {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.auth-form button {
+  min-height: 48px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--white);
+  background: var(--coral);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.auth-form p {
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+}
+
 .template-catalog-page,
 .template-demo-page {
   min-height: 100vh;
@@ -2220,6 +2321,7 @@ h3 {
   .keyword-seo-copy,
   .simple-grid-section,
   .simple-contact,
+  .auth-shell,
   .template-catalog-grid,
   .template-preview-layout,
   .template-demo-sections,

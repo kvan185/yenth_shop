@@ -70,6 +70,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${SITE_URL}/dang-nhap`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.4,
+    },
+    {
+      url: `${SITE_URL}/dang-ky`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.45,
+    },
+    {
       url: `${SITE_URL}/thiet-ke-web`,
       lastModified,
       changeFrequency: 'weekly',
