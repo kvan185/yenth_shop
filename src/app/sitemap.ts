@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/data/blog';
+import { templates } from '@/data/templates';
 
 const SITE_URL = 'https://yenth.shop';
 
@@ -24,6 +25,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/mau`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
     },
     {
       url: `${SITE_URL}/blog`,
@@ -75,9 +82,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.75,
   }));
+  const templateRoutes: MetadataRoute.Sitemap = templates.map((template) => ({
+    url: `${SITE_URL}/mau/${template.slug}`,
+    lastModified,
+    changeFrequency: 'monthly',
+    priority: 0.78,
+  }));
 
   return [
     ...staticRoutes,
     ...blogRoutes,
+    ...templateRoutes,
   ];
 }
