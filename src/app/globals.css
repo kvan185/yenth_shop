@@ -1270,6 +1270,331 @@ h3 {
   background: var(--white);
 }
 
+.home-redesign {
+  background: var(--paper);
+}
+
+.redesign-hero {
+  min-height: 96vh;
+  align-items: center;
+  padding-top: 128px;
+}
+
+.redesign-hero-content {
+  max-width: 880px;
+}
+
+.redesign-hero-content h1 {
+  max-width: 980px;
+  font-size: clamp(3rem, 7vw, 6.4rem);
+}
+
+.hero-metrics {
+  display: grid;
+  max-width: 760px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin-top: 30px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.hero-metrics div {
+  min-height: 110px;
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+}
+
+.hero-metrics strong,
+.hero-metrics span {
+  display: block;
+}
+
+.hero-metrics strong {
+  color: #f2c06a;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.hero-metrics span {
+  margin-top: 8px;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 800;
+}
+
+.redesign-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--green-dark);
+}
+
+.redesign-strip span {
+  flex: 1 1 220px;
+  min-height: 68px;
+  padding: 18px clamp(18px, 4vw, 34px);
+  color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.06);
+  font-weight: 800;
+}
+
+.redesign-section {
+  padding: 92px clamp(18px, 6vw, 84px);
+}
+
+.redesign-heading {
+  max-width: 920px;
+  margin-bottom: 42px;
+}
+
+.redesign-heading > p:not(.eyebrow) {
+  max-width: 760px;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.proof-lab {
+  background: var(--white);
+}
+
+.proof-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.proof-lab-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--paper);
+  box-shadow: 0 20px 60px rgba(38, 52, 48, 0.08);
+}
+
+.proof-lab-image {
+  position: relative;
+  display: block;
+  min-height: 340px;
+  border-bottom: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.proof-lab-image img {
+  object-fit: cover;
+  object-position: top center;
+  transition: transform 0.4s ease;
+}
+
+.proof-lab-card:hover img {
+  transform: scale(1.03);
+}
+
+.proof-lab-card div:last-child {
+  padding: 26px;
+}
+
+.proof-lab-card p,
+.offer-grid p,
+.trust-lab-grid p,
+.blog-lab-grid p,
+.price-lab-grid p,
+.redesign-contact p {
+  color: var(--muted);
+}
+
+.offer-system,
+.blog-lab {
+  background: var(--soft);
+}
+
+.offer-grid,
+.trust-lab-grid,
+.blog-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.offer-grid article,
+.trust-lab-grid article,
+.blog-lab-grid article {
+  min-height: 280px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  background: var(--white);
+  box-shadow: 0 18px 50px rgba(38, 52, 48, 0.07);
+}
+
+.workflow-system {
+  color: var(--white);
+  background: var(--green-dark);
+}
+
+.workflow-system .eyebrow,
+.workflow-system h2 {
+  color: #f2c06a;
+}
+
+.workflow-system-list {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.workflow-system-list article {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+  padding: 26px;
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.workflow-system-list span {
+  color: #f2c06a;
+  font-weight: 900;
+}
+
+.workflow-system-list p {
+  margin-bottom: 0;
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.trust-lab,
+.local-lab,
+.price-lab {
+  background: var(--white);
+}
+
+.tracking-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.tracking-pills code {
+  border: 1px solid rgba(14, 111, 92, 0.18);
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--green-dark);
+  background: var(--paper);
+  font-weight: 900;
+}
+
+.redesign-area-tags {
+  margin-top: 0;
+}
+
+.price-lab-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.price-lab-grid article {
+  display: flex;
+  min-height: 350px;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  background: var(--paper);
+  box-shadow: 0 18px 50px rgba(38, 52, 48, 0.07);
+}
+
+.price-lab-grid article.featured {
+  border-color: rgba(214, 92, 69, 0.42);
+  background:
+    linear-gradient(180deg, rgba(214, 92, 69, 0.08), rgba(255, 255, 255, 0)),
+    var(--white);
+  box-shadow: 0 28px 80px rgba(214, 92, 69, 0.16);
+  transform: translateY(-10px);
+}
+
+.price-lab-grid span {
+  width: fit-content;
+  margin-bottom: 18px;
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--white);
+  background: var(--green);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.price-lab-grid .featured span {
+  background: var(--coral);
+}
+
+.price-lab-grid strong {
+  margin-bottom: 18px;
+  color: var(--blue);
+  font-size: 1.65rem;
+}
+
+.price-lab-grid a,
+.blog-lab-grid a {
+  width: fit-content;
+  margin-top: auto;
+  color: var(--green);
+  font-weight: 900;
+}
+
+.redesign-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.78fr);
+  gap: 48px;
+  padding: 96px clamp(18px, 6vw, 84px);
+  color: var(--white);
+  background: linear-gradient(135deg, #10201d, #073c34 58%, #1b4d72);
+}
+
+.redesign-contact .eyebrow {
+  color: #f2c06a;
+}
+
+.redesign-contact p {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+@media (max-width: 900px) {
+  .hero-metrics,
+  .proof-lab-grid,
+  .offer-grid,
+  .trust-lab-grid,
+  .blog-lab-grid,
+  .price-lab-grid,
+  .redesign-contact {
+    grid-template-columns: 1fr;
+  }
+
+  .price-lab-grid article.featured {
+    transform: none;
+  }
+}
+
+@media (max-width: 620px) {
+  .redesign-hero-content h1 {
+    font-size: 2.55rem;
+  }
+
+  .redesign-section {
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .workflow-system-list article {
+    grid-template-columns: 1fr;
+  }
+}
+
 .pf-page {
   --pf-ink: #161616;
   --pf-muted: #6f6960;
