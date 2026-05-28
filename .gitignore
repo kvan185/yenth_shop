@@ -6,3 +6,4 @@ dist
 public/previews
 *.log
 .env*
+tsconfig.tsbuildinfo
