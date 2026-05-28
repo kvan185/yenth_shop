@@ -4,34 +4,33 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const primaryLinks = [
-  { href: '/', label: 'Trang chủ' },
+  { href: '/home', label: 'Home' },
+  { href: '/danh-muc', label: 'Danh mục' },
   { href: '/dich-vu', label: 'Dịch vụ' },
   { href: '/thiet-ke-web', label: 'Thiết kế web' },
-  { href: '/mau', label: 'Mẫu web' },
-  { href: '/bang-gia', label: 'Giá' },
   { href: '/blog', label: 'Blog' },
 ];
 
 const secondaryLinks = [
-  { href: '/mau1', label: 'Mẫu 1' },
-  { href: '/mau2', label: 'Mẫu 2' },
-  { href: '/mau3/facebook', label: 'Mẫu social' },
+  { href: '/lien-he', label: 'Liên hệ' },
+  { href: '/bang-gia', label: 'Bảng giá' },
   { href: '/quy-trinh', label: 'Quy trình' },
   { href: '/local-seo', label: 'Local SEO' },
   { href: '/dang-nhap', label: 'Đăng nhập' },
+  { href: '/dang-ky', label: 'Đăng ký' },
 ];
 
 const mobileLinks = [
-  { href: '/', label: 'Home' },
+  { href: '/home', label: 'Home' },
+  { href: '/danh-muc', label: 'Danh mục' },
   { href: '/dich-vu', label: 'Dịch vụ' },
-  { href: '/mau', label: 'Mẫu' },
-  { href: '/bang-gia', label: 'Giá' },
+  { href: '/blog', label: 'Blog' },
   { href: '/lien-he', label: 'Liên hệ' },
 ];
 
 function isActive(pathname: string, href: string) {
-  if (href === '/') {
-    return pathname === '/';
+  if (href === '/' || href === '/home') {
+    return pathname === '/' || pathname === '/home';
   }
 
   return pathname === href || pathname.startsWith(`${href}/`);
@@ -44,7 +43,7 @@ export function SiteHeader() {
     <>
       <header className="site-header">
         <div className="header-primary">
-          <Link className="brand" href="/">
+          <Link className="brand" href="/home">
             YenTH<span>.shop</span>
           </Link>
 

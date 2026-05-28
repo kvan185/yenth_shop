@@ -1,8 +1,5 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/data/blog';
-import { mau1Categories, mau1Products, toCategorySlug } from '@/data/mau1Shop';
-import { templates } from '@/data/templates';
-import { sampleSites } from '@/data/sampleSites';
 
 const SITE_URL = 'https://yenth.shop';
 
@@ -17,52 +14,106 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/mau/portfolio`,
+      url: `${SITE_URL}/home`,
       lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.8,
+      changeFrequency: 'weekly',
+      priority: 1,
     },
     {
-      url: `${SITE_URL}/mau/landing-page-dich-vu`,
-      lastModified,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${SITE_URL}/mau`,
+      url: `${SITE_URL}/danh-muc`,
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
-      url: `${SITE_URL}/mau1/home`,
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_1`,
       lastModified,
       changeFrequency: 'monthly',
-      priority: 0.6,
+      priority: 0.82,
     },
     {
-      url: `${SITE_URL}/mau1/login`,
-      lastModified,
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/mau1/register`,
-      lastModified,
-      changeFrequency: 'yearly',
-      priority: 0.3,
-    },
-    {
-      url: `${SITE_URL}/mau1/categories`,
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2`,
       lastModified,
       changeFrequency: 'monthly',
-      priority: 0.66,
+      priority: 0.82,
     },
     {
-      url: `${SITE_URL}/mau1/products`,
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2/san-pham`,
       lastModified,
       changeFrequency: 'monthly',
-      priority: 0.68,
+      priority: 0.76,
+    },
+    {
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2/gioi-thieu`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.72,
+    },
+    {
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2/blog`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.72,
+    },
+    {
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2/chung-nhan`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.72,
+    },
+    {
+      url: `${SITE_URL}/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2/lien-he`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.74,
+    },
+    {
+      url: `${SITE_URL}/web-mang-xa-hoi/facebook/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-mang-xa-hoi/zalo/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-gioi-thieu-san-pham/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/landing-page-dich-vu/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-gioi-thieu-doanh-nghiep/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-tu-van-dat-lich/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-portfolio-ca-nhan/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-blog-tin-tuc/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
     },
     {
       url: `${SITE_URL}/blog`,
@@ -126,37 +177,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.75,
   }));
-  const templateRoutes: MetadataRoute.Sitemap = templates.map((template) => ({
-    url: `${SITE_URL}/mau/${template.slug}`,
-    lastModified,
-    changeFrequency: 'monthly',
-    priority: 0.78,
-  }));
-  const sampleSiteRoutes: MetadataRoute.Sitemap = sampleSites.map((site) => ({
-    url: `${SITE_URL}${site.href}`,
-    lastModified,
-    changeFrequency: 'monthly',
-    priority: 0.76,
-  }));
-  const mau1CategoryRoutes: MetadataRoute.Sitemap = mau1Categories.map((category) => ({
-    url: `${SITE_URL}/mau1/categories/${toCategorySlug(category)}`,
-    lastModified,
-    changeFrequency: 'monthly',
-    priority: 0.62,
-  }));
-  const mau1ProductRoutes: MetadataRoute.Sitemap = mau1Products.map((product) => ({
-    url: `${SITE_URL}/mau1/products/${product.id}`,
-    lastModified,
-    changeFrequency: 'monthly',
-    priority: 0.64,
-  }));
 
-  return [
-    ...staticRoutes,
-    ...blogRoutes,
-    ...templateRoutes,
-    ...sampleSiteRoutes,
-    ...mau1CategoryRoutes,
-    ...mau1ProductRoutes,
-  ];
+  return [...staticRoutes, ...blogRoutes];
 }

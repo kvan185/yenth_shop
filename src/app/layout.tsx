@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
-import { SiteHeader } from '@/components/SiteHeader';
+import { SiteChrome } from '@/components/SiteChrome';
 import { TrackingEvents } from '@/components/TrackingEvents';
 import './globals.css';
 
@@ -125,7 +125,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </>
         ) : null}
         <TrackingEvents />
-        <SiteHeader />
+        <SiteChrome />
         {children}
       </body>
     </html>

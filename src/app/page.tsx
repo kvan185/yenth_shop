@@ -20,7 +20,7 @@ const proofCases = [
     title: 'Mẫu portfolio cá nhân',
     image: '/previews/portfolio-demo-desktop.png',
     desc: 'Bố cục dành cho freelancer/chuyên gia cần câu chuyện cá nhân, dự án nổi bật và form liên hệ rõ.',
-    href: '/mau/portfolio',
+    href: '/danh-muc',
   },
 ];
 
