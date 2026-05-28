@@ -13,7 +13,7 @@ export const sampleSites: SampleSite[] = [
     name: 'Mẫu 1',
     title: 'Shop bán hàng hiện đại',
     type: 'Website bán hàng',
-    href: '/mau1/home',
+    href: '/mau1',
     description: 'Mẫu cửa hàng online có hero sản phẩm, danh mục, sản phẩm nổi bật, ưu đãi và CTA đặt mua.',
   },
   {
