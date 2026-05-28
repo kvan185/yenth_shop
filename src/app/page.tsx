@@ -150,29 +150,6 @@ export default function Home() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
 
-      <header className="site-header">
-        <div className="header-primary">
-          <Link className="brand" href="/">
-            YenTH<span>.shop</span>
-          </Link>
-          <nav aria-label="Điều hướng chính">
-            <Link href="/dich-vu">Dịch vụ</Link>
-            <Link href="/thiet-ke-web">Thiết kế web</Link>
-            <Link href="/bang-gia">Giá</Link>
-            <Link href="/blog">Blog</Link>
-            <Link className="header-cta" href="/lien-he" data-track="header_cta_click" data-track-category="conversion">
-              Audit miễn phí
-            </Link>
-          </nav>
-        </div>
-        <div className="header-secondary" aria-label="Điều hướng phụ">
-          <Link href="/quy-trinh">Quy trình</Link>
-          <Link href="/local-seo">Local SEO</Link>
-          <Link href="/mau/portfolio">Mẫu portfolio</Link>
-          <a href="tel:0375266538">0375 266 538</a>
-        </div>
-      </header>
-
       <section className="hero redesign-hero">
         <Image
           src="/images/hero-workspace.png"

@@ -21,7 +21,7 @@ export const sampleSites: SampleSite[] = [
     name: 'Mẫu 2',
     title: 'Cửa hàng lifestyle / mỹ phẩm',
     type: 'Website bán hàng',
-    href: '/mau2/home',
+    href: '/mau2',
     description: 'Mẫu bán hàng mềm mại hơn, phù hợp mỹ phẩm, phụ kiện, đồ handmade, thời trang hoặc quà tặng.',
   },
   {
