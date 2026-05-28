@@ -8,13 +8,16 @@ export const metadata: Metadata = {
   category: 'technology',
   metadataBase: new URL('https://yenth.shop'),
   title: {
-    default: 'YenTH Shop - Thiết kế website bán hàng, landing page và portfolio',
+    default: 'YenTH Shop - Thiết kế web, website bán hàng, landing page và portfolio',
     template: '%s | YenTH Shop',
   },
   description:
     'Dịch vụ thiết kế website chuyên nghiệp cho cá nhân, cửa hàng và doanh nghiệp nhỏ: landing page, website bán hàng, portfolio, SEO nền tảng và bàn giao dễ quản trị.',
   keywords: [
     'yenth.shop',
+    'thiết kế web',
+    'dịch vụ thiết kế web',
+    'thiết kế web chuyên nghiệp',
     'thiết kế website bán hàng',
     'thiết kế landing page',
     'làm website chuyên nghiệp',

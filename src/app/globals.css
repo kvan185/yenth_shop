@@ -1341,6 +1341,15 @@ h3 {
   font-weight: 800;
 }
 
+.redesign-strip a {
+  flex: 1 1 220px;
+  min-height: 68px;
+  padding: 18px clamp(18px, 4vw, 34px);
+  color: #f2c06a;
+  background: rgba(255, 255, 255, 0.09);
+  font-weight: 900;
+}
+
 .redesign-section {
   padding: 92px clamp(18px, 6vw, 84px);
 }
@@ -1564,6 +1573,177 @@ h3 {
   color: rgba(255, 255, 255, 0.76);
 }
 
+.keyword-page {
+  background: var(--paper);
+}
+
+.simple-page {
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+.simple-hero {
+  padding: 104px clamp(18px, 6vw, 84px) 64px;
+  color: var(--white);
+  background: linear-gradient(135deg, #10201d, #073c34 58%, #1b4d72);
+}
+
+.simple-hero h1 {
+  max-width: 980px;
+  font-size: clamp(2.6rem, 5.8vw, 5.6rem);
+}
+
+.simple-hero > p:not(.eyebrow) {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.08rem;
+}
+
+.simple-grid-section {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  padding: 82px clamp(18px, 6vw, 84px);
+}
+
+.simple-grid-section article,
+.simple-list-section article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 26px;
+  background: var(--white);
+  box-shadow: 0 18px 50px rgba(38, 52, 48, 0.07);
+}
+
+.simple-grid-section p,
+.simple-list-section p,
+.simple-contact p {
+  color: var(--muted);
+}
+
+.simple-grid-section strong {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--blue);
+  font-size: 1.4rem;
+}
+
+.simple-grid-section a {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.simple-list-section {
+  display: grid;
+  gap: 14px;
+  padding: 82px clamp(18px, 6vw, 84px);
+}
+
+.simple-list-section article {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.simple-list-section span {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.simple-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 82px clamp(18px, 6vw, 84px);
+}
+
+.simple-tags span {
+  border: 1px solid rgba(14, 111, 92, 0.18);
+  border-radius: 999px;
+  padding: 10px 14px;
+  color: var(--green-dark);
+  background: var(--white);
+  font-weight: 900;
+}
+
+.simple-contact {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(320px, 0.82fr);
+  gap: 44px;
+  padding: 82px clamp(18px, 6vw, 84px);
+  color: var(--white);
+  background: var(--green-dark);
+}
+
+.keyword-hero {
+  padding: 108px clamp(18px, 6vw, 84px) 72px;
+  color: var(--white);
+  background: linear-gradient(135deg, #10201d, #073c34 58%, #1b4d72);
+}
+
+.keyword-hero h1 {
+  max-width: 980px;
+  font-size: clamp(2.7rem, 6vw, 5.9rem);
+}
+
+.keyword-hero > p:not(.eyebrow) {
+  max-width: 760px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 1.1rem;
+}
+
+.keyword-section {
+  padding: 88px clamp(18px, 6vw, 84px);
+}
+
+.keyword-benefits {
+  background: var(--white);
+}
+
+.keyword-benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.keyword-benefit-grid article {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--paper);
+}
+
+.keyword-benefit-grid span {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.keyword-benefit-grid p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.keyword-usecases {
+  background: var(--soft);
+}
+
+.keyword-seo-copy {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.78fr);
+  gap: 48px;
+  background: var(--white);
+}
+
+.keyword-seo-copy p:last-child {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
 @media (max-width: 900px) {
   .hero-metrics,
   .proof-lab-grid,
@@ -1571,7 +1751,11 @@ h3 {
   .trust-lab-grid,
   .blog-lab-grid,
   .price-lab-grid,
-  .redesign-contact {
+  .redesign-contact,
+  .keyword-benefit-grid,
+  .keyword-seo-copy,
+  .simple-grid-section,
+  .simple-contact {
     grid-template-columns: 1fr;
   }
 
@@ -1591,6 +1775,10 @@ h3 {
   }
 
   .workflow-system-list article {
+    grid-template-columns: 1fr;
+  }
+
+  .simple-list-section article {
     grid-template-columns: 1fr;
   }
 }

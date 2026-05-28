@@ -31,6 +31,42 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.85,
     },
+    {
+      url: `${SITE_URL}/dich-vu`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    },
+    {
+      url: `${SITE_URL}/bang-gia`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/quy-trinh`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.78,
+    },
+    {
+      url: `${SITE_URL}/local-seo`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.86,
+    },
+    {
+      url: `${SITE_URL}/lien-he`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${SITE_URL}/thiet-ke-web`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({

@@ -156,18 +156,19 @@ export default function Home() {
             YenTH<span>.shop</span>
           </Link>
           <nav aria-label="Điều hướng chính">
-            <Link href="#proof">Proof</Link>
-            <Link href="#goi-gia">Giá</Link>
+            <Link href="/dich-vu">Dịch vụ</Link>
+            <Link href="/thiet-ke-web">Thiết kế web</Link>
+            <Link href="/bang-gia">Giá</Link>
             <Link href="/blog">Blog</Link>
-            <Link className="header-cta" href="#lien-he" data-track="header_cta_click" data-track-category="conversion">
+            <Link className="header-cta" href="/lien-he" data-track="header_cta_click" data-track-category="conversion">
               Audit miễn phí
             </Link>
           </nav>
         </div>
         <div className="header-secondary" aria-label="Điều hướng phụ">
-          <Link href="#dich-vu">Dịch vụ</Link>
-          <Link href="#quy-trinh">Quy trình</Link>
-          <Link href="#local-seo">Local SEO</Link>
+          <Link href="/quy-trinh">Quy trình</Link>
+          <Link href="/local-seo">Local SEO</Link>
+          <Link href="/mau/portfolio">Mẫu portfolio</Link>
           <a href="tel:0375266538">0375 266 538</a>
         </div>
       </header>
@@ -183,15 +184,15 @@ export default function Home() {
         />
         <div className="hero-overlay" />
         <div className="hero-content redesign-hero-content">
-          <p className="eyebrow">Thiết kế website có proof, CTA và Local SEO</p>
-          <h1>Website nhỏ nhưng phải đủ tin, đủ rõ và đủ đo được lead.</h1>
+          <p className="eyebrow">Thiết kế web có proof, CTA và Local SEO</p>
+          <h1>Thiết kế web cho dịch vụ nhỏ cần đủ tin, đủ rõ và đo được lead.</h1>
           <p>
             YenTH Shop thiết kế website bán hàng, landing page và portfolio cho cá nhân/cửa hàng nhỏ
             cần một trang web đẹp trên mobile, có nội dung SEO, tracking conversion và form hỏi đúng
             nhu cầu khách hàng.
           </p>
           <div className="hero-actions">
-            <Link href="#lien-he" className="btn btn-primary" data-track="hero_cta_click" data-track-category="conversion">
+            <Link href="/lien-he" className="btn btn-primary" data-track="hero_cta_click" data-track-category="conversion">
               Nhận audit miễn phí trong 24h
             </Link>
             <Link href="#proof" className="btn btn-secondary" data-track="hero_proof_click">
@@ -213,6 +214,7 @@ export default function Home() {
         {deliverables.map((item) => (
           <span key={item}>{item}</span>
         ))}
+        <Link href="/thiet-ke-web">Trang SEO: thiết kế web</Link>
       </section>
 
       <section id="proof" className="redesign-section proof-lab">
@@ -368,8 +370,8 @@ export default function Home() {
         </div>
         <div className="footer-secondary">
           <Link href="/blog">Blog SEO</Link>
-          <Link href="#local-seo">Local SEO</Link>
-          <Link href="#goi-gia">Gói giá</Link>
+          <Link href="/local-seo">Local SEO</Link>
+          <Link href="/bang-gia">Gói giá</Link>
           <a href="mailto:khanhvan18052004@gmail.com">Email</a>
         </div>
       </footer>
@@ -377,7 +379,7 @@ export default function Home() {
       <div className="bottom-dock" aria-label="Thanh liên hệ cố định">
         <div className="bottom-dock-primary">
           <span>Audit website miễn phí trong 24h</span>
-          <a href="#lien-he" data-track="bottom_dock_form_click" data-track-category="conversion">
+          <a href="/lien-he" data-track="bottom_dock_form_click" data-track-category="conversion">
             Gửi nhu cầu
           </a>
         </div>
