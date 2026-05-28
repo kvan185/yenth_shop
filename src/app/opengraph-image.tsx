@@ -37,7 +37,7 @@ export default function OpenGraphImage() {
             TP. Hồ Chí Minh
           </div>
         </div>
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div style={{ color: '#f2c06a', fontSize: 26, fontWeight: 800, marginBottom: 24 }}>
             Thiết kế website bán hàng, landing page và portfolio
           </div>
