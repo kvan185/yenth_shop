@@ -1,0 +1,8 @@
+node_modules
+.next
+.next-yenth
+out
+dist
+public/previews
+*.log
+.env*
