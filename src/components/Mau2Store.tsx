@@ -9,6 +9,7 @@ type Item = {
   price: number;
   tone: string;
   description: string;
+  mood: string;
 };
 
 const items: Item[] = [
@@ -18,7 +19,8 @@ const items: Item[] = [
     collection: 'Skincare',
     price: 520000,
     tone: 'Dịu nhẹ',
-    description: 'Dành cho thương hiệu mỹ phẩm cần trình bày thành phần, công dụng và review.',
+    description: 'Tinh chất phục hồi hàng rào da, phù hợp routine tối giản mỗi sáng.',
+    mood: 'Calm skin',
   },
   {
     id: 'nen-thom-mua-ha',
@@ -26,7 +28,8 @@ const items: Item[] = [
     collection: 'Home scent',
     price: 280000,
     tone: 'Thư giãn',
-    description: 'Phù hợp sản phẩm handmade, quà tặng hoặc lifestyle cần hình ảnh có gu.',
+    description: 'Mùi cam chín, gỗ nhẹ và vải sạch cho góc làm việc hoặc phòng ngủ.',
+    mood: 'Slow living',
   },
   {
     id: 'tui-lua-mini',
@@ -34,7 +37,8 @@ const items: Item[] = [
     collection: 'Phụ kiện',
     price: 390000,
     tone: 'Thanh lịch',
-    description: 'Mẫu sản phẩm thời trang/phụ kiện có thể thêm biến thể màu và size.',
+    description: 'Túi mini dùng đi cà phê, dự tiệc nhỏ hoặc phối cùng outfit linen.',
+    mood: 'Soft outfit',
   },
   {
     id: 'combo-selfcare',
@@ -42,7 +46,8 @@ const items: Item[] = [
     collection: 'Combo',
     price: 920000,
     tone: 'Bán chạy',
-    description: 'Combo giúp tăng giá trị đơn hàng, phù hợp landing bán theo chiến dịch.',
+    description: 'Bộ quà gồm serum, nến thơm và túi lụa, đóng gói theo phong cách boutique.',
+    mood: 'Weekend set',
   },
 ];
 
@@ -95,36 +100,60 @@ export function Mau2Store() {
   return (
     <main className="mau2-store">
       <header className="mau2-nav">
-        <strong>Bloom Boutique</strong>
+        <strong>Lumi Atelier</strong>
         <nav>
-          <a href="#bo-suu-tap">Bộ sưu tập</a>
-          <a href="#combo">Combo</a>
-          <a href="#tu-van">Tư vấn</a>
+          <a href="#lookbook">Lookbook</a>
+          <a href="#bo-suu-tap">Shop edit</a>
+          <a href="#ritual">Ritual</a>
+          <a href="#tu-van">Quiz</a>
         </nav>
-        <span>{wishlistCount} yêu thích</span>
+        <span>{wishlistCount} saved</span>
       </header>
 
       <section className="mau2-hero">
         <div>
-          <p>Beauty & lifestyle ecommerce</p>
-          <h1>Cửa hàng online mềm mại cho thương hiệu có gu.</h1>
+          <p>Editorial boutique</p>
+          <h1>Mẫu 2 dành cho thương hiệu bán cảm xúc, không chỉ bán sản phẩm.</h1>
           <span>
-            Mẫu 2 phù hợp mỹ phẩm, nến thơm, phụ kiện, quà tặng, thời trang nhỏ hoặc sản phẩm
-            handmade cần cảm giác cao cấp và dễ đặt tư vấn.
+            Phong cách này hợp mỹ phẩm, nến thơm, phụ kiện, quà tặng hoặc thời trang boutique:
+            nhiều không gian thở, nội dung kể chuyện và CTA tư vấn theo nhu cầu.
           </span>
           <div className="sample-actions">
-            <a href="#bo-suu-tap">Xem bộ sưu tập</a>
-            <a href="#tu-van">Nhận tư vấn</a>
+            <a href="#lookbook">Xem lookbook</a>
+            <a href="#tu-van">Làm quiz chọn quà</a>
           </div>
         </div>
         <aside>
-          <small>Cart preview</small>
-          <strong>{formatCurrency(total || 920000)}</strong>
-          <p>{cartItems.length ? `${cartItems.length} sản phẩm đã chọn` : 'Combo self-care cuối tuần'}</p>
+          <small>Season edit</small>
+          <strong>Soft Rituals</strong>
+          <p>{cartItems.length ? `${cartItems.length} sản phẩm trong edit` : 'Gift set cho cuối tuần chậm rãi'}</p>
+          <span>{formatCurrency(total || 920000)}</span>
         </aside>
       </section>
 
+      <section id="lookbook" className="mau2-lookbook">
+        <article>
+          <small>Look 01</small>
+          <h2>Morning reset</h2>
+          <p>Serum phục hồi, túi lụa mini và mùi nến sạch cho ngày làm việc nhẹ đầu.</p>
+        </article>
+        <article>
+          <small>Look 02</small>
+          <h2>Gift corner</h2>
+          <p>Combo quà tặng có câu chuyện, đóng gói đẹp và đủ lý do để khách bấm mua.</p>
+        </article>
+        <article>
+          <small>Look 03</small>
+          <h2>After dark</h2>
+          <p>Landing mini cho bộ sưu tập theo mùa, dùng ảnh lớn và lời dẫn ngắn.</p>
+        </article>
+      </section>
+
       <section id="bo-suu-tap" className="mau2-collections">
+        <div className="mau2-section-head">
+          <p>Shop edit</p>
+          <h2>Bộ sưu tập được biên tập như một tạp chí nhỏ.</h2>
+        </div>
         <div className="mau2-filter">
           {collections.map((collection) => (
             <button
@@ -142,6 +171,7 @@ export function Mau2Store() {
             <article key={item.id}>
               <div className="mau2-image">
                 <span>{item.tone}</span>
+                <strong>{item.mood}</strong>
               </div>
               <small>{item.collection}</small>
               <h2>{item.name}</h2>
@@ -160,13 +190,37 @@ export function Mau2Store() {
         </div>
       </section>
 
+      <section id="ritual" className="mau2-ritual">
+        <div>
+          <p>Ritual finder</p>
+          <h2>Khách chọn theo mood thay vì tự đọc từng sản phẩm.</h2>
+        </div>
+        <div className="mau2-ritual-list">
+          <article>
+            <span>01</span>
+            <strong>Da đang mệt</strong>
+            <p>Gợi ý serum phục hồi + nến thơm nhẹ để tạo routine buổi tối.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <strong>Cần quà tinh tế</strong>
+            <p>Gợi ý combo có thiệp, túi giấy và lựa chọn thông điệp theo dịp.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <strong>Muốn phối đồ mềm</strong>
+            <p>Gợi ý phụ kiện nhỏ, dễ mua kèm, phù hợp upsell trong giỏ hàng.</p>
+          </article>
+        </div>
+      </section>
+
       <section id="combo" className="mau2-combo">
         <div>
-          <p>Conversion block</p>
-          <h2>Đẩy combo bán chạy để tăng giá trị đơn hàng.</h2>
+          <p>Mini cart</p>
+          <h2>Giỏ hàng được trình bày như một mood board đang hoàn thiện.</h2>
           <span>
-            Section này có thể biến thành flash sale, bộ sản phẩm theo mùa, quà tặng hoặc ưu đãi
-            cho khách mới.
+            Khác Mẫu 1 ở chỗ trang này không nhấn mạnh bảng sản phẩm dày, mà dùng câu chuyện,
+            mood và combo để dẫn khách chọn nhanh.
           </span>
         </div>
         <div className="mau2-cart">
@@ -190,22 +244,22 @@ export function Mau2Store() {
 
       <section id="tu-van" className="mau2-consult">
         <div>
-          <p>Lead form</p>
-          <h2>Form tư vấn giúp khách chọn sản phẩm phù hợp.</h2>
+          <p>Gift quiz</p>
+          <h2>Form chuyển đổi theo kiểu quiz, hợp boutique và quà tặng.</h2>
         </div>
         <form>
           <input placeholder="Tên của bạn" />
           <input placeholder="Số điện thoại / Zalo" />
           <select defaultValue="">
             <option value="" disabled>
-              Nhu cầu quan tâm
+              Bạn đang chọn cho ai?
             </option>
-            <option>Skincare</option>
-            <option>Quà tặng</option>
-            <option>Phụ kiện</option>
-            <option>Combo bán chạy</option>
+            <option>Cho bản thân</option>
+            <option>Quà sinh nhật</option>
+            <option>Quà cảm ơn khách hàng</option>
+            <option>Set theo mùa</option>
           </select>
-          <button type="button">Gửi tư vấn mẫu</button>
+          <button type="button">Nhận gợi ý mẫu</button>
         </form>
       </section>
     </main>
