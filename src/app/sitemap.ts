@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/data/blog';
+import { mau1Categories, mau1Products, toCategorySlug } from '@/data/mau1Shop';
 import { templates } from '@/data/templates';
 import { sampleSites } from '@/data/sampleSites';
 
@@ -38,6 +39,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.6,
+    },
+    {
+      url: `${SITE_URL}/mau1/login`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/mau1/register`,
+      lastModified,
+      changeFrequency: 'yearly',
+      priority: 0.3,
+    },
+    {
+      url: `${SITE_URL}/mau1/categories`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.66,
+    },
+    {
+      url: `${SITE_URL}/mau1/products`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.68,
     },
     {
       url: `${SITE_URL}/blog`,
@@ -113,11 +138,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.76,
   }));
+  const mau1CategoryRoutes: MetadataRoute.Sitemap = mau1Categories.map((category) => ({
+    url: `${SITE_URL}/mau1/categories/${toCategorySlug(category)}`,
+    lastModified,
+    changeFrequency: 'monthly',
+    priority: 0.62,
+  }));
+  const mau1ProductRoutes: MetadataRoute.Sitemap = mau1Products.map((product) => ({
+    url: `${SITE_URL}/mau1/products/${product.id}`,
+    lastModified,
+    changeFrequency: 'monthly',
+    priority: 0.64,
+  }));
 
   return [
     ...staticRoutes,
     ...blogRoutes,
     ...templateRoutes,
     ...sampleSiteRoutes,
+    ...mau1CategoryRoutes,
+    ...mau1ProductRoutes,
   ];
 }

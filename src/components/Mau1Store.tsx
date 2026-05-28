@@ -1,90 +1,21 @@
 'use client';
 
 import { useMemo, useState } from 'react';
+import Link from 'next/link';
+import { formatVnd, mau1Categories, mau1Products, type Mau1Product } from '@/data/mau1Shop';
 
-type Product = {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  oldPrice?: number;
-  badge: string;
-  description: string;
-};
-
-const products: Product[] = [
-  {
-    id: 'yen-tinh-che-50g',
-    name: 'Yến tinh chế 50g',
-    category: 'Yến sào',
-    price: 1650000,
-    oldPrice: 1850000,
-    badge: 'Bán chạy',
-    description: 'Tổ yến tinh chế sạch lông, phù hợp dùng hằng tuần hoặc biếu tặng.',
-  },
-  {
-    id: 'yen-chung-san',
-    name: 'Yến chưng sẵn 6 hũ',
-    category: 'Yến chưng',
-    price: 420000,
-    badge: 'Tiện lợi',
-    description: 'Combo 6 hũ yến chưng đường phèn, bảo quản lạnh, dùng nhanh trong ngày bận.',
-  },
-  {
-    id: 'set-qua-tang',
-    name: 'Set quà tặng sức khỏe',
-    category: 'Quà tặng',
-    price: 2200000,
-    badge: 'Cao cấp',
-    description: 'Hộp quà yến sào sang trọng cho đối tác, gia đình hoặc dịp lễ tết.',
-  },
-  {
-    id: 'yen-tho-100g',
-    name: 'Yến thô chọn lọc 100g',
-    category: 'Yến sào',
-    price: 3100000,
-    oldPrice: 3450000,
-    badge: 'Giá tốt',
-    description: 'Yến thô nguyên tổ cho khách muốn tự làm sạch và kiểm soát quy trình chế biến.',
-  },
-  {
-    id: 'combo-gia-dinh',
-    name: 'Combo gia đình 1 tháng',
-    category: 'Combo',
-    price: 1280000,
-    badge: 'Tiết kiệm',
-    description: 'Gói yến chưng và yến tinh chế dành cho gia đình 3-4 người sử dụng đều đặn.',
-  },
-  {
-    id: 'yen-chung-khong-duong',
-    name: 'Yến chưng không đường',
-    category: 'Yến chưng',
-    price: 480000,
-    badge: 'Healthy',
-    description: 'Phù hợp người ăn kiêng, người lớn tuổi hoặc khách muốn vị thanh nhẹ.',
-  },
-];
-
-const categories = ['Tất cả', ...Array.from(new Set(products.map((product) => product.category)))];
-
-function formatCurrency(value: number) {
-  return new Intl.NumberFormat('vi-VN', {
-    style: 'currency',
-    currency: 'VND',
-    maximumFractionDigits: 0,
-  }).format(value);
-}
+const categories = ['Tất cả', ...mau1Categories];
 
 export function Mau1Store() {
   const [activeCategory, setActiveCategory] = useState('Tất cả');
   const [query, setQuery] = useState('');
   const [cart, setCart] = useState<Record<string, number>>({});
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(products[0]);
+  const [selectedProduct, setSelectedProduct] = useState<Mau1Product | null>(mau1Products[0]);
 
   const filteredProducts = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
-    return products.filter((product) => {
+    return mau1Products.filter((product) => {
       const matchesCategory = activeCategory === 'Tất cả' || product.category === activeCategory;
       const matchesQuery =
         !normalizedQuery ||
@@ -95,7 +26,7 @@ export function Mau1Store() {
     });
   }, [activeCategory, query]);
 
-  const cartItems = products
+  const cartItems = mau1Products
     .filter((product) => cart[product.id])
     .map((product) => ({
       ...product,
@@ -104,7 +35,7 @@ export function Mau1Store() {
   const cartTotal = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
 
-  const addToCart = (product: Product) => {
+  const addToCart = (product: Mau1Product) => {
     setCart((current) => ({
       ...current,
       [product.id]: (current[product.id] || 0) + 1,
@@ -131,9 +62,11 @@ export function Mau1Store() {
       <nav className="store-nav">
         <strong>YenNest Market</strong>
         <div>
-          <a href="#san-pham">Sản phẩm</a>
+          <Link href="/mau1/products">Sản phẩm</Link>
+          <Link href="/mau1/categories">Danh mục</Link>
           <a href="#gio-hang">Giỏ hàng ({cartCount})</a>
-          <a href="#thanh-toan">Thanh toán</a>
+          <Link href="/mau1/login">Đăng nhập</Link>
+          <Link href="/mau1/register">Đăng ký</Link>
         </div>
       </nav>
 
@@ -152,7 +85,7 @@ export function Mau1Store() {
         </div>
         <aside>
           <span>Đơn mẫu hôm nay</span>
-          <strong>{formatCurrency(cartTotal || 2490000)}</strong>
+          <strong>{formatVnd(cartTotal || 2490000)}</strong>
           <p>{cartCount ? `${cartCount} sản phẩm trong giỏ` : 'Combo yến sào + quà tặng sức khỏe'}</p>
         </aside>
       </section>
@@ -188,13 +121,11 @@ export function Mau1Store() {
               <h2>{product.name}</h2>
               <p>{product.description}</p>
               <div className="store-price-row">
-                <strong>{formatCurrency(product.price)}</strong>
-                {product.oldPrice ? <del>{formatCurrency(product.oldPrice)}</del> : null}
+                <strong>{formatVnd(product.price)}</strong>
+                {product.oldPrice ? <del>{formatVnd(product.oldPrice)}</del> : null}
               </div>
               <div className="store-card-actions">
-                <button type="button" onClick={() => setSelectedProduct(product)}>
-                  Xem nhanh
-                </button>
+                <Link href={`/mau1/products/${product.id}`}>Chi tiết</Link>
                 <button type="button" onClick={() => addToCart(product)}>
                   Thêm giỏ
                 </button>
@@ -209,7 +140,8 @@ export function Mau1Store() {
               <span>{selectedProduct.category}</span>
               <h2>{selectedProduct.name}</h2>
               <p>{selectedProduct.description}</p>
-              <strong>{formatCurrency(selectedProduct.price)}</strong>
+              <strong>{formatVnd(selectedProduct.price)}</strong>
+              <Link href={`/mau1/products/${selectedProduct.id}`}>Mở trang sản phẩm</Link>
               <button type="button" onClick={() => addToCart(selectedProduct)}>
                 Thêm sản phẩm này
               </button>
@@ -229,7 +161,7 @@ export function Mau1Store() {
               <article key={item.id}>
                 <div>
                   <h3>{item.name}</h3>
-                  <span>{formatCurrency(item.price)}</span>
+                  <span>{formatVnd(item.price)}</span>
                 </div>
                 <div className="quantity-control">
                   <button type="button" onClick={() => updateQuantity(item.id, item.quantity - 1)}>
@@ -247,7 +179,7 @@ export function Mau1Store() {
           )}
           <footer>
             <span>Tổng tạm tính</span>
-            <strong>{formatCurrency(cartTotal)}</strong>
+            <strong>{formatVnd(cartTotal)}</strong>
           </footer>
         </div>
       </section>

@@ -2291,6 +2291,7 @@ h3 {
 }
 
 .store-hero-actions a,
+.store-card-actions a,
 .store-card-actions button,
 .store-side-panel button,
 .store-checkout button {
@@ -2308,6 +2309,7 @@ h3 {
 }
 
 .store-hero-actions a:last-child,
+.store-card-actions a:first-child,
 .store-card-actions button:first-child {
   color: var(--ink);
   background: var(--white);
@@ -2443,6 +2445,12 @@ h3 {
   padding: 24px;
 }
 
+.store-side-panel a,
+.store-back-link {
+  color: var(--green);
+  font-weight: 900;
+}
+
 .store-cart-section,
 .store-checkout {
   display: grid;
@@ -2526,6 +2534,165 @@ h3 {
   color: var(--white);
   background: rgba(0, 0, 0, 0.2);
   outline: none;
+}
+
+.store-auth,
+.store-detail {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(320px, 0.88fr);
+  gap: 34px;
+  align-items: center;
+  padding: 132px clamp(18px, 6vw, 84px) 78px;
+  background:
+    radial-gradient(circle at 82% 12%, rgba(14, 111, 92, 0.18), transparent 26rem),
+    linear-gradient(135deg, #ffffff, #e8f1ec);
+}
+
+.store-auth p,
+.store-listing-hero p,
+.store-related p {
+  color: var(--green);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.store-auth h1,
+.store-detail h1,
+.store-listing-hero h1 {
+  max-width: 900px;
+  font-size: clamp(2.5rem, 5vw, 4.9rem);
+  line-height: 1;
+}
+
+.store-auth span,
+.store-detail p {
+  display: block;
+  max-width: 650px;
+  color: var(--muted);
+  font-size: 1.06rem;
+}
+
+.store-auth form {
+  display: grid;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: var(--white);
+  box-shadow: 0 24px 70px rgba(38, 52, 48, 0.1);
+}
+
+.store-auth label {
+  display: grid;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.store-auth input {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px 14px;
+  outline: none;
+}
+
+.store-auth button,
+.store-auth div > a,
+.store-listing-hero a {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 18px;
+  color: var(--white);
+  background: var(--coral);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.store-auth div > a {
+  margin-top: 24px;
+}
+
+.store-auth small a {
+  color: var(--green);
+  font-weight: 900;
+}
+
+.store-listing-hero {
+  padding: 132px clamp(18px, 6vw, 84px) 54px;
+  background: linear-gradient(135deg, #ffffff, #e8f1ec);
+}
+
+.store-category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  padding: 54px clamp(18px, 6vw, 84px) 78px;
+}
+
+.store-category-card {
+  display: grid;
+  min-height: 250px;
+  align-content: space-between;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 22px;
+  background: var(--white);
+  box-shadow: 0 18px 50px rgba(38, 52, 48, 0.07);
+}
+
+.store-category-card small,
+.store-category-card span {
+  color: var(--gold);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.store-category-card p,
+.store-detail-points {
+  color: var(--muted);
+}
+
+.store-product-listing {
+  padding: 54px clamp(18px, 6vw, 84px) 78px;
+}
+
+.store-detail {
+  grid-template-columns: minmax(320px, 0.82fr) minmax(0, 1fr);
+}
+
+.store-detail-image {
+  min-height: 520px;
+  border-radius: 8px;
+  padding: 18px;
+  background:
+    linear-gradient(135deg, rgba(14, 111, 92, 0.22), rgba(36, 91, 143, 0.18)),
+    var(--white);
+  box-shadow: 0 24px 70px rgba(38, 52, 48, 0.12);
+}
+
+.store-detail-image span {
+  border-radius: 999px;
+  padding: 8px 12px;
+  color: var(--white);
+  background: var(--green);
+  font-weight: 900;
+}
+
+.store-detail-points {
+  display: grid;
+  gap: 8px;
+  padding-left: 20px;
+}
+
+.store-related {
+  padding: 70px clamp(18px, 6vw, 84px);
+  background: var(--white);
 }
 
 .mau2-store {
@@ -2961,6 +3128,9 @@ h3 {
   .store-products,
   .store-cart-section,
   .store-checkout,
+  .store-auth,
+  .store-detail,
+  .store-category-grid,
   .mau2-hero,
   .mau2-grid,
   .mau2-combo,
@@ -3870,8 +4040,20 @@ h3 {
   }
 
   .template-grid,
+  .store-category-grid,
+  .store-product-listing,
   .pf-strip {
     grid-template-columns: 1fr;
+  }
+
+  .store-auth,
+  .store-detail,
+  .store-listing-hero {
+    padding-top: 112px;
+  }
+
+  .store-detail-image {
+    min-height: 320px;
   }
 
   .pf-header {
