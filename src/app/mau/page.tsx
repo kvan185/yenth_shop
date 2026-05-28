@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { templates } from '@/data/templates';
+import { sampleSites } from '@/data/sampleSites';
 
 export const metadata: Metadata = {
   title: 'Mẫu website để khách hàng lựa chọn',
@@ -19,25 +19,20 @@ export default function TemplateCatalogPage() {
           YenTH.shop
         </Link>
         <p className="eyebrow">/mau</p>
-        <h1>Chọn mẫu website theo ngành trước, rồi tinh chỉnh theo thương hiệu của bạn.</h1>
+        <h1>Chọn một website mẫu hoàn chỉnh trước, rồi tôi tinh chỉnh theo thương hiệu của bạn.</h1>
         <p>
-          Khách không cần mô tả mơ hồ. Hãy chọn một mẫu gần với nhu cầu nhất, tôi sẽ thay nội dung,
-          màu sắc, CTA, SEO và form theo dịch vụ thật của bạn.
+          Mỗi mẫu nằm ở một link riêng như một website thật. Khách chỉ cần mở mẫu, chọn kiểu gần
+          nhất với nhu cầu, rồi tôi thay nội dung, màu sắc, CTA, SEO và tính năng theo ngành của họ.
         </p>
       </section>
       <section className="template-catalog-grid">
-        {templates.map((template) => (
-          <article className="template-choice-card" key={template.slug} style={{ borderTopColor: template.accent }}>
-            <span>{template.category}</span>
-            <h2>{template.title}</h2>
-            <p>{template.description}</p>
-            <strong>Phù hợp: {template.bestFor}</strong>
-            <div>
-              {template.features.map((feature) => (
-                <small key={feature}>{feature}</small>
-              ))}
-            </div>
-            <Link href={`/mau/${template.slug}`}>Xem mẫu này</Link>
+        {sampleSites.map((site) => (
+          <article className="template-choice-card" key={site.href}>
+            <span>{site.name} - {site.type}</span>
+            <h2>{site.title}</h2>
+            <p>{site.description}</p>
+            <strong>Link mẫu: {site.href}</strong>
+            <Link href={site.href}>Truy cập website mẫu</Link>
           </article>
         ))}
       </section>

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/data/blog';
 import { templates } from '@/data/templates';
+import { sampleSites } from '@/data/sampleSites';
 
 const SITE_URL = 'https://yenth.shop';
 
@@ -88,10 +89,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     changeFrequency: 'monthly',
     priority: 0.78,
   }));
+  const sampleSiteRoutes: MetadataRoute.Sitemap = sampleSites.map((site) => ({
+    url: `${SITE_URL}${site.href}`,
+    lastModified,
+    changeFrequency: 'monthly',
+    priority: 0.76,
+  }));
 
   return [
     ...staticRoutes,
     ...blogRoutes,
     ...templateRoutes,
+    ...sampleSiteRoutes,
   ];
 }
