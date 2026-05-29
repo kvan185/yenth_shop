@@ -13,6 +13,8 @@ const isolatedPrefixes = [
   '/web-tu-van-dat-lich',
   '/web-portfolio-ca-nhan',
   '/web-blog-tin-tuc',
+  '/web-chuc-nang-rieng',
+  '/web-day-hoc',
 ];
 
 export function SiteChrome() {

@@ -116,6 +116,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.82,
     },
     {
+      url: `${SITE_URL}/web-chuc-nang-rieng/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
+      url: `${SITE_URL}/web-day-hoc/thi-thu/mau_1`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.82,
+    },
+    {
       url: `${SITE_URL}/blog`,
       lastModified,
       changeFrequency: 'weekly',

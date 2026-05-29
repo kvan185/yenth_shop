@@ -79,10 +79,19 @@ const categories: Category[] = [
     links: [{ href: '/web-tu-van-dat-lich/mau_1', label: 'Xem mẫu 1', external: true }],
   },
   {
+    eyebrow: 'Dạy học',
+    title: 'Web dạy học',
+    text: 'Phù hợp giáo viên, trung tâm hoặc khóa học online cần đăng lớp, giao đề, cho học viên thi thử, chấm điểm tự động và xem báo cáo tiến độ.',
+    links: [{ href: '/web-day-hoc/thi-thu/mau_1', label: 'Mẫu thi thử', external: true }],
+  },
+  {
     eyebrow: 'Theo yêu cầu',
     title: 'Web chức năng riêng',
     text: 'Các luồng riêng như dashboard nhỏ, quản lý sản phẩm, form nhiều bước, theo dõi lead hoặc tích hợp hệ thống đang dùng.',
-    links: [{ href: '/lien-he', label: 'Trao đổi nhu cầu' }],
+    links: [
+      { href: '/web-chuc-nang-rieng/mau_1', label: 'Xem mẫu 1', external: true },
+      { href: '/lien-he', label: 'Trao đổi nhu cầu' },
+    ],
   },
 ];
 
