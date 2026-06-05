@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web giới thiệu doanh nghiệp có hero, năng lực, dịch vụ, dự án tiêu biểu, đội ngũ và form liên hệ B2B.',
   keywords: ['NovaBuild', 'web giới thiệu doanh nghiệp', 'hồ sơ năng lực', 'dịch vụ B2B', 'case study'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-gioi-thieu-doanh-nghiep/mau_1',
   },
   openGraph: {
     title: 'NovaBuild - Web giới thiệu doanh nghiệp',

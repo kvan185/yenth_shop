@@ -8,6 +8,8 @@ const primaryLinks = [
   { href: '/danh-muc', label: 'Danh mục' },
   { href: '/dich-vu', label: 'Dịch vụ' },
   { href: '/thiet-ke-web', label: 'Thiết kế web' },
+  { href: '/thiet-ke-website-ban-hang', label: 'Web bán hàng' },
+  { href: '/GameMini', label: 'GameMini' },
   { href: '/blog', label: 'Blog' },
 ];
 
@@ -16,6 +18,8 @@ const secondaryLinks = [
   { href: '/bang-gia', label: 'Bảng giá' },
   { href: '/quy-trinh', label: 'Quy trình' },
   { href: '/local-seo', label: 'Local SEO' },
+  { href: '/thiet-ke-landing-page', label: 'Landing page' },
+  { href: '/thiet-ke-web-tai-tp-ho-chi-minh', label: 'Web TP.HCM' },
   { href: '/dang-nhap', label: 'Đăng nhập' },
   { href: '/dang-ky', label: 'Đăng ký' },
 ];
@@ -24,7 +28,8 @@ const mobileLinks = [
   { href: '/home', label: 'Home' },
   { href: '/danh-muc', label: 'Danh mục' },
   { href: '/dich-vu', label: 'Dịch vụ' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/thiet-ke-web', label: 'Thiết kế web' },
+  { href: '/GameMini', label: 'GameMini' },
   { href: '/lien-he', label: 'Liên hệ' },
 ];
 

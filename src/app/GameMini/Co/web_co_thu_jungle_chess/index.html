@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Cờ Thú 2 Người</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">🐯</div>
+        <div>
+          <h1>Cờ Thú</h1>
+          <p>Jungle Chess 2 người</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Xanh</h2>
+        <p id="hint">Chọn quân để đi.</p>
+      </div>
+
+      <div class="card">
+        <p class="label">Quân Xanh đã ăn</p>
+        <div id="blueCaptured" class="captured"></div>
+      </div>
+
+      <div class="card">
+        <p class="label">Quân Đỏ đã ăn</p>
+        <div id="redCaptured" class="captured"></div>
+      </div>
+
+      <button id="newBtn" class="btn primary">Ván mới</button>
+      <button id="undoBtn" class="btn">Hoàn tác</button>
+      <button id="flipBtn" class="btn">Lật bàn</button>
+    </aside>
+
+    <section class="board-wrap">
+      <div id="board" class="board"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList" class="moves"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật có trong bản này</p>
+        <ul>
+          <li>Quân mạnh ăn quân yếu hoặc bằng cấp</li>
+          <li>Chuột ăn được Voi</li>
+          <li>Voi không ăn được Chuột</li>
+          <li>Chuột được xuống sông</li>
+          <li>Sư tử/Hổ nhảy qua sông nếu không bị Chuột chặn</li>
+          <li>Vào bẫy đối phương sẽ bị hạ cấp</li>
+          <li>Vào hang đối phương là thắng</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="modalTitle">Kết thúc</h2>
+      <p id="modalText"></p>
+      <button id="closeModal" class="btn primary">Đóng</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,7 +1,23 @@
 import type { MetadataRoute } from 'next';
 import { blogPosts } from '@/data/blog';
+import { seoLandingPages } from '@/data/seoLandingPages';
 
 const SITE_URL = 'https://yenth.shop';
+const NOINDEX_PATH_PREFIXES = [
+  '/GameMini',
+  '/landing-page-dich-vu',
+  '/web-ban-hang-don-gian-cho-doanh-nghiep-nho',
+  '/web-blog-tin-tuc',
+  '/web-chuc-nang-rieng',
+  '/web-day-hoc',
+  '/web-gioi-thieu-doanh-nghiep',
+  '/web-gioi-thieu-san-pham',
+  '/web-mang-xa-hoi',
+  '/web-portfolio-ca-nhan',
+  '/web-tu-van-dat-lich',
+  '/dang-nhap',
+  '/dang-ky',
+];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date('2026-05-28');
@@ -164,18 +180,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${SITE_URL}/dang-nhap`,
-      lastModified,
-      changeFrequency: 'yearly',
-      priority: 0.4,
-    },
-    {
-      url: `${SITE_URL}/dang-ky`,
-      lastModified,
-      changeFrequency: 'yearly',
-      priority: 0.45,
-    },
-    {
       url: `${SITE_URL}/thiet-ke-web`,
       lastModified,
       changeFrequency: 'weekly',
@@ -190,5 +194,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.75,
   }));
 
-  return [...staticRoutes, ...blogRoutes];
+  const seoClusterRoutes: MetadataRoute.Sitemap = seoLandingPages.map((page) => ({
+    url: `${SITE_URL}/${page.slug}`,
+    lastModified,
+    changeFrequency: 'weekly',
+    priority: 0.88,
+  }));
+
+  const indexableStaticRoutes = staticRoutes.filter((route) => {
+    const path = new URL(route.url).pathname;
+
+    return !NOINDEX_PATH_PREFIXES.some((prefix) => path === prefix || path.startsWith(`${prefix}/`));
+  });
+
+  return [...indexableStaticRoutes, ...seoClusterRoutes, ...blogRoutes];
 }

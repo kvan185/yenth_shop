@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web mạng xã hội kiểu Facebook với bảng tin, stories, đăng bài, like, bình luận, nhóm, liên hệ và sidebar.',
   keywords: ['FaceSpace', 'mạng xã hội', 'bảng tin', 'nhóm cộng đồng', 'web social'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-mang-xa-hoi/facebook/mau_1',
   },
   openGraph: {
     title: 'FaceSpace - Mẫu web mạng xã hội',

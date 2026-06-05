@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fake Hacker Terminal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="matrix"></canvas>
+
+  <main class="terminal-window">
+    <div class="title-bar">
+      <div class="buttons">
+        <span class="btn red"></span>
+        <span class="btn yellow"></span>
+        <span class="btn green"></span>
+      </div>
+      <span class="title">root@fake-terminal: ~/system</span>
+    </div>
+
+    <section id="terminal" class="terminal">
+      <div class="banner">
+███████╗ █████╗ ██╗  ██╗███████╗    ██╗  ██╗ █████╗  ██████╗██╗  ██╗
+██╔════╝██╔══██╗██║ ██╔╝██╔════╝    ██║  ██║██╔══██╗██╔════╝██║ ██╔╝
+█████╗  ███████║█████╔╝ █████╗      ███████║███████║██║     █████╔╝ 
+██╔══╝  ██╔══██║██╔═██╗ ██╔══╝      ██╔══██║██╔══██║██║     ██╔═██╗ 
+██║     ██║  ██║██║  ██╗███████╗    ██║  ██║██║  ██║╚██████╗██║  ██╗
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚═╝  ╚═╝
+      </div>
+      <p class="muted">Gõ <b>help</b> để xem danh sách lệnh. Đây chỉ là mô phỏng vui, không hack thật.</p>
+      <div id="output"></div>
+      <div class="input-line">
+        <span class="prompt">root@fake-terminal:~$</span>
+        <input id="commandInput" autocomplete="off" autofocus />
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

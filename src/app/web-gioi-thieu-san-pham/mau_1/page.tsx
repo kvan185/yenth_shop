@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web giới thiệu sản phẩm với hero, gallery, lựa chọn màu, lợi ích, thông số, review, FAQ và form tư vấn.',
   keywords: ['PulseOne', 'web giới thiệu sản phẩm', 'landing product', 'thông số sản phẩm', 'form tư vấn'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-gioi-thieu-san-pham/mau_1',
   },
   openGraph: {
     title: 'PulseOne - Web giới thiệu sản phẩm',

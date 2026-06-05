@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Retro Game Hub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <main class="app">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">MINI ARCADE WEB</p>
+        <h1>Retro Game Hub</h1>
+        <p>5 game mini chạy offline trên trình duyệt: Snake, Pong, Breakout, Memory Card và Click Speed.</p>
+      </div>
+      <div class="score-card">
+        <span>High Score</span>
+        <strong id="globalHigh">0</strong>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="games">
+        <button class="game-btn active" data-game="snake">🐍 Snake</button>
+        <button class="game-btn" data-game="pong">🏓 Pong</button>
+        <button class="game-btn" data-game="breakout">🧱 Breakout</button>
+        <button class="game-btn" data-game="memory">🃏 Memory</button>
+        <button class="game-btn" data-game="clicker">⚡ Click Speed</button>
+      </aside>
+
+      <section class="panel">
+        <div class="toolbar">
+          <div>
+            <h2 id="gameTitle">Snake</h2>
+            <p id="gameHelp">Dùng phím mũi tên hoặc WASD để điều khiển rắn.</p>
+          </div>
+          <div class="actions">
+            <button id="startBtn">Start</button>
+            <button id="resetBtn">Reset</button>
+          </div>
+        </div>
+
+        <div class="stats">
+          <div><span>Score</span><b id="score">0</b></div>
+          <div><span>Time</span><b id="time">00:00</b></div>
+          <div><span>Status</span><b id="status">Ready</b></div>
+        </div>
+
+        <canvas id="gameCanvas" width="720" height="430"></canvas>
+        <div id="htmlGame" class="html-game hidden"></div>
+
+        <div class="mobile-controls">
+          <button data-dir="up">▲</button>
+          <div>
+            <button data-dir="left">◀</button>
+            <button data-dir="down">▼</button>
+            <button data-dir="right">▶</button>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

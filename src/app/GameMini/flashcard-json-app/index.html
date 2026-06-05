@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flashcard Học Từ Vựng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Flashcard Học Từ Vựng</h1>
+
+    <p id="counter">Đang tải dữ liệu...</p>
+
+    <div class="card" id="flashcard" onclick="flipCard()">
+      <div class="front" id="word">Loading...</div>
+      <div class="back">
+        <h2 id="meaning"></h2>
+        <p id="example"></p>
+        <span id="category"></span>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button onclick="prevCard()">⬅ Trước</button>
+      <button onclick="flipCard()">Lật thẻ</button>
+      <button onclick="nextCard()">Tiếp ➡</button>
+      <button onclick="randomCard()">Ngẫu nhiên</button>
+    </div>
+
+    <div class="add-form">
+      <h2>Thêm từ mới</h2>
+      <input type="text" id="newWord" placeholder="Từ vựng">
+      <input type="text" id="newMeaning" placeholder="Nghĩa">
+      <input type="text" id="newExample" placeholder="Ví dụ">
+      <input type="text" id="newCategory" placeholder="Chủ đề">
+      <button onclick="addCard()">Thêm tạm thời</button>
+      <p class="note">Lưu ý: từ thêm trên web chỉ lưu tạm thời khi đang mở trang. Muốn lưu cố định, hãy thêm vào file vocabulary.json.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

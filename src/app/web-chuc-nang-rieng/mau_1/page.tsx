@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web chức năng riêng có dashboard, quản lý lead, bộ lọc trạng thái, module tùy biến, quy trình triển khai và form gửi brief chức năng.',
   keywords: ['web chức năng riêng', 'dashboard nội bộ', 'CRM mini', 'form nhiều bước', 'quản lý lead'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-chuc-nang-rieng/mau_1',
   },
   openGraph: {
     title: 'OpsFlow - Web chức năng riêng',

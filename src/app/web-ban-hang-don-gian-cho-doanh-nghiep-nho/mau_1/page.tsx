@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'YenNest bán yến sào nguyên chất với sản phẩm nổi bật, giỏ hàng, form đặt hàng, review, blog, FAQ và liên hệ nhanh.',
   keywords: ['YenNest', 'yến sào nguyên chất', 'tổ yến', 'nước yến', 'quà biếu sức khỏe'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_1',
   },
   openGraph: {
     title: 'YenNest - Yến sào nguyên chất',

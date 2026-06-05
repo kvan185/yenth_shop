@@ -1,0 +1,101 @@
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+  display: flex;
+  justify-content: center;
+  padding: 40px 12px;
+}
+
+.container {
+  width: 430px;
+  text-align: center;
+}
+
+h1 {
+  color: #263238;
+}
+
+#counter {
+  color: #555;
+}
+
+.card {
+  width: 100%;
+  min-height: 250px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.front {
+  font-size: 36px;
+  font-weight: bold;
+  color: #1565c0;
+}
+
+.back {
+  display: none;
+}
+
+.back h2 {
+  color: #2e7d32;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.back p {
+  color: #444;
+  font-style: italic;
+}
+
+.back span {
+  display: inline-block;
+  margin-top: 10px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin: 5px;
+  background: #1565c0;
+  color: white;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.add-form {
+  margin-top: 20px;
+  background: white;
+  padding: 18px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+input {
+  width: 92%;
+  padding: 10px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.note {
+  font-size: 13px;
+  color: #777;
+}

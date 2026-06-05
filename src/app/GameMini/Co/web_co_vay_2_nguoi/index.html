@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Cờ Vây 2 Người</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">●</div>
+        <div>
+          <h1>Cờ Vây</h1>
+          <p>2 người chơi cùng máy</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Đen</h2>
+        <p id="hint">Bấm vào giao điểm để đặt quân.</p>
+      </div>
+
+      <div class="score-grid">
+        <div class="card score">
+          <p class="label">Đen ăn</p>
+          <h2 id="blackScore">0</h2>
+        </div>
+        <div class="card score">
+          <p class="label">Trắng ăn</p>
+          <h2 id="whiteScore">0</h2>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="passBtn" class="btn primary">Bỏ lượt</button>
+        <button id="undoBtn" class="btn">Hoàn tác</button>
+        <button id="newBtn" class="btn">Ván mới</button>
+      </div>
+
+      <div class="card">
+        <p class="label">Kích thước bàn</p>
+        <select id="boardSize">
+          <option value="19" selected>19 x 19</option>
+          <option value="13">13 x 13</option>
+          <option value="9">9 x 9</option>
+        </select>
+      </div>
+    </aside>
+
+    <section class="board-wrap">
+      <div id="board" class="board"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList" class="moves"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật có trong bản này</p>
+        <ul>
+          <li>Đen đi trước</li>
+          <li>Đặt quân trên giao điểm</li>
+          <li>Ăn quân khi nhóm hết khí</li>
+          <li>Không được tự sát</li>
+          <li>Không lặp lại bàn cờ ngay lập tức</li>
+          <li>Hai bên bỏ lượt liên tiếp thì kết thúc</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="endModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Kết thúc ván</h2>
+      <p id="endText"></p>
+      <button id="closeEnd" class="btn primary">Đóng</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

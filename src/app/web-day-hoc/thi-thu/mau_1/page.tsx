@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web dạy học có thi thử online, danh sách đề, phòng thi trắc nghiệm, đồng hồ, chấm điểm tự động, báo cáo lớp và form tư vấn.',
   keywords: ['web dạy học', 'thi thử online', 'luyện thi online', 'chấm điểm tự động', 'quản lý lớp học'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-day-hoc/thi-thu/mau_1',
   },
   openGraph: {
     title: 'EduTest - Web dạy học thi thử online',

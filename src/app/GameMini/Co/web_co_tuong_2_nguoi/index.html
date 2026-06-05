@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Cờ Tướng 2 Người</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="side-panel">
+      <div class="brand">
+        <div class="logo">帥</div>
+        <div>
+          <h1>Cờ Tướng</h1>
+          <p>2 người chơi cùng máy</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Đỏ</h2>
+        <p id="hint">Chọn quân đỏ để đi.</p>
+      </div>
+
+      <div class="card">
+        <p class="label">Quân đỏ đã ăn</p>
+        <div id="redCaptured" class="captured"></div>
+      </div>
+
+      <div class="card">
+        <p class="label">Quân đen đã ăn</p>
+        <div id="blackCaptured" class="captured"></div>
+      </div>
+
+      <button id="newGame" class="btn primary">Ván mới</button>
+      <button id="undo" class="btn">Hoàn tác</button>
+      <button id="flip" class="btn">Lật bàn cờ</button>
+    </section>
+
+    <section class="board-section">
+      <div id="board" class="board"></div>
+    </section>
+
+    <section class="side-panel moves-panel">
+      <div class="card timer">
+        <div>
+          <p class="label">Đen</p>
+          <h2 id="blackTimer">15:00</h2>
+        </div>
+        <div>
+          <p class="label">Đỏ</p>
+          <h2 id="redTimer">15:00</h2>
+        </div>
+      </div>
+
+      <div class="card moves-card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Tính năng</p>
+        <ul>
+          <li>Đi đúng luật cơ bản từng quân</li>
+          <li>Tướng không được đối mặt</li>
+          <li>Báo chiếu và chiếu hết</li>
+          <li>Đồng hồ 15 phút</li>
+          <li>Hoàn tác nước đi</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

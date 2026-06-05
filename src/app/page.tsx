@@ -356,9 +356,9 @@ export default function Home() {
       <div className="bottom-dock" aria-label="Thanh liên hệ cố định">
         <div className="bottom-dock-primary">
           <span>Audit website miễn phí trong 24h</span>
-          <a href="/lien-he" data-track="bottom_dock_form_click" data-track-category="conversion">
+          <Link href="/lien-he" data-track="bottom_dock_form_click" data-track-category="conversion">
             Gửi nhu cầu
-          </a>
+          </Link>
         </div>
         <div className="bottom-dock-secondary">
           <a href="https://zalo.me/0375266538" target="_blank" rel="noreferrer" data-track="bottom_dock_zalo_click">

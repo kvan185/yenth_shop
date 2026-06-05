@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu landing page dịch vụ có offer, gói giá, quy trình, đánh giá, FAQ và form đặt lịch tư vấn.',
   keywords: ['GlowSkin', 'landing page dịch vụ', 'đặt lịch spa', 'form tư vấn', 'gói dịch vụ'],
   alternates: {
-    canonical: '/',
+    canonical: '/landing-page-dich-vu/mau_1',
   },
   openGraph: {
     title: 'GlowSkin - Landing page dịch vụ',

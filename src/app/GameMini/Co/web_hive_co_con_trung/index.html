@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hive - Cờ Côn Trùng</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">⬢</div>
+        <div>
+          <h1>Hive</h1>
+          <p>Cờ Côn Trùng — không cần bàn</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Trắng</h2>
+        <p id="hint">Chọn quân trong kho để đặt xuống.</p>
+      </div>
+
+      <div class="card">
+        <p class="label">Kho Trắng</p>
+        <div id="whiteHand" class="hand"></div>
+      </div>
+
+      <div class="card">
+        <p class="label">Kho Đen</p>
+        <div id="blackHand" class="hand"></div>
+      </div>
+
+      <button id="newBtn" class="btn primary">Ván mới</button>
+      <button id="undoBtn" class="btn">Hoàn tác</button>
+    </aside>
+
+    <section class="board-wrap">
+      <div id="board" class="board"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Quân đang chọn</p>
+        <h2 id="selectedInfo">Chưa chọn</h2>
+      </div>
+
+      <div class="card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList" class="moves"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật trong bản này</p>
+        <ul>
+          <li>Không có bàn cố định, quân tạo thành tổ ong</li>
+          <li>Ong chúa phải được đặt trước hoặc ở lượt thứ 4 của mỗi bên</li>
+          <li>Tổ ong luôn phải liền khối</li>
+          <li>Không đặt quân chạm quân đối phương, trừ nước đầu</li>
+          <li>Ong đi 1 ô</li>
+          <li>Kiến đi quanh tổ ong nhiều ô</li>
+          <li>Bọ đi 1 ô và có thể leo lên quân khác</li>
+          <li>Châu chấu nhảy qua hàng quân</li>
+          <li>Nhện đi đúng 3 bước</li>
+          <li>Vây kín Ong chúa đối phương là thắng</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Kết thúc ván</h2>
+      <p id="modalText"></p>
+      <button id="closeModal" class="btn primary">Đóng</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

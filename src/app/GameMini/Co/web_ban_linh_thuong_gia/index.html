@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bản Lĩnh Thương Gia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">◆</div>
+        <div>
+          <h1>Bản Lĩnh Thương Gia</h1>
+          <p>Đấu trí quản lý tài nguyên</p>
+        </div>
+      </div>
+
+      <div id="setup" class="card">
+        <p class="label">Thiết lập</p>
+        <label>Số người chơi</label>
+        <select id="playerCount">
+          <option value="2">2 người</option>
+          <option value="3">3 người</option>
+          <option value="4" selected>4 người</option>
+        </select>
+        <button id="startBtn" class="btn primary">Bắt đầu</button>
+      </div>
+
+      <div id="controls" class="card hidden">
+        <p class="label">Lượt hiện tại</p>
+        <h2 id="turnTitle">Người chơi 1</h2>
+        <p id="hint">Chọn hành động: lấy đá, mua thẻ hoặc giữ thẻ.</p>
+        <button id="takeBtn" class="btn primary">Lấy đá đã chọn</button>
+        <button id="clearBtn" class="btn">Bỏ chọn đá</button>
+        <button id="endBtn" class="btn">Kết thúc lượt</button>
+      </div>
+
+      <button id="newBtn" class="btn">Ván mới</button>
+    </aside>
+
+    <section class="table">
+      <div class="market-top">
+        <div class="bank card">
+          <p class="label">Ngân hàng đá quý</p>
+          <div id="bankTokens" class="tokens"></div>
+        </div>
+        <div class="nobles card">
+          <p class="label">Thương hội</p>
+          <div id="nobles" class="noble-list"></div>
+        </div>
+      </div>
+
+      <div class="market card">
+        <p class="label">Chợ thẻ phát triển</p>
+        <div id="market"></div>
+      </div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Người chơi</p>
+        <div id="players"></div>
+      </div>
+
+      <div class="card log-card">
+        <p class="label">Nhật ký</p>
+        <div id="log" class="log"></div>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật trong bản này</p>
+        <ul>
+          <li>Lấy 3 đá khác màu hoặc 2 đá cùng màu nếu ngân hàng còn ≥4</li>
+          <li>Tối đa 10 đá trên tay</li>
+          <li>Mua thẻ bằng đá, thẻ đã mua giảm chi phí vĩnh viễn</li>
+          <li>Giữ thẻ nhận 1 vàng nếu còn</li>
+          <li>Đủ điều kiện sẽ nhận thương hội</li>
+          <li>Đạt 15 điểm sẽ kích hoạt vòng cuối</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <h2 id="modalTitle">Thông báo</h2>
+      <p id="modalText"></p>
+      <button id="modalClose" class="btn primary">Đóng</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

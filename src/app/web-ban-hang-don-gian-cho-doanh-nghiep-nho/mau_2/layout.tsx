@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   description: 'Website bán hàng nhiều trang cho thương hiệu yến sào: sản phẩm, giới thiệu, blog, chứng nhận và liên hệ.',
   keywords: ['YenNest', 'yến sào', 'tổ yến', 'web bán hàng', 'doanh nghiệp nhỏ'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2',
   },
   openGraph: {
     title: 'YenNest - Yến sào nguyên chất',

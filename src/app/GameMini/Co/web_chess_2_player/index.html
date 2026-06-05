@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Web Chess 2 Người</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel left-panel">
+      <div class="brand">
+        <div class="logo">♞</div>
+        <div>
+          <h1>Web Chess</h1>
+          <p>2 người chơi cùng máy</p>
+        </div>
+      </div>
+
+      <div class="status-card">
+        <p class="label">Trạng thái</p>
+        <h2 id="statusText">Lượt Trắng</h2>
+        <p id="hintText">Chọn quân để đi.</p>
+      </div>
+
+      <div class="captured">
+        <p class="label">Quân trắng đã ăn</p>
+        <div id="whiteCaptured" class="captured-list"></div>
+      </div>
+
+      <div class="captured">
+        <p class="label">Quân đen đã ăn</p>
+        <div id="blackCaptured" class="captured-list"></div>
+      </div>
+
+      <button id="newGameBtn" class="btn primary">Ván mới</button>
+      <button id="flipBtn" class="btn">Lật bàn cờ</button>
+    </aside>
+
+    <section class="board-wrap">
+      <div class="coordinates files top"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+      <div class="board-area">
+        <div class="coordinates ranks"><span>8</span><span>7</span><span>6</span><span>5</span><span>4</span><span>3</span><span>2</span><span>1</span></div>
+        <div id="board" class="board" aria-label="Chess board"></div>
+      </div>
+      <div class="coordinates files"><span>a</span><span>b</span><span>c</span><span>d</span><span>e</span><span>f</span><span>g</span><span>h</span></div>
+    </section>
+
+    <aside class="panel right-panel">
+      <div class="timer-card">
+        <div>
+          <p class="label">Đen</p>
+          <h2 id="blackTimer">10:00</h2>
+        </div>
+        <div>
+          <p class="label">Trắng</p>
+          <h2 id="whiteTimer">10:00</h2>
+        </div>
+      </div>
+
+      <div class="moves">
+        <div class="moves-head">
+          <p class="label">Biên bản nước đi</p>
+          <button id="undoBtn" class="small-btn">Hoàn tác</button>
+        </div>
+        <ol id="moveList"></ol>
+      </div>
+
+      <div class="rules">
+        <p class="label">Có trong bản này</p>
+        <ul>
+          <li>Đi đúng luật từng quân</li>
+          <li>Nhập thành</li>
+          <li>Phong hậu</li>
+          <li>Bắt tốt qua đường</li>
+          <li>Chiếu, chiếu hết, hòa bí</li>
+          <li>Đồng hồ 10 phút</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="promotionModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Phong cấp tốt</h2>
+      <p>Chọn quân muốn phong:</p>
+      <div class="promotion-options">
+        <button data-piece="q">♕</button>
+        <button data-piece="r">♖</button>
+        <button data-piece="b">♗</button>
+        <button data-piece="n">♘</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

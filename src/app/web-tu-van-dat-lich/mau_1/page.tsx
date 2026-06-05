@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web tư vấn và đặt lịch có chọn dịch vụ, chọn khung giờ, chuyên gia, brief, form xác nhận và FAQ.',
   keywords: ['ClarityCall', 'web đặt lịch', 'tư vấn online', 'booking form', 'chọn khung giờ'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-tu-van-dat-lich/mau_1',
   },
   openGraph: {
     title: 'ClarityCall - Web tư vấn / đặt lịch',

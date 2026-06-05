@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web chat kiểu Zalo với danh sách hội thoại, khung tin nhắn, gửi nhanh, danh bạ, nhóm, cuộc gọi và thông tin khách hàng.',
   keywords: ['ZaloWork', 'mẫu chat', 'web nhắn tin', 'danh bạ', 'nhóm chat', 'CRM chat'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-mang-xa-hoi/zalo/mau_1',
   },
   openGraph: {
     title: 'ZaloWork - Mẫu web chat kiểu Zalo',

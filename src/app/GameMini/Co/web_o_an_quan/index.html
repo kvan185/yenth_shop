@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ô Ăn Quan</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">◉</div>
+        <div>
+          <h1>Ô Ăn Quan</h1>
+          <p>2 người chơi cùng máy</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Người chơi 1</h2>
+        <p id="hint">Chọn ô bên mình để rải quân.</p>
+      </div>
+
+      <div class="score-grid">
+        <div class="card score">
+          <p class="label">Người chơi 1</p>
+          <h2 id="score1">0</h2>
+        </div>
+        <div class="card score">
+          <p class="label">Người chơi 2</p>
+          <h2 id="score2">0</h2>
+        </div>
+      </div>
+
+      <button id="newBtn" class="btn primary">Ván mới</button>
+      <button id="undoBtn" class="btn">Hoàn tác</button>
+    </aside>
+
+    <section class="board-wrap">
+      <div id="board" class="board"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList" class="moves"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật trong bản này</p>
+        <ul>
+          <li>5 ô dân mỗi bên và 2 ô quan</li>
+          <li>Rải quân theo chiều chọn</li>
+          <li>Ăn quân khi gặp ô trống rồi tới ô có quân</li>
+          <li>Quan tính 10 điểm</li>
+          <li>Hết quân bên mình sẽ vay quân</li>
+          <li>Hết quan thì kết thúc ván</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="dirModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Chọn hướng rải</h2>
+      <div class="dir-buttons">
+        <button id="leftBtn" class="btn">← Trái</button>
+        <button id="rightBtn" class="btn primary">Phải →</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="endModal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Kết thúc ván</h2>
+      <p id="endText"></p>
+      <button id="closeEnd" class="btn primary">Đóng</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

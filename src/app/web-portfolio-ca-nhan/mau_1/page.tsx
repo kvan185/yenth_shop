@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web portfolio cá nhân có hero, dự án nổi bật, kỹ năng, kinh nghiệm, testimonial và form liên hệ nhận brief.',
   keywords: ['Linh Studio', 'portfolio cá nhân', 'freelancer portfolio', 'case study', 'form brief'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-portfolio-ca-nhan/mau_1',
   },
   openGraph: {
     title: 'Linh Studio - Web portfolio cá nhân',

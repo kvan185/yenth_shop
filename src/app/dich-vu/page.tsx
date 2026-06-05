@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { seoLandingPages } from '@/data/seoLandingPages';
 
 export const metadata: Metadata = {
   title: 'Dịch vụ thiết kế web',
@@ -33,6 +34,16 @@ export default function ServicesPage() {
           <article key={title}>
             <h2>{title}</h2>
             <p>{text}</p>
+          </article>
+        ))}
+      </section>
+      <section className="simple-grid-section seo-cluster-list">
+        {seoLandingPages.map((page) => (
+          <article key={page.slug}>
+            <span>{page.eyebrow}</span>
+            <h2>{page.title}</h2>
+            <p>{page.description}</p>
+            <Link href={`/${page.slug}`}>Xem trang dịch vụ</Link>
           </article>
         ))}
       </section>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     'Mẫu web blog / tin tức có bài nổi bật, chuyên mục, danh sách bài viết, sidebar xu hướng, newsletter và hệ thống nội dung.',
   keywords: ['Insight Daily', 'web blog', 'web tin tức', 'newsletter', 'SEO content'],
   alternates: {
-    canonical: '/',
+    canonical: '/web-blog-tin-tuc/mau_1',
   },
   openGraph: {
     title: 'Insight Daily - Web blog / tin tức',

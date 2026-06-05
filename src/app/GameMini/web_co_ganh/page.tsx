@@ -1,0 +1,173 @@
+"use client";
+import React, { useEffect, useRef } from 'react';
+import Link from 'next/link';
+import { initLogic } from './logic';
+
+export default function WebCoGanh() {
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    // Inject CSS
+    const styleId = 'style-web_co_ganh';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.innerHTML = `*{box-sizing:border-box}
+:root{
+  --bg:#1e1712;--panel:#302218;--card:#422f20;--text:#fff4df;--muted:#dbc5a1;
+  --wood:#d59a55;--line:#563116;--white:#f7ead2;--black:#171717;--green:#5c9f43;--gold:#ffd66f;
+}
+body{
+  margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;color:var(--text);
+  background:radial-gradient(circle at top,#5b3d25 0,#241811 48%,#0b0705 100%);
+}
+.app{
+  min-height:100vh;display:grid;grid-template-columns:280px minmax(360px,650px) 310px;
+  gap:22px;align-items:center;justify-content:center;padding:22px;
+}
+.panel{background:rgba(48,34,24,.96);border-radius:22px;padding:20px;box-shadow:0 22px 70px rgba(0,0,0,.36)}
+.brand{display:flex;gap:14px;align-items:center;margin-bottom:22px}
+.logo{
+  width:58px;height:58px;border-radius:18px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#ffe2a0,#a96a31);color:#24140b;font-size:40px;font-weight:900;
+}
+h1,h2,p{margin:0}.brand h1{font-size:32px}.brand p,.label,#hint,.rules li{color:var(--muted)}
+.label{font-size:13px;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.card{background:rgba(66,47,32,.98);border-radius:16px;padding:16px;margin-bottom:14px}
+.card h2{font-size:26px;margin-bottom:8px}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.score h2{font-size:42px}
+.btn{
+  width:100%;border:0;border-radius:14px;padding:14px 16px;margin-top:10px;
+  background:#6a4b32;color:white;font-size:16px;font-weight:900;cursor:pointer;transition:.15s;
+}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.12)}.primary{background:linear-gradient(180deg,#76b85d,#458d3f)}
+.board-wrap{display:grid;place-items:center}
+.board{
+  position:relative;width:min(88vw,620px);aspect-ratio:1/1;
+  background:linear-gradient(145deg,#e4b06d,var(--wood));
+  border:16px solid #4a2a13;border-radius:24px;
+  box-shadow:0 28px 90px rgba(0,0,0,.45), inset 0 0 0 5px rgba(255,255,255,.16);
+  overflow:hidden;
+}
+.line{
+  position:absolute;height:4px;background:var(--line);transform-origin:left center;border-radius:8px;
+  box-shadow:0 1px 0 rgba(255,255,255,.18);
+}
+.point{
+  position:absolute;width:clamp(46px,8vw,70px);height:clamp(46px,8vw,70px);
+  transform:translate(-50%,-50%);border-radius:50%;display:grid;place-items:center;
+  cursor:pointer;z-index:5;
+}
+.point::before{
+  content:"";position:absolute;width:12px;height:12px;border-radius:50%;background:var(--line);opacity:.75;
+}
+.point.selected{outline:6px solid rgba(255,255,0,.75);background:rgba(255,255,0,.18)}
+.point.legal::after{
+  content:"";position:absolute;width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.3);
+}
+.point.last{background:rgba(255,255,255,.22)}
+.piece{
+  width:78%;height:78%;border-radius:50%;z-index:8;
+  box-shadow:0 7px 13px rgba(0,0,0,.45), inset 0 4px 8px rgba(255,255,255,.28);
+  border:4px solid rgba(255,255,255,.28);
+}
+.piece.w{background:radial-gradient(circle at 35% 25%,#fff,#f1dfbf 60%,#b98f58)}
+.piece.b{background:radial-gradient(circle at 35% 25%,#555,#171717 60%,#000)}
+.moves{max-height:430px;overflow:auto;margin:0;padding-left:22px;line-height:1.9}
+.rules ul{margin:0;padding-left:20px;line-height:1.7}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:grid;place-items:center;z-index:20}
+.modal.hidden{display:none}
+.modal-card{width:min(420px,92vw);background:var(--panel);border-radius:20px;padding:24px;text-align:center}
+.modal-card p{color:var(--muted);line-height:1.6;margin-top:10px}
+@media(max-width:1120px){.app{grid-template-columns:1fr}.panel,.board-wrap{width:min(680px,100%);margin:0 auto}}
+`;
+      document.head.appendChild(style);
+    }
+
+    // Run logic once
+    if (!initialized.current) {
+      initialized.current = true;
+      try {
+        initLogic();
+      } catch(err) {
+        console.error("Error running logic for web_co_ganh:", err);
+      }
+    }
+
+    return () => {
+      const s = document.getElementById(styleId);
+      if (s) s.remove();
+    };
+  }, []);
+
+  return (
+    <div className="web_co_ganh-wrapper" style={{ minHeight: '100vh', background: '#fff', position: 'relative' }}>
+      <Link href="/GameMini" style={{ position: 'absolute', top: 10, left: 10, zIndex: 1000, background: '#000', color: '#fff', padding: '5px 10px', textDecoration: 'none', borderRadius: '5px' }}>
+        &larr; Về trang chủ
+      </Link>
+      <div dangerouslySetInnerHTML={{ __html: `<main class="app">
+    <aside class="panel">
+      <div class="brand">
+        <div class="logo">◆</div>
+        <div>
+          <h1>Cờ Gánh</h1>
+          <p>2 người chơi cùng máy</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="label">Trạng thái</p>
+        <h2 id="status">Lượt Trắng</h2>
+        <p id="hint">Chọn quân để đi theo đường nối.</p>
+      </div>
+
+      <div class="score-grid">
+        <div class="card score">
+          <p class="label">Quân Trắng</p>
+          <h2 id="whiteCount">8</h2>
+        </div>
+        <div class="card score">
+          <p class="label">Quân Đen</p>
+          <h2 id="blackCount">8</h2>
+        </div>
+      </div>
+
+      <button id="newBtn" class="btn primary">Ván mới</button>
+      <button id="undoBtn" class="btn">Hoàn tác</button>
+      <button id="flipBtn" class="btn">Lật bàn</button>
+    </aside>
+
+    <section class="board-wrap">
+      <div id="board" class="board"></div>
+    </section>
+
+    <aside class="panel">
+      <div class="card">
+        <p class="label">Biên bản</p>
+        <ol id="moveList" class="moves"></ol>
+      </div>
+
+      <div class="card rules">
+        <p class="label">Luật trong bản này</p>
+        <ul>
+          <li>Bàn 5x5, mỗi bên 8 quân</li>
+          <li>Đi 1 bước theo đường nối tới điểm trống</li>
+          <li>Gánh: đi vào giữa 2 quân đối phương đối xứng thì đổi màu chúng</li>
+          <li>Vây: nhóm quân đối phương hết đường đi sẽ bị đổi màu</li>
+          <li>Ăn bằng cách đổi màu, không bỏ quân khỏi bàn</li>
+          <li>Đổi hết quân đối thủ là thắng</li>
+        </ul>
+      </div>
+    </aside>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Kết thúc ván</h2>
+      <p id="modalText"></p>
+      <button id="closeModal" class="btn primary">Đóng</button>
+    </div>
+  </div>` }} />
+    </div>
+  );
+}
