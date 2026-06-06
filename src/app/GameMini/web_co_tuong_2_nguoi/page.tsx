@@ -34,7 +34,8 @@ const markup = `
 
     <div class="card online-card">
       <p class="label">Chơi online</p>
-      <p id="onlineStatus" class="online-status">Mặc định chơi 1 máy. Tạo phòng để mời người khác.</p>
+      <p id="onlineStatus" class="online-status">Đang chơi 2 người cùng máy. Tạo phòng chỉ dùng khi muốn mời người khác qua link.</p>
+      <button id="localModeBtn" class="btn" type="button">Chơi 2 người cùng máy</button>
       <div class="room-actions">
         <button id="createRoomBtn" class="btn primary" type="button">Tạo phòng</button>
         <button id="copyRoomBtn" class="btn" type="button" disabled>Copy link</button>
@@ -184,6 +185,7 @@ export default function WebCoTuong2Nguoi() {
     }
 
     const onlineStatus = document.getElementById("onlineStatus");
+    const localModeBtn = document.getElementById("localModeBtn") as HTMLButtonElement | null;
     const createRoomBtn = document.getElementById("createRoomBtn") as HTMLButtonElement | null;
     const copyRoomBtn = document.getElementById("copyRoomBtn") as HTMLButtonElement | null;
     const joinRoomBtn = document.getElementById("joinRoomBtn") as HTMLButtonElement | null;
@@ -225,7 +227,7 @@ export default function WebCoTuong2Nguoi() {
       }, 1200);
     };
     const enterRoom = async (roomId: string) => {
-      if (!supabaseReady) { setOnlineStatus("Chưa cấu hình Supabase env nên hiện chỉ chơi được 1 máy."); return; }
+      if (!supabaseReady) { setOnlineStatus("Chưa cấu hình Supabase nên không vào phòng online được. Bạn vẫn chơi 2 người cùng máy bình thường."); return; }
       const room = await fetchRoom(roomId);
       if (!room) { setOnlineStatus("Không tìm thấy phòng này."); return; }
       const updates: Record<string, unknown> = {};
@@ -240,8 +242,19 @@ export default function WebCoTuong2Nguoi() {
       const role = playerColorRef.current ? `Bạn cầm quân ${playerColorRef.current === "r" ? "Đỏ" : "Đen"}` : "Bạn đang xem ván";
       setOnlineStatus(`Phòng ${roomId}. ${role}. Link đã sẵn sàng để copy.`);
     };
+    const enterLocalMode = (shouldStartNewGame = false) => {
+      stopPolling();
+      roomRef.current = "";
+      playerColorRef.current = null;
+      lastRemoteStampRef.current = "";
+      if (copyRoomBtn) copyRoomBtn.disabled = true;
+      if (roomInput) roomInput.value = "";
+      window.history.replaceState(null, "", window.location.pathname);
+      if (shouldStartNewGame) gameApiRef.current?.newGame(false);
+      setOnlineStatus("Đang chơi 2 người cùng máy: Đỏ và Đen thay phiên trên thiết bị này.");
+    };
     const createRoom = async () => {
-      if (!supabaseReady) { setOnlineStatus("Cần NEXT_PUBLIC_SUPABASE_URL và NEXT_PUBLIC_SUPABASE_ANON_KEY để tạo phòng online."); return; }
+      if (!supabaseReady) { enterLocalMode(false); return; }
       const roomId = Math.random().toString(36).slice(2, 8).toUpperCase();
       const res = await fetch(apiUrl(), { method: "POST", headers: { ...headers, Prefer: "return=representation" }, body: JSON.stringify({ id: roomId, state: gameApiRef.current?.getState(), red_id: clientIdRef.current, black_id: null, updated_at: new Date().toISOString() }) });
       if (!res.ok) { setOnlineStatus(`Không tạo được phòng: ${(await res.text()).slice(0, 120)}`); return; }
@@ -258,12 +271,14 @@ export default function WebCoTuong2Nguoi() {
       gameApiRef.current = initLogic({ isOnline: () => Boolean(roomRef.current), getPlayerColor: () => playerColorRef.current, onStateChange: pushState });
     }
     const onCreateRoom = () => void createRoom();
+    const onLocalMode = () => enterLocalMode(false);
     const onCopyRoom = () => void copyRoom();
     const onJoinRoom = () => { const roomId = normalizeRoomId(roomInput?.value || ""); if (roomId) void enterRoom(roomId); };
-    createRoomBtn?.addEventListener("click", onCreateRoom); copyRoomBtn?.addEventListener("click", onCopyRoom); joinRoomBtn?.addEventListener("click", onJoinRoom);
+    localModeBtn?.addEventListener("click", onLocalMode); createRoomBtn?.addEventListener("click", onCreateRoom); copyRoomBtn?.addEventListener("click", onCopyRoom); joinRoomBtn?.addEventListener("click", onJoinRoom);
     const urlRoom = new URLSearchParams(window.location.search).get("room"); if (urlRoom) { if (roomInput) roomInput.value = urlRoom; void enterRoom(urlRoom); }
+    else if (!supabaseReady) enterLocalMode(false);
 
-    return () => { stopPolling(); gameApiRef.current?.cleanup?.(); createRoomBtn?.removeEventListener("click", onCreateRoom); copyRoomBtn?.removeEventListener("click", onCopyRoom); joinRoomBtn?.removeEventListener("click", onJoinRoom); document.getElementById(styleId)?.remove(); };
+    return () => { stopPolling(); gameApiRef.current?.cleanup?.(); localModeBtn?.removeEventListener("click", onLocalMode); createRoomBtn?.removeEventListener("click", onCreateRoom); copyRoomBtn?.removeEventListener("click", onCopyRoom); joinRoomBtn?.removeEventListener("click", onJoinRoom); document.getElementById(styleId)?.remove(); };
   }, []);
 
   return (
