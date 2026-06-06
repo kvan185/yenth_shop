@@ -2,15 +2,15 @@ import Link from "next/link";
 
 const GAMES = [
   { id: "cau_sinh_vo_tan_game", name: "Cau Sinh Vo Tan" },
-  { id: "web_ban_linh_thuong_gia", name: "Ban Linh Thuong Gia" },
+  { id: "web_co_tuong_2_nguoi", name: "Co Tuong 2 Nguoi" },
+  { id: "web_co_vay_2_nguoi", name: "Co Vay 2 Nguoi" },
   { id: "web_chess_2_player", name: "Co Vua 2 Player" },
+  { id: "web_co_ganh", name: "Co Ganh" },
+  { id: "web_ban_linh_thuong_gia", name: "Ban Linh Thuong Gia" },
   { id: "web_co_ca_ngua", name: "Co Ca Ngua" },
   { id: "web_co_dam_checkers", name: "Co Dam Checkers" },
-  { id: "web_co_ganh", name: "Co Ganh" },
   { id: "web_co_thu_jungle_chess", name: "Co Thu Jungle Chess" },
-  { id: "web_co_tuong_2_nguoi", name: "Co Tuong 2 Nguoi" },
   { id: "web_co_ty_phu", name: "Co Ty Phu" },
-  { id: "web_co_vay_2_nguoi", name: "Co Vay 2 Nguoi" },
   { id: "web_hive_co_con_trung", name: "Co Con Trung Hive" },
   { id: "web_o_an_quan", name: "O An Quan" },
 ];
