@@ -1,27 +1,100 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ContactConversionForm } from '@/components/ContactConversionForm';
+import { NeedPicker } from '@/components/NeedPicker';
 import { blogPosts } from '@/data/blog';
 
 const metrics = [
-  ['24h', 'phản hồi audit đầu tiên'],
-  ['7 ngày', 'có bản demo để xem thật'],
-  ['5 event', 'đo CTA, Zalo, phone, email, form'],
+  ['24h', 'phản hồi hướng triển khai đầu tiên'],
+  ['7 ngày', 'có bản demo để duyệt bố cục'],
+  ['5 điểm chạm', 'form, Zalo, phone, email, CTA'],
+];
+
+const heroOutcomes = [
+  'Offer rõ trong 5 giây đầu',
+  'CTA Zalo/gọi/form xuất hiện đúng ngữ cảnh',
+  'SEO nền, schema và tracking được bàn giao cùng website',
+];
+
+const templateShowcase = [
+  {
+    title: 'Shop nhỏ bán sản phẩm',
+    image: '/previews/home-desktop.png',
+    href: '/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2',
+    tags: ['Danh mục', 'Chính sách', 'Hỏi mua Zalo'],
+  },
+  {
+    title: 'Landing page dịch vụ',
+    image: '/images/templates/landing-spa-hero.png',
+    href: '/landing-page-dich-vu/mau_1',
+    tags: ['Gói dịch vụ', 'FAQ', 'Form tư vấn'],
+  },
+  {
+    title: 'Portfolio cá nhân',
+    image: '/previews/portfolio-demo-desktop.png',
+    href: '/web-portfolio-ca-nhan/mau_1',
+    tags: ['Dự án', 'Uy tín cá nhân', 'Liên hệ nhanh'],
+  },
 ];
 
 const proofCases = [
   {
-    title: 'Trang dịch vụ YenTH Shop',
+    title: 'Trang dịch vụ có tracking và SEO nền',
     image: '/previews/home-desktop.png',
-    desc: 'Hero rõ offer, proof sớm, tracking conversion, Local SEO, blog SEO, schema, sitemap và form lead.',
+    desc: 'Cấu trúc hero, proof, bảng giá, Local SEO, blog SEO, schema, sitemap và form lead được gom vào một luồng chuyển đổi.',
     href: '/',
+    result: 'Phù hợp để chạy Google, Facebook, Zalo hoặc gửi link tư vấn.',
   },
   {
-    title: 'Mẫu portfolio cá nhân',
-    image: '/previews/portfolio-demo-desktop.png',
-    desc: 'Bố cục dành cho freelancer/chuyên gia cần câu chuyện cá nhân, dự án nổi bật và form liên hệ rõ.',
-    href: '/danh-muc',
+    title: 'Mẫu shop nhỏ có trang sản phẩm',
+    image: '/previews/home-desktop.png',
+    desc: 'Có danh mục, sản phẩm nổi bật, chứng nhận, blog, chính sách và nút hỏi mua để chủ shop không phải giải thích lại từ đầu.',
+    href: '/web-ban-hang-don-gian-cho-doanh-nghiep-nho/mau_2',
+    result: 'Phù hợp với đặc sản, mỹ phẩm, handmade, cửa hàng địa phương.',
   },
+];
+
+const caseStudies = [
+  {
+    title: 'Cửa hàng bán sản phẩm địa phương',
+    problem: 'Khách hỏi rải rác qua Facebook/Zalo nhưng chưa có nơi trình bày sản phẩm, chính sách và độ tin cậy.',
+    solution: 'Dựng web bán hàng gọn với danh mục sản phẩm, proof, chính sách, CTA Zalo và form hỏi nhu cầu.',
+    outcome: 'Khách có link rõ để xem trước khi hỏi mua, chủ shop giảm thời gian giải thích lại.',
+  },
+  {
+    title: 'Dịch vụ cần đặt lịch tư vấn',
+    problem: 'Khách nhắn tin nhưng thiếu thông tin, cuộc tư vấn đầu tiên mất nhiều thời gian hỏi lại.',
+    solution: 'Làm landing page có gói dịch vụ, FAQ, form lọc nhu cầu và CTA đặt lịch/gọi nhanh.',
+    outcome: 'Lead gửi về có ngữ cảnh hơn: loại dịch vụ, ngân sách, timeline và mô tả vấn đề.',
+  },
+  {
+    title: 'Chuyên gia/freelancer cần hồ sơ online',
+    problem: 'Portfolio nằm rải rác ở mạng xã hội, khó tạo cảm giác chuyên nghiệp khi gửi cho khách mới.',
+    solution: 'Gom câu chuyện cá nhân, dịch vụ, dự án nổi bật, lời chứng thực và form liên hệ vào một trang.',
+    outcome: 'Có một hồ sơ đáng tin để gửi trong đề xuất, email, CV hoặc tin nhắn tư vấn.',
+  },
+];
+
+const beforeAfterScenarios = [
+  {
+    before: 'Khách hỏi giá qua Zalo nhưng thiếu ngành nghề, ngân sách, timeline và loại website cần làm.',
+    after: 'Form lead hỏi đúng 4-5 thông tin chính, giúp buổi tư vấn đầu tiên đi thẳng vào cấu trúc trang và chi phí.',
+  },
+  {
+    before: 'Shop gửi album ảnh rời rạc qua Facebook, khách phải nhắn lại để hỏi sản phẩm, chính sách và phí giao.',
+    after: 'Website có danh mục, sản phẩm nổi bật, chính sách, chứng nhận và nút hỏi mua nhanh ở từng ngữ cảnh.',
+  },
+  {
+    before: 'Dịch vụ chạy quảng cáo nhưng landing page thiếu proof, FAQ và tracking nên khó biết kênh nào ra lead.',
+    after: 'Trang có proof sớm, FAQ xử lý phản đối, CTA rõ và event đo form, Zalo, phone, email.',
+  },
+];
+
+const buyerFaqs = [
+  ['Tôi chưa biết nên làm loại web nào?', 'Bắt đầu từ mục tiêu: cần khách gọi/Zalo, cần giới thiệu sản phẩm, cần đặt lịch hay cần quản lý dữ liệu. YenTH Shop sẽ gợi ý mẫu và gói sau buổi tư vấn đầu tiên.'],
+  ['Tôi chưa có ảnh và nội dung thì sao?', 'Có thể bắt đầu bằng nội dung nền: dịch vụ chính, lợi ích, quy trình, câu hỏi thường gặp và CTA. Ảnh có thể dùng ảnh thật hiện có hoặc chuẩn bị danh sách ảnh cần chụp.'],
+  ['Sau khi bàn giao có tự sửa được không?', 'Có hướng dẫn cập nhật phần nội dung cơ bản. Với nhu cầu sửa nhiều hoặc thêm tính năng, có thể tách thành hạng mục bảo trì/nâng cấp sau.'],
+  ['Website có giúp SEO ngay không?', 'Website được dựng nền kỹ thuật SEO: metadata, sitemap, robots, schema, nội dung dịch vụ và cấu trúc trang. SEO tăng trưởng cần thêm bài viết và tối ưu đều theo thời gian.'],
 ];
 
 const deliverables = [
@@ -57,23 +130,32 @@ const workflow = [
 
 const packages = [
   {
-    name: 'Starter',
+    name: 'Cơ bản',
     price: '2.900.000đ',
     label: 'Hiện diện nhanh',
-    text: 'Một trang giới thiệu gọn, CTA rõ, responsive, metadata cơ bản và form liên hệ.',
+    fit: 'Cá nhân, freelancer hoặc dịch vụ nhỏ cần có website gọn để gửi khách xem.',
+    timeline: '3-5 ngày',
+    text: 'Một trang giới thiệu rõ dịch vụ, có CTA gọi/Zalo/form, responsive và metadata cơ bản.',
+    includes: ['1 trang giới thiệu', 'CTA liên hệ rõ', 'Tối ưu mobile', 'SEO nền cơ bản'],
   },
   {
-    name: 'Growth',
+    name: 'Tăng trưởng',
     price: '5.900.000đ',
-    label: 'Được khuyên chọn',
+    label: 'Khuyên chọn',
     featured: true,
-    text: 'Landing page/website dịch vụ có proof, Local SEO, schema, tracking event, form conversion và Search Console.',
+    fit: 'Cửa hàng, spa, lớp học, tư vấn hoặc dịch vụ địa phương cần khách hỏi giá/đặt lịch.',
+    timeline: '7-10 ngày',
+    text: 'Website dịch vụ có proof, bảng giá, Local SEO, schema, tracking event, form conversion và Search Console.',
+    includes: ['3-5 section bán hàng', 'Bảng giá/gói dịch vụ', 'Local SEO + schema', 'Tracking chuyển đổi'],
   },
   {
-    name: 'Custom',
+    name: 'Theo yêu cầu',
     price: 'Từ 12.000.000đ',
     label: 'Neo giá trị',
-    text: 'Nhiều trang, blog SEO, quản lý sản phẩm, đặt lịch, dashboard hoặc tích hợp hệ thống riêng.',
+    fit: 'Doanh nghiệp cần nhiều trang, quy trình riêng, đăng bài, sản phẩm, đặt lịch hoặc hệ thống nội bộ.',
+    timeline: 'Theo phạm vi',
+    text: 'Xây theo luồng vận hành thật: nhiều trang, blog SEO, quản lý sản phẩm, đặt lịch, dashboard hoặc tích hợp riêng.',
+    includes: ['Nhiều trang/chức năng', 'Blog hoặc sản phẩm', 'Dashboard/tích hợp', 'Bàn giao theo milestone'],
   },
 ];
 
@@ -92,6 +174,13 @@ const trustSignals = [
   },
 ];
 
+const simpleTechProof = [
+  ['Tải nhanh trên điện thoại', 'Giao diện được ưu tiên cho màn hình nhỏ, nơi khách thường mở link từ Zalo, Facebook và Google.'],
+  ['Dễ chia sẻ lên mạng xã hội', 'Có tiêu đề, mô tả và ảnh preview để khi gửi link nhìn chuyên nghiệp hơn.'],
+  ['Sẵn sàng đo lường', 'Các nút liên hệ quan trọng được gắn tracking để biết khách đến từ đâu và bấm gì.'],
+  ['Dễ được Google hiểu', 'Có sitemap, robots, metadata, schema và nội dung dịch vụ/khu vực rõ ràng.'],
+];
+
 const trackingEvents = ['hero_cta_click', 'pricing_cta_click', 'zalo_click', 'phone_click', 'lead_form_submit'];
 
 const localAreas = [
@@ -101,6 +190,12 @@ const localAreas = [
   'Quận 1',
   'TP. Hồ Chí Minh',
   'Online toàn quốc',
+];
+
+const localSeoClusters = [
+  ['Theo khu vực', 'Bình Thạnh, Thủ Đức, Gò Vấp, Quận 1, TP.HCM'],
+  ['Theo ngành', 'spa, lớp học, tư vấn, sửa chữa, studio, shop đặc sản'],
+  ['Theo ý định tìm kiếm', 'thiết kế website giá rõ, landing page chạy quảng cáo, web bán hàng nhỏ'],
 ];
 
 const faqSchema = {
@@ -153,7 +248,7 @@ export default function Home() {
       <section className="hero redesign-hero">
         <Image
           src="/images/hero-workspace.png"
-          alt="Không gian làm việc thiết kế website chuyên nghiệp"
+          alt="Không gian làm việc thiết kế website chuyển đổi"
           fill
           priority
           className="hero-image"
@@ -161,21 +256,26 @@ export default function Home() {
         />
         <div className="hero-overlay" />
         <div className="hero-content redesign-hero-content">
-          <p className="eyebrow">Thiết kế web có proof, CTA và Local SEO</p>
-          <h1>Thiết kế web cho dịch vụ nhỏ cần đủ tin, đủ rõ và đo được lead.</h1>
+          <p className="eyebrow">Website có mẫu thật, SEO nền và đo chuyển đổi</p>
+          <h1>Thiết kế website/landing page cho shop nhỏ và dịch vụ cần khách liên hệ rõ ràng.</h1>
           <p>
-            YenTH Shop thiết kế website bán hàng, landing page và portfolio cho cá nhân/cửa hàng nhỏ
-            cần một trang web đẹp trên mobile, có nội dung SEO, tracking conversion và form hỏi đúng
-            nhu cầu khách hàng.
+            YenTH Shop dựng website theo mục tiêu kinh doanh: có mẫu để xem trước, nội dung dễ hiểu,
+            CTA đúng chỗ, form lọc nhu cầu và tracking để biết khách bấm vào đâu.
           </p>
+          <ul className="hero-outcomes" aria-label="Kết quả website cần đạt">
+            {heroOutcomes.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
           <div className="hero-actions">
             <Link href="/lien-he" className="btn btn-primary" data-track="hero_cta_click" data-track-category="conversion">
-              Nhận audit miễn phí trong 24h
+              Nhận tư vấn miễn phí
             </Link>
-            <Link href="#proof" className="btn btn-secondary" data-track="hero_proof_click">
-              Xem bố cục mẫu
+            <Link href="#kho-mau" className="btn btn-secondary" data-track="hero_template_click">
+              Xem mẫu website
             </Link>
           </div>
+          <p className="cta-trust-note">Không cần chốt gói ngay. Gửi nhu cầu trước, nhận hướng triển khai trong 24h.</p>
           <div className="hero-metrics" aria-label="Điểm mạnh dịch vụ">
             {metrics.map(([value, label]) => (
               <div key={label}>
@@ -191,13 +291,44 @@ export default function Home() {
         {deliverables.map((item) => (
           <span key={item}>{item}</span>
         ))}
-        <Link href="/thiet-ke-web">Trang SEO: thiết kế web</Link>
+        <Link href="/bang-gia">Xem bảng giá minh bạch</Link>
       </section>
+
+      <section id="kho-mau" className="redesign-section template-priority">
+        <div className="redesign-heading">
+          <p className="eyebrow">Kho mẫu nổi bật</p>
+          <h2>Xem nhanh mẫu phù hợp trước khi trao đổi chi phí.</h2>
+          <p>
+            Khách không cần tưởng tượng từ mô tả dài. Mỗi nhóm mẫu đi kèm mục tiêu chuyển đổi, nội dung cần có
+            và CTA phù hợp với hành vi mua hàng trên Google, Facebook, Zalo.
+          </p>
+        </div>
+        <div className="template-priority-grid">
+          {templateShowcase.map((item) => (
+            <article key={item.title}>
+              <Link href={item.href} className="template-priority-image">
+                <Image src={item.image} alt={item.title} fill sizes="(max-width: 820px) 100vw, 33vw" />
+              </Link>
+              <div>
+                <h3>{item.title}</h3>
+                <div className="template-priority-tags">
+                  {item.tags.map((tag) => (
+                    <span key={tag}>{tag}</span>
+                  ))}
+                </div>
+                <Link href={item.href}>Xem demo</Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <NeedPicker />
 
       <section id="proof" className="redesign-section proof-lab">
         <div className="redesign-heading">
           <p className="eyebrow">Proof thực tế</p>
-          <h2>Đưa preview thật lên sớm để khách không phải tin bằng lời nói.</h2>
+          <h2>Preview thật, vấn đề thật và kết quả kỳ vọng rõ ràng.</h2>
         </div>
         <div className="proof-lab-grid">
           {proofCases.map((item) => (
@@ -208,6 +339,60 @@ export default function Home() {
               <div>
                 <h3>{item.title}</h3>
                 <p>{item.desc}</p>
+                <strong>{item.result}</strong>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="redesign-section case-study-lab">
+        <div className="redesign-heading">
+          <p className="eyebrow">Case study định hướng</p>
+          <h2>Mỗi website nên bắt đầu từ một vấn đề kinh doanh cụ thể.</h2>
+          <p>
+            Nếu chưa có dự án thật để công khai, các tình huống dưới đây giúp bạn hình dung cách YenTH Shop
+            biến nhu cầu phổ biến thành cấu trúc trang, CTA và nội dung bàn giao.
+          </p>
+        </div>
+        <div className="case-study-grid">
+          {caseStudies.map((item) => (
+            <article key={item.title}>
+              <h3>{item.title}</h3>
+              <dl>
+                <div>
+                  <dt>Vấn đề</dt>
+                  <dd>{item.problem}</dd>
+                </div>
+                <div>
+                  <dt>Giải pháp</dt>
+                  <dd>{item.solution}</dd>
+                </div>
+                <div>
+                  <dt>Kết quả kỳ vọng</dt>
+                  <dd>{item.outcome}</dd>
+                </div>
+              </dl>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="redesign-section before-after-lab">
+        <div className="redesign-heading">
+          <p className="eyebrow">Trước / sau</p>
+          <h2>Biến những điểm nghẽn bán hàng thường gặp thành luồng website rõ ràng.</h2>
+        </div>
+        <div className="before-after-grid">
+          {beforeAfterScenarios.map((item) => (
+            <article key={item.before}>
+              <div>
+                <span>Trước</span>
+                <p>{item.before}</p>
+              </div>
+              <div>
+                <span>Sau</span>
+                <p>{item.after}</p>
               </div>
             </article>
           ))}
@@ -267,6 +452,21 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="redesign-section tech-proof-lab">
+        <div className="redesign-heading">
+          <p className="eyebrow">Kỹ thuật nói bằng lợi ích</p>
+          <h2>Những phần kỹ thuật được chuyển thành điều khách hàng thật sự cảm nhận được.</h2>
+        </div>
+        <div className="tech-proof-grid">
+          {simpleTechProof.map(([title, text]) => (
+            <article key={title}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
       <section id="local-seo" className="redesign-section local-lab">
         <div className="redesign-heading">
           <p className="eyebrow">Local SEO</p>
@@ -281,12 +481,24 @@ export default function Home() {
             <span key={area}>{area}</span>
           ))}
         </div>
+        <div className="local-cluster-grid">
+          {localSeoClusters.map(([title, text]) => (
+            <article key={title}>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="goi-gia" className="redesign-section price-lab">
         <div className="redesign-heading">
-          <p className="eyebrow">Gói giá</p>
-          <h2>Gói Custom làm neo giá trị, Growth là lựa chọn hợp lý nhất cho đa số dịch vụ nhỏ.</h2>
+          <p className="eyebrow">Bảng giá minh bạch</p>
+          <h2>Biết trước khoảng đầu tư, phạm vi bàn giao và gói nào hợp với giai đoạn hiện tại.</h2>
+          <p>
+            Giá được chia theo mục tiêu sử dụng để bạn dễ so sánh: cần hiện diện nhanh, cần tạo lead đều hơn,
+            hay cần xây hệ thống riêng có nhiều trang và chức năng.
+          </p>
         </div>
         <div className="price-lab-grid">
           {packages.map((item) => (
@@ -295,11 +507,29 @@ export default function Home() {
               <h3>{item.name}</h3>
               <strong>{item.price}</strong>
               <p>{item.text}</p>
+              <div className="price-fit">
+                <b>Phù hợp:</b>
+                <small>{item.fit}</small>
+              </div>
+              <ul>
+                {item.includes.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+              <div className="price-meta">
+                <b>Thời gian:</b>
+                <small>{item.timeline}</small>
+              </div>
               <Link href="#lien-he" data-track="pricing_cta_click" data-track-category="conversion" data-track-label={item.name}>
                 Trao đổi gói này
               </Link>
             </article>
           ))}
+        </div>
+        <div className="price-assurance">
+          <strong>Không chốt gói khi chưa hiểu nhu cầu.</strong>
+          <span>Buổi tư vấn đầu tiên dùng để xác định loại website, nội dung cần có, CTA chính và phạm vi chi phí phù hợp.</span>
+          <Link href="/bang-gia">Xem trang bảng giá đầy đủ</Link>
         </div>
       </section>
 
@@ -315,6 +545,21 @@ export default function Home() {
               <h3>{post.title}</h3>
               <p>{post.description}</p>
               <Link href={`/blog/${post.slug}`}>Đọc bài</Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="redesign-section buyer-faq-lab">
+        <div className="redesign-heading">
+          <p className="eyebrow">Câu hỏi trước khi làm web</p>
+          <h2>Trả lời sớm những điều khách thường phân vân trước khi liên hệ.</h2>
+        </div>
+        <div className="buyer-faq-list">
+          {buyerFaqs.map(([question, answer]) => (
+            <article key={question}>
+              <h3>{question}</h3>
+              <p>{answer}</p>
             </article>
           ))}
         </div>
@@ -336,6 +581,11 @@ export default function Home() {
               Chat Zalo
             </a>
           </div>
+          <ul className="contact-trust-list">
+            <li>Không cần chuẩn bị nội dung hoàn chỉnh trước khi hỏi.</li>
+            <li>Tư vấn loại web và gói phù hợp trước, báo giá sau khi rõ phạm vi.</li>
+            <li>Ưu tiên trả lời bằng hướng triển khai cụ thể, không chỉ gửi bảng giá.</li>
+          </ul>
         </div>
         <ContactConversionForm />
       </section>

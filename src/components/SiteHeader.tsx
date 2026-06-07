@@ -4,32 +4,28 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const primaryLinks = [
-  { href: '/home', label: 'Home' },
-  { href: '/danh-muc', label: 'Danh mục' },
+  { href: '/danh-muc', label: 'Mẫu web' },
   { href: '/dich-vu', label: 'Dịch vụ' },
-  { href: '/thiet-ke-web', label: 'Thiết kế web' },
-  { href: '/thiet-ke-website-ban-hang', label: 'Web bán hàng' },
-  { href: '/GameMini', label: 'GameMini' },
+  { href: '/bang-gia', label: 'Bảng giá' },
+  { href: '/quy-trinh', label: 'Quy trình' },
   { href: '/blog', label: 'Blog' },
 ];
 
 const secondaryLinks = [
-  { href: '/lien-he', label: 'Liên hệ' },
-  { href: '/bang-gia', label: 'Bảng giá' },
-  { href: '/quy-trinh', label: 'Quy trình' },
+  { href: '/thiet-ke-web', label: 'Thiết kế web' },
   { href: '/local-seo', label: 'Local SEO' },
   { href: '/thiet-ke-landing-page', label: 'Landing page' },
   { href: '/thiet-ke-web-tai-tp-ho-chi-minh', label: 'Web TP.HCM' },
+  { href: '/GameMini', label: 'Lab demo' },
   { href: '/dang-nhap', label: 'Đăng nhập' },
   { href: '/dang-ky', label: 'Đăng ký' },
 ];
 
 const mobileLinks = [
   { href: '/home', label: 'Home' },
-  { href: '/danh-muc', label: 'Danh mục' },
+  { href: '/danh-muc', label: 'Mẫu web' },
   { href: '/dich-vu', label: 'Dịch vụ' },
-  { href: '/thiet-ke-web', label: 'Thiết kế web' },
-  { href: '/GameMini', label: 'GameMini' },
+  { href: '/bang-gia', label: 'Bảng giá' },
   { href: '/lien-he', label: 'Liên hệ' },
 ];
 
@@ -77,7 +73,7 @@ export function SiteHeader() {
                 data-track="header_cta_click"
                 data-track-category="conversion"
               >
-                Audit miễn phí
+                Nhận tư vấn
               </Link>
             </nav>
 
@@ -92,6 +88,9 @@ export function SiteHeader() {
                   {link.label}
                 </Link>
               ))}
+              <a href="https://zalo.me/0375266538" target="_blank" rel="noreferrer" data-track="header_zalo_click">
+                Chat Zalo
+              </a>
               <a href="tel:0375266538">0375 266 538</a>
             </div>
           </div>

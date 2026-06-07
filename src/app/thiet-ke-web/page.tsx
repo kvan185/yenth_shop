@@ -49,6 +49,14 @@ const useCases = [
   },
 ];
 
+const industryPages = [
+  ['Web bán yến', '/thiet-ke-web-ban-yen'],
+  ['Web spa', '/thiet-ke-web-spa'],
+  ['Web nha khoa', '/thiet-ke-web-nha-khoa'],
+  ['Web nhà hàng', '/thiet-ke-web-nha-hang'],
+  ['Web giáo viên/khóa học', '/thiet-ke-web-giao-vien-khoa-hoc'],
+];
+
 const seoSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -114,6 +122,20 @@ export default function WebDesignLandingPage() {
               <h3>{item.title}</h3>
               <p>{item.text}</p>
             </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="keyword-section industry-link-lab">
+        <div className="redesign-heading">
+          <p className="eyebrow">Theo ngành</p>
+          <h2>Chọn trang gần ngành của bạn để xem cấu trúc nội dung và SEO phù hợp hơn.</h2>
+        </div>
+        <div className="industry-link-grid">
+          {industryPages.map(([label, href]) => (
+            <Link href={href} key={href}>
+              {label}
+            </Link>
           ))}
         </div>
       </section>
