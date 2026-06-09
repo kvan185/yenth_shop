@@ -32,14 +32,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
-    "**/*.mts",
     ".next-yenth/types/**/*.ts",
     ".next-yenth/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "src/GameMini_APP_source"
+    "node_modules"
   ]
 }

@@ -3,7 +3,6 @@ node_modules
 .next-yenth
 out
 dist
-public/previews
 *.log
 .env*
 tsconfig.tsbuildinfo
