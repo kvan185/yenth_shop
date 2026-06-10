@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { primaryDomain } from '@/lib/domainConfig';
 import { monetizationItems, seoPages } from '@/lib/businessData';
 
 export const metadata = {
@@ -9,7 +10,7 @@ export default function AdminPage() {
   return (
     <main className="admin-page">
       <header className="simple-header">
-        <Link href="/">YenTH Tử Vi</Link>
+        <Link href="/">YenTH {primaryDomain.shortName}</Link>
         <nav>
           <Link href="/cong-cu">Công cụ</Link>
           <Link href="/">Trang chủ</Link>

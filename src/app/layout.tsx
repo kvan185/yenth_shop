@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from 'next';
+import { primaryDomain } from '@/lib/domainConfig';
 import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://yenth.shop'),
-  applicationName: 'YenTH Tử Vi',
+  applicationName: `YenTH ${primaryDomain.shortName}`,
   title: {
-    default: 'YenTH Tử Vi - Xem tử vi cá nhân, bói tình duyên và ngày tốt',
-    template: '%s | YenTH Tử Vi',
+    default: `YenTH ${primaryDomain.shortName} - Xem tử vi cá nhân, bói tình duyên và ngày tốt`,
+    template: `%s | YenTH ${primaryDomain.shortName}`,
   },
   description:
-    'Web tử vi cá nhân hóa: xem vận trình hôm nay, bói tình duyên, chọn ngày tốt và mở khóa báo cáo chuyên sâu.',
+    'Web huyền học cá nhân hóa: xem vận trình hôm nay, bói tình duyên, chọn ngày tốt và mở khóa báo cáo chuyên sâu.',
   keywords: [
     'tử vi',
     'xem bói',
@@ -17,13 +18,13 @@ export const metadata: Metadata = {
     'bói tình yêu',
     'xem ngày tốt',
     'lá số tử vi',
-    'tử vi 2026',
+    'phong thủy',
   ],
   openGraph: {
-    title: 'YenTH Tử Vi - Xem tử vi cá nhân hóa',
+    title: `YenTH ${primaryDomain.shortName} - Xem tử vi cá nhân hóa`,
     description: 'Nhập ngày sinh để nhận bản đọc nhanh về tình duyên, tài lộc, sự nghiệp và ngày tốt.',
     url: '/',
-    siteName: 'YenTH Tử Vi',
+    siteName: `YenTH ${primaryDomain.shortName}`,
     locale: 'vi_VN',
     type: 'website',
   },
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  themeColor: '#132022',
+  themeColor: '#2a241d',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

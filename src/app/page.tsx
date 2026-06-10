@@ -2,25 +2,19 @@
 
 import { FormEvent, useMemo, useState } from 'react';
 import Link from 'next/link';
+import { mysticDomains, primaryDomain, trustItems } from '@/lib/domainConfig';
 import { buildFortuneReading } from '@/lib/fortuneEngine';
 
-const readingModes = [
-  { id: 'overview', label: 'Tổng quan', title: 'Tổng quan', question: '3 tháng tới mình nên tập trung điều gì?' },
-  { id: 'love', label: 'Tình duyên', title: 'Tình duyên', question: 'Tình duyên 3 tháng tới có chuyển biến không?' },
-  { id: 'money', label: 'Tài lộc', title: 'Tài lộc', question: 'Tài lộc sắp tới nên mở hay nên giữ?' },
-  { id: 'career', label: 'Sự nghiệp', title: 'Sự nghiệp', question: 'Công việc sắp tới có cơ hội nào đáng chú ý?' },
-] as const;
-
-const trustItems = ['Trả kết quả trong 10 giây', 'Không cần đăng ký', 'Có gợi ý hành động ngay'];
+const readingModes = primaryDomain.modes;
 
 export default function Home() {
   const [name, setName] = useState('Khánh Vân');
   const [birthDate, setBirthDate] = useState('2004-05-18');
   const [birthHour, setBirthHour] = useState('09:00');
   const [activeMode, setActiveMode] = useState<(typeof readingModes)[number]['id']>('love');
-  const [question, setQuestion] = useState<string>(readingModes[1].question);
+  const [question, setQuestion] = useState(readingModes[1].question);
   const [contact, setContact] = useState('');
-  const [need, setNeed] = useState('Báo cáo tử vi 12 tháng');
+  const [need, setNeed] = useState(primaryDomain.offerings[0]);
   const [submitted, setSubmitted] = useState(true);
   const [showQuickSummary, setShowQuickSummary] = useState(false);
   const [leadStatus, setLeadStatus] = useState('');
@@ -75,8 +69,8 @@ export default function Home() {
   return (
     <main className="fortune-app">
       <header className="topbar fortune-nav">
-        <a className="brand" href="#xem-ngay" aria-label="YenTH Tử Vi">
-          YenTH <span>Tử Vi</span>
+        <a className="brand" href="#xem-ngay" aria-label={`YenTH ${primaryDomain.shortName}`}>
+          YenTH <span>{primaryDomain.shortName}</span>
         </a>
         <nav aria-label="Điều hướng chính">
           <a href="#xem-ngay">Xem ngay</a>
@@ -87,11 +81,17 @@ export default function Home() {
       </header>
 
       <section className="oracle-screen" id="xem-ngay">
+        <div className="seal-mark" aria-hidden="true">印</div>
         <div className="oracle-shell">
           <div className="oracle-intro">
-            <span className="section-kicker">Xem bói cá nhân miễn phí</span>
-            <h1>Nhập ngày sinh, nhận bản đọc riêng cho bạn.</h1>
-            <p>Trải nghiệm được thiết kế để người dùng thấy giá trị ngay: ít trường nhập, kết quả rõ điểm chính, và lời khuyên đủ để hành động.</p>
+            <span className="section-kicker">{primaryDomain.accent}</span>
+            <h1>{primaryDomain.name} cho hôm nay.</h1>
+            <p>{primaryDomain.description}</p>
+            <div className="domain-row" aria-label="Các lĩnh vực có thể mở rộng">
+              {mysticDomains.map((domain) => (
+                <span className={domain.id === primaryDomain.id ? 'active' : ''} key={domain.id}>{domain.navLabel}</span>
+              ))}
+            </div>
             <div className="mode-tabs" aria-label="Chọn chủ đề xem bói">
               {readingModes.map((mode) => (
                 <button className={activeMode === mode.id ? 'active' : ''} key={mode.id} type="button" onClick={() => chooseMode(mode)}>
@@ -204,7 +204,7 @@ export default function Home() {
               <div className="unlock-box premium-box">
                 <div>
                   <strong>Báo cáo chi tiết 12 tháng</strong>
-                  <span>Mở toàn bộ tháng, ngày nên hành động, checklist tình duyên, tiền bạc và prompt AI viết bản dài.</span>
+                  <span>Mở toàn bộ tháng, ngày nên hành động, checklist tình duyên, tiền bạc và phần luận giải có thể chăm sóc lại qua Zalo.</span>
                   {reportStatus ? <em>{reportStatus}</em> : null}
                 </div>
                 <button className="button dark" type="button" onClick={unlockReport}>Tạo mã 48.000đ</button>
@@ -216,15 +216,15 @@ export default function Home() {
 
       <section className="experience-band">
         <div>
-          <span className="section-kicker">Vì sao giữ chân được khách</span>
-          <h2>Xem nhanh trước, mở sâu sau.</h2>
-          <p>Khách cần thấy kết quả đúng mình trước khi để lại thông tin. Bố cục mới ưu tiên cảm giác được dẫn dắt, giảm hỏi lan man và đặt CTA đúng lúc.</p>
+          <span className="section-kicker">Nền tảng có thể mở rộng</span>
+          <h2>Một khung trải nghiệm, nhiều nhánh huyền học.</h2>
+          <p>Các lĩnh vực được khai báo bằng cấu hình riêng. Khi thêm phong thủy, lịch ngày tốt hoặc bài tarot, có thể thêm module dữ liệu và giao diện con mà không phải viết lại toàn bộ trang.</p>
         </div>
         <div className="experience-grid">
-          <article><strong>01</strong><span>Nhập ít, thấy kết quả ngay.</span></article>
-          <article><strong>02</strong><span>Tóm tắt trước để tạo niềm tin.</span></article>
-          <article><strong>03</strong><span>Nội dung chia khối để dễ quét mắt.</span></article>
-          <article><strong>04</strong><span>Mở báo cáo sau khi đã có lý do rõ ràng.</span></article>
+          <article><strong>01</strong><span>Cấu hình lĩnh vực nằm riêng trong domainConfig.</span></article>
+          <article><strong>02</strong><span>Engine luận giải tách khỏi giao diện.</span></article>
+          <article><strong>03</strong><span>Copy ít thuật ngữ, gần chất tư vấn thủ công.</span></article>
+          <article><strong>04</strong><span>CTA và lead form dùng chung cho các nhánh sau.</span></article>
         </div>
       </section>
 
@@ -237,10 +237,7 @@ export default function Home() {
         <form className="lead-form" onSubmit={submitLead}>
           <input value={contact} onChange={(event) => setContact(event.target.value)} placeholder="Số điện thoại hoặc Zalo" aria-label="Số điện thoại hoặc Zalo" />
           <select value={need} onChange={(event) => setNeed(event.target.value)} aria-label="Nhu cầu">
-            <option>Báo cáo tử vi 12 tháng</option>
-            <option>Xem tuổi hợp nhau</option>
-            <option>Chọn ngày tốt</option>
-            <option>Tư vấn phong thủy</option>
+            {primaryDomain.offerings.map((offering) => <option key={offering}>{offering}</option>)}
           </select>
           <button className="button primary" type="submit">Gửi yêu cầu</button>
           {leadStatus ? <p className="fineprint">{leadStatus}</p> : null}

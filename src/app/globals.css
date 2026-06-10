@@ -882,11 +882,15 @@ textarea:hover {
 }
 
 .fortune-app {
-  background: #f7f3ed;
+  background:
+    linear-gradient(90deg, rgba(24, 33, 35, 0.035) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(24, 33, 35, 0.025) 1px, transparent 1px),
+    #f4efe5;
+  background-size: 38px 38px;
 }
 
 .fortune-nav {
-  background: rgba(18, 29, 31, 0.94);
+  background: rgba(39, 35, 29, 0.92);
 }
 
 .oracle-screen {
@@ -895,11 +899,44 @@ textarea:hover {
   overflow: hidden;
   padding: 104px clamp(18px, 5vw, 72px) 62px;
   background:
-    radial-gradient(circle at 76% 12%, rgba(242, 197, 107, 0.24), transparent 28%),
-    radial-gradient(circle at 12% 34%, rgba(17, 107, 99, 0.28), transparent 30%),
-    linear-gradient(140deg, rgba(19, 32, 34, 0.97), rgba(23, 40, 72, 0.92) 48%, rgba(143, 49, 69, 0.9)),
-    var(--night);
-  color: #fff;
+    linear-gradient(90deg, rgba(116, 37, 37, 0.09) 1px, transparent 1px),
+    linear-gradient(0deg, rgba(116, 37, 37, 0.06) 1px, transparent 1px),
+    linear-gradient(135deg, rgba(255, 252, 244, 0.96), rgba(238, 227, 205, 0.94) 54%, rgba(216, 196, 164, 0.92)),
+    #f3ead8;
+  background-size: 42px 42px, 42px 42px, auto;
+  color: var(--ink);
+}
+
+.oracle-screen::before {
+  content: "";
+  position: absolute;
+  inset: 76px clamp(16px, 4vw, 58px) auto auto;
+  width: min(360px, 48vw);
+  aspect-ratio: 1;
+  border: 1px solid rgba(116, 37, 37, 0.18);
+  opacity: 0.48;
+  background:
+    linear-gradient(45deg, transparent 49.5%, rgba(116, 37, 37, 0.2) 50%, transparent 50.5%),
+    linear-gradient(-45deg, transparent 49.5%, rgba(116, 37, 37, 0.2) 50%, transparent 50.5%);
+  transform: rotate(45deg);
+  pointer-events: none;
+}
+
+.seal-mark {
+  position: absolute;
+  right: clamp(22px, 7vw, 110px);
+  top: 118px;
+  display: grid;
+  width: 72px;
+  height: 72px;
+  place-items: center;
+  border: 2px solid rgba(143, 49, 69, 0.72);
+  color: rgba(143, 49, 69, 0.78);
+  font-family: Georgia, serif;
+  font-size: 2.1rem;
+  font-weight: 900;
+  transform: rotate(-8deg);
+  pointer-events: none;
 }
 
 .oracle-shell {
@@ -916,34 +953,60 @@ textarea:hover {
 }
 
 .oracle-intro h1 {
-  max-width: 980px;
+  max-width: 900px;
   margin-bottom: 0;
-  color: #fff;
-  font-size: clamp(2.4rem, 6.4vw, 6.2rem);
+  color: #2a241d;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(2.4rem, 5.2vw, 5.1rem);
+  overflow-wrap: normal;
+  word-break: keep-all;
+  text-wrap: balance;
 }
 
 .oracle-intro p {
   max-width: 780px;
   margin-bottom: 0;
-  color: rgba(255, 255, 255, 0.78);
+  color: #5f5548;
   font-size: 1.06rem;
 }
 
+.domain-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.domain-row span {
+  border: 1px solid rgba(143, 49, 69, 0.18);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #665a4b;
+  background: rgba(255, 252, 244, 0.62);
+  font-weight: 900;
+}
+
+.domain-row .active {
+  color: #fffaf2;
+  border-color: rgba(143, 49, 69, 0.7);
+  background: #8f3145;
+}
+
 .oracle-preview {
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(143, 49, 69, 0.18);
   border-radius: 8px;
   padding: 22px;
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 70px rgba(7, 12, 14, 0.24);
-  backdrop-filter: blur(18px);
+  background: rgba(255, 252, 244, 0.76);
+  box-shadow: 0 24px 70px rgba(61, 42, 26, 0.12);
+  backdrop-filter: blur(10px);
   transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .oracle-preview:hover {
   transform: translateY(-3px);
-  border-color: rgba(242, 197, 107, 0.34);
-  background: rgba(255, 255, 255, 0.13);
-  box-shadow: 0 30px 86px rgba(7, 12, 14, 0.3);
+  border-color: rgba(143, 49, 69, 0.32);
+  background: rgba(255, 252, 244, 0.92);
+  box-shadow: 0 30px 86px rgba(61, 42, 26, 0.16);
 }
 
 .oracle-preview span,
@@ -952,7 +1015,7 @@ textarea:hover {
 }
 
 .oracle-preview span {
-  color: #f2c56b;
+  color: var(--wine);
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.12em;
@@ -967,7 +1030,7 @@ textarea:hover {
 
 .oracle-preview p {
   margin: 14px 0 0;
-  color: rgba(255, 255, 255, 0.76);
+  color: #675b4e;
   font-weight: 750;
 }
 
@@ -980,11 +1043,11 @@ textarea:hover {
 
 .mode-tabs button {
   min-height: 40px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 999px;
+  border: 1px solid rgba(143, 49, 69, 0.18);
+  border-radius: 8px;
   padding: 8px 13px;
-  color: rgba(255, 255, 255, 0.82);
-  background: rgba(255, 255, 255, 0.08);
+  color: #5f5548;
+  background: rgba(255, 252, 244, 0.62);
   cursor: pointer;
   font-weight: 900;
   transition: background 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
@@ -992,9 +1055,9 @@ textarea:hover {
 
 .mode-tabs button.active,
 .mode-tabs button:hover {
-  color: var(--night);
-  background: #f2c56b;
-  border-color: #f2c56b;
+  color: #fffaf2;
+  background: #8f3145;
+  border-color: #8f3145;
   transform: translateY(-1px);
 }
 
@@ -1004,18 +1067,18 @@ textarea:hover {
   gap: 14px;
   align-items: end;
   margin-top: 28px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(143, 49, 69, 0.16);
   border-radius: 8px;
   padding: 16px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 26px 80px rgba(10, 15, 18, 0.24);
+  background: rgba(255, 252, 244, 0.96);
+  box-shadow: 0 26px 80px rgba(61, 42, 26, 0.16);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
 .oracle-form:hover,
 .oracle-form:focus-within {
-  border-color: rgba(242, 197, 107, 0.42);
-  box-shadow: 0 30px 92px rgba(10, 15, 18, 0.3);
+  border-color: rgba(143, 49, 69, 0.32);
+  box-shadow: 0 30px 92px rgba(61, 42, 26, 0.2);
 }
 
 .oracle-form .field,
@@ -1050,11 +1113,11 @@ textarea:hover {
 }
 
 .micro-trust span {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
+  border: 1px solid rgba(143, 49, 69, 0.14);
+  border-radius: 8px;
   padding: 7px 11px;
-  color: rgba(255, 255, 255, 0.75);
-  background: rgba(255, 255, 255, 0.07);
+  color: #6b604f;
+  background: rgba(255, 252, 244, 0.6);
   font-size: 0.86rem;
   font-weight: 800;
   transition: transform 160ms ease, color 160ms ease, background 160ms ease, border-color 160ms ease;
@@ -1062,19 +1125,22 @@ textarea:hover {
 
 .micro-trust span:hover {
   transform: translateY(-1px);
-  color: #fff;
-  border-color: rgba(242, 197, 107, 0.28);
-  background: rgba(255, 255, 255, 0.12);
+  color: #2a241d;
+  border-color: rgba(143, 49, 69, 0.28);
+  background: rgba(255, 252, 244, 0.9);
 }
 
 .reading-stage {
   margin-top: 26px;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(143, 49, 69, 0.16);
   border-radius: 8px;
   padding: clamp(18px, 3vw, 30px);
   color: var(--ink);
-  background: linear-gradient(180deg, #fff, #fffaf2);
-  box-shadow: 0 28px 90px rgba(10, 15, 18, 0.22);
+  background:
+    linear-gradient(90deg, rgba(196, 137, 43, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, #fffdf7, #fff8ed);
+  background-size: 32px 32px, auto;
+  box-shadow: 0 28px 90px rgba(61, 42, 26, 0.16);
 }
 
 .result-hero {
@@ -1212,7 +1278,7 @@ textarea:hover {
 }
 
 .premium-box {
-  background: linear-gradient(135deg, #116b63, #172848 56%, #a83c55);
+  background: linear-gradient(135deg, #23423d, #2a241d 56%, #8f3145);
 }
 
 .summary-pills {

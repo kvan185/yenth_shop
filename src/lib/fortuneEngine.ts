@@ -51,6 +51,7 @@ const stems = ['Giáp', 'Ất', 'Bính', 'Đinh', 'Mậu', 'Kỷ', 'Canh', 'Tân
 const branches = ['Tý', 'Sửu', 'Dần', 'Mão', 'Thìn', 'Tỵ', 'Ngọ', 'Mùi', 'Thân', 'Dậu', 'Tuất', 'Hợi'] as const;
 const animals = ['Chuột', 'Trâu', 'Hổ', 'Mèo', 'Rồng', 'Rắn', 'Ngựa', 'Dê', 'Khỉ', 'Gà', 'Chó', 'Heo'] as const;
 const elements = ['Kim', 'Thủy', 'Mộc', 'Hỏa', 'Thổ'] as const;
+
 const colors: Record<string, string> = {
   Kim: 'trắng ngà',
   Thủy: 'xanh biển',

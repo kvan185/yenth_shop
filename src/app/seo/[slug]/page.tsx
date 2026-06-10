@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { primaryDomain } from '@/lib/domainConfig';
 import { seoPages } from '@/lib/businessData';
 
 export function generateStaticParams() {
@@ -24,7 +25,7 @@ export default async function SeoLandingPage({ params }: SeoPageProps) {
   return (
     <main className="article-page">
       <header className="simple-header">
-        <Link href="/">YenTH Tử Vi</Link>
+        <Link href="/">YenTH {primaryDomain.shortName}</Link>
         <nav>
           <Link href="/cong-cu">Công cụ</Link>
           <Link href="/">Xem cá nhân</Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { primaryDomain } from '@/lib/domainConfig';
 import { buildTodayFortunes, pickAuspiciousDays, scoreCompatibility } from '@/lib/fortuneEngine';
 
 export const metadata = {
@@ -14,7 +15,7 @@ export default function ToolsPage() {
   return (
     <main className="tool-page">
       <header className="simple-header">
-        <Link href="/">YenTH Tử Vi</Link>
+        <Link href="/">YenTH {primaryDomain.shortName}</Link>
         <nav>
           <Link href="/admin">Admin</Link>
           <Link href="/">Trang chủ</Link>
