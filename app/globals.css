@@ -1876,6 +1876,40 @@ body {
   font-weight: 900;
 }
 
+.audioIconButton {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0;
+  background: #ffffff;
+  color: var(--primary-dark);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.audioIconButton:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.audioIconButton.playing {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 5px rgba(12, 116, 102, 0.13);
+  color: var(--primary);
+}
+
+.audioIconButton svg {
+  display: block;
+}
+
 .answerList {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { LevelId, VocabularyItem } from "../../../lib/vocabulary";
 import { getFirstLetter, getMeaning, getWord, normalizeText } from "../../../lib/vocabulary";
 import { createQuizQuestionForAnswer, shuffle, type QuizQuestion } from "../../../lib/quiz";
@@ -35,6 +35,7 @@ const wrongFeedbackMessages = [
   "Không sao, từ này sẽ quay lại",
   "Sai rồi, đánh dấu để luyện thêm",
 ];
+const audioLookupTimeoutMs = 850;
 
 function getPartOfSpeech(item: VocabularyItem) {
   return item["loại từ"] || item["partOfSpeech"] || "";
@@ -65,6 +66,37 @@ function getWordKey(item: VocabularyItem) {
 
 function getStorageKey(level: LevelId) {
   return `yenth:vocabulary:${level.toLowerCase()}:progress`;
+}
+
+function SpeakerIcon() {
+  return (
+    <svg aria-hidden="true" fill="none" height="18" viewBox="0 0 24 24" width="18">
+      <path
+        d="M4 9.5v5h3.5L13 19V5L7.5 9.5H4Z"
+        stroke="currentColor"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      />
+      <path
+        d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function isTextEntryTarget(target: EventTarget | null) {
+  if (target instanceof HTMLTextAreaElement) {
+    return true;
+  }
+
+  if (target instanceof HTMLInputElement) {
+    return !["button", "checkbox", "radio", "reset", "submit"].includes(target.type);
+  }
+
+  return target instanceof HTMLElement && target.isContentEditable;
 }
 
 function pickQuestion(
@@ -101,6 +133,8 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const [selectedAnswerKey, setSelectedAnswerKey] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [feedbackMessage, setFeedbackMessage] = useState("");
+  const [speakingKey, setSpeakingKey] = useState("");
+  const audioCacheRef = useRef<Map<string, string | null>>(new Map());
 
   const letters = useMemo(() => {
     const counts = words.reduce<Record<string, number>>((result, item) => {
@@ -266,19 +300,59 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     return messages[Math.floor(Math.random() * messages.length)] || messages[0];
   }
 
-  function speakWord(item: VocabularyItem | null | undefined) {
-    if (!item || !("speechSynthesis" in window)) {
+  function selectEnglishVoice() {
+    if (!("speechSynthesis" in window)) {
+      return null;
+    }
+
+    const voices = window.speechSynthesis.getVoices();
+    const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
+
+    return (
+      englishVoices
+        .map((voice) => {
+          const name = voice.name.toLowerCase();
+          let score = 0;
+
+          if (voice.lang.toLowerCase() === "en-us") {
+            score += 20;
+          }
+          if (voice.localService) {
+            score += 8;
+          }
+          if (name.includes("google") || name.includes("microsoft")) {
+            score += 7;
+          }
+          if (name.includes("aria") || name.includes("jenny") || name.includes("samantha")) {
+            score += 5;
+          }
+
+          return { voice, score };
+        })
+        .sort((first, second) => second.score - first.score)[0]?.voice || null
+    );
+  }
+
+  function speakWithBrowserVoice(word: string) {
+    if (!("speechSynthesis" in window)) {
       return;
     }
 
-    const word = getWord(item).trim();
     if (!word) {
       return;
     }
 
     const utterance = new SpeechSynthesisUtterance(word);
-    utterance.lang = "en-US";
-    utterance.rate = 0.92;
+    const voice = selectEnglishVoice();
+
+    if (voice) {
+      utterance.voice = voice;
+      utterance.lang = voice.lang;
+    } else {
+      utterance.lang = "en-US";
+    }
+
+    utterance.rate = 0.82;
     utterance.pitch = 1;
     utterance.volume = 1;
 
@@ -286,15 +360,97 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     window.speechSynthesis.speak(utterance);
   }
 
+  async function getDictionaryAudioUrl(word: string, timeoutMs = audioLookupTimeoutMs) {
+    const normalizedWord = word.trim().toLowerCase();
+
+    if (!normalizedWord || normalizedWord.includes(" ")) {
+      return null;
+    }
+
+    if (audioCacheRef.current.has(normalizedWord)) {
+      return audioCacheRef.current.get(normalizedWord) || null;
+    }
+
+    const controller = new AbortController();
+    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      const response = await fetch(
+        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(normalizedWord)}`,
+        { signal: controller.signal },
+      );
+
+      if (!response.ok) {
+        audioCacheRef.current.set(normalizedWord, null);
+        return null;
+      }
+
+      const entries = await response.json();
+      const phonetics = Array.isArray(entries)
+        ? entries.flatMap((entry) => (Array.isArray(entry?.phonetics) ? entry.phonetics : []))
+        : [];
+      const audioUrl =
+        phonetics.find((item) => typeof item?.audio === "string" && item.audio.includes("-us."))?.audio ||
+        phonetics.find((item) => typeof item?.audio === "string" && item.audio)?.audio ||
+        null;
+
+      audioCacheRef.current.set(normalizedWord, audioUrl);
+      return audioUrl;
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === "AbortError")) {
+        audioCacheRef.current.set(normalizedWord, null);
+      }
+      return null;
+    } finally {
+      window.clearTimeout(timeoutId);
+    }
+  }
+
+  async function playAudioUrl(audioUrl: string) {
+    await new Promise<void>((resolve, reject) => {
+      const audio = new Audio(audioUrl);
+      audio.onended = () => resolve();
+      audio.onerror = () => reject(new Error("Audio failed"));
+      audio.play().catch(reject);
+    });
+  }
+
+  async function speakWord(item: VocabularyItem | null | undefined) {
+    const word = item ? getWord(item).trim() : "";
+
+    if (!word) {
+      return;
+    }
+
+    setSpeakingKey(item ? getWordKey(item) : word);
+
+    try {
+      const audioUrl = await getDictionaryAudioUrl(word);
+
+      if (audioUrl) {
+        await playAudioUrl(audioUrl);
+        return;
+      }
+
+      speakWithBrowserVoice(word);
+    } finally {
+      window.setTimeout(() => setSpeakingKey(""), 300);
+    }
+  }
+
+  useEffect(() => {
+    const wordsToWarm = [selectedWord, currentAnswer]
+      .filter((item): item is VocabularyItem => Boolean(item))
+      .map((item) => getWord(item));
+
+    wordsToWarm.forEach((word) => {
+      void getDictionaryAudioUrl(word, 2200);
+    });
+  }, [currentAnswerKey, selectedWordKey]);
+
   useEffect(() => {
     function handleSpaceKey(event: KeyboardEvent) {
-      const target = event.target;
-      const isEditableTarget =
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        (target instanceof HTMLElement && target.isContentEditable);
-
-      if (isEditableTarget || mode !== "test" || event.code !== "Space" || !quiz) {
+      if (isTextEntryTarget(event.target) || mode !== "test" || event.code !== "Space" || !quiz) {
         return;
       }
 
@@ -419,8 +575,14 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                     {getPronunciation(selectedWord) ? <p>{getPronunciation(selectedWord)}</p> : null}
                   </div>
                   <div className="vocabLearnActions">
-                    <button className="secondaryButton" type="button" onClick={() => speakWord(selectedWord)}>
-                      Phát âm
+                    <button
+                      aria-label={`Phát âm ${getWord(selectedWord)}`}
+                      className={`audioIconButton ${speakingKey === getWordKey(selectedWord) ? "playing" : ""}`}
+                      title="Phát âm"
+                      type="button"
+                      onClick={() => speakWord(selectedWord)}
+                    >
+                      <SpeakerIcon />
                     </button>
                     <button className="secondaryButton" type="button" onClick={shuffleLearnList}>
                       Đổi từ
@@ -470,8 +632,14 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                   <div>
                     <span>{getPartOfSpeech(currentAnswer) || level}</span>
                     {getPronunciation(currentAnswer) ? <span>{getPronunciation(currentAnswer)}</span> : null}
-                    <button type="button" onClick={() => speakWord(currentAnswer)}>
-                      Phát âm
+                    <button
+                      aria-label={`Phát âm ${getWord(currentAnswer)}`}
+                      className={`audioIconButton ${speakingKey === currentAnswerKey ? "playing" : ""}`}
+                      title="Phát âm"
+                      type="button"
+                      onClick={() => speakWord(currentAnswer)}
+                    >
+                      <SpeakerIcon />
                     </button>
                   </div>
                 </div>

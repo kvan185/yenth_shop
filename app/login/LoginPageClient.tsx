@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { supabase } from "../../lib/supabase";
+import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 
 type AuthMode = "signin" | "signup";
 
@@ -14,6 +14,11 @@ export default function LoginPageClient() {
   const [message, setMessage] = useState("");
 
   async function handlePasswordAuth() {
+    if (!supabase) {
+      setMessage("Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật đăng nhập.");
+      return;
+    }
+
     setIsLoading(true);
     setMessage("");
 
@@ -35,6 +40,11 @@ export default function LoginPageClient() {
   }
 
   async function handleMagicLink() {
+    if (!supabase) {
+      setMessage("Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật magic link.");
+      return;
+    }
+
     setIsLoading(true);
     setMessage("");
 
@@ -134,7 +144,7 @@ export default function LoginPageClient() {
           <button
             className="loginPrimaryButton"
             type="button"
-            disabled={isLoading || !email || !password}
+            disabled={isLoading || !isSupabaseConfigured || !email || !password}
             onClick={handlePasswordAuth}
           >
             {isLoading ? "Đang xử lý..." : mode === "signin" ? "Đăng nhập" : "Tạo tài khoản"}
@@ -143,7 +153,7 @@ export default function LoginPageClient() {
           <button
             className="loginSecondaryButton"
             type="button"
-            disabled={isLoading || !email}
+            disabled={isLoading || !isSupabaseConfigured || !email}
             onClick={handleMagicLink}
           >
             Gửi magic link
@@ -163,6 +173,11 @@ export default function LoginPageClient() {
           </div>
 
           {message ? <p className="loginMessage">{message}</p> : null}
+          {!isSupabaseConfigured ? (
+            <p className="loginMessage">
+              Thiếu NEXT_PUBLIC_SUPABASE_URL hoặc NEXT_PUBLIC_SUPABASE_ANON_KEY nên đăng nhập đang tạm tắt.
+            </p>
+          ) : null}
         </div>
 
         <p className="loginTerms">
