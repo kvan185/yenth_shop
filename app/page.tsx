@@ -1,10 +1,10 @@
-import DashboardPage from "./dashboard/DashboardPage";
+import HomePage from "./HomePage";
 
 export const metadata = {
-  title: "Ôn từ vựng VSTEP",
-  description: "Ứng dụng học từ vựng và kiểm tra trắc nghiệm VSTEP",
+  title: "YENTH | Học tiếng Anh thông minh hơn",
+  description: "Ôn từ vựng, ngữ pháp, đề thi và flashcard mỗi ngày chỉ 15 phút.",
 };
 
 export default function Home() {
-  return <DashboardPage />;
+  return <HomePage />;
 }

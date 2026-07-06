@@ -4,7 +4,7 @@ import RouteHub from "../../components/RouteHub";
 
 const cards = [
   {
-    href: "/learn/vocabulary",
+    href: "/vocabulary",
     title: "Learn",
     description: "Học từ vựng theo level, mở từng bài riêng.",
     meta: "Vocabulary",
@@ -62,7 +62,7 @@ export default function DashboardPage() {
             <span>Route chính</span>
             <strong>4</strong>
           </div>
-          <Link className="secondaryButton dashboardLink" href="/learn/vocabulary">
+          <Link className="secondaryButton dashboardLink" href="/vocabulary">
             Vào học từ vựng
           </Link>
         </div>

@@ -167,3 +167,19 @@ export function createQuizQuestion<T extends QuizVocabularyItem>(words: T[]): Qu
     options: shuffle([answer, ...wrongOptions]),
   };
 }
+
+export function createQuizQuestionForAnswer<T extends QuizVocabularyItem>(
+  answer: T,
+  words: T[],
+): QuizQuestion<T> | null {
+  if (words.length < 4) {
+    return null;
+  }
+
+  const wrongOptions = selectDistractors(answer, words, 3);
+
+  return {
+    answer,
+    options: shuffle([answer, ...wrongOptions]),
+  };
+}

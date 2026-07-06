@@ -1,15 +1,17 @@
 :root {
   color-scheme: light;
-  --bg: #f6f8f5;
+  --site-header-height: 118px;
+  --site-header-compact-height: 66px;
+  --bg: #f5f7f6;
   --panel: #ffffff;
-  --ink: #171f1d;
-  --muted: #5f6b67;
-  --line: #dde5df;
-  --primary: #0f7668;
-  --primary-dark: #0a5148;
-  --accent: #c65a32;
+  --ink: #14201d;
+  --muted: #66736f;
+  --line: #dfe7e3;
+  --primary: #0c7466;
+  --primary-dark: #084f46;
+  --accent: #9f4f2f;
   --soft: #edf6f3;
-  --surface: #fbfcfa;
+  --surface: #fafcfb;
   --wrong: #b42318;
   --right: #16703d;
   --shadow: 0 18px 42px rgba(24, 36, 33, 0.08);
@@ -35,6 +37,2017 @@ body {
     sans-serif;
 }
 
+.siteLayout {
+  display: grid;
+  grid-template-rows: var(--site-header-height) minmax(0, 1fr);
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+  transition: grid-template-rows 220ms ease;
+}
+
+.siteLayoutCompactHeader {
+  grid-template-rows: var(--site-header-compact-height) minmax(0, 1fr);
+}
+
+.siteHeader {
+  position: relative;
+  z-index: 20;
+  height: 100%;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 30px rgba(20, 32, 29, 0.05);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition:
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.siteHeaderInner {
+  display: grid;
+  grid-template-rows: 64px 54px;
+  align-content: start;
+  gap: 0;
+  width: min(1180px, 100%);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 24px;
+  transition: grid-template-rows 220ms ease;
+}
+
+.siteHeaderTop,
+.siteHeaderActions,
+.siteNav {
+  display: flex;
+  align-items: center;
+}
+
+.siteHeaderTop {
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 0;
+}
+
+.siteHeaderActions {
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.siteBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 950;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    font-size 180ms ease,
+    gap 180ms ease;
+}
+
+.siteBrand span {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: var(--ink);
+  color: #ffffff;
+  font-size: 0.92rem;
+  transition:
+    width 180ms ease,
+    height 180ms ease,
+    font-size 180ms ease;
+}
+
+.siteNav {
+  gap: clamp(12px, 2.3vw, 28px);
+  min-width: 0;
+  border-top: 1px solid rgba(223, 231, 227, 0.76);
+  overflow-x: auto;
+  scrollbar-width: none;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease,
+    visibility 180ms ease;
+}
+
+.siteNav::-webkit-scrollbar {
+  display: none;
+}
+
+.siteNav a {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 820;
+  line-height: 1.25;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.siteNav a:hover {
+  color: var(--primary-dark);
+}
+
+.siteLoginLink {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #ffffff;
+  color: var(--ink) !important;
+}
+
+.siteHeaderCompact {
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 14px 32px rgba(20, 32, 29, 0.09);
+}
+
+.siteHeaderCompact .siteHeaderInner {
+  grid-template-rows: var(--site-header-compact-height) 0;
+}
+
+.siteHeaderCompact .siteBrand {
+  gap: 8px;
+  font-size: 0.98rem;
+}
+
+.siteHeaderCompact .siteBrand span {
+  width: 30px;
+  height: 30px;
+  font-size: 0.82rem;
+}
+
+.siteHeaderCompact .siteNav {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px);
+}
+
+.siteContent {
+  min-height: 0;
+  overflow: auto;
+}
+
+.siteContent > * {
+  min-height: 0;
+}
+
+.homePage {
+  display: grid;
+  gap: 0;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+.homeHero,
+.homeStats,
+.homeSection,
+.homeCta,
+.homeFooter {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+}
+
+.homeHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  gap: clamp(28px, 5vw, 64px);
+  align-items: stretch;
+  padding: clamp(38px, 6vw, 76px) clamp(22px, 6vw, 82px);
+  background:
+    radial-gradient(circle at 12% 12%, rgba(12, 116, 102, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.06)),
+    #ffffff;
+}
+
+.homeHeroCopy {
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  max-width: 740px;
+}
+
+.homeEyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.homeHero h1 {
+  max-width: 780px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.5rem, 5.4vw, 4.9rem);
+  font-weight: 950;
+  line-height: 0.98;
+}
+
+.homeLead {
+  max-width: 650px;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.5vw, 1.18rem);
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.homeHeroActions,
+.homeBadges,
+.flashcardActions,
+.goalChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.homeHeroActions a {
+  text-decoration: none;
+}
+
+.homeBadges {
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 850;
+}
+
+.homeBadges span {
+  border: 1px solid rgba(12, 116, 102, 0.16);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.todayPanel {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.todayPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.todayPanelHead strong {
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.todayPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.55rem;
+  line-height: 1.12;
+}
+
+.todayPanel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.todayProgress {
+  height: 10px;
+  border-radius: 999px;
+  background: #dce6df;
+  overflow: hidden;
+}
+
+.todayProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #52a391);
+}
+
+.todayTaskList {
+  display: grid;
+  gap: 10px;
+}
+
+.todayTaskList a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.todayTaskList a:hover {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.todayTaskList strong {
+  color: var(--primary-dark);
+}
+
+.progressPanel {
+  display: grid;
+  gap: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.progressPanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.progressPanelHead strong {
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.progressPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.45rem;
+  text-transform: none;
+}
+
+.progressRows {
+  display: grid;
+  gap: 12px;
+}
+
+.progressRows div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.progressRows strong {
+  color: var(--primary-dark);
+}
+
+.progressPanel p {
+  margin: 0;
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-weight: 850;
+  line-height: 1.5;
+}
+
+.homeStats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  padding: 0;
+}
+
+.homeStats strong {
+  display: grid;
+  gap: 4px;
+  min-height: 92px;
+  align-content: center;
+  padding: 18px 22px;
+  background: #ffffff;
+  color: var(--primary-dark);
+  font-size: clamp(1.35rem, 3vw, 2rem);
+}
+
+.homeStats span {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.homeSection,
+.homeCta {
+  display: grid;
+  gap: 24px;
+  padding: clamp(38px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.homeSection h2,
+.homeCta h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.55rem, 3vw, 2.55rem);
+  line-height: 1.08;
+  text-transform: none;
+}
+
+.sectionHead {
+  display: grid;
+  gap: 8px;
+  max-width: 720px;
+}
+
+.sectionHead.centered {
+  justify-items: center;
+  text-align: center;
+}
+
+.sectionHead span,
+.homeCta span {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.featureGrid,
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1040px;
+}
+
+.dashboardGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.45fr) repeat(2, minmax(190px, 0.75fr));
+  gap: 14px;
+  max-width: 1100px;
+}
+
+.studyCard,
+.reviewCard {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.studyCard span,
+.reviewCard span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.studyCard h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.25rem, 2vw, 1.9rem);
+  line-height: 1.1;
+}
+
+.studyCard p,
+.reviewCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.primaryStudyCard {
+  background:
+    linear-gradient(135deg, rgba(12, 116, 102, 0.09), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.primaryStudyCard a {
+  width: fit-content;
+  text-decoration: none;
+}
+
+.featureCard,
+.testimonialCard,
+.quizPreview,
+.aiPanel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.featureCard {
+  display: grid;
+  gap: 10px;
+  min-height: 150px;
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.featureCard:hover {
+  border-color: rgba(12, 116, 102, 0.34);
+  box-shadow: 0 16px 34px rgba(20, 32, 29, 0.08);
+}
+
+.featureCard strong {
+  display: grid;
+  gap: 12px;
+  font-size: 1.08rem;
+}
+
+.featureCard strong span {
+  width: fit-content;
+  border: 1px solid rgba(12, 116, 102, 0.16);
+  border-radius: 999px;
+  padding: 5px 8px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+
+.featureCard p,
+.testimonialCard p,
+.learningPath p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.pathLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  color: var(--primary-dark);
+  font-weight: 950;
+}
+
+.pathLine span {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 9px 12px;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(20, 32, 29, 0.04);
+}
+
+.pathLine span:not(:last-child)::after {
+  content: "";
+}
+
+.practicePreviewGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+  gap: 14px;
+  align-items: stretch;
+  max-width: 1100px;
+}
+
+.quizPreview {
+  display: grid;
+  gap: 18px;
+  max-width: 820px;
+}
+
+.quizPreview p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.quizPreview > strong {
+  font-size: 1.22rem;
+}
+
+.quizOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.quizOptions label {
+  cursor: pointer;
+}
+
+.quizOptions input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quizOptions span {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 18px;
+  background: #ffffff;
+  font-weight: 850;
+}
+
+.quizOptions input:checked + span {
+  border-color: var(--primary);
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.quizExplain {
+  border-left: 4px solid var(--primary);
+  padding-left: 12px;
+}
+
+.flashcardSection {
+  justify-items: center;
+  text-align: center;
+}
+
+.flashcardPreview {
+  position: relative;
+  display: grid;
+  width: min(100%, 360px);
+  min-height: 210px;
+  cursor: pointer;
+  perspective: 900px;
+}
+
+.practicePreviewGrid .flashcardPreview {
+  width: 100%;
+  min-height: 100%;
+}
+
+.flashcardPreview input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.flashcardFace {
+  display: grid;
+  grid-area: 1 / 1;
+  place-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 28px;
+  background: #ffffff;
+  box-shadow: var(--shadow);
+  backface-visibility: hidden;
+  transition: transform 180ms ease;
+}
+
+.flashcardFace strong {
+  font-size: 1.5rem;
+}
+
+.flashcardFace small {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.flashcardBack {
+  transform: rotateY(180deg);
+}
+
+.flashcardPreview input:checked ~ .flashcardFront {
+  transform: rotateY(180deg);
+}
+
+.flashcardPreview input:checked ~ .flashcardBack {
+  transform: rotateY(0);
+}
+
+.aiPanel {
+  display: grid;
+  gap: 18px;
+  max-width: 820px;
+}
+
+.aiPanel div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 22px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.aiPanel span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 10px;
+  border-radius: 999px;
+  background: var(--primary);
+  vertical-align: 1px;
+}
+
+.goalChips a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.goalChips a:hover {
+  border-color: var(--primary);
+  color: var(--primary-dark);
+}
+
+.reviewGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1040px;
+}
+
+.reviewCard {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.reviewCard strong {
+  color: var(--ink);
+  font-size: 1.08rem;
+}
+
+.reviewCard:hover {
+  border-color: rgba(12, 116, 102, 0.34);
+  color: var(--primary-dark);
+}
+
+.testimonialCard {
+  min-height: 136px;
+}
+
+.testimonialCard strong {
+  color: var(--primary-dark);
+}
+
+.homeCta {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  background: #ffffff;
+}
+
+.homeCta a {
+  width: fit-content;
+  text-decoration: none;
+}
+
+.homeFooter {
+  display: grid;
+  gap: 14px;
+  padding: 26px clamp(22px, 6vw, 82px);
+  background: #14201d;
+  color: #ffffff;
+}
+
+.homeFooter strong {
+  font-size: 1.1rem;
+}
+
+.homeFooter nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.homeFooter a {
+  color: rgba(255, 255, 255, 0.78);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.learnPathPage {
+  display: grid;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+.learnPathHero,
+.learnPathSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.learnPathHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: clamp(28px, 5vw, 62px);
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(12, 116, 102, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.learnPathHeroCopy {
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  max-width: 760px;
+}
+
+.learnPathHeroCopy h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.25rem, 5vw, 4.6rem);
+  font-weight: 950;
+  line-height: 0.98;
+}
+
+.learnPathHeroCopy p:not(.homeEyebrow),
+.learnCurrentPanel p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.learnCurrentPanel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.learnCurrentPanel > span,
+.learnSkillCard > span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.learnCurrentPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  line-height: 1.08;
+}
+
+.learnCurrentPanel > a {
+  width: fit-content;
+  text-decoration: none;
+}
+
+.learnCurrentStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.learnCurrentStats div {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+
+.learnCurrentStats strong {
+  color: var(--primary-dark);
+  font-size: 1.25rem;
+}
+
+.learnCurrentStats span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.learnPathSection {
+  display: grid;
+  gap: 24px;
+}
+
+.learnRoadmap {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 1120px;
+}
+
+.learnLevelCard {
+  display: grid;
+  gap: 6px;
+  min-height: 96px;
+  align-content: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.learnLevelCard strong {
+  color: var(--ink);
+  font-size: 1.45rem;
+}
+
+.learnLevelCard span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.learnLevelCard.active {
+  border-color: rgba(12, 116, 102, 0.34);
+  background: var(--soft);
+}
+
+.learnLevelCard.active strong,
+.learnLevelCard.done strong {
+  color: var(--primary-dark);
+}
+
+.learnLevelCard.locked,
+.learnLevelCard.goal {
+  background: var(--surface);
+}
+
+.learnSkillGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  max-width: 1100px;
+}
+
+.learnSkillCard {
+  display: grid;
+  gap: 10px;
+  min-height: 168px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  color: var(--ink);
+  text-decoration: none;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.learnSkillCard:hover {
+  border-color: rgba(12, 116, 102, 0.34);
+  box-shadow: 0 16px 34px rgba(20, 32, 29, 0.08);
+}
+
+.learnSkillCard h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.18rem;
+}
+
+.learnSkillCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.learnSkillCard strong {
+  align-self: end;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+}
+
+.learnFlowSection {
+  background: #ffffff;
+}
+
+.learnFlowList {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 1120px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: learn-flow;
+}
+
+.learnFlowList li {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 850;
+  line-height: 1.4;
+  counter-increment: learn-flow;
+}
+
+.learnFlowList li::before {
+  content: counter(learn-flow, decimal-leading-zero);
+  color: var(--primary-dark);
+  font-size: 0.8rem;
+  font-weight: 950;
+}
+
+.vocabIndexPage {
+  display: grid;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+.vocabIndexHero,
+.vocabIndexSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.vocabIndexHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: clamp(28px, 5vw, 62px);
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(12, 116, 102, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.vocabSummaryPanel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.vocabSummaryPanel > span,
+.vocabLevelCard > div:first-child span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.vocabSummaryPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  line-height: 0.98;
+}
+
+.vocabSummaryPanel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.vocabIndexSection {
+  display: grid;
+  gap: 24px;
+}
+
+.vocabLevelGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  max-width: 1180px;
+}
+
+.vocabLevelCard {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: 14px;
+  align-content: start;
+  min-height: 290px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.vocabLevelCard.active {
+  border-color: rgba(12, 116, 102, 0.34);
+  background:
+    linear-gradient(135deg, rgba(12, 116, 102, 0.09), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.vocabLevelCard h3 {
+  margin: 5px 0 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 0.95;
+}
+
+.vocabLevelCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.vocabLevelMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.vocabLevelMeta strong {
+  color: var(--primary-dark);
+  font-size: 1.5rem;
+}
+
+.vocabLevelActions {
+  display: grid;
+  gap: 8px;
+  align-self: end;
+  margin-top: auto;
+}
+
+.vocabLevelActions a {
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
+.grammarPage {
+  display: grid;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+.grammarHero,
+.grammarSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.grammarHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: clamp(28px, 5vw, 62px);
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(12, 116, 102, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.grammarPlanPanel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.grammarPlanPanel > span,
+.grammarTopicCard > span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.grammarPlanPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.grammarPlanPanel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.grammarSection {
+  display: grid;
+  gap: 24px;
+}
+
+.grammarTopicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  max-width: 1120px;
+}
+
+.grammarTopicCard {
+  display: grid;
+  gap: 10px;
+  min-height: 176px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.grammarTopicCard h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.grammarTopicCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.grammarTopicCard strong {
+  align-self: end;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+}
+
+.grammarFlowSection {
+  background: #ffffff;
+}
+
+.examsPage {
+  display: grid;
+  min-height: 100%;
+  background: var(--bg);
+}
+
+.examsHero,
+.examsSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.examsHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: clamp(28px, 5vw, 62px);
+  align-items: stretch;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(12, 116, 102, 0.12), transparent 32%),
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.examsPlanPanel {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.examsPlanPanel > span,
+.examTrackCard > span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.examsPlanPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.55rem, 3vw, 2.35rem);
+  line-height: 1.05;
+}
+
+.examsPlanPanel p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.examsSection {
+  display: grid;
+  gap: 24px;
+}
+
+.examTrackGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+  max-width: 1120px;
+}
+
+.examTrackCard {
+  display: grid;
+  gap: 10px;
+  min-height: 176px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.examTrackCard h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.examTrackCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.examTrackCard strong {
+  align-self: end;
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+}
+
+.examsFlowSection {
+  background: #ffffff;
+}
+
+.loginPage {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
+  gap: clamp(24px, 5vw, 64px);
+  align-items: center;
+  min-height: 100%;
+  padding: clamp(22px, 5vw, 64px);
+  background:
+    linear-gradient(135deg, rgba(15, 118, 104, 0.09), rgba(198, 90, 50, 0.06)),
+    #f8faf7;
+}
+
+.loginHeroPanel {
+  display: grid;
+  gap: 20px;
+  max-width: 680px;
+}
+
+.loginBrand {
+  width: fit-content;
+  color: var(--ink);
+  font-size: 1.2rem;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.loginEyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.loginHeroPanel h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  line-height: 1;
+}
+
+.loginHeroPanel > p:not(.loginEyebrow) {
+  max-width: 580px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.loginPreviewCard,
+.loginCard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 24px 70px rgba(24, 36, 33, 0.1);
+}
+
+.loginPreviewCard {
+  display: grid;
+  gap: 16px;
+  max-width: 430px;
+  padding: 20px;
+}
+
+.loginPreviewCard div:first-child {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.loginPreviewCard span,
+.loginPreviewCard li {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.loginPreviewCard strong {
+  color: var(--primary-dark);
+  font-size: 1.35rem;
+}
+
+.loginProgressLine {
+  height: 10px;
+  border-radius: 999px;
+  background: #dce6df;
+  overflow: hidden;
+}
+
+.loginProgressLine span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #52a391);
+}
+
+.loginPreviewCard ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.loginCard {
+  display: grid;
+  gap: 18px;
+  width: 100%;
+  max-width: 480px;
+  justify-self: end;
+  padding: clamp(22px, 4vw, 34px);
+}
+
+.loginCardHead {
+  display: grid;
+  gap: 8px;
+}
+
+.loginCardHead h2 {
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+}
+
+.loginCardHead p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.loginSwitch {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px;
+  background: var(--surface);
+}
+
+.loginSwitch button {
+  min-height: 40px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.loginSwitch button.active {
+  background: #ffffff;
+  color: var(--primary-dark);
+  box-shadow: 0 8px 20px rgba(24, 36, 33, 0.08);
+}
+
+.loginForm {
+  display: grid;
+  gap: 14px;
+}
+
+.loginForm label:not(.loginRemember) {
+  display: grid;
+  gap: 7px;
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.loginForm input[type="email"],
+.loginForm input[type="password"] {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.loginForm input:focus {
+  border-color: var(--primary);
+  outline: 3px solid rgba(15, 118, 104, 0.14);
+}
+
+.loginMetaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.loginRemember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.loginMetaRow a {
+  color: var(--primary-dark);
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.loginPrimaryButton,
+.loginSecondaryButton,
+.loginSocialGrid button {
+  min-height: 46px;
+  border-radius: 8px;
+  padding: 0 14px;
+  font-weight: 900;
+}
+
+.loginPrimaryButton {
+  border: 1px solid var(--primary);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.loginPrimaryButton:hover {
+  background: var(--primary-dark);
+}
+
+.loginSecondaryButton,
+.loginSocialGrid button {
+  border: 1px solid var(--line);
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.loginPrimaryButton:disabled,
+.loginSecondaryButton:disabled,
+.loginSocialGrid button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.loginDivider {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 12px;
+  align-items: center;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+}
+
+.loginDivider::before,
+.loginDivider::after {
+  content: "";
+  height: 1px;
+  background: var(--line);
+}
+
+.loginSocialGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.loginMessage {
+  margin: 0;
+  border: 1px solid rgba(15, 118, 104, 0.22);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.loginTerms {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.vocabTestPage {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: 0;
+  min-height: 100%;
+  height: 100%;
+  background: #f6f8f5;
+  overflow: auto;
+}
+
+.testTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  padding: 12px clamp(18px, 4vw, 44px);
+  background: #ffffff;
+}
+
+.testBackLink {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 950;
+  text-decoration: none;
+}
+
+.testUser {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  white-space: nowrap;
+}
+
+.testUser a {
+  text-decoration: none;
+}
+
+.testUser a:first-child {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 950;
+  letter-spacing: 0;
+}
+
+.testUser a:last-child {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.testUser a:hover {
+  color: var(--primary-dark);
+}
+
+.testIntro {
+  display: grid;
+  gap: 5px;
+  padding: 18px clamp(18px, 4vw, 44px) 12px;
+}
+
+.testIntro .homeEyebrow {
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+}
+
+.testIntro h1 {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  font-weight: 750;
+  line-height: 1.55;
+}
+
+.testWorkspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 260px);
+  gap: 14px;
+  align-items: stretch;
+  min-height: 0;
+  padding: 0 clamp(18px, 4vw, 44px) 14px;
+}
+
+.questionPanel,
+.testSidePanel,
+.testTip,
+.questionMap {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(24, 36, 33, 0.06);
+}
+
+.questionPanel {
+  display: grid;
+  grid-template-rows: auto auto auto minmax(130px, 0.72fr) auto auto;
+  gap: 12px;
+  min-height: 0;
+  padding: 18px;
+}
+
+.questionHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.questionHead strong {
+  color: var(--primary-dark);
+}
+
+.testProgressTrack {
+  height: 11px;
+  border-radius: 999px;
+  background: #dce6df;
+  overflow: hidden;
+}
+
+.testProgressTrack span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #52a391);
+}
+
+.testProgressTrack.compact {
+  height: 10px;
+}
+
+.questionPrompt {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.wordPromptCard {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  min-height: 130px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(15, 118, 104, 0.08), rgba(198, 90, 50, 0.07)),
+    #ffffff;
+}
+
+.wordPromptCard > strong {
+  font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+  letter-spacing: 0;
+}
+
+.wordPromptCard div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.wordPromptCard button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: #ffffff;
+  color: var(--primary-dark);
+  font-weight: 900;
+}
+
+.answerList {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.testAnswer {
+  cursor: pointer;
+}
+
+.testAnswer input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.testAnswer span {
+  display: flex;
+  min-height: 40px;
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.testAnswer input:checked + span {
+  border-color: var(--primary);
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.testAnswer.correct span {
+  border-color: var(--right);
+  background: #effaf3;
+  color: var(--right);
+}
+
+.testAnswer.wrong span {
+  border-color: var(--wrong);
+  background: #fff1f0;
+  color: var(--wrong);
+}
+
+.testActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.testSidePanel {
+  display: grid;
+  align-content: stretch;
+  gap: 10px;
+  padding: 16px;
+}
+
+.testSidePanel div {
+  display: grid;
+  align-content: center;
+  gap: 6px;
+  min-height: 0;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 10px;
+}
+
+.testSidePanel div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.testSidePanel span {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.testSidePanel strong {
+  color: var(--ink);
+  font-size: 1.05rem;
+}
+
+.testBottomGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(310px, 420px);
+  gap: 14px;
+  padding: 0 clamp(18px, 4vw, 44px) 18px;
+}
+
+.testTip {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 13px 16px;
+}
+
+.testTip strong {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.testTip p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.testFeedback.correct {
+  color: var(--right);
+  font-weight: 900;
+}
+
+.testFeedback.wrong {
+  color: var(--wrong);
+  font-weight: 900;
+}
+
+.questionMap {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 13px 16px;
+}
+
+.questionMap > strong {
+  color: var(--muted);
+}
+
+.questionMap div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.questionMap button {
+  min-width: 42px;
+  min-height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.questionMap button.done {
+  border-color: var(--right);
+  background: #effaf3;
+  color: var(--right);
+}
+
+.questionMap button.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #ffffff;
+}
+
 button,
 input {
   font: inherit;
@@ -55,6 +2068,10 @@ button:disabled {
   height: 100dvh;
   overflow: hidden;
   padding: 32px;
+}
+
+.siteContent .levelShell {
+  height: 100%;
 }
 
 .levelIntro {
@@ -122,6 +2139,11 @@ button:disabled {
   gap: 16px;
   min-height: 100dvh;
   padding: 24px;
+}
+
+.siteContent .hubShell,
+.siteContent .placeholderShell {
+  min-height: 100%;
 }
 
 .hubHero,
@@ -271,6 +2293,10 @@ button:disabled {
   min-height: 0;
   overflow: hidden;
   background: var(--bg);
+}
+
+.siteContent .appShell {
+  height: 100%;
 }
 
 .appShell.sidebarClosed {
@@ -550,6 +2576,10 @@ h2 {
   min-width: 0;
   overflow: hidden;
   padding: 14px;
+}
+
+.siteContent .workspace {
+  height: 100%;
 }
 
 .miniHeader {
@@ -1128,6 +3158,10 @@ dd {
   padding: 24px;
 }
 
+.siteContent .lookupShell {
+  min-height: 100%;
+}
+
 .lookupHeader {
   display: flex;
   align-items: flex-start;
@@ -1311,7 +3345,504 @@ dd {
   color: var(--muted);
 }
 
+.vocabStudyPage {
+  display: grid;
+  gap: 18px;
+  min-height: 100%;
+  padding: clamp(18px, 4vw, 42px);
+  background:
+    radial-gradient(circle at top right, rgba(15, 118, 104, 0.1), transparent 34%),
+    #f6f8f5;
+}
+
+.vocabStudyHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 18px;
+  align-items: end;
+}
+
+.vocabStudyHero > div:first-child {
+  display: grid;
+  gap: 8px;
+}
+
+.vocabStudyHero h1 {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 4vw, 4rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.vocabStudyHero p {
+  max-width: 720px;
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.vocabStudyStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.vocabStudyStats div {
+  display: grid;
+  gap: 6px;
+  min-height: 86px;
+  align-content: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(24, 36, 33, 0.06);
+}
+
+.vocabStudyStats span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.vocabStudyStats strong {
+  color: var(--ink);
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.vocabStudyTabs {
+  display: grid;
+  grid-template-columns: auto auto minmax(120px, 1fr);
+  gap: 8px;
+  align-items: center;
+  width: min(100%, 720px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(24, 36, 33, 0.05);
+}
+
+.vocabStudyTabs button,
+.vocabLetterFilter button {
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.vocabStudyTabs button {
+  min-height: 38px;
+  padding: 0 18px;
+}
+
+.vocabStudyTabs button.active,
+.vocabLetterFilter button.active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.vocabStudyTabs > div {
+  height: 10px;
+  border-radius: 999px;
+  background: #dce6df;
+  overflow: hidden;
+}
+
+.vocabStudyTabs > div span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #52a391);
+}
+
+.vocabLearnLayout,
+.vocabTestLayout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
+  min-height: 0;
+}
+
+.vocabLearnPanel,
+.vocabLearnCard,
+.vocabTestCard,
+.vocabReviewPanel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(24, 36, 33, 0.06);
+}
+
+.vocabLearnPanel {
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 12px;
+  min-height: 560px;
+  padding: 14px;
+}
+
+.vocabLetterFilter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.vocabLetterFilter button {
+  min-width: 38px;
+  min-height: 34px;
+  padding: 0 10px;
+  background: var(--surface);
+}
+
+.vocabWordList {
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  min-height: 0;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.vocabWordList button {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: var(--ink);
+  text-align: left;
+}
+
+.vocabWordList button.active {
+  border-color: var(--primary);
+  background: var(--soft);
+}
+
+.vocabWordList strong {
+  font-size: 1rem;
+}
+
+.vocabWordList span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.vocabLearnCard,
+.vocabTestCard {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-height: 560px;
+  padding: clamp(18px, 3vw, 34px);
+}
+
+.vocabLearnCardHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.vocabLearnCardHead span {
+  color: var(--primary-dark);
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.vocabLearnCardHead h2 {
+  margin: 6px 0 0;
+  color: var(--ink);
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  line-height: 0.95;
+  letter-spacing: 0;
+}
+
+.vocabLearnCardHead p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.vocabLearnActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.vocabLearnDetails {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.vocabLearnDetails div {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.vocabLearnDetails dt {
+  margin-bottom: 6px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.vocabLearnDetails dd {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.08rem;
+  font-weight: 760;
+  line-height: 1.65;
+}
+
+.vocabTestCard .answerList {
+  margin-top: 2px;
+}
+
+.vocabAnswerFeedback {
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-weight: 900;
+}
+
+.vocabAnswerFeedback.correct {
+  background: #effaf3;
+  color: var(--right);
+}
+
+.vocabAnswerFeedback.wrong {
+  background: #fff1ee;
+  color: var(--wrong);
+}
+
+.vocabShortcutHint {
+  align-self: center;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.vocabReviewPanel {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  min-height: 360px;
+  padding: 18px;
+}
+
+.vocabReviewPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.2rem;
+}
+
+.vocabReviewPanel p,
+.vocabReviewPanel em {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.vocabReviewPanel > div {
+  display: grid;
+  gap: 8px;
+}
+
+.vocabReviewPanel span {
+  display: grid;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.vocabReviewPanel small {
+  color: var(--muted);
+  font-weight: 750;
+  line-height: 1.45;
+}
+
+.vocabEmptyState {
+  display: grid;
+  place-items: start;
+  gap: 14px;
+  align-self: center;
+  justify-self: center;
+  max-width: 560px;
+  color: var(--muted);
+  font-weight: 850;
+  line-height: 1.55;
+  text-align: left;
+}
+
+.vocabEmptyState h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
 @media (max-width: 820px) {
+  :root {
+    --site-header-height: 112px;
+    --site-header-compact-height: 64px;
+  }
+
+  .siteHeaderInner {
+    padding: 0 16px;
+  }
+
+  .siteNav {
+    gap: 18px;
+  }
+
+  .siteLoginLink {
+    margin-left: 0;
+  }
+
+  .homeHero {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .todayPanel,
+  .progressPanel {
+    max-width: 420px;
+  }
+
+  .homeStats,
+  .featureGrid,
+  .testimonialGrid,
+  .reviewGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboardGrid,
+  .practicePreviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aiPanel div {
+    grid-template-columns: 1fr;
+  }
+
+  .loginPage {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .learnPathHero {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabIndexHero {
+    grid-template-columns: 1fr;
+  }
+
+  .grammarHero {
+    grid-template-columns: 1fr;
+  }
+
+  .examsHero {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabStudyHero,
+  .vocabLearnLayout,
+  .vocabTestLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabStudyStats {
+    max-width: 520px;
+  }
+
+  .vocabLearnPanel,
+  .vocabLearnCard,
+  .vocabTestCard {
+    min-height: auto;
+  }
+
+  .vocabWordList {
+    max-height: 360px;
+  }
+
+  .learnCurrentPanel {
+    max-width: 520px;
+  }
+
+  .vocabSummaryPanel {
+    max-width: 520px;
+  }
+
+  .grammarPlanPanel {
+    max-width: 520px;
+  }
+
+  .examsPlanPanel {
+    max-width: 520px;
+  }
+
+  .learnRoadmap {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .learnSkillGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vocabLevelGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .learnFlowList {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .loginCard {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .testWorkspace {
+    grid-template-columns: 1fr;
+  }
+
+  .testBottomGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .testSidePanel {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .testSidePanel div {
+    border-right: 1px solid var(--line);
+    border-bottom: 0;
+    padding-right: 10px;
+    padding-bottom: 0;
+  }
+
+  .testSidePanel div:last-child {
+    border-right: 0;
+    padding-right: 0;
+  }
+
   .levelShell {
     gap: 18px;
     padding: 22px;
@@ -1492,6 +4023,248 @@ dd {
 }
 
 @media (max-width: 520px) {
+  :root {
+    --site-header-height: 108px;
+    --site-header-compact-height: 62px;
+  }
+
+  .siteHeaderInner {
+    padding-inline: 14px;
+  }
+
+  .siteBrand {
+    font-size: 0;
+  }
+
+  .siteBrand span {
+    width: 32px;
+    height: 32px;
+    font-size: 0.88rem;
+  }
+
+  .siteNav {
+    gap: 16px;
+  }
+
+  .siteNav a {
+    font-size: 0.88rem;
+  }
+
+  .homeHero,
+  .homeSection,
+  .homeCta {
+    padding: 24px 14px;
+  }
+
+  .homeHero h1 {
+    font-size: clamp(2rem, 13vw, 3.15rem);
+  }
+
+  .homeHeroActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .homeHeroActions a,
+  .flashcardActions button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .homeStats,
+  .featureGrid,
+  .testimonialGrid,
+  .reviewGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .homeStats strong {
+    min-height: 72px;
+  }
+
+  .homeCta {
+    grid-template-columns: 1fr;
+  }
+
+  .todayPanel,
+  .studyCard,
+  .reviewCard,
+  .quizPreview,
+  .aiPanel {
+    padding: 16px;
+  }
+
+  .todayTaskList a {
+    padding: 10px;
+  }
+
+  .pathLine {
+    display: grid;
+    gap: 8px;
+  }
+
+  .pathLine span:not(:last-child)::after {
+    content: "";
+  }
+
+  .quizOptions {
+    display: grid;
+  }
+
+  .quizOptions span {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .homeFooter {
+    padding: 22px 14px;
+  }
+
+  .loginPage {
+    gap: 18px;
+    padding: 18px 14px;
+  }
+
+  .learnPathHero,
+  .learnPathSection,
+  .vocabIndexHero,
+  .vocabIndexSection,
+  .grammarHero,
+  .grammarSection,
+  .examsHero,
+  .examsSection {
+    padding: 24px 14px;
+  }
+
+  .learnPathHeroCopy h1 {
+    font-size: clamp(2rem, 12vw, 3.1rem);
+  }
+
+  .learnCurrentPanel,
+  .vocabSummaryPanel,
+  .vocabLevelCard,
+  .grammarPlanPanel,
+  .grammarTopicCard,
+  .examsPlanPanel,
+  .examTrackCard,
+  .learnSkillCard,
+  .learnFlowList li {
+    padding: 16px;
+  }
+
+  .learnCurrentStats,
+  .learnRoadmap,
+  .learnSkillGrid,
+  .vocabLevelGrid,
+  .grammarTopicGrid,
+  .examTrackGrid,
+  .learnFlowList {
+    grid-template-columns: 1fr;
+  }
+
+  .learnLevelCard {
+    min-height: 72px;
+  }
+
+  .loginHeroPanel {
+    gap: 14px;
+  }
+
+  .loginHeroPanel h1 {
+    font-size: 2rem;
+  }
+
+  .loginCard {
+    padding: 18px;
+  }
+
+  .loginMetaRow,
+  .loginSocialGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .loginMetaRow {
+    display: grid;
+  }
+
+  .testTopbar,
+  .testIntro,
+  .testWorkspace,
+  .testBottomGrid {
+    padding-inline: 14px;
+  }
+
+  .testTopbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .testWorkspace {
+    padding-bottom: 18px;
+  }
+
+  .vocabStudyPage {
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  .vocabStudyHero h1 {
+    font-size: 2.25rem;
+  }
+
+  .vocabStudyStats,
+  .vocabStudyTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabStudyTabs > div {
+    min-width: 0;
+  }
+
+  .vocabLearnCardHead {
+    display: grid;
+  }
+
+  .vocabLearnCard,
+  .vocabTestCard,
+  .vocabReviewPanel {
+    padding: 16px;
+  }
+
+  .questionPanel {
+    padding: 16px;
+  }
+
+  .wordPromptCard {
+    min-height: 150px;
+  }
+
+  .testActions {
+    display: grid;
+  }
+
+  .testSidePanel {
+    grid-template-columns: 1fr 1fr;
+    padding: 16px;
+  }
+
+  .testSidePanel div,
+  .testSidePanel div:last-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding-right: 0;
+    padding-bottom: 10px;
+  }
+
+  .testSidePanel div:nth-last-child(-n + 2) {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .answerList {
+    grid-template-columns: 1fr;
+  }
+
   .levelShell {
     padding: 14px;
   }
@@ -1588,6 +4361,36 @@ dd {
 }
 
 @media (max-height: 680px) {
+  .testTopbar {
+    padding-block: 9px;
+  }
+
+  .testIntro {
+    padding-block: 12px 8px;
+  }
+
+  .questionPanel {
+    gap: 9px;
+    padding: 14px;
+  }
+
+  .wordPromptCard {
+    min-height: 108px;
+  }
+
+  .testAnswer span {
+    min-height: 36px;
+    padding-block: 7px;
+  }
+
+  .testBottomGrid {
+    padding-bottom: 12px;
+  }
+
+  .testTip p:nth-of-type(2) {
+    display: none;
+  }
+
   .letterPanel {
     max-height: none;
   }

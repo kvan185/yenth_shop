@@ -1,5 +1,6 @@
 import "./globals.css";
 import type { ReactNode } from "react";
+import SiteChrome from "../components/SiteChrome";
 
 export const metadata = {
   title: "Ôn từ vựng VSTEP",
@@ -13,7 +14,9 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="vi">
-      <body>{children}</body>
+      <body>
+        <SiteChrome>{children}</SiteChrome>
+      </body>
     </html>
   );
 }

@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
 
 export default function B2Page() {
-  redirect("/learn/vocabulary/b2");
+  redirect("/vocabulary/b2");
 }

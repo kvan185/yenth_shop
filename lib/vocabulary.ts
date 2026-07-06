@@ -22,11 +22,11 @@ export const levelConfig: Array<{
   href: string;
   words: number;
 }> = [
-  { id: "A1", label: "A1", href: "/learn/vocabulary/a1", words: a1VocabularyData.length },
-  { id: "A2", label: "A2", href: "/learn/vocabulary/a2", words: a2VocabularyData.length },
-  { id: "B1", label: "B1", href: "/learn/vocabulary/b1", words: b1VocabularyData.length },
-  { id: "B2", label: "B2", href: "/learn/vocabulary/b2", words: b2VocabularyData.length },
-  { id: "C1", label: "C1", href: "/learn/vocabulary/c1", words: c1VocabularyData.length },
+  { id: "A1", label: "A1", href: "/vocabulary/a1", words: a1VocabularyData.length },
+  { id: "A2", label: "A2", href: "/vocabulary/a2", words: a2VocabularyData.length },
+  { id: "B1", label: "B1", href: "/vocabulary/b1", words: b1VocabularyData.length },
+  { id: "B2", label: "B2", href: "/vocabulary/b2", words: b2VocabularyData.length },
+  { id: "C1", label: "C1", href: "/vocabulary/c1", words: c1VocabularyData.length },
 ];
 
 export const levelDataMap: Record<LevelId, VocabularyItem[]> = {
