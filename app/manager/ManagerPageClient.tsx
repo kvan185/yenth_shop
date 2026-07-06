@@ -86,7 +86,11 @@ function getStatusLabel(status: ResourceStatus) {
   return "Đang kiểm tra";
 }
 
-export default function ManagerPageClient() {
+type ManagerPageClientProps = {
+  managerUser: string;
+};
+
+export default function ManagerPageClient({ managerUser }: ManagerPageClientProps) {
   const [user, setUser] = useState<User | null>(null);
   const [resources, setResources] = useState<ResourceState[]>(
     managedTables.map((item) => ({ ...item, status: "checking" })),
@@ -190,6 +194,11 @@ export default function ManagerPageClient() {
       .catch(() => setMessage("Không copy được tự động. Bạn có thể chọn và copy thủ công."));
   }
 
+  async function logoutManager() {
+    await fetch("/api/manager/logout", { method: "POST" });
+    window.location.reload();
+  }
+
   return (
     <main className="managerPage">
       <section className="managerHero">
@@ -214,7 +223,11 @@ export default function ManagerPageClient() {
             </strong>
           </div>
           <div>
-            <span>Tài khoản</span>
+            <span>Admin</span>
+            <strong>{managerUser}</strong>
+          </div>
+          <div>
+            <span>Supabase user</span>
             <strong>{user?.email || "Chưa đăng nhập"}</strong>
           </div>
         </div>
@@ -230,6 +243,9 @@ export default function ManagerPageClient() {
         <Link className="secondaryButton" href="/login">
           Đăng nhập
         </Link>
+        <button className="secondaryButton" type="button" onClick={logoutManager}>
+          Thoát Manager
+        </button>
       </section>
 
       {message ? <p className="managerMessage">{message}</p> : null}
