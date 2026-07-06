@@ -6,6 +6,7 @@ const navItems = [
   { href: "/vocabulary", label: "Từ vựng" },
   { href: "/grammar", label: "Ngữ pháp" },
   { href: "/exams", label: "Đề thi" },
+  { href: "/manager", label: "Manager" },
   { href: "/blog", label: "Blog" },
 ];
 

@@ -3379,6 +3379,181 @@ dd {
   color: var(--muted);
 }
 
+.managerPage {
+  display: grid;
+  gap: 18px;
+  min-height: 100%;
+  padding: clamp(18px, 4vw, 42px);
+  background:
+    radial-gradient(circle at top right, rgba(12, 116, 102, 0.1), transparent 34%),
+    var(--bg);
+}
+
+.managerHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 420px);
+  gap: 18px;
+  align-items: end;
+}
+
+.managerHero h1 {
+  max-width: 780px;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.2rem, 4.4vw, 4.2rem);
+  line-height: 1;
+}
+
+.managerHero p {
+  max-width: 720px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-weight: 720;
+  line-height: 1.65;
+}
+
+.managerSummary {
+  display: grid;
+  gap: 8px;
+}
+
+.managerSummary div,
+.managerResourceCard,
+.managerSqlPanel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(24, 36, 33, 0.06);
+}
+
+.managerSummary div {
+  display: grid;
+  gap: 5px;
+  padding: 14px;
+}
+
+.managerSummary span,
+.managerResourceCard span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.managerSummary strong {
+  color: var(--ink);
+  font-size: 1.1rem;
+  overflow-wrap: anywhere;
+}
+
+.managerToolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.managerToolbar a {
+  text-decoration: none;
+}
+
+.managerMessage {
+  width: fit-content;
+  margin: 0;
+  border: 1px solid rgba(12, 116, 102, 0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-weight: 850;
+}
+
+.managerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.managerResourceCard {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 210px;
+  padding: 18px;
+}
+
+.managerResourceCard h2 {
+  margin: 5px 0 0;
+  color: var(--ink);
+  font-size: 1.25rem;
+}
+
+.managerResourceCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.managerResourceCard strong {
+  width: fit-content;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.86rem;
+}
+
+.managerResourceCard small {
+  color: var(--wrong);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.managerResourceCard.ready {
+  border-color: rgba(22, 112, 61, 0.26);
+}
+
+.managerResourceCard.ready span {
+  color: var(--right);
+}
+
+.managerResourceCard.missing span {
+  color: var(--accent);
+}
+
+.managerResourceCard.blocked span {
+  color: var(--wrong);
+}
+
+.managerSqlPanel {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+.managerSqlPanel h2 {
+  margin: 5px 0 0;
+  color: var(--ink);
+}
+
+.managerSqlPanel p {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.managerSqlPanel pre {
+  max-height: 460px;
+  margin: 0;
+  border-radius: 8px;
+  padding: 16px;
+  background: #14201d;
+  color: #f5f7f6;
+  overflow: auto;
+  white-space: pre-wrap;
+}
+
 .vocabStudyPage {
   display: grid;
   gap: 18px;
@@ -3798,8 +3973,13 @@ dd {
 
   .vocabStudyHero,
   .vocabLearnLayout,
-  .vocabTestLayout {
+  .vocabTestLayout,
+  .managerHero {
     grid-template-columns: 1fr;
+  }
+
+  .managerGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .vocabStudyStats {
@@ -4240,6 +4420,19 @@ dd {
   .vocabStudyPage {
     gap: 14px;
     padding: 18px 14px;
+  }
+
+  .managerPage {
+    gap: 14px;
+    padding: 18px 14px;
+  }
+
+  .managerHero h1 {
+    font-size: 2.25rem;
+  }
+
+  .managerGrid {
+    grid-template-columns: 1fr;
   }
 
   .vocabStudyHero h1 {

@@ -6,6 +6,13 @@ import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 
 type AuthMode = "signin" | "signup";
 
+function getAuthRedirectUrl() {
+  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const origin = typeof window !== "undefined" ? window.location.origin : configuredSiteUrl;
+
+  return `${configuredSiteUrl || origin || "https://yenth.shop"}/dashboard`;
+}
+
 export default function LoginPageClient() {
   const [mode, setMode] = useState<AuthMode>("signin");
   const [email, setEmail] = useState("");
@@ -25,7 +32,13 @@ export default function LoginPageClient() {
     const authRequest =
       mode === "signin"
         ? supabase.auth.signInWithPassword({ email, password })
-        : supabase.auth.signUp({ email, password });
+        : supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: getAuthRedirectUrl(),
+          },
+        });
 
     const { error } = await authRequest;
 
@@ -51,7 +64,7 @@ export default function LoginPageClient() {
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: typeof window !== "undefined" ? `${window.location.origin}/dashboard` : undefined,
+        emailRedirectTo: getAuthRedirectUrl(),
       },
     });
 
