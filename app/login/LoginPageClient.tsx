@@ -8,9 +8,13 @@ type AuthMode = "signin" | "signup";
 
 function getAuthRedirectUrl() {
   const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
-  const origin = typeof window !== "undefined" ? window.location.origin : configuredSiteUrl;
+  const productionSiteUrl = "https://yenth.shop";
+  const origin =
+    typeof window !== "undefined" && !window.location.hostname.includes("localhost")
+      ? window.location.origin
+      : undefined;
 
-  return `${configuredSiteUrl || origin || "https://yenth.shop"}/dashboard`;
+  return `${configuredSiteUrl || origin || productionSiteUrl}/dashboard`;
 }
 
 export default function LoginPageClient() {
