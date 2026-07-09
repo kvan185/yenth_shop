@@ -6,7 +6,7 @@ import type { LevelId, VocabularyItem } from "../../../lib/vocabulary";
 import { getFirstLetter, getMeaning, getWord, normalizeText } from "../../../lib/vocabulary";
 import { createQuizQuestionForAnswer, shuffle, type QuizQuestion } from "../../../lib/quiz";
 import { supabase } from "../../../lib/supabase";
-import { ensureDailyStreak } from "../../../lib/streak";
+import { recordDailyStreak } from "../../../lib/streak";
 
 type VocabularyStudyPageProps = {
   level: LevelId;
@@ -71,8 +71,12 @@ function getWordKey(item: VocabularyItem) {
   return `${normalizeText(getWord(item))}::${normalizeText(getMeaning(item))}`;
 }
 
-function getStorageKey(level: LevelId) {
-  return `yenth:vocabulary:${level.toLowerCase()}:progress`;
+function getStorageKey(level: LevelId, ownerKey: string) {
+  return `yenth:vocabulary:${ownerKey}:${level.toLowerCase()}:progress`;
+}
+
+function getProgressOwnerKey(userId: string) {
+  return userId ? `user:${userId}` : "guest";
 }
 
 function SpeakerIcon() {
@@ -137,6 +141,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const [wrongKeys, setWrongKeys] = useState<Set<string>>(() => new Set());
   const [isProgressLoaded, setIsProgressLoaded] = useState(false);
   const [userId, setUserId] = useState("");
+  const [progressStorageKey, setProgressStorageKey] = useState("");
   const [quiz, setQuiz] = useState<QuizQuestion<VocabularyItem> | null>(null);
   const [selectedAnswerKey, setSelectedAnswerKey] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -208,8 +213,15 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
       setIsProgressLoaded(false);
       let nextCorrectKeys = new Set<string>();
       let nextWrongKeys = new Set<string>();
+      let currentUserId = "";
 
-      const rawProgress = window.localStorage.getItem(getStorageKey(level));
+      if (supabase) {
+        const { data: userData } = await supabase.auth.getUser();
+        currentUserId = userData.user?.id || "";
+      }
+
+      const nextStorageKey = getStorageKey(level, getProgressOwnerKey(currentUserId));
+      const rawProgress = window.localStorage.getItem(nextStorageKey);
 
       if (rawProgress) {
         try {
@@ -223,9 +235,6 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
       }
 
       if (supabase) {
-        const { data: userData } = await supabase.auth.getUser();
-        const currentUserId = userData.user?.id || "";
-
         if (currentUserId) {
           const { data, error } = await supabase
             .from("vocabulary_progress")
@@ -249,10 +258,14 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
 
         if (isMounted) {
           setUserId(currentUserId);
+          setProgressStorageKey(nextStorageKey);
         }
       }
 
       if (isMounted) {
+        if (!supabase) {
+          setProgressStorageKey(nextStorageKey);
+        }
         setCorrectKeys(nextCorrectKeys);
         setWrongKeys(nextWrongKeys);
         setIsProgressLoaded(true);
@@ -267,18 +280,18 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   }, [level, words]);
 
   useEffect(() => {
-    if (!isProgressLoaded) {
+    if (!isProgressLoaded || !progressStorageKey) {
       return;
     }
 
     window.localStorage.setItem(
-      getStorageKey(level),
+      progressStorageKey,
       JSON.stringify({
         correctKeys: Array.from(correctKeys),
         wrongKeys: Array.from(wrongKeys),
       }),
     );
-  }, [correctKeys, isProgressLoaded, level, wrongKeys]);
+  }, [correctKeys, isProgressLoaded, progressStorageKey, wrongKeys]);
 
   useEffect(() => {
     if (!isProgressLoaded || !supabase || !userId) {
@@ -352,7 +365,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     }
 
     if (supabase) {
-      void supabase.auth.getUser().then(({ data }) => ensureDailyStreak(data.user));
+      void supabase.auth.getUser().then(({ data }) => recordDailyStreak(data.user));
     }
 
     setIsSubmitted(true);
@@ -574,8 +587,8 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
           <Link href="/vocabulary" className="testBackLink">
             Vocabulary
           </Link>
-          <h1>Học đầy đủ, kiểm tra đến khi nhớ hết.</h1>
-
+          <h1>{level.toUpperCase()} Vocabulary</h1>
+          <p>{words.length.toLocaleString("vi-VN")} từ vựng</p>
         </div>
 
         <div className="vocabStudyStats" aria-label="Tiến độ kiểm tra">
@@ -592,21 +605,21 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
             <strong>{remainingWords.length}</strong>
           </div>
         </div>
-      </section>
 
-      <section className="vocabStudyTabs" aria-label="Chọn chế độ học">
-        <button
-          className={mode === "learn" ? "active" : ""}
-          type="button"
-          onClick={() => setMode("learn")}
-        >
-          Học
-        </button>
-        <button className={mode === "test" ? "active" : ""} type="button" onClick={startTest}>
-          Kiểm tra
-        </button>
-        <div>
-          <span style={{ width: `${progress}%` }} />
+        <div className="vocabStudyTabs" aria-label="Chọn chế độ học">
+          <button
+            className={mode === "learn" ? "active" : ""}
+            type="button"
+            onClick={() => setMode("learn")}
+          >
+            Học
+          </button>
+          <button className={mode === "test" ? "active" : ""} type="button" onClick={startTest}>
+            Kiểm tra
+          </button>
+          <div aria-label={`${progress}% hoàn thành`}>
+            <span style={{ width: `${progress}%` }} />
+          </div>
         </div>
       </section>
 
@@ -614,11 +627,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
         <section className="vocabLearnLayout">
           <aside className="vocabLearnPanel">
             <label className="searchBox">
-              Tìm từ, nghĩa hoặc ví dụ
+              Tìm nhanh
               <input
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                placeholder="Nhập từ khóa..."
+                placeholder="Từ, nghĩa, ví dụ..."
               />
             </label>
 

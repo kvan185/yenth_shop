@@ -1,0 +1,5 @@
+id,fullName,username,email,password,role
+user-001,Khánh Văn,khanhvan,khanhvan@yenth.shop,Khanhvan12@@,student
+user-002,Kiều Vy,kieuvy,kieuvy@yenth.shop,Kieuvy12@@,student
+user-003,Kim Khánh,kimkhanh,kimkhanh@yenth.shop,Kimkhanh12@@,student
+user-004,Khánh Duy,khanhduy,khanhduy@yenth.shop,Khanhduy12@@,student

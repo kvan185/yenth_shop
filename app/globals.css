@@ -3854,89 +3854,84 @@ dd {
 
 .vocabStudyPage {
   display: grid;
-  gap: 18px;
+  gap: 14px;
   min-height: 100%;
-  padding: clamp(18px, 4vw, 42px);
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(15, 118, 104, 0.1),
-      transparent 34%
-    ),
-    #f6f8f5;
+  padding: clamp(14px, 3vw, 28px);
+  background: #f6f8f5;
 }
 
 .vocabStudyHero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
-  gap: 18px;
-  align-items: end;
+  grid-template-columns: minmax(190px, 1fr) minmax(250px, 360px) minmax(280px, 420px);
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+  box-shadow: 0 10px 26px rgba(24, 36, 33, 0.05);
 }
 
 .vocabStudyHero > div:first-child {
   display: grid;
-  gap: 8px;
+  gap: 4px;
 }
 
 .vocabStudyHero h1 {
-  max-width: 760px;
   margin: 0;
   color: var(--ink);
-  font-size: clamp(2.1rem, 4vw, 4rem);
-  line-height: 1;
+  font-size: clamp(1.35rem, 2vw, 2rem);
+  line-height: 1.05;
   letter-spacing: 0;
 }
 
 .vocabStudyHero p {
-  max-width: 720px;
   margin: 0;
   color: var(--muted);
-  font-weight: 700;
-  line-height: 1.65;
+  font-size: 0.9rem;
+  font-weight: 850;
+  line-height: 1.35;
 }
 
 .vocabStudyStats {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
 .vocabStudyStats div {
   display: grid;
-  gap: 6px;
-  min-height: 86px;
+  gap: 4px;
+  min-height: 58px;
   align-content: center;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 14px;
-  background: #ffffff;
-  box-shadow: 0 12px 28px rgba(24, 36, 33, 0.06);
+  padding: 9px 10px;
+  background: var(--surface);
 }
 
 .vocabStudyStats span {
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 850;
   text-transform: uppercase;
 }
 
 .vocabStudyStats strong {
   color: var(--ink);
-  font-size: 1.7rem;
+  font-size: 1.25rem;
   line-height: 1;
 }
 
 .vocabStudyTabs {
   display: grid;
   grid-template-columns: auto auto minmax(120px, 1fr);
-  gap: 8px;
+  gap: 6px;
   align-items: center;
-  width: min(100%, 720px);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 6px;
-  background: #ffffff;
-  box-shadow: 0 12px 28px rgba(24, 36, 33, 0.05);
+  padding: 5px;
+  background: var(--surface);
 }
 
 .vocabStudyTabs button,
@@ -3949,8 +3944,8 @@ dd {
 }
 
 .vocabStudyTabs button {
-  min-height: 38px;
-  padding: 0 18px;
+  min-height: 36px;
+  padding: 0 14px;
 }
 
 .vocabStudyTabs button.active,
@@ -3976,7 +3971,7 @@ dd {
 .vocabLearnLayout,
 .vocabTestLayout {
   display: grid;
-  grid-template-columns: minmax(280px, 0.38fr) minmax(0, 1fr);
+  grid-template-columns: minmax(260px, 0.34fr) minmax(0, 1fr);
   gap: 14px;
   align-items: stretch;
   min-height: 0;
@@ -3995,28 +3990,28 @@ dd {
 .vocabLearnPanel {
   display: grid;
   grid-template-rows: auto auto minmax(0, 1fr);
-  gap: 12px;
-  min-height: 560px;
-  padding: 14px;
+  gap: 10px;
+  min-height: 500px;
+  padding: 12px;
 }
 
 .vocabLetterFilter {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 5px;
 }
 
 .vocabLetterFilter button {
-  min-width: 38px;
-  min-height: 34px;
-  padding: 0 10px;
+  min-width: 34px;
+  min-height: 30px;
+  padding: 0 8px;
   background: var(--surface);
 }
 
 .vocabWordList {
   display: grid;
   align-content: start;
-  gap: 7px;
+  gap: 6px;
   min-height: 0;
   overflow: auto;
   padding-right: 4px;
@@ -4024,10 +4019,10 @@ dd {
 
 .vocabWordList button {
   display: grid;
-  gap: 4px;
+  gap: 3px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   background: #ffffff;
   color: var(--ink);
   text-align: left;
@@ -4039,22 +4034,22 @@ dd {
 }
 
 .vocabWordList strong {
-  font-size: 1rem;
+  font-size: 0.95rem;
 }
 
 .vocabWordList span {
   color: var(--muted);
-  font-size: 0.86rem;
-  line-height: 1.45;
+  font-size: 0.8rem;
+  line-height: 1.35;
 }
 
 .vocabLearnCard,
 .vocabTestCard {
   display: grid;
   align-content: start;
-  gap: 18px;
-  min-height: 560px;
-  padding: clamp(18px, 3vw, 34px);
+  gap: 14px;
+  min-height: 500px;
+  padding: clamp(16px, 2.4vw, 28px);
 }
 
 .vocabLearnCardHead {
@@ -4073,7 +4068,7 @@ dd {
 .vocabLearnCardHead h2 {
   margin: 6px 0 0;
   color: var(--ink);
-  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
   line-height: 0.95;
   letter-spacing: 0;
 }
@@ -4113,9 +4108,9 @@ dd {
 .vocabLearnDetails dd {
   margin: 0;
   color: var(--ink);
-  font-size: 1.08rem;
+  font-size: 1.02rem;
   font-weight: 760;
-  line-height: 1.65;
+  line-height: 1.55;
 }
 
 .vocabTestCard .answerList {
@@ -4294,6 +4289,10 @@ dd {
   }
 
   .vocabStudyStats {
+    max-width: 520px;
+  }
+
+  .vocabStudyTabs {
     max-width: 520px;
   }
 
@@ -4816,16 +4815,56 @@ dd {
   }
 
   .vocabStudyHero h1 {
-    font-size: 2.25rem;
+    font-size: 1.55rem;
   }
 
-  .vocabStudyStats,
+  .vocabStudyHero {
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .vocabStudyHero p {
+    font-size: 0.84rem;
+  }
+
+  .vocabStudyStats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .vocabStudyStats div {
+    min-height: 50px;
+    padding: 8px 6px;
+  }
+
+  .vocabStudyStats span {
+    font-size: 0.62rem;
+  }
+
+  .vocabStudyStats strong {
+    font-size: 1.1rem;
+  }
+
   .vocabStudyTabs {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .vocabStudyTabs button {
+    width: 100%;
   }
 
   .vocabStudyTabs > div {
+    grid-column: 1 / -1;
     min-width: 0;
+  }
+
+  .vocabLearnPanel {
+    order: 2;
+  }
+
+  .vocabLearnCard {
+    order: 1;
   }
 
   .vocabLearnCardHead {

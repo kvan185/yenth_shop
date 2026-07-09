@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
-import { ensureDailyStreak } from "../../lib/streak";
+import { getDailyStreak } from "../../lib/streak";
 
 const settingItems = [
   "Nhắc học từ vựng mỗi ngày",
@@ -65,7 +65,7 @@ export default function ProfilePageClient() {
       setIsLoading(false);
 
       if (data.user) {
-        ensureDailyStreak(data.user).then((days) => {
+        getDailyStreak(data.user).then((days) => {
           if (isMounted) {
             setStreakDays(days);
           }

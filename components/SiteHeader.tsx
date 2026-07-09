@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { ensureDailyStreak } from "../lib/streak";
+import { getDailyStreak } from "../lib/streak";
 
 const navItems = [
   { href: "/", label: "Trang chủ" },
@@ -62,7 +62,7 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
       return;
     }
 
-    ensureDailyStreak(user).then((days) => {
+    getDailyStreak(user).then((days) => {
       if (isMounted) {
         setStreakDays(days);
       }

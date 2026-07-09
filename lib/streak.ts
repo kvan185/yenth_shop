@@ -31,7 +31,32 @@ export function calculateStreakDays(dateKeys: string[], today = getLocalDateKey(
   return streak;
 }
 
-export async function ensureDailyStreak(user: User | null | undefined) {
+export async function getDailyStreak(user: User | null | undefined) {
+  if (!supabase || !user) {
+    return 0;
+  }
+
+  const today = getLocalDateKey();
+
+  const { data } = await supabase
+    .from("learning_events")
+    .select("created_at, payload")
+    .eq("user_id", user.id)
+    .eq("event_type", "daily_streak")
+    .order("created_at", { ascending: false });
+
+  const dateKeys = ((data || []) as LearningEventRow[]).map((event) => {
+    if (event.payload?.date) {
+      return event.payload.date;
+    }
+
+    return event.created_at ? getLocalDateKey(new Date(event.created_at)) : "";
+  });
+
+  return calculateStreakDays(dateKeys, today);
+}
+
+export async function recordDailyStreak(user: User | null | undefined) {
   if (!supabase || !user) {
     return 0;
   }
@@ -54,20 +79,5 @@ export async function ensureDailyStreak(user: User | null | undefined) {
     });
   }
 
-  const { data } = await supabase
-    .from("learning_events")
-    .select("created_at, payload")
-    .eq("user_id", user.id)
-    .eq("event_type", "daily_streak")
-    .order("created_at", { ascending: false });
-
-  const dateKeys = ((data || []) as LearningEventRow[]).map((event) => {
-    if (event.payload?.date) {
-      return event.payload.date;
-    }
-
-    return event.created_at ? getLocalDateKey(new Date(event.created_at)) : "";
-  });
-
-  return calculateStreakDays(dateKeys, today);
+  return getDailyStreak(user);
 }
