@@ -1,0 +1,3 @@
+-- Seed dữ liệu mẫu đã được bỏ khỏi app.
+-- Tạo user thật bằng Supabase Dashboard > Authentication > Users,
+-- sau đó thêm profile tương ứng trong public.profiles nếu cần.

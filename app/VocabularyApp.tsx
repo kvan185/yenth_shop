@@ -7,11 +7,11 @@ import { createQuizQuestion, shuffle, type QuizQuestion } from "../lib/quiz";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const levels: Array<{ id: string; href: string | null }> = [
-  { id: "A1", href: "/a1" },
-  { id: "A2", href: "/a2" },
-  { id: "B1", href: "/b1" },
-  { id: "B2", href: "/b2" },
-  { id: "C1", href: "/c1" },
+  { id: "A1", href: "/vocabulary/a1" },
+  { id: "A2", href: "/vocabulary/a2" },
+  { id: "B1", href: "/vocabulary/b1" },
+  { id: "B2", href: "/vocabulary/b2" },
+  { id: "C1", href: "/vocabulary/c1" },
   { id: "C2", href: null },
 ];
 const defaultLetterPanelWidth = 380;
@@ -21,9 +21,9 @@ const streakStorageKey = "vstepStreakState";
 
 type VocabularyItem = {
   [key: string]: string | undefined;
-  "từ"?: string;
+  từ?: string;
   "loại từ"?: string;
-  "nghĩa"?: string;
+  nghĩa?: string;
   "ví dụ"?: string;
   "nghĩa ví dụ"?: string;
 };
@@ -58,10 +58,15 @@ function getFirstLetter(item: VocabularyItem) {
 }
 
 function getLocalDateKey() {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh" }).format(new Date());
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Ho_Chi_Minh",
+  }).format(new Date());
 }
 
-export default function VocabularyApp({ level, vocabularyData }: VocabularyAppProps) {
+export default function VocabularyApp({
+  level,
+  vocabularyData,
+}: VocabularyAppProps) {
   const words = useMemo<VocabularyItem[]>(
     () => vocabularyData.filter((item) => getWord(item) && getMeaning(item)),
     [vocabularyData],
@@ -72,15 +77,21 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
   const [selectedLetter, setSelectedLetter] = useState<string>("ALL");
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [seenWords, setSeenWords] = useState<Set<string>>(() => new Set());
-  const [quiz, setQuiz] = useState<QuizQuestion<VocabularyItem> | null>(() => createQuizQuestion(words));
-  const [selectedAnswer, setSelectedAnswer] = useState<VocabularyItem | null>(null);
+  const [quiz, setQuiz] = useState<QuizQuestion<VocabularyItem> | null>(() =>
+    createQuizQuestion(words),
+  );
+  const [selectedAnswer, setSelectedAnswer] = useState<VocabularyItem | null>(
+    null,
+  );
   const [score, setScore] = useState<{ correct: number; total: number }>({
     correct: 0,
     total: 0,
   });
   const [shuffledWords, setShuffledWords] = useState<VocabularyItem[]>(words);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true);
-  const [letterPanelWidth, setLetterPanelWidth] = useState<number>(defaultLetterPanelWidth);
+  const [letterPanelWidth, setLetterPanelWidth] = useState<number>(
+    defaultLetterPanelWidth,
+  );
   const [streakDays, setStreakDays] = useState<number>(1);
   const learnViewRef = useRef<HTMLDivElement | null>(null);
 
@@ -90,11 +101,11 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
       setIsSidebarOpen(savedState === "true");
     }
 
-    const savedPanelWidth = Number(window.localStorage.getItem("vstepLetterPanelWidth"));
+    const savedPanelWidth = Number(
+      window.localStorage.getItem("vstepLetterPanelWidth"),
+    );
     if (Number.isFinite(savedPanelWidth) && savedPanelWidth > 0) {
-      setLetterPanelWidth(
-        Math.max(minLetterPanelWidth, savedPanelWidth),
-      );
+      setLetterPanelWidth(Math.max(minLetterPanelWidth, savedPanelWidth));
     }
 
     const today = getLocalDateKey();
@@ -105,7 +116,8 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
       try {
         const parsed = JSON.parse(savedStreak) as Partial<StreakState>;
         const previousDays = Number(parsed.days) || 1;
-        const previousDate = typeof parsed.lastDate === "string" ? parsed.lastDate : "";
+        const previousDate =
+          typeof parsed.lastDate === "string" ? parsed.lastDate : "";
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         const yesterdayKey = new Intl.DateTimeFormat("en-CA", {
@@ -174,7 +186,8 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
   const filteredWords = useMemo(() => {
     const keyword = normalizeText(search);
     return shuffledWords.filter((item) => {
-      const matchesLetter = selectedLetter === "ALL" || getFirstLetter(item) === selectedLetter;
+      const matchesLetter =
+        selectedLetter === "ALL" || getFirstLetter(item) === selectedLetter;
       if (!matchesLetter) {
         return false;
       }
@@ -197,10 +210,15 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
     });
   }, [search, selectedLetter, shuffledWords]);
 
-  const safeIndex = filteredWords.length === 0 ? 0 : Math.min(currentIndex, filteredWords.length - 1);
+  const safeIndex =
+    filteredWords.length === 0
+      ? 0
+      : Math.min(currentIndex, filteredWords.length - 1);
   const currentWord = filteredWords[safeIndex];
-  const selectedLetterLabel = selectedLetter === "ALL" ? "Tất cả" : `Chữ ${selectedLetter}`;
-  const selectedLetterCount = selectedLetter === "ALL" ? words.length : letterCounts[selectedLetter] || 0;
+  const selectedLetterLabel =
+    selectedLetter === "ALL" ? "Tất cả" : `Chữ ${selectedLetter}`;
+  const selectedLetterCount =
+    selectedLetter === "ALL" ? words.length : letterCounts[selectedLetter] || 0;
   const selectedLetterIndex = availableLetters.indexOf(selectedLetter);
 
   function showWord(index: number) {
@@ -216,7 +234,8 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
       return;
     }
 
-    const nextIndex = (safeIndex + step + filteredWords.length) % filteredWords.length;
+    const nextIndex =
+      (safeIndex + step + filteredWords.length) % filteredWords.length;
     showWord(nextIndex);
   }
 
@@ -240,13 +259,19 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
     }
 
     if (selectedLetter === "ALL") {
-      handleLetterChange(step > 0 ? availableLetters[0] : availableLetters[availableLetters.length - 1]);
+      handleLetterChange(
+        step > 0
+          ? availableLetters[0]
+          : availableLetters[availableLetters.length - 1],
+      );
       return;
     }
 
-    const currentLetterIndex = selectedLetterIndex >= 0 ? selectedLetterIndex : 0;
+    const currentLetterIndex =
+      selectedLetterIndex >= 0 ? selectedLetterIndex : 0;
     const nextLetterIndex =
-      (currentLetterIndex + step + availableLetters.length) % availableLetters.length;
+      (currentLetterIndex + step + availableLetters.length) %
+      availableLetters.length;
     handleLetterChange(availableLetters[nextLetterIndex]);
   }
 
@@ -290,10 +315,19 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
 
     function resizePanel(clientX: number) {
       const availableWidth = bounds.width;
-      const maxWidth = Math.max(minLetterPanelWidth, availableWidth * maxLetterPanelRatio);
-      const nextWidth = Math.min(maxWidth, Math.max(minLetterPanelWidth, bounds.right - clientX));
+      const maxWidth = Math.max(
+        minLetterPanelWidth,
+        availableWidth * maxLetterPanelRatio,
+      );
+      const nextWidth = Math.min(
+        maxWidth,
+        Math.max(minLetterPanelWidth, bounds.right - clientX),
+      );
       setLetterPanelWidth(nextWidth);
-      window.localStorage.setItem("vstepLetterPanelWidth", String(Math.round(nextWidth)));
+      window.localStorage.setItem(
+        "vstepLetterPanelWidth",
+        String(Math.round(nextWidth)),
+      );
     }
 
     function handlePointerMove(moveEvent: PointerEvent) {
@@ -312,7 +346,9 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
   return (
     <main
       className={`appShell ${isSidebarOpen ? "" : "sidebarClosed"}`}
-      style={{ "--letter-panel-width": `${letterPanelWidth}px` } as CSSProperties}
+      style={
+        { "--letter-panel-width": `${letterPanelWidth}px` } as CSSProperties
+      }
     >
       {!isSidebarOpen && (
         <button
@@ -369,8 +405,8 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
             }}
           >
             Kiểm tra
-            </button>
-          </nav>
+          </button>
+        </nav>
 
         <section className="menuSummary" aria-label="Thông tin học tập">
           <div>
@@ -393,7 +429,12 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
           {levels.map((item) => {
             if (!item.href) {
               return (
-                <button className="levelNavItem locked" type="button" key={item.id} disabled>
+                <button
+                  className="levelNavItem locked"
+                  type="button"
+                  key={item.id}
+                  disabled
+                >
                   {item.id}
                 </button>
               );
@@ -410,7 +451,6 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
             );
           })}
         </nav>
-
       </aside>
 
       <section className="workspace">
@@ -441,13 +481,21 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
               onChange={(event) => handleSearch(event.target.value)}
             />
           </label>
-          <button className="secondaryButton" type="button" onClick={handleShuffle}>
+          <button
+            className="secondaryButton"
+            type="button"
+            onClick={handleShuffle}
+          >
             Trộn từ
           </button>
         </header>
 
         {mode === "learn" ? (
-          <section className="view learnView" aria-label="Học từ vựng" ref={learnViewRef}>
+          <section
+            className="view learnView"
+            aria-label="Học từ vựng"
+            ref={learnViewRef}
+          >
             <div className="wordCard">
               {currentWord ? (
                 <>
@@ -458,7 +506,9 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                       </p>
                       <h2>{getWord(currentWord)}</h2>
                     </div>
-                    <span className="tag">{currentWord["loại từ"] || "word"}</span>
+                    <span className="tag">
+                      {currentWord["loại từ"] || "word"}
+                    </span>
                   </div>
 
                   <dl className="wordDetail">
@@ -472,7 +522,9 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                     </div>
                     <div>
                       <dt>Dịch ví dụ</dt>
-                      <dd>{currentWord["nghĩa ví dụ"] || "Chưa có bản dịch"}</dd>
+                      <dd>
+                        {currentWord["nghĩa ví dụ"] || "Chưa có bản dịch"}
+                      </dd>
                     </div>
                   </dl>
                 </>
@@ -484,10 +536,18 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
               )}
 
               <div className="cardActions">
-                <button className="secondaryButton" type="button" onClick={() => moveWord(-1)}>
+                <button
+                  className="secondaryButton"
+                  type="button"
+                  onClick={() => moveWord(-1)}
+                >
                   Trước
                 </button>
-                <button className="primaryButton" type="button" onClick={() => moveWord(1)}>
+                <button
+                  className="primaryButton"
+                  type="button"
+                  onClick={() => moveWord(1)}
+                >
                   Tiếp theo
                 </button>
               </div>
@@ -505,14 +565,23 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                 <div>
                   <span>Bộ lọc chữ cái</span>
                   <strong>
-                    {selectedLetterLabel}: {filteredWords.length}/{selectedLetterCount} từ
+                    {selectedLetterLabel}: {filteredWords.length}/
+                    {selectedLetterCount} từ
                   </strong>
                 </div>
                 <div className="letterControls" aria-label="Điều hướng chữ cái">
-                  <button className="letterNavButton" type="button" onClick={() => moveLetter(-1)}>
+                  <button
+                    className="letterNavButton"
+                    type="button"
+                    onClick={() => moveLetter(-1)}
+                  >
                     ←
                   </button>
-                  <button className="letterNavButton" type="button" onClick={() => moveLetter(1)}>
+                  <button
+                    className="letterNavButton"
+                    type="button"
+                    onClick={() => moveLetter(1)}
+                  >
                     →
                   </button>
                 </div>
@@ -531,7 +600,11 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                     type="button"
                     key={letter}
                     disabled={!letterCounts[letter]}
-                    title={letterCounts[letter] ? `${letterCounts[letter]} từ bắt đầu bằng ${letter}` : ""}
+                    title={
+                      letterCounts[letter]
+                        ? `${letterCounts[letter]} từ bắt đầu bằng ${letter}`
+                        : ""
+                    }
                     onClick={() => handleLetterChange(letter)}
                   >
                     <span>{letter}</span>
@@ -540,17 +613,25 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                 ))}
               </div>
               {selectedLetter !== "ALL" && (
-                <div className="wordMenu" aria-label={`Từ bắt đầu bằng ${selectedLetter}`}>
+                <div
+                  className="wordMenu"
+                  aria-label={`Từ bắt đầu bằng ${selectedLetter}`}
+                >
                   {filteredWords.length > 0 ? (
                     <>
                       <label className="wordSelect">
                         <span>Từ nhóm {selectedLetter}</span>
                         <select
                           value={safeIndex}
-                          onChange={(event) => handleWordMenuChange(event.target.value)}
+                          onChange={(event) =>
+                            handleWordMenuChange(event.target.value)
+                          }
                         >
                           {filteredWords.map((item, index) => (
-                            <option value={index} key={`${getWord(item)}-${index}`}>
+                            <option
+                              value={index}
+                              key={`${getWord(item)}-${index}`}
+                            >
                               {getWord(item)}
                             </option>
                           ))}
@@ -572,7 +653,9 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                       </div>
                     </>
                   ) : (
-                    <p className="wordMenuEmpty">Không có từ phù hợp với tìm kiếm hiện tại.</p>
+                    <p className="wordMenuEmpty">
+                      Không có từ phù hợp với tìm kiếm hiện tại.
+                    </p>
                   )}
                 </div>
               )}
@@ -585,7 +668,11 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                 <div>
                   <h2>{quiz ? getWord(quiz.answer) : "Cần ít nhất 4 từ"}</h2>
                 </div>
-                <button className="secondaryButton" type="button" onClick={startNewQuestion}>
+                <button
+                  className="secondaryButton"
+                  type="button"
+                  onClick={startNewQuestion}
+                >
                   Câu khác
                 </button>
               </div>
@@ -610,7 +697,9 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
                       key={`${getMeaning(option)}-${index}`}
                       onClick={() => chooseAnswer(option)}
                     >
-                      <span className="answerLetter">{String.fromCharCode(65 + index)}</span>
+                      <span className="answerLetter">
+                        {String.fromCharCode(65 + index)}
+                      </span>
                       <span>{getMeaning(option)}</span>
                     </button>
                   );
@@ -618,8 +707,13 @@ export default function VocabularyApp({ level, vocabularyData }: VocabularyAppPr
               </div>
 
               <p
-                className={`feedback ${selectedAnswer ? (selectedAnswer === quiz?.answer ? "correct" : "wrong") : ""
-                  }`}
+                className={`feedback ${
+                  selectedAnswer
+                    ? selectedAnswer === quiz?.answer
+                      ? "correct"
+                      : "wrong"
+                    : ""
+                }`}
                 aria-live="polite"
               >
                 {selectedAnswer

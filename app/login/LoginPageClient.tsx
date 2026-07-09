@@ -1,16 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 
 type AuthMode = "signin" | "signup";
 
 function getAuthRedirectUrl() {
-  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+  const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(
+    /\/$/,
+    "",
+  );
   const productionSiteUrl = "https://yenth.shop";
   const origin =
-    typeof window !== "undefined" && !window.location.hostname.includes("localhost")
+    typeof window !== "undefined" &&
+    !window.location.hostname.includes("localhost")
       ? window.location.origin
       : undefined;
 
@@ -18,15 +23,30 @@ function getAuthRedirectUrl() {
 }
 
 export default function LoginPageClient() {
+  const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  function getAuthErrorMessage(error: unknown) {
+    if (error && typeof error === "object" && "message" in error) {
+      const messageText = String((error as { message?: unknown }).message || "").trim();
+
+      if (messageText && messageText !== "{}") {
+        return messageText;
+      }
+    }
+
+    return "Không đăng nhập được. Kiểm tra email/mật khẩu và chắc chắn bạn đã chạy SQL seed trong Supabase.";
+  }
+
   async function handlePasswordAuth() {
     if (!supabase) {
-      setMessage("Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật đăng nhập.");
+      setMessage(
+        "Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật đăng nhập.",
+      );
       return;
     }
 
@@ -37,28 +57,37 @@ export default function LoginPageClient() {
       mode === "signin"
         ? supabase.auth.signInWithPassword({ email, password })
         : supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: getAuthRedirectUrl(),
-          },
-        });
+            email,
+            password,
+            options: {
+              emailRedirectTo: getAuthRedirectUrl(),
+            },
+          });
 
     const { error } = await authRequest;
 
     if (error) {
-      setMessage(error.message);
+      setMessage(getAuthErrorMessage(error));
       setIsLoading(false);
       return;
     }
 
-    setMessage(mode === "signin" ? "Đăng nhập thành công." : "Đã tạo tài khoản. Kiểm tra email nếu Supabase yêu cầu xác nhận.");
+    if (mode === "signin") {
+      setMessage("Đăng nhập thành công. Đang chuyển về trang chủ...");
+      router.replace("/");
+      router.refresh();
+      return;
+    }
+
+    setMessage("Đã tạo tài khoản. Kiểm tra email nếu Supabase yêu cầu xác nhận.");
     setIsLoading(false);
   }
 
   async function handleMagicLink() {
     if (!supabase) {
-      setMessage("Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật magic link.");
+      setMessage(
+        "Supabase chưa được cấu hình. Vui lòng thêm biến môi trường để bật magic link.",
+      );
       return;
     }
 
@@ -73,7 +102,7 @@ export default function LoginPageClient() {
     });
 
     if (error) {
-      setMessage(error.message);
+      setMessage(getAuthErrorMessage(error));
       setIsLoading(false);
       return;
     }
@@ -115,14 +144,30 @@ export default function LoginPageClient() {
         <div className="loginCardHead">
           <p className="loginEyebrow">Account</p>
           <h2>{mode === "signin" ? "Đăng nhập" : "Tạo tài khoản"}</h2>
-          <p>{mode === "signin" ? "Tiếp tục học ngay nơi bạn dừng lại." : "Bắt đầu lưu tiến độ học của bạn."}</p>
+          <p>
+            {mode === "signin"
+              ? "Tiếp tục học ngay nơi bạn dừng lại."
+              : "Bắt đầu lưu tiến độ học của bạn."}
+          </p>
         </div>
 
-        <div className="loginSwitch" role="tablist" aria-label="Chọn chế độ đăng nhập">
-          <button className={mode === "signin" ? "active" : ""} type="button" onClick={() => setMode("signin")}>
+        <div
+          className="loginSwitch"
+          role="tablist"
+          aria-label="Chọn chế độ đăng nhập"
+        >
+          <button
+            className={mode === "signin" ? "active" : ""}
+            type="button"
+            onClick={() => setMode("signin")}
+          >
             Đăng nhập
           </button>
-          <button className={mode === "signup" ? "active" : ""} type="button" onClick={() => setMode("signup")}>
+          <button
+            className={mode === "signup" ? "active" : ""}
+            type="button"
+            onClick={() => setMode("signup")}
+          >
             Đăng ký
           </button>
         </div>
@@ -143,7 +188,9 @@ export default function LoginPageClient() {
             <span>Mật khẩu</span>
             <input
               type="password"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              autoComplete={
+                mode === "signin" ? "current-password" : "new-password"
+              }
               placeholder="Tối thiểu 6 ký tự"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
@@ -164,7 +211,11 @@ export default function LoginPageClient() {
             disabled={isLoading || !isSupabaseConfigured || !email || !password}
             onClick={handlePasswordAuth}
           >
-            {isLoading ? "Đang xử lý..." : mode === "signin" ? "Đăng nhập" : "Tạo tài khoản"}
+            {isLoading
+              ? "Đang xử lý..."
+              : mode === "signin"
+                ? "Đăng nhập"
+                : "Tạo tài khoản"}
           </button>
 
           <button
@@ -192,13 +243,15 @@ export default function LoginPageClient() {
           {message ? <p className="loginMessage">{message}</p> : null}
           {!isSupabaseConfigured ? (
             <p className="loginMessage">
-              Thiếu NEXT_PUBLIC_SUPABASE_URL hoặc NEXT_PUBLIC_SUPABASE_ANON_KEY nên đăng nhập đang tạm tắt.
+              Thiếu NEXT_PUBLIC_SUPABASE_URL hoặc NEXT_PUBLIC_SUPABASE_ANON_KEY
+              nên đăng nhập đang tạm tắt.
             </p>
           ) : null}
         </div>
 
         <p className="loginTerms">
-          Khi tiếp tục, bạn đồng ý với điều khoản học tập và chính sách bảo mật của YENTH.
+          Khi tiếp tục, bạn đồng ý với điều khoản học tập và chính sách bảo mật
+          của YENTH.
         </p>
       </section>
     </main>

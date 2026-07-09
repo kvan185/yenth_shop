@@ -43,7 +43,8 @@ export default function ManagerLoginClient({ authConfigured }: ManagerLoginClien
 
         {!authConfigured ? (
           <div className="managerMessage">
-            Chưa cấu hình manager auth. Thêm MANAGER_ADMIN_USERNAME và MANAGER_ADMIN_PASSWORD trên Vercel.
+            Chưa cấu hình manager auth. Thêm MANAGER_ADMIN_USERNAME=admin và
+            MANAGER_ADMIN_PASSWORD=Khanhvan12@@ trong env local/Vercel rồi restart app.
           </div>
         ) : null}
 

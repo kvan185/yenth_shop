@@ -5,6 +5,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import type { LevelId, VocabularyItem } from "../../../lib/vocabulary";
 import { getFirstLetter, getMeaning, getWord, normalizeText } from "../../../lib/vocabulary";
 import { createQuizQuestionForAnswer, shuffle, type QuizQuestion } from "../../../lib/quiz";
+import { supabase } from "../../../lib/supabase";
+import { ensureDailyStreak } from "../../../lib/streak";
 
 type VocabularyStudyPageProps = {
   level: LevelId;
@@ -16,6 +18,11 @@ type StudyMode = "learn" | "test";
 type StoredProgress = {
   correctKeys?: string[];
   wrongKeys?: string[];
+};
+
+type ProgressRow = {
+  status: "correct" | "wrong";
+  word_key: string;
 };
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
@@ -129,6 +136,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const [correctKeys, setCorrectKeys] = useState<Set<string>>(() => new Set());
   const [wrongKeys, setWrongKeys] = useState<Set<string>>(() => new Set());
   const [isProgressLoaded, setIsProgressLoaded] = useState(false);
+  const [userId, setUserId] = useState("");
   const [quiz, setQuiz] = useState<QuizQuestion<VocabularyItem> | null>(null);
   const [selectedAnswerKey, setSelectedAnswerKey] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -193,21 +201,69 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const isCorrect = selectedAnswerKey === currentAnswerKey;
 
   useEffect(() => {
-    const rawProgress = window.localStorage.getItem(getStorageKey(level));
+    let isMounted = true;
+    const validKeys = new Set(words.map(getWordKey));
 
-    if (rawProgress) {
-      try {
-        const parsed = JSON.parse(rawProgress) as StoredProgress;
-        const validKeys = new Set(words.map(getWordKey));
-        setCorrectKeys(new Set((parsed.correctKeys || []).filter((key) => validKeys.has(key))));
-        setWrongKeys(new Set((parsed.wrongKeys || []).filter((key) => validKeys.has(key))));
-      } catch {
-        setCorrectKeys(new Set());
-        setWrongKeys(new Set());
+    async function loadProgress() {
+      setIsProgressLoaded(false);
+      let nextCorrectKeys = new Set<string>();
+      let nextWrongKeys = new Set<string>();
+
+      const rawProgress = window.localStorage.getItem(getStorageKey(level));
+
+      if (rawProgress) {
+        try {
+          const parsed = JSON.parse(rawProgress) as StoredProgress;
+          nextCorrectKeys = new Set((parsed.correctKeys || []).filter((key) => validKeys.has(key)));
+          nextWrongKeys = new Set((parsed.wrongKeys || []).filter((key) => validKeys.has(key)));
+        } catch {
+          nextCorrectKeys = new Set();
+          nextWrongKeys = new Set();
+        }
+      }
+
+      if (supabase) {
+        const { data: userData } = await supabase.auth.getUser();
+        const currentUserId = userData.user?.id || "";
+
+        if (currentUserId) {
+          const { data, error } = await supabase
+            .from("vocabulary_progress")
+            .select("status, word_key")
+            .eq("user_id", currentUserId)
+            .eq("level", level);
+
+          if (!error && Array.isArray(data)) {
+            nextCorrectKeys = new Set(
+              (data as ProgressRow[])
+                .filter((row) => row.status === "correct" && validKeys.has(row.word_key))
+                .map((row) => row.word_key),
+            );
+            nextWrongKeys = new Set(
+              (data as ProgressRow[])
+                .filter((row) => row.status === "wrong" && validKeys.has(row.word_key))
+                .map((row) => row.word_key),
+            );
+          }
+        }
+
+        if (isMounted) {
+          setUserId(currentUserId);
+        }
+      }
+
+      if (isMounted) {
+        setCorrectKeys(nextCorrectKeys);
+        setWrongKeys(nextWrongKeys);
+        setIsProgressLoaded(true);
       }
     }
 
-    setIsProgressLoaded(true);
+    void loadProgress();
+
+    return () => {
+      isMounted = false;
+    };
   }, [level, words]);
 
   useEffect(() => {
@@ -223,6 +279,41 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
       }),
     );
   }, [correctKeys, isProgressLoaded, level, wrongKeys]);
+
+  useEffect(() => {
+    if (!isProgressLoaded || !supabase || !userId) {
+      return;
+    }
+
+    const rows = [
+      ...Array.from(correctKeys).map((wordKey) => ({
+        level,
+        status: "correct",
+        user_id: userId,
+        word_key: wordKey,
+      })),
+      ...Array.from(wrongKeys)
+        .filter((wordKey) => !correctKeys.has(wordKey))
+        .map((wordKey) => ({
+          level,
+          status: "wrong",
+          user_id: userId,
+          word_key: wordKey,
+        })),
+    ];
+
+    async function syncUserProgress() {
+      await supabase.from("vocabulary_progress").delete().eq("user_id", userId).eq("level", level);
+
+      if (rows.length > 0) {
+        await supabase.from("vocabulary_progress").upsert(rows, {
+          onConflict: "user_id,level,word_key",
+        });
+      }
+    }
+
+    void syncUserProgress();
+  }, [correctKeys, isProgressLoaded, level, userId, wrongKeys]);
 
   useEffect(() => {
     if (selectedWord && getWordKey(selectedWord) !== selectedWordKey) {
@@ -258,6 +349,10 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   function submitAnswer() {
     if (!quiz || !selectedAnswerKey || isSubmitted) {
       return;
+    }
+
+    if (supabase) {
+      void supabase.auth.getUser().then(({ data }) => ensureDailyStreak(data.user));
     }
 
     setIsSubmitted(true);

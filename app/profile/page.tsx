@@ -1,13 +1,10 @@
-import PlaceholderPage from "../../components/PlaceholderPage";
+import ProfilePageClient from "./ProfilePageClient";
+
+export const metadata = {
+  title: "Profile | YENTH",
+  description: "Hồ sơ học tập và tài khoản YENTH.",
+};
 
 export default function ProfilePage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Profile"
-      title="Hồ sơ"
-      description="Khung cho avatar, level, EXP, achievements và settings."
-      backHref="/"
-      backLabel="Về Dashboard"
-    />
-  );
+  return <ProfilePageClient />;
 }
