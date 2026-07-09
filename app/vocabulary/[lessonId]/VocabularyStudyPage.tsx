@@ -365,7 +365,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     }
 
     if (supabase) {
-      void supabase.auth.getUser().then(({ data }) => recordDailyStreak(data.user));
+      void supabase.auth.getUser().then(({ data }) => recordDailyStreak(data.user, level));
     }
 
     setIsSubmitted(true);

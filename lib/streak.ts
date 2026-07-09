@@ -5,8 +5,23 @@ type LearningEventRow = {
   created_at?: string;
   payload?: {
     date?: string;
+    level?: string;
   } | null;
 };
+
+export const streakMilestones = [
+  { className: "streak10", days: 10, icon: "🔥", label: "10 ngày", title: "Bắt lửa" },
+  { className: "streak100", days: 100, icon: "🏆", label: "100 ngày", title: "Bền bỉ" },
+  { className: "streak500", days: 500, icon: "👑", label: "500 ngày", title: "Huyền thoại" },
+];
+
+export function getCurrentStreakMilestone(days: number) {
+  return (
+    [...streakMilestones]
+      .reverse()
+      .find((milestone) => days >= milestone.days) || null
+  );
+}
 
 function getLocalDateKey(date = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh" }).format(date);
@@ -31,13 +46,46 @@ export function calculateStreakDays(dateKeys: string[], today = getLocalDateKey(
   return streak;
 }
 
-export async function getDailyStreak(user: User | null | undefined) {
+function getEventDateKey(event: LearningEventRow) {
+  if (event.payload?.date) {
+    return event.payload.date;
+  }
+
+  return event.created_at ? getLocalDateKey(new Date(event.created_at)) : "";
+}
+
+export async function getDailyStreak(user: User | null | undefined, level?: string) {
   if (!supabase || !user) {
     return 0;
   }
 
   const today = getLocalDateKey();
 
+  let query = supabase
+    .from("learning_events")
+    .select("created_at, payload")
+    .eq("user_id", user.id)
+    .eq("event_type", "daily_streak")
+    .order("created_at", { ascending: false });
+
+  if (level) {
+    query = query.eq("payload->>level", level.toUpperCase());
+  }
+
+  const { data } = await query;
+  const dateKeys = ((data || []) as LearningEventRow[]).map(getEventDateKey);
+
+  return calculateStreakDays(dateKeys, today);
+}
+
+export async function getLevelStreaks(user: User | null | undefined, levels: string[]) {
+  const emptyStreaks = Object.fromEntries(levels.map((level) => [level, 0]));
+
+  if (!supabase || !user) {
+    return emptyStreaks;
+  }
+
+  const today = getLocalDateKey();
   const { data } = await supabase
     .from("learning_events")
     .select("created_at, payload")
@@ -45,39 +93,55 @@ export async function getDailyStreak(user: User | null | undefined) {
     .eq("event_type", "daily_streak")
     .order("created_at", { ascending: false });
 
-  const dateKeys = ((data || []) as LearningEventRow[]).map((event) => {
-    if (event.payload?.date) {
-      return event.payload.date;
+  const dateKeysByLevel = levels.reduce<Record<string, string[]>>((result, level) => {
+    result[level] = [];
+    return result;
+  }, {});
+
+  ((data || []) as LearningEventRow[]).forEach((event) => {
+    const eventLevel = event.payload?.level?.toUpperCase();
+
+    if (!eventLevel || !dateKeysByLevel[eventLevel]) {
+      return;
     }
 
-    return event.created_at ? getLocalDateKey(new Date(event.created_at)) : "";
+    dateKeysByLevel[eventLevel].push(getEventDateKey(event));
   });
 
-  return calculateStreakDays(dateKeys, today);
+  return levels.reduce<Record<string, number>>((result, level) => {
+    result[level] = calculateStreakDays(dateKeysByLevel[level] || [], today);
+    return result;
+  }, {});
 }
 
-export async function recordDailyStreak(user: User | null | undefined) {
+export async function recordDailyStreak(user: User | null | undefined, level?: string) {
   if (!supabase || !user) {
     return 0;
   }
 
   const today = getLocalDateKey();
+  const normalizedLevel = level?.toUpperCase();
 
-  const { data: existingEvent } = await supabase
+  let query = supabase
     .from("learning_events")
     .select("id")
     .eq("user_id", user.id)
     .eq("event_type", "daily_streak")
-    .eq("payload->>date", today)
-    .maybeSingle();
+    .eq("payload->>date", today);
+
+  if (normalizedLevel) {
+    query = query.eq("payload->>level", normalizedLevel);
+  }
+
+  const { data: existingEvent } = await query.maybeSingle();
 
   if (!existingEvent) {
     await supabase.from("learning_events").insert({
       event_type: "daily_streak",
-      payload: { date: today },
+      payload: normalizedLevel ? { date: today, level: normalizedLevel } : { date: today },
       user_id: user.id,
     });
   }
 
-  return getDailyStreak(user);
+  return getDailyStreak(user, normalizedLevel);
 }

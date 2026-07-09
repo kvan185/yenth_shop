@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../../lib/supabase";
-import { getDailyStreak } from "../../lib/streak";
+import { getCurrentStreakMilestone, getDailyStreak, streakMilestones } from "../../lib/streak";
 
 const settingItems = [
   "Nhắc học từ vựng mỗi ngày",
@@ -37,11 +37,12 @@ export default function ProfilePageClient() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [streakDays, setStreakDays] = useState(0);
+  const currentMilestone = getCurrentStreakMilestone(streakDays);
   const displayName = getDisplayName(user);
   const initials = useMemo(() => getInitials(displayName), [displayName]);
   const achievementItems = useMemo(
     () => [
-      { label: "Streak", value: `${streakDays} ngày` },
+      { label: currentMilestone ? currentMilestone.title : "Streak", value: `${streakDays} ngày` },
       { label: "XP", value: "1,250" },
       { label: "Level", value: "A2" },
     ],
@@ -142,6 +143,23 @@ export default function ProfilePageClient() {
             <strong>{item.value}</strong>
           </div>
         ))}
+      </section>
+
+      <section className="profileStreakMilestones" aria-label="Huy hiệu streak">
+        {streakMilestones.map((milestone) => {
+          const unlocked = streakDays >= milestone.days;
+
+          return (
+            <div
+              className={`profileStreakBadge ${milestone.className} ${unlocked ? "unlocked" : ""}`}
+              key={milestone.days}
+            >
+              <span aria-hidden="true">{milestone.icon}</span>
+              <strong>{milestone.label}</strong>
+              <small>{unlocked ? milestone.title : `Còn ${milestone.days - streakDays} ngày`}</small>
+            </div>
+          );
+        })}
       </section>
 
       <section className="profileGrid">

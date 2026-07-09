@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "../lib/supabase";
-import { getDailyStreak } from "../lib/streak";
+import { getCurrentStreakMilestone, getDailyStreak } from "../lib/streak";
 
 const navItems = [
   { href: "/", label: "Trang chủ" },
@@ -24,6 +24,7 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [streakDays, setStreakDays] = useState(0);
+  const streakMilestone = getCurrentStreakMilestone(streakDays);
   const userLabel =
     typeof user?.user_metadata?.display_name === "string" && user.user_metadata.display_name.trim()
       ? user.user_metadata.display_name.trim()
@@ -95,7 +96,12 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
                 <Link className="siteLoginLink siteUserLink" href="/profile">
                   {userLabel}
                 </Link>
-                {streakDays > 0 ? <span className="siteStreakBadge">{streakDays} ngày</span> : null}
+                {streakDays > 0 ? (
+                  <span className={`siteStreakBadge ${streakMilestone?.className || ""}`}>
+                    <span aria-hidden="true">{streakMilestone?.icon || "🔥"}</span>
+                    {streakDays} ngày
+                  </span>
+                ) : null}
                 <button className="siteLoginLink" type="button" onClick={handleLogout}>
                   Thoát
                 </button>

@@ -77,8 +77,9 @@ create table if not exists public.learning_events (
   created_at timestamptz default now()
 );
 
-create unique index if not exists learning_events_daily_streak_unique
-on public.learning_events (user_id, ((payload->>'date')))
+drop index if exists public.learning_events_daily_streak_unique;
+create unique index learning_events_daily_streak_unique
+on public.learning_events (user_id, ((payload->>'date')), ((payload->>'level')))
 where event_type = 'daily_streak';
 
 alter table public.profiles enable row level security;

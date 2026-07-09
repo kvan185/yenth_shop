@@ -181,6 +181,7 @@ body {
 .siteStreakBadge {
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: 40px;
   border: 1px solid rgba(12, 116, 102, 0.18);
   border-radius: 8px;
@@ -190,6 +191,28 @@ body {
   font-size: 0.86rem;
   font-weight: 900;
   white-space: nowrap;
+}
+
+.siteStreakBadge span {
+  line-height: 1;
+}
+
+.siteStreakBadge.streak10 {
+  border-color: rgba(204, 92, 34, 0.24);
+  background: linear-gradient(135deg, #fff7df, #fff0e7);
+  color: #8f3f18;
+}
+
+.siteStreakBadge.streak100 {
+  border-color: rgba(177, 113, 26, 0.26);
+  background: linear-gradient(135deg, #fff2c8, #ffe7d6);
+  color: #764512;
+}
+
+.siteStreakBadge.streak500 {
+  border-color: rgba(105, 69, 21, 0.3);
+  background: linear-gradient(135deg, #fff2bd, #ffe1b8);
+  color: #5f3c0f;
 }
 
 .siteHeaderCompact {
@@ -1187,6 +1210,12 @@ body {
   margin: 0;
   color: var(--muted);
   line-height: 1.6;
+}
+
+.vocabStreakMilestones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .vocabIndexSection {
@@ -2435,6 +2464,61 @@ button:disabled {
 .profileStats strong {
   color: var(--primary-dark);
   font-size: clamp(1.45rem, 3vw, 2rem);
+}
+
+.profileStreakMilestones {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.profileStreakBadge {
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  min-height: 92px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--muted);
+  box-shadow: 0 12px 28px rgba(24, 36, 33, 0.05);
+}
+
+.vocabStreakMilestones .profileStreakBadge {
+  min-height: 58px;
+  padding: 10px;
+}
+
+.profileStreakBadge > span {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.profileStreakBadge strong {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.profileStreakBadge small {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.profileStreakBadge.unlocked {
+  border-color: rgba(204, 92, 34, 0.24);
+  background: linear-gradient(135deg, #fff8e5, #fff0e8);
+}
+
+.profileStreakBadge.streak100.unlocked {
+  border-color: rgba(177, 113, 26, 0.26);
+  background: linear-gradient(135deg, #fff3cd, #ffe8d9);
+}
+
+.profileStreakBadge.streak500.unlocked {
+  border-color: rgba(105, 69, 21, 0.3);
+  background: linear-gradient(135deg, #fff2bd, #ffe1b8);
 }
 
 .profileGrid {
@@ -4794,6 +4878,11 @@ dd {
   }
 
   .profileStats {
+    grid-template-columns: 1fr;
+  }
+
+  .profileStreakMilestones,
+  .vocabStreakMilestones {
     grid-template-columns: 1fr;
   }
 
