@@ -1,13 +1,5 @@
-import PlaceholderPage from "../../../components/PlaceholderPage";
+import { VocabularyReviewClient } from "../../../components/VocabularyToolsClient";
 
 export default function ReviewTodayPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Review / Today"
-      title="Today's Review"
-      description="Trang này là khung cho phiên ôn tập theo ngày."
-      backHref="/review"
-      backLabel="Về Review"
-    />
-  );
+  return <VocabularyReviewClient mode="today" />;
 }

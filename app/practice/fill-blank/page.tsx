@@ -1,13 +1,5 @@
-import PlaceholderPage from "../../../components/PlaceholderPage";
+import { VocabularyPracticeClient } from "../../../components/VocabularyToolsClient";
 
 export default function FillBlankPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Practice / Fill in Blank"
-      title="Điền từ"
-      description="Khung cho bài tập điền từ vào chỗ trống."
-      backHref="/practice"
-      backLabel="Về Practice"
-    />
-  );
+  return <VocabularyPracticeClient mode="fill-blank" />;
 }

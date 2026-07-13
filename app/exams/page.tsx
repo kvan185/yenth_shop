@@ -1,55 +1,70 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Exams | Luyện đề tiếng Anh",
-  description: "Trung tâm luyện đề TOEIC, IELTS, VSTEP và các bài kiểm tra tiếng Anh.",
+  title: "Đánh giá năng lực | YENTH",
+  description: "Bảng định hướng đánh giá năng lực trước và sau khi luyện tập tiếng Anh.",
 };
 
-const examTracks = [
-  {
-    code: "VST",
-    title: "VSTEP",
-    description: "Luyện theo kỹ năng nghe, nói, đọc, viết và mục tiêu B1-B2.",
-    status: "Sắp có",
-  },
-  {
-    code: "TOE",
-    title: "TOEIC",
-    description: "Luyện nghe đọc, tăng tốc độ xử lý câu hỏi và từ vựng công việc.",
-    status: "Sắp có",
-  },
-  {
-    code: "IEL",
-    title: "IELTS",
-    description: "Luyện band theo kỹ năng, chú trọng reading, writing và speaking.",
-    status: "Sắp có",
-  },
-  {
-    code: "MIN",
-    title: "Mini Test",
-    description: "Bài kiểm tra ngắn 10-20 câu để giữ nhịp luyện mỗi ngày.",
-    status: "Ưu tiên",
-  },
+const readinessSignals = [
   {
     code: "VOC",
-    title: "Vocabulary Checkpoint",
-    description: "Kiểm tra vốn từ trước khi vào đề đọc/nghe dài hơn.",
-    status: "Đang dùng",
+    title: "Vốn từ",
+    description: "Bạn có nhận ra nghĩa chính, loại từ và cách dùng trong câu không?",
+    status: "Nền tảng",
+  },
+  {
+    code: "GRA",
+    title: "Cấu trúc",
+    description: "Bạn có chọn đúng thì, modal, bị động, mệnh đề và so sánh không?",
+    status: "Nền tảng",
+  },
+  {
+    code: "ACC",
+    title: "Độ chính xác",
+    description: "Tỉ lệ đúng có ổn định khi câu hỏi đổi ngữ cảnh hoặc tăng độ khó không?",
+    status: "Theo dõi",
+  },
+  {
+    code: "SPD",
+    title: "Tốc độ",
+    description: "Bạn trả lời được trong thời gian hợp lý hay vẫn cần đoán nhiều?",
+    status: "Theo dõi",
   },
   {
     code: "ERR",
-    title: "Mistake Review",
-    description: "Gom lỗi sai sau mỗi đề để biết phần nào cần quay lại ôn.",
-    status: "Đang dùng",
+    title: "Mẫu lỗi",
+    description: "Lỗi sai lặp lại ở nhóm nào: nghĩa, dạng từ, ngữ pháp hay đọc câu?",
+    status: "Phân tích",
+  },
+  {
+    code: "RET",
+    title: "Ghi nhớ",
+    description: "Sau một ngày, các từ và cấu trúc đã đúng có còn nhớ được không?",
+    status: "Ôn lại",
   },
 ];
 
-const examFlow = [
-  "Chọn mục tiêu thi",
-  "Làm mini test",
-  "Xem điểm yếu",
-  "Ôn lại từ/ngữ pháp",
-  "Làm đề dài hơn",
+const assessmentLoop = [
+  "Chọn một kỹ năng nền tảng cần đo",
+  "Làm bài ở khu Practice",
+  "Ghi lại nhóm lỗi sai nổi bật",
+  "Quay về Review để sửa lỗi",
+  "Làm lại sau 24 giờ để kiểm tra ghi nhớ",
+];
+
+const reportCards = [
+  {
+    title: "Điểm mạnh",
+    detail: "Phần làm đúng ổn định qua nhiều lượt kiểm tra.",
+  },
+  {
+    title: "Điểm yếu",
+    detail: "Nhóm câu sai nhiều hoặc cần nhiều thời gian để xử lý.",
+  },
+  {
+    title: "Bước tiếp theo",
+    detail: "Một hành động nhỏ nên làm ngay thay vì mở thêm quá nhiều bài.",
+  },
 ];
 
 export default function ExamsPage() {
@@ -57,41 +72,41 @@ export default function ExamsPage() {
     <main className="examsPage">
       <section className="examsHero">
         <div className="learnPathHeroCopy">
-          <p className="homeEyebrow">Exams</p>
-          <h1>Luyện đề theo mục tiêu, không làm bài một cách ngẫu nhiên.</h1>
+          <p className="homeEyebrow">Đánh giá năng lực</p>
+          <h1>Đây là nơi đọc kết quả, không phải nơi làm bài.</h1>
           <p>
-            Bắt đầu bằng mini test, phát hiện điểm yếu, quay lại ôn đúng phần cần sửa
-            rồi mới chuyển sang đề dài.
+            `/practice` dùng để luyện tập. Trang này dùng để nhìn lại năng lực:
+            mình đang mạnh ở đâu, yếu ở đâu, và nên quay lại ôn phần nào trước.
           </p>
           <div className="homeHeroActions">
-            <Link className="primaryButton" href="/practice/multiple-choice">
-              Làm mini test
+            <Link className="primaryButton" href="/practice">
+              Sang Practice
             </Link>
             <Link className="secondaryButton" href="/review/mistakes">
-              Xem lỗi sai
+              Xem Review
             </Link>
           </div>
         </div>
 
-        <aside className="examsPlanPanel" aria-label="Kế hoạch luyện đề">
-          <span>Kế hoạch tuần này</span>
-          <h2>Vocabulary Checkpoint</h2>
-          <p>Hoàn thành bài kiểm tra từ vựng trước khi mở đề VSTEP hoặc TOEIC.</p>
-          <div className="todayProgress" aria-label="Tiến độ luyện đề 42%">
-            <span style={{ width: "42%" }} />
+        <aside className="examsPlanPanel" aria-label="Tóm tắt đánh giá">
+          <span>Tóm tắt hiện tại</span>
+          <h2>Cần dữ liệu từ Practice và Review</h2>
+          <p>Khi có lịch sử làm bài, khu này nên hiển thị tỉ lệ đúng, nhóm lỗi và đề xuất ôn tiếp.</p>
+          <div className="todayProgress" aria-label="Mức sẵn sàng đánh giá 35%">
+            <span style={{ width: "35%" }} />
           </div>
           <div className="learnCurrentStats">
             <div>
+              <strong>6</strong>
+              <span>Tiêu chí</span>
+            </div>
+            <div>
               <strong>3</strong>
-              <span>Mini test</span>
+              <span>Báo cáo</span>
             </div>
             <div>
-              <strong>18</strong>
-              <span>Lỗi sai</span>
-            </div>
-            <div>
-              <strong>42%</strong>
-              <span>Tiến độ</span>
+              <strong>24h</strong>
+              <span>Ôn lại</span>
             </div>
           </div>
         </aside>
@@ -99,11 +114,11 @@ export default function ExamsPage() {
 
       <section className="examsSection">
         <div className="sectionHead">
-          <span>Loại đề</span>
-          <h2>Chọn mục tiêu luyện thi</h2>
+          <span>Tiêu chí</span>
+          <h2>Đánh giá theo 6 tín hiệu nền tảng</h2>
         </div>
         <div className="examTrackGrid">
-          {examTracks.map((track) => (
+          {readinessSignals.map((track) => (
             <article className="examTrackCard" key={track.code}>
               <span>{track.code}</span>
               <h3>{track.title}</h3>
@@ -116,11 +131,11 @@ export default function ExamsPage() {
 
       <section className="examsSection examsFlowSection">
         <div className="sectionHead">
-          <span>Quy trình</span>
-          <h2>Luyện đề nên đi theo vòng lặp này</h2>
+          <span>Vòng lặp</span>
+          <h2>Cách dùng đúng giữa Exams, Practice và Review</h2>
         </div>
         <ol className="learnFlowList">
-          {examFlow.map((step) => (
+          {assessmentLoop.map((step) => (
             <li key={step}>{step}</li>
           ))}
         </ol>
@@ -128,22 +143,16 @@ export default function ExamsPage() {
 
       <section className="examsSection">
         <div className="sectionHead">
-          <span>Đi nhanh</span>
-          <h2>Chuẩn bị trước khi vào đề</h2>
+          <span>Báo cáo</span>
+          <h2>Trang này nên trả lời ba câu hỏi</h2>
         </div>
         <div className="reviewGrid">
-          <Link className="reviewCard" href="/vocabulary">
-            <strong>Ôn từ vựng</strong>
-            <p>Nắm từ theo level trước khi làm bài đọc/nghe dài.</p>
-          </Link>
-          <Link className="reviewCard" href="/grammar">
-            <strong>Ôn ngữ pháp</strong>
-            <p>Quay lại các cấu trúc dễ sai trước khi làm đề.</p>
-          </Link>
-          <Link className="reviewCard" href="/practice/multiple-choice">
-            <strong>Mini test</strong>
-            <p>Làm bài ngắn để kiểm tra phản xạ và tốc độ.</p>
-          </Link>
+          {reportCards.map((item) => (
+            <article className="reviewCard" key={item.title}>
+              <strong>{item.title}</strong>
+              <p>{item.detail}</p>
+            </article>
+          ))}
         </div>
       </section>
     </main>

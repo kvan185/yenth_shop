@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { User } from "@supabase/supabase-js";
 import {
@@ -21,7 +20,6 @@ import {
   getLocalDateKey,
   streakMilestones,
 } from "../../lib/streak";
-import { levelConfig } from "../../lib/vocabulary";
 
 const settingItems = [
   "Nhắc học từ vựng mỗi ngày",
@@ -78,7 +76,6 @@ function getInitials(name: string) {
 }
 
 export default function ProfilePageClient() {
-  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -213,13 +210,6 @@ export default function ProfilePageClient() {
       isMounted = false;
     };
   }, []);
-
-  async function handleLogout() {
-    await supabase?.auth.signOut();
-    setUser(null);
-    router.replace("/");
-    router.refresh();
-  }
 
   async function handleSaveAvatar() {
     if (!supabase || !user) {

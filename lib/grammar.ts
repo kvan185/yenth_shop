@@ -37,6 +37,33 @@ export type GrammarLesson = {
   tenseItems?: TenseItem[];
 };
 
+export type GrammarTestQuestion = {
+  answer: string;
+  cefr?: string;
+  comparisonFocus?: string;
+  examFocus?: string;
+  explanation: string;
+  id: string;
+  level?: number;
+  modalFocus?: string;
+  options: string[];
+  passiveFocus?: string;
+  prompt: string;
+  relativeFocus?: string;
+  structureFocus?: string;
+  tenseFocus?: string;
+  type: "multiple-choice";
+};
+
+export type GrammarTestData = {
+  description?: string;
+  lessonId: GrammarTopicId;
+  questionCount?: number;
+  questions: GrammarTestQuestion[];
+  sourceNotes?: string[];
+  title: string;
+};
+
 const tenses: TenseItem[] = [
   {
     example: "I study English every day.",

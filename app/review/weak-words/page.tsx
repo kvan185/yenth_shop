@@ -1,13 +1,5 @@
-import PlaceholderPage from "../../../components/PlaceholderPage";
+import { VocabularyReviewClient } from "../../../components/VocabularyToolsClient";
 
 export default function WeakWordsPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Review / Weak Words"
-      title="Từ khó"
-      description="Danh sách từ thường sai sẽ được đưa vào đây."
-      backHref="/review"
-      backLabel="Về Review"
-    />
-  );
+  return <VocabularyReviewClient mode="weak" />;
 }

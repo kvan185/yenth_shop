@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "tsc --noEmit --pretty false --noUnusedLocals --noUnusedParameters",
+    "typecheck": "tsc --noEmit --pretty false"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.110.0",

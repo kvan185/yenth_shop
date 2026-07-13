@@ -1,13 +1,5 @@
-import PlaceholderPage from "../../../components/PlaceholderPage";
+import { VocabularyReviewClient } from "../../../components/VocabularyToolsClient";
 
 export default function MistakesPage() {
-  return (
-    <PlaceholderPage
-      eyebrow="Review / Mistakes"
-      title="Những câu sai"
-      description="Khung lưu lại các câu người học từng làm sai."
-      backHref="/review"
-      backLabel="Về Review"
-    />
-  );
+  return <VocabularyReviewClient mode="mistakes" />;
 }

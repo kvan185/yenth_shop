@@ -30,28 +30,28 @@ const skills = [
     code: "LIS",
     title: "Listening",
     description: "Nghe theo transcript, luyện bắt ý chính và phản xạ.",
-    meta: "Sắp có",
+    meta: "Mới",
   },
   {
     href: "/learn/reading",
     code: "REA",
     title: "Reading",
     description: "Đọc hiểu theo cấp độ và học từ trong ngữ cảnh.",
-    meta: "Sắp có",
+    meta: "Mới",
   },
   {
     href: "/learn/writing",
     code: "WRI",
     title: "Writing",
     description: "Luyện dàn ý, câu mẫu và chỉnh lỗi diễn đạt từng bước.",
-    meta: "Sắp có",
+    meta: "Mới",
   },
   {
     href: "/learn/speaking",
     code: "SPE",
     title: "Speaking",
     description: "Chuẩn bị câu trả lời, luyện phát âm và mở rộng ý nói.",
-    meta: "Sắp có",
+    meta: "Mới",
   },
 ];
 
