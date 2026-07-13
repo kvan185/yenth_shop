@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type {
   GrammarLesson,
   GrammarTestData,
@@ -12,6 +12,8 @@ type GrammarLessonClientProps = {
   lesson: GrammarLesson;
   testData?: GrammarTestData;
 };
+
+type StudyMode = "learn" | "test";
 
 function getQuestionMeta(question: GrammarTestQuestion) {
   return [
@@ -27,20 +29,58 @@ function getQuestionMeta(question: GrammarTestQuestion) {
   ].filter(Boolean);
 }
 
+function pickQuestion(
+  questions: GrammarTestQuestion[],
+  previousId?: string,
+) {
+  if (questions.length === 0) {
+    return null;
+  }
+
+  const candidates =
+    questions.length > 1
+      ? questions.filter((question) => question.id !== previousId)
+      : questions;
+
+  return candidates[Math.floor(Math.random() * candidates.length)] || questions[0];
+}
+
 export default function GrammarLessonClient({
   lesson,
   testData,
 }: GrammarLessonClientProps) {
+  const [mode, setMode] = useState<StudyMode>("learn");
   const [openId, setOpenId] = useState("");
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [currentQuestion, setCurrentQuestion] =
+    useState<GrammarTestQuestion | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [correctQuestionIds, setCorrectQuestionIds] = useState<Set<string>>(
+    () => new Set(),
+  );
+  const [wrongQuestionIds, setWrongQuestionIds] = useState<Set<string>>(
+    () => new Set(),
+  );
   const isTensesLesson = Boolean(lesson.tenseItems);
   const questions = useMemo(() => testData?.questions || [], [testData]);
-  const currentQuestion = questions[questionIndex] || null;
   const questionMeta = currentQuestion ? getQuestionMeta(currentQuestion) : [];
   const learnItemCount = (lesson.tenseItems?.length || 0) + lesson.learnBlocks.length;
+  const remainingQuestions = useMemo(
+    () => questions.filter((question) => !correctQuestionIds.has(question.id)),
+    [correctQuestionIds, questions],
+  );
+  const wrongQuestions = useMemo(
+    () =>
+      questions.filter(
+        (question) =>
+          wrongQuestionIds.has(question.id) && !correctQuestionIds.has(question.id),
+      ),
+    [correctQuestionIds, questions, wrongQuestionIds],
+  );
+  const correctCount = Math.min(correctQuestionIds.size, questions.length);
+  const progress = questions.length
+    ? Math.round((correctCount / questions.length) * 100)
+    : 0;
   const focusItems = useMemo(() => {
     const values = new Set<string>();
     for (const question of questions) {
@@ -70,32 +110,74 @@ export default function GrammarLessonClient({
     return `Level ${Math.min(...levels)}-${Math.max(...levels)}`;
   }, [questions]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (window.location.hash === "#test" || searchParams.get("tab") === "test") {
+      setMode("test");
+      setCurrentQuestion((previous) => previous || pickQuestion(remainingQuestions));
+      window.history.replaceState(null, "", lesson.href);
+    }
+  }, [lesson.href, remainingQuestions]);
+
+  useEffect(() => {
+    if (mode !== "test" || currentQuestion || remainingQuestions.length === 0) {
+      return;
+    }
+
+    setCurrentQuestion(pickQuestion(remainingQuestions));
+  }, [currentQuestion, mode, remainingQuestions]);
+
   function togglePanel(panelId: string) {
     setOpenId((current) => (current === panelId ? "" : panelId));
   }
 
   function submitAnswer() {
-    if (!currentQuestion || !selectedAnswer) {
+    if (!currentQuestion || !selectedAnswer || isSubmitted) {
       return;
     }
 
     setIsSubmitted(true);
     if (selectedAnswer === currentQuestion.answer) {
-      setCorrectCount((value) => value + 1);
+      setCorrectQuestionIds((previous) => {
+        const next = new Set(previous);
+        next.add(currentQuestion.id);
+        return next;
+      });
+      setWrongQuestionIds((previous) => {
+        const next = new Set(previous);
+        next.delete(currentQuestion.id);
+        return next;
+      });
+      return;
     }
+
+    setWrongQuestionIds((previous) => new Set(previous).add(currentQuestion.id));
   }
 
   function goNextQuestion() {
+    const previousId = currentQuestion?.id;
     setSelectedAnswer("");
     setIsSubmitted(false);
-    setQuestionIndex((value) => (value + 1) % questions.length);
+    setCurrentQuestion(pickQuestion(remainingQuestions, previousId));
   }
 
   function resetTest() {
-    setQuestionIndex(0);
+    setCurrentQuestion(pickQuestion(questions));
     setSelectedAnswer("");
     setIsSubmitted(false);
-    setCorrectCount(0);
+    setCorrectQuestionIds(new Set());
+    setWrongQuestionIds(new Set());
+  }
+
+  function showLearnMode() {
+    setMode("learn");
+    window.history.replaceState(null, "", lesson.href);
+  }
+
+  function showTestMode() {
+    setMode("test");
+    window.history.replaceState(null, "", lesson.href);
+    setCurrentQuestion((previous) => previous || pickQuestion(remainingQuestions));
   }
 
   return (
@@ -124,13 +206,28 @@ export default function GrammarLessonClient({
         </div>
 
         <aside className="grammarLessonNav" aria-label="Điều hướng bài học">
-          <a href="#learn">Học</a>
-          <a href="#test">Kiểm tra</a>
+          <button
+            className={mode === "learn" ? "active" : ""}
+            type="button"
+            onClick={showLearnMode}
+          >
+            Học
+          </button>
+          <button
+            className={mode === "test" ? "active" : ""}
+            type="button"
+            onClick={showTestMode}
+          >
+            Kiểm tra
+          </button>
           <Link href="/grammar">Tất cả chủ điểm</Link>
         </aside>
       </header>
 
-      <section className="grammarLessonSection" id="learn">
+      <section
+        className={`grammarLessonSection ${mode === "learn" ? "" : "isHidden"}`}
+        id="learn"
+      >
         <div className="sectionHead">
           <span>Phần 1</span>
           <h2>Chọn mục muốn học</h2>
@@ -247,25 +344,47 @@ export default function GrammarLessonClient({
         </div>
       </section>
 
-      <section className="grammarLessonSection grammarTestSection" id="test">
+      <section
+        className={`grammarLessonSection grammarTestSection ${
+          mode === "test" ? "" : "isHidden"
+        }`}
+        id="test"
+      >
         <div className="sectionHead">
           <span>Phần 2</span>
           <h2>Kiểm tra</h2>
         </div>
-        {currentQuestion ? (
+        {remainingQuestions.length === 0 && questions.length > 0 ? (
+          <article className="grammarTestCard">
+            <div className="vocabEmptyState">
+              <p className="homeEyebrow">Hoàn thành</p>
+              <h2>
+                Bạn đã trả lời đúng toàn bộ{" "}
+                {questions.length.toLocaleString("vi-VN")} câu hỏi.
+              </h2>
+              <button className="primaryButton" type="button" onClick={resetTest}>
+                Làm lại từ đầu
+              </button>
+            </div>
+          </article>
+        ) : currentQuestion ? (
           <article className="grammarTestCard">
             <div className="grammarTestToolbar">
               <div>
                 <strong>
-                  Câu {questionIndex + 1}/{questions.length}
+                  {progress}% hoàn thành
                 </strong>
                 <span>
-                  Đúng {correctCount}/{Math.max(questionIndex + (isSubmitted ? 1 : 0), 0)}
+                  Đúng {correctCount} · Sai cần ôn {wrongQuestions.length} · Còn lại{" "}
+                  {remainingQuestions.length}
                 </span>
               </div>
               <button className="secondaryButton" type="button" onClick={resetTest}>
-                Làm lại
+                Làm lại từ đầu
               </button>
+            </div>
+            <div className="grammarProgressBar" aria-label={`${progress}% hoàn thành`}>
+              <span style={{ width: `${progress}%` }} />
             </div>
 
             <div className="grammarQuestionPanel">
@@ -295,7 +414,7 @@ export default function GrammarLessonClient({
                 return (
                   <label
                     className={`grammarAnswer ${statusClass}`}
-                    key={`${currentQuestion.id}-${option}`}
+                    key={`${currentQuestion.id}-${index}-${option}`}
                   >
                     <input
                       checked={isSelected}
@@ -342,6 +461,11 @@ export default function GrammarLessonClient({
               </div>
             ) : null}
           </article>
+        ) : questions.length > 0 ? (
+          <div className="grammarTestPlaceholder">
+            <strong>Đang chuẩn bị câu hỏi...</strong>
+            <p>Hệ thống đang chọn câu kiểm tra phù hợp cho chủ điểm này.</p>
+          </div>
         ) : (
           <div className="grammarTestPlaceholder">
             <strong>Chưa có dữ liệu kiểm tra.</strong>

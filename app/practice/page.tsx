@@ -34,7 +34,7 @@ const practiceModes = [
     tone: "red",
   },
   {
-    href: "/grammar/tenses#test",
+    href: "/grammar/tenses?tab=test",
     code: "GRA",
     title: "Grammar Test",
     description: "Luyện câu hỏi ngữ pháp theo từng chủ điểm và mức độ.",

@@ -275,6 +275,11 @@ body {
   min-height: 0;
 }
 
+.siteContentGrammar {
+  scroll-padding-block: calc(var(--site-header-compact-height) + 18px)
+    clamp(72px, 10vh, 120px);
+}
+
 .homePage {
   display: grid;
   gap: 0;
@@ -1424,6 +1429,12 @@ body {
   background: var(--bg);
 }
 
+.siteContentGrammar .grammarPage,
+.siteContentGrammar .grammarLessonPage {
+  min-height: auto;
+  padding-bottom: clamp(42px, 8vh, 96px);
+}
+
 .grammarHero,
 .grammarSection {
   width: 100%;
@@ -1539,6 +1550,7 @@ body {
 
 .grammarLessonPage {
   display: grid;
+  align-content: start;
   min-height: 100%;
   background: var(--bg);
 }
@@ -1547,7 +1559,7 @@ body {
 .grammarLessonSection {
   width: 100%;
   border-bottom: 1px solid var(--line);
-  padding: clamp(30px, 5vw, 60px) clamp(22px, 6vw, 82px);
+  padding: clamp(24px, 4vw, 42px) clamp(22px, 6vw, 82px);
 }
 
 .grammarLessonHero {
@@ -1568,8 +1580,8 @@ body {
   margin: 0;
   max-width: 820px;
   color: var(--ink);
-  font-size: clamp(2.4rem, 6vw, 4.8rem);
-  line-height: 0.98;
+  font-size: clamp(2rem, 4.2vw, 3.7rem);
+  line-height: 1.02;
 }
 
 .grammarLessonHero p:not(.homeEyebrow) {
@@ -1615,27 +1627,46 @@ body {
   background: var(--surface);
 }
 
-.grammarLessonNav a {
+.grammarLessonNav a,
+.grammarLessonNav button {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px 12px;
   background: #ffffff;
   color: var(--ink);
+  font: inherit;
   font-weight: 850;
   text-align: center;
   text-decoration: none;
 }
 
-.grammarLessonNav a:hover {
+.grammarLessonNav a:hover,
+.grammarLessonNav button:hover,
+.grammarLessonNav button.active {
   border-color: rgba(12, 116, 102, 0.35);
   background: var(--soft);
   color: var(--primary-dark);
+}
+
+.grammarLessonNav button.active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #ffffff;
 }
 
 .grammarLessonSection {
   display: grid;
   gap: 22px;
   scroll-margin-top: calc(var(--site-header-compact-height) + 18px);
+}
+
+.siteContentGrammar .grammarPage > :last-child,
+.siteContentGrammar .grammarLessonPage > :last-child {
+  border-bottom: 0;
+}
+
+.grammarLessonSection.isHidden {
+  display: none;
 }
 
 .grammarLearnOverview {
@@ -1883,6 +1914,12 @@ body {
   background: #ffffff;
 }
 
+.siteContentGrammar .grammarTestSection {
+  align-content: start;
+  min-height: auto;
+  padding-bottom: clamp(38px, 9vh, 92px);
+}
+
 .grammarTestPlaceholder {
   display: grid;
   gap: 10px;
@@ -1915,6 +1952,8 @@ body {
   width: min(980px, 100%);
   max-width: 980px;
   min-width: 0;
+  align-content: start;
+  margin-bottom: clamp(12px, 3vh, 32px);
   padding: 18px;
 }
 
@@ -1930,6 +1969,7 @@ body {
 .grammarTestToolbar div {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .grammarTestToolbar strong {
@@ -1940,6 +1980,22 @@ body {
 .grammarTestToolbar span {
   color: var(--muted);
   font-weight: 850;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.grammarProgressBar {
+  height: 10px;
+  border-radius: 999px;
+  background: #dce6df;
+  overflow: hidden;
+}
+
+.grammarProgressBar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #52a391);
 }
 
 .grammarQuestionPanel {
@@ -1985,6 +2041,7 @@ body {
 .grammarAnswer {
   display: grid;
   min-width: 0;
+  cursor: pointer;
 }
 
 .grammarAnswer input {
@@ -1995,6 +2052,8 @@ body {
 
 .grammarAnswer span {
   display: block;
+  width: 100%;
+  min-width: 0;
   min-height: 52px;
   border: 1px solid var(--primary);
   border-radius: 8px;
@@ -2003,7 +2062,9 @@ body {
   color: var(--ink);
   font-weight: 850;
   line-height: 1.45;
+  white-space: normal;
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .grammarAnswer.selected span {
@@ -5760,6 +5821,15 @@ dd {
     padding: 24px 12px;
   }
 
+  .siteContentGrammar .grammarPage,
+  .siteContentGrammar .grammarLessonPage {
+    padding-bottom: 72px;
+  }
+
+  .siteContentGrammar .grammarTestSection {
+    padding-bottom: 64px;
+  }
+
   .vocabIndexHero {
     align-items: start;
   }
@@ -6352,6 +6422,11 @@ dd {
   .blogSection,
   .blogContentSection {
     padding: 20px 10px;
+  }
+
+  .siteContentGrammar .grammarPage,
+  .siteContentGrammar .grammarLessonPage {
+    padding-bottom: 64px;
   }
 
   .learnPathHeroCopy h1,

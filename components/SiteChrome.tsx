@@ -14,6 +14,8 @@ export default function SiteChrome({ children }: SiteChromeProps) {
   const lastScrollTopRef = useRef(0);
   const [isHeaderCompact, setIsHeaderCompact] = useState(false);
   const currentPath = pathname ?? "";
+  const isGrammarRoute =
+    currentPath === "/grammar" || currentPath.startsWith("/grammar/");
 
   useEffect(() => {
     contentRef.current?.scrollTo({ top: 0, left: 0 });
@@ -52,9 +54,16 @@ export default function SiteChrome({ children }: SiteChromeProps) {
   }, []);
 
   return (
-    <div className={`siteLayout ${isHeaderCompact ? "siteLayoutCompactHeader" : ""}`}>
+    <div
+      className={`siteLayout ${isHeaderCompact ? "siteLayoutCompactHeader" : ""} ${
+        isGrammarRoute ? "siteLayoutGrammar" : ""
+      }`}
+    >
       <SiteHeader compact={isHeaderCompact} />
-      <div className="siteContent" ref={contentRef}>
+      <div
+        className={`siteContent ${isGrammarRoute ? "siteContentGrammar" : ""}`}
+        ref={contentRef}
+      >
         {children}
       </div>
     </div>
