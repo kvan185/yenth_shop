@@ -4,7 +4,7 @@ import {
   managerSessionCookieName,
   verifyManagerSessionToken,
 } from "../../lib/managerAuth";
-import ManagerLoginClient from "./ManagerLoginClient";
+import ManagerGateClient from "./ManagerGateClient";
 import ManagerPageClient from "./ManagerPageClient";
 
 export const metadata = {
@@ -17,7 +17,7 @@ export default async function ManagerPage() {
   const session = verifyManagerSessionToken(cookieStore.get(managerSessionCookieName)?.value);
 
   if (!session) {
-    return <ManagerLoginClient authConfigured={isManagerAuthConfigured()} />;
+    return <ManagerGateClient authConfigured={isManagerAuthConfigured()} />;
   }
 
   return <ManagerPageClient managerUser={session.username} />;

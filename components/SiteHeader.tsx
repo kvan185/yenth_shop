@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
+import { getOwnProfile, getUserDisplayName, type UserProfile } from "../lib/profile";
 import { supabase } from "../lib/supabase";
 import { getCurrentStreakMilestone, getDailyStreak } from "../lib/streak";
 
@@ -23,12 +24,11 @@ type SiteHeaderProps = {
 export default function SiteHeader({ compact = false }: SiteHeaderProps) {
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<UserProfile | null>(null);
   const [streakDays, setStreakDays] = useState(0);
   const streakMilestone = getCurrentStreakMilestone(streakDays);
-  const userLabel =
-    typeof user?.user_metadata?.display_name === "string" && user.user_metadata.display_name.trim()
-      ? user.user_metadata.display_name.trim()
-      : user?.email?.split("@")[0] || "User";
+  const userLabel = getUserDisplayName(user, profile);
+  const isManager = profile?.role === "manager";
 
   useEffect(() => {
     if (!supabase) {
@@ -60,8 +60,15 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
 
     if (!user) {
       setStreakDays(0);
+      setProfile(null);
       return;
     }
+
+    getOwnProfile(user).then((nextProfile) => {
+      if (isMounted) {
+        setProfile(nextProfile);
+      }
+    });
 
     getDailyStreak(user).then((days) => {
       if (isMounted) {
@@ -77,6 +84,7 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
   async function handleLogout() {
     await supabase?.auth.signOut();
     setUser(null);
+    setProfile(null);
     router.replace("/");
     router.refresh();
   }
@@ -102,8 +110,13 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
                     {streakDays} ngày
                   </span>
                 ) : null}
+                {isManager ? (
+                  <Link className="siteLoginLink" href="/manager">
+                    Manager
+                  </Link>
+                ) : null}
                 <button className="siteLoginLink" type="button" onClick={handleLogout}>
-                  Thoát
+                  Đăng xuất
                 </button>
               </>
             ) : (

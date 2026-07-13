@@ -2,6 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  getCompletedLevels,
+  type CompletedLevel,
+} from "../../lib/lessonCompletion";
 import { supabase } from "../../lib/supabase";
 import { getDailyStreak, streakMilestones } from "../../lib/streak";
 import { levelConfig } from "../../lib/vocabulary";
@@ -33,8 +37,12 @@ const shortcuts = [
 ];
 
 export default function VocabularyIndexClient() {
-  const totalWords = levelConfig.reduce((total, level) => total + level.words, 0);
+  const totalWords = levelConfig.reduce(
+    (total, level) => total + level.words,
+    0,
+  );
   const [streakDays, setStreakDays] = useState(0);
+  const [completedLevels, setCompletedLevels] = useState<CompletedLevel[]>([]);
 
   useEffect(() => {
     if (!supabase) {
@@ -44,13 +52,17 @@ export default function VocabularyIndexClient() {
     let isMounted = true;
 
     supabase.auth.getUser().then(({ data }) => {
-      if (!data.user) {
-        return;
+      if (data.user) {
+        getDailyStreak(data.user).then((days) => {
+          if (isMounted) {
+            setStreakDays(days);
+          }
+        });
       }
 
-      getDailyStreak(data.user).then((days) => {
+      getCompletedLevels(data.user).then((levels) => {
         if (isMounted) {
-          setStreakDays(days);
+          setCompletedLevels(levels);
         }
       });
     });
@@ -60,6 +72,10 @@ export default function VocabularyIndexClient() {
     };
   }, []);
 
+  const completedLevelMap = new Map(
+    completedLevels.map((item) => [item.level, item]),
+  );
+
   return (
     <main className="vocabIndexPage">
       <section className="vocabIndexHero">
@@ -67,8 +83,8 @@ export default function VocabularyIndexClient() {
           <p className="homeEyebrow">Vocabulary</p>
           <h1>Chọn level từ vựng phù hợp với bạn.</h1>
           <p>
-            Học theo cấp độ A1-C1, luyện flashcard, làm checkpoint và quay lại ôn các
-            từ còn yếu sau mỗi phiên.
+            Học theo cấp độ A1-C1, luyện flashcard, làm checkpoint và quay lại
+            ôn các từ còn yếu sau mỗi phiên.
           </p>
           <div className="homeHeroActions">
             <Link className="primaryButton" href="/vocabulary/a2">
@@ -83,7 +99,10 @@ export default function VocabularyIndexClient() {
         <aside className="vocabSummaryPanel" aria-label="Tổng quan từ vựng">
           <span>Kho từ hiện có</span>
           <h2>{totalWords.toLocaleString("vi-VN")} từ</h2>
-          <p>Được chia theo {levelConfig.length} level, phù hợp để học ngắn mỗi ngày.</p>
+          <p>
+            Được chia theo {levelConfig.length} level, phù hợp để học ngắn mỗi
+            ngày.
+          </p>
           <div className="todayProgress" aria-label="Tiến độ A2 68%">
             <span style={{ width: "68%" }} />
           </div>
@@ -123,27 +142,55 @@ export default function VocabularyIndexClient() {
           <h2>Đi từ dễ đến khó, mở bài khi đã sẵn sàng</h2>
         </div>
         <div className="vocabLevelGrid">
-          {levelConfig.map((level) => (
-            <article className={`vocabLevelCard ${level.id === "A2" ? "active" : ""}`} key={level.id}>
-              <div>
-                <span>{level.id === "A2" ? "Đang học" : "Level"}</span>
-                <h3>{level.label}</h3>
-              </div>
-              <p>{levelNotes[level.id]}</p>
-              <div className="vocabLevelMeta">
-                <strong>{level.words.toLocaleString("vi-VN")}</strong>
-                <span>từ</span>
-              </div>
-              <div className="vocabLevelActions">
-                <Link className="primaryButton" href={level.href}>
-                  Mở level
-                </Link>
-                <Link className="secondaryButton" href={level.href}>
-                  Checkpoint
-                </Link>
-              </div>
-            </article>
-          ))}
+          {levelConfig.map((level) => {
+            const completedLevel = completedLevelMap.get(level.id);
+            const completedAt = completedLevel?.completedAt
+              ? new Intl.DateTimeFormat("vi-VN", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                }).format(new Date(completedLevel.completedAt))
+              : "";
+
+            return (
+              <article
+                className={`vocabLevelCard ${level.id === "A2" ? "active" : ""} ${
+                  completedLevel ? "completed" : ""
+                }`}
+                key={level.id}
+              >
+                <div>
+                  <span>
+                    {completedLevel
+                      ? "Completed"
+                      : level.id === "A2"
+                        ? "Đang học"
+                        : "Level"}
+                  </span>
+                  <h3>{level.label}</h3>
+                </div>
+                <p>{levelNotes[level.id]}</p>
+                <div className="vocabLevelMeta">
+                  <strong>{level.words.toLocaleString("vi-VN")}</strong>
+                  <span>từ</span>
+                </div>
+                {completedLevel ? (
+                  <div className="vocabLevelCompleted">
+                    <strong>Đã hoàn thành</strong>
+                    <span>{completedAt}</span>
+                  </div>
+                ) : null}
+                <div className="vocabLevelActions">
+                  <Link className="primaryButton" href={level.href}>
+                    {completedLevel ? "Ôn lại level" : "Mở level"}
+                  </Link>
+                  <Link className="secondaryButton" href={level.href}>
+                    Checkpoint
+                  </Link>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
@@ -154,7 +201,11 @@ export default function VocabularyIndexClient() {
         </div>
         <div className="reviewGrid">
           {shortcuts.map((shortcut) => (
-            <Link className="reviewCard" href={shortcut.href} key={shortcut.title}>
+            <Link
+              className="reviewCard"
+              href={shortcut.href}
+              key={shortcut.title}
+            >
               <strong>{shortcut.title}</strong>
               <p>{shortcut.text}</p>
             </Link>

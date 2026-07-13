@@ -1250,6 +1250,10 @@ body {
     #ffffff;
 }
 
+.vocabLevelCard.completed {
+  border-color: rgba(12, 116, 102, 0.42);
+}
+
 .vocabLevelCard h3 {
   margin: 5px 0 0;
   color: var(--ink);
@@ -1274,6 +1278,28 @@ body {
 .vocabLevelMeta strong {
   color: var(--primary-dark);
   font-size: 1.5rem;
+}
+
+.vocabLevelCompleted {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid rgba(12, 116, 102, 0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #effaf3;
+}
+
+.vocabLevelCompleted strong {
+  color: var(--right);
+  font-size: 0.9rem;
+}
+
+.vocabLevelCompleted span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
 }
 
 .vocabLevelActions {
@@ -1674,6 +1700,7 @@ body {
 }
 
 .loginForm input[type="email"],
+.loginForm input[type="text"],
 .loginForm input[type="password"] {
   width: 100%;
   min-height: 46px;
@@ -1936,7 +1963,45 @@ body {
   letter-spacing: 0;
 }
 
-.wordPromptCard div {
+.wordPromptText {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.wordPromptText.inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: 12px;
+  row-gap: 4px;
+}
+
+.wordPromptText strong {
+  color: var(--ink);
+  font-size: clamp(1.9rem, 4.5vw, 3.1rem);
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.wordPromptText span {
+  color: var(--muted);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-weight: 900;
+}
+
+.wordPromptDivider {
+  display: none;
+}
+
+.wordPromptText.inline .wordPromptDivider {
+  display: inline;
+  color: rgba(24, 36, 33, 0.28);
+}
+
+.wordPromptMeta,
+.wordPromptCard > div:not(.wordPromptText) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2357,17 +2422,14 @@ button:disabled {
 
 .profilePage {
   display: grid;
-  gap: 16px;
   min-height: 100%;
+  align-content: start;
+  gap: 18px;
   padding: clamp(18px, 4vw, 42px);
-  background:
-    radial-gradient(circle at top right, rgba(12, 116, 102, 0.12), transparent 34%),
-    linear-gradient(135deg, rgba(12, 116, 102, 0.06), rgba(159, 79, 47, 0.04)),
-    var(--bg);
+  background: #f5f7f4;
 }
 
 .profileHero,
-.profileStats div,
 .profilePanel {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -2387,6 +2449,202 @@ button:disabled {
   grid-template-columns: 1fr;
   justify-items: start;
   max-width: 760px;
+}
+
+.profileTopStrip {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) minmax(320px, 0.9fr) auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(16px, 2.4vw, 24px);
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(24, 36, 33, 0.07);
+}
+
+.profileTopIdentity {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.profileTopIdentity h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.profileTopIdentity p:not(.homeEyebrow) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+.profileTopStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.profileTopStats div {
+  display: grid;
+  gap: 4px;
+  min-height: 58px;
+  align-content: center;
+  border: 1px solid rgba(12, 116, 102, 0.14);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.profileTopStats span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.profileTopStats strong {
+  color: var(--primary-dark);
+  font-size: 1.1rem;
+}
+
+.profileBodyLayout {
+  display: grid;
+  grid-template-columns: minmax(190px, 240px) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.profileGroupNav {
+  position: sticky;
+  top: calc(var(--site-header-compact-height) + 16px);
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(24, 36, 33, 0.06);
+}
+
+.profileGroupNav a {
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--ink);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.profileGroupNav a:hover {
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.profileDashboard {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.profileSidebar,
+.profileMainColumn,
+.profileContentGrid {
+  display: grid;
+  gap: 12px;
+}
+
+.profileSidebar {
+  position: sticky;
+  top: calc(var(--site-header-compact-height) + 16px);
+}
+
+.profileIdentityPanel,
+.profileTodayPanel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(24, 36, 33, 0.07);
+}
+
+.profileIdentityPanel {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+}
+
+.profileIdentityPanel h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 0.98;
+  overflow-wrap: anywhere;
+}
+
+.profileIdentityPanel p:not(.homeEyebrow) {
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.profileTodayPanel {
+  display: grid;
+  gap: 16px;
+  padding: clamp(18px, 3vw, 26px);
+  background:
+    linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
+    #ffffff;
+}
+
+.profileTodayHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.profileTodayHeader h2,
+.profilePanel h2 {
+  margin: 0;
+}
+
+.profileTodayPanel > p {
+  margin: 0;
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.profileTodayProgressRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.profileTodayProgressRow > strong {
+  color: var(--primary-dark);
+  font-size: 1.15rem;
+}
+
+.profileContentGrid {
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+  align-items: start;
+}
+
+.profileCompletedPanel {
+  grid-row: span 3;
+}
+
+.profileCompactPanel {
+  gap: 12px;
+  padding: 16px;
 }
 
 .profileIdentity {
@@ -2411,6 +2669,10 @@ button:disabled {
   font-weight: 950;
   letter-spacing: 0;
   box-shadow: 0 18px 40px rgba(12, 116, 102, 0.22);
+}
+
+.profileAvatarImage {
+  object-fit: cover;
 }
 
 .profileHero h1 {
@@ -2451,7 +2713,10 @@ button:disabled {
   gap: 5px;
   min-height: 104px;
   align-content: center;
+  border: 1px solid rgba(12, 116, 102, 0.14);
+  border-radius: 8px;
   padding: 18px;
+  background: var(--surface);
 }
 
 .profileStats span {
@@ -2521,6 +2786,26 @@ button:disabled {
   background: linear-gradient(135deg, #fff2bd, #ffe1b8);
 }
 
+.profileSection {
+  display: grid;
+  gap: 12px;
+}
+
+.profileAccountSection,
+.profileRestSection {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+
+.profileLearningSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+  gap: 12px;
+  align-items: stretch;
+}
+
 .profileGrid {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(220px, 0.9fr));
@@ -2560,10 +2845,118 @@ button:disabled {
   background: linear-gradient(90deg, var(--primary), #52a391);
 }
 
+.profileTodayStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.profileTodayStats div {
+  display: grid;
+  gap: 4px;
+  border: 1px solid rgba(12, 116, 102, 0.16);
+  border-radius: 8px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.profileTodayStats span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.profileTodayStats strong {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.1;
+}
+
 .profileSettingList,
-.profileAccountList {
+.profileAccountList,
+.profileCompletedList,
+.profileForm {
   display: grid;
   gap: 10px;
+}
+
+.profileCompletedList div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(12, 116, 102, 0.18);
+  border-radius: 8px;
+  padding: 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(12, 116, 102, 0.08),
+    rgba(159, 79, 47, 0.04)
+  );
+}
+
+.profileCompletedList strong {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--primary);
+  color: #ffffff;
+  font-size: 1rem;
+}
+
+.profileCompletedList span {
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.profileCompletedList small {
+  color: var(--muted);
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.profileCompletedList > p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 850;
+  line-height: 1.5;
+}
+
+.profileCompletedAction {
+  min-height: 36px;
+  padding-inline: 12px;
+  white-space: nowrap;
+}
+
+.profileForm label {
+  display: grid;
+  gap: 7px;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.profileForm input {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.profileForm input:focus {
+  border-color: var(--primary);
+  outline: 3px solid rgba(15, 118, 104, 0.14);
+}
+
+.profileForm p {
+  margin: 0;
+  color: var(--primary-dark);
+  font-weight: 850;
 }
 
 .profileSettingList label,
@@ -3936,6 +4329,244 @@ dd {
   color: var(--ink);
 }
 
+.managerShell {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.managerSidebar,
+.managerTopbar,
+.managerPanel,
+.managerStatsGrid div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 34px rgba(24, 36, 33, 0.06);
+}
+
+.managerSidebar {
+  position: sticky;
+  top: calc(var(--site-header-compact-height) + 16px);
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+}
+
+.managerSidebar h1 {
+  margin: 4px 0;
+  color: var(--ink);
+  font-size: 1.6rem;
+}
+
+.managerSidebar span {
+  color: var(--muted);
+  font-weight: 850;
+  overflow-wrap: anywhere;
+}
+
+.managerNav {
+  display: grid;
+  gap: 6px;
+}
+
+.managerNav button {
+  justify-content: flex-start;
+  min-height: 42px;
+  border-color: transparent;
+  background: transparent;
+  text-align: left;
+}
+
+.managerNav button.active {
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.managerSidebarActions {
+  display: grid;
+  gap: 8px;
+}
+
+.managerSidebarActions a {
+  text-decoration: none;
+}
+
+.managerMain {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.managerTopbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+}
+
+.managerTopbar h2 {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+}
+
+.managerTopbar p:not(.homeEyebrow) {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.managerStatePill {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: var(--surface);
+  color: var(--primary-dark);
+  font-weight: 900;
+}
+
+.managerStatsGrid,
+.managerResourceGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.managerStatsGrid div {
+  display: grid;
+  gap: 6px;
+  min-height: 92px;
+  align-content: center;
+  padding: 16px;
+}
+
+.managerStatsGrid span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.managerStatsGrid strong {
+  color: var(--ink);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.managerResourceGrid .managerResourceCard {
+  min-height: 150px;
+}
+
+.managerResourceCard h3,
+.managerPanel h3 {
+  margin: 0;
+  color: var(--ink);
+}
+
+.managerPanel {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+}
+
+.managerTwoColumn {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.managerLevelList,
+.managerEventList,
+.managerTable {
+  display: grid;
+  gap: 8px;
+}
+
+.managerLevelList div,
+.managerEventList div {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.managerLevelList div {
+  grid-template-columns: minmax(70px, 0.6fr) repeat(2, minmax(0, 1fr));
+  align-items: center;
+}
+
+.managerEventList span,
+.managerEventList small,
+.managerLevelList span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.managerTable {
+  overflow: auto;
+}
+
+.managerTableHead,
+.managerTableRow {
+  display: grid;
+  gap: 8px;
+  align-items: center;
+  min-width: 760px;
+}
+
+.managerTableHead {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.managerTableHead.users,
+.managerTableRow.users {
+  grid-template-columns: minmax(180px, 1.2fr) minmax(
+      150px,
+      1fr
+    ) 120px 150px 90px;
+}
+
+.managerTableHead.progress,
+.managerTableRow.progress {
+  grid-template-columns: minmax(220px, 1.3fr) 80px 90px minmax(
+      260px,
+      1.4fr
+    ) 150px;
+}
+
+.managerTableRow {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px;
+  background: var(--surface);
+}
+
+.managerTableRow input,
+.managerTableRow select {
+  min-height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 10px;
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.managerTableRow span,
+.managerTableRow strong {
+  overflow-wrap: anywhere;
+}
+
 .vocabStudyPage {
   display: grid;
   gap: 14px;
@@ -3946,7 +4577,10 @@ dd {
 
 .vocabStudyHero {
   display: grid;
-  grid-template-columns: minmax(190px, 1fr) minmax(250px, 360px) minmax(280px, 420px);
+  grid-template-columns: minmax(190px, 1fr) minmax(250px, 360px) minmax(
+      280px,
+      420px
+    );
   gap: 10px;
   align-items: center;
   border: 1px solid var(--line);
@@ -3979,7 +4613,7 @@ dd {
 
 .vocabStudyStats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
 }
 
@@ -4217,11 +4851,100 @@ dd {
   color: var(--wrong);
 }
 
+.vocabAnswerFeedback.neutral {
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
 .vocabShortcutHint {
   align-self: center;
   color: var(--muted);
   font-size: 0.86rem;
   font-weight: 850;
+}
+
+.tipActionRow {
+  display: grid;
+  justify-items: start;
+}
+
+.tipPopupOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(24, 36, 33, 0.36);
+}
+
+.tipPopup {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 520px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+  background: #ffffff;
+  box-shadow: 0 24px 70px rgba(24, 36, 33, 0.22);
+}
+
+.tipPopupHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.tipPopupHead span {
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.tipPopupHead h2 {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-size: 1.55rem;
+  line-height: 1.1;
+}
+
+.tipPopupClose {
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.4rem;
+  font-weight: 950;
+}
+
+.tipPopupBody {
+  display: grid;
+  gap: 10px;
+}
+
+.tipPopupBody p {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 760;
+  line-height: 1.5;
+}
+
+.tipPopupBody strong {
+  color: var(--primary-dark);
+  font-weight: 950;
+}
+
+.tipPopupActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
 }
 
 .vocabReviewPanel {
@@ -4247,6 +4970,7 @@ dd {
 
 .vocabReviewPanel > div {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -4359,13 +5083,49 @@ dd {
     grid-template-columns: 1fr;
   }
 
+  .managerShell,
+  .managerTwoColumn {
+    grid-template-columns: 1fr;
+  }
+
+  .managerSidebar {
+    position: static;
+  }
+
+  .managerNav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .managerGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .profileHero,
-  .profileGrid {
+  .profileTopStrip,
+  .profileBodyLayout,
+  .profileDashboard,
+  .profileGrid,
+  .profileAccountSection,
+  .profileLearningSection,
+  .profileRestSection {
     grid-template-columns: 1fr;
+  }
+
+  .profileSidebar {
+    position: static;
+  }
+
+  .profileGroupNav {
+    position: static;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .profileContentGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .profileCompletedPanel {
+    grid-row: auto;
   }
 
   .profileHeroActions {
@@ -4856,6 +5616,16 @@ dd {
     padding: 18px 14px;
   }
 
+  .managerTopbar {
+    display: grid;
+  }
+
+  .managerStatsGrid,
+  .managerResourceGrid,
+  .managerNav {
+    grid-template-columns: 1fr;
+  }
+
   .profilePage {
     gap: 14px;
     padding: 18px 14px;
@@ -4871,10 +5641,32 @@ dd {
     gap: 14px;
   }
 
+  .profileTopIdentity {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .profileHeroActions,
   .profileHeroActions .profileActionLink,
   .profileHeroActions button {
     width: 100%;
+  }
+
+  .profileTopStats,
+  .profileGroupNav {
+    grid-template-columns: 1fr;
+  }
+
+  .profileTodayHeader {
+    display: grid;
+  }
+
+  .profileTodayHeader .profileActionLink {
+    width: 100%;
+  }
+
+  .profileTodayStats {
+    grid-template-columns: 1fr;
   }
 
   .profileStats {
@@ -4892,6 +5684,10 @@ dd {
   }
 
   .profileAccountList div {
+    grid-template-columns: 1fr;
+  }
+
+  .profileCompletedList div {
     grid-template-columns: 1fr;
   }
 
@@ -4917,7 +5713,7 @@ dd {
   }
 
   .vocabStudyStats {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: none;
   }
 
@@ -4997,6 +5793,10 @@ dd {
   }
 
   .answerList {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabReviewPanel > div {
     grid-template-columns: 1fr;
   }
 

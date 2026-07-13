@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { resolveLoginEmail, upsertOwnProfile } from "../../lib/profile";
 import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 
 type AuthMode = "signin" | "signup";
@@ -25,7 +26,7 @@ function getAuthRedirectUrl() {
 export default function LoginPageClient() {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>("signin");
-  const [email, setEmail] = useState("");
+  const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -53,18 +54,20 @@ export default function LoginPageClient() {
     setIsLoading(true);
     setMessage("");
 
+    const authEmail = mode === "signin" ? await resolveLoginEmail(identifier) : identifier.trim();
+
     const authRequest =
       mode === "signin"
-        ? supabase.auth.signInWithPassword({ email, password })
+        ? supabase.auth.signInWithPassword({ email: authEmail, password })
         : supabase.auth.signUp({
-            email,
+            email: authEmail,
             password,
             options: {
               emailRedirectTo: getAuthRedirectUrl(),
             },
           });
 
-    const { error } = await authRequest;
+    const { data, error } = await authRequest;
 
     if (error) {
       setMessage(getAuthErrorMessage(error));
@@ -73,10 +76,17 @@ export default function LoginPageClient() {
     }
 
     if (mode === "signin") {
+      if (data.user) {
+        await upsertOwnProfile(data.user, { email: data.user.email });
+      }
       setMessage("Đăng nhập thành công. Đang chuyển về trang chủ...");
       router.replace("/");
       router.refresh();
       return;
+    }
+
+    if (data.user) {
+      await upsertOwnProfile(data.user, { email: data.user.email });
     }
 
     setMessage("Đã tạo tài khoản. Kiểm tra email nếu Supabase yêu cầu xác nhận.");
@@ -95,7 +105,7 @@ export default function LoginPageClient() {
     setMessage("");
 
     const { error } = await supabase.auth.signInWithOtp({
-      email,
+      email: identifier.trim(),
       options: {
         emailRedirectTo: getAuthRedirectUrl(),
       },
@@ -174,13 +184,13 @@ export default function LoginPageClient() {
 
         <div className="loginForm">
           <label>
-            <span>Email</span>
+            <span>{mode === "signin" ? "Username hoặc email" : "Email"}</span>
             <input
-              type="email"
-              autoComplete="email"
-              placeholder="van@yenth.vn"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              type={mode === "signin" ? "text" : "email"}
+              autoComplete={mode === "signin" ? "username" : "email"}
+              placeholder={mode === "signin" ? "khanhvan hoặc khanhvan@yenth.shop" : "van@yenth.vn"}
+              value={identifier}
+              onChange={(event) => setIdentifier(event.target.value)}
             />
           </label>
 
@@ -208,7 +218,7 @@ export default function LoginPageClient() {
           <button
             className="loginPrimaryButton"
             type="button"
-            disabled={isLoading || !isSupabaseConfigured || !email || !password}
+            disabled={isLoading || !isSupabaseConfigured || !identifier || !password}
             onClick={handlePasswordAuth}
           >
             {isLoading
@@ -221,7 +231,7 @@ export default function LoginPageClient() {
           <button
             className="loginSecondaryButton"
             type="button"
-            disabled={isLoading || !isSupabaseConfigured || !email}
+            disabled={isLoading || !isSupabaseConfigured || !identifier.includes("@")}
             onClick={handleMagicLink}
           >
             Gửi magic link

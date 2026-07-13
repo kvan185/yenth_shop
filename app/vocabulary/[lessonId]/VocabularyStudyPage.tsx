@@ -3,10 +3,24 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { LevelId, VocabularyItem } from "../../../lib/vocabulary";
-import { getFirstLetter, getMeaning, getWord, normalizeText } from "../../../lib/vocabulary";
-import { createQuizQuestionForAnswer, shuffle, type QuizQuestion } from "../../../lib/quiz";
+import {
+  getFirstLetter,
+  getMeaning,
+  getWord,
+  normalizeText,
+} from "../../../lib/vocabulary";
+import { recordLevelCompletion } from "../../../lib/lessonCompletion";
+import {
+  createQuizQuestionForAnswer,
+  shuffle,
+  type QuizQuestion,
+} from "../../../lib/quiz";
 import { supabase } from "../../../lib/supabase";
-import { recordDailyStreak } from "../../../lib/streak";
+import {
+  getLocalDateKey,
+  recordDailyCorrectWord,
+  recordDailyStreak,
+} from "../../../lib/streak";
 
 type VocabularyStudyPageProps = {
   level: LevelId;
@@ -16,7 +30,11 @@ type VocabularyStudyPageProps = {
 type StudyMode = "learn" | "test";
 
 type StoredProgress = {
+  completedAt?: string;
   correctKeys?: string[];
+  testElapsedSeconds?: number;
+  tipCounts?: Record<string, number>;
+  totalWords?: number;
   wrongKeys?: string[];
 };
 
@@ -58,10 +76,15 @@ function getExampleMeaning(item: VocabularyItem) {
 
 function getPronunciation(item: VocabularyItem) {
   const customPronunciation =
-    item["phiên âm"] || item["phien am"] || item["pronunciation"] || item["ipa"];
+    item["phiên âm"] ||
+    item["phien am"] ||
+    item["pronunciation"] ||
+    item["ipa"];
 
   if (customPronunciation) {
-    return customPronunciation.startsWith("/") ? customPronunciation : `/${customPronunciation}/`;
+    return customPronunciation.startsWith("/")
+      ? customPronunciation
+      : `/${customPronunciation}/`;
   }
 
   return "";
@@ -79,9 +102,32 @@ function getProgressOwnerKey(userId: string) {
   return userId ? `user:${userId}` : "guest";
 }
 
+function getDailyGoalStorageKey(level: LevelId, ownerKey: string) {
+  return `yenth:vocabulary:${ownerKey}:${level.toLowerCase()}:daily:${getLocalDateKey()}`;
+}
+
+function formatElapsedTime(totalSeconds: number) {
+  const safeSeconds = Math.max(0, Math.floor(totalSeconds));
+  const hours = Math.floor(safeSeconds / 3600);
+  const minutes = Math.floor((safeSeconds % 3600) / 60);
+  const seconds = safeSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  }
+
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
 function SpeakerIcon() {
   return (
-    <svg aria-hidden="true" fill="none" height="18" viewBox="0 0 24 24" width="18">
+    <svg
+      aria-hidden="true"
+      fill="none"
+      height="18"
+      viewBox="0 0 24 24"
+      width="18"
+    >
       <path
         d="M4 9.5v5h3.5L13 19V5L7.5 9.5H4Z"
         stroke="currentColor"
@@ -104,7 +150,9 @@ function isTextEntryTarget(target: EventTarget | null) {
   }
 
   if (target instanceof HTMLInputElement) {
-    return !["button", "checkbox", "radio", "reset", "submit"].includes(target.type);
+    return !["button", "checkbox", "radio", "reset", "submit"].includes(
+      target.type,
+    );
   }
 
   return target instanceof HTMLElement && target.isContentEditable;
@@ -123,12 +171,17 @@ function pickQuestion(
     remainingWords.length > 1
       ? remainingWords.filter((item) => getWordKey(item) !== previousKey)
       : remainingWords;
-  const answer = candidates[Math.floor(Math.random() * candidates.length)] || remainingWords[0];
+  const answer =
+    candidates[Math.floor(Math.random() * candidates.length)] ||
+    remainingWords[0];
 
   return createQuizQuestionForAnswer(answer, allWords);
 }
 
-export default function VocabularyStudyPage({ level, vocabularyData }: VocabularyStudyPageProps) {
+export default function VocabularyStudyPage({
+  level,
+  vocabularyData,
+}: VocabularyStudyPageProps) {
   const words = useMemo(
     () => vocabularyData.filter((item) => getWord(item) && getMeaning(item)),
     [vocabularyData],
@@ -139,6 +192,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const [selectedWordKey, setSelectedWordKey] = useState("");
   const [correctKeys, setCorrectKeys] = useState<Set<string>>(() => new Set());
   const [wrongKeys, setWrongKeys] = useState<Set<string>>(() => new Set());
+  const [tipCounts, setTipCounts] = useState<Record<string, number>>({});
+  const [testElapsedSeconds, setTestElapsedSeconds] = useState(0);
+  const [currentTipStage, setCurrentTipStage] = useState(0);
+  const [isTipPopupOpen, setIsTipPopupOpen] = useState(false);
+  const [completedAt, setCompletedAt] = useState("");
   const [isProgressLoaded, setIsProgressLoaded] = useState(false);
   const [userId, setUserId] = useState("");
   const [progressStorageKey, setProgressStorageKey] = useState("");
@@ -148,6 +206,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [speakingKey, setSpeakingKey] = useState("");
   const audioCacheRef = useRef<Map<string, string | null>>(new Map());
+  const hasResolvedTestSessionRef = useRef(false);
 
   const letters = useMemo(() => {
     const counts = words.reduce<Record<string, number>>((result, item) => {
@@ -165,7 +224,8 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     const keyword = normalizeText(search);
 
     return words.filter((item) => {
-      const matchesLetter = selectedLetter === "ALL" || getFirstLetter(item) === selectedLetter;
+      const matchesLetter =
+        selectedLetter === "ALL" || getFirstLetter(item) === selectedLetter;
       if (!matchesLetter) {
         return false;
       }
@@ -188,7 +248,10 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   }, [search, selectedLetter, words]);
 
   const selectedWord = useMemo(() => {
-    return filteredWords.find((item) => getWordKey(item) === selectedWordKey) || filteredWords[0];
+    return (
+      filteredWords.find((item) => getWordKey(item) === selectedWordKey) ||
+      filteredWords[0]
+    );
   }, [filteredWords, selectedWordKey]);
 
   const remainingWords = useMemo(() => {
@@ -196,14 +259,29 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   }, [correctKeys, words]);
 
   const wrongWords = useMemo(() => {
-    return words.filter((item) => wrongKeys.has(getWordKey(item)) && !correctKeys.has(getWordKey(item)));
+    return words.filter(
+      (item) =>
+        wrongKeys.has(getWordKey(item)) && !correctKeys.has(getWordKey(item)),
+    );
   }, [correctKeys, wrongKeys, words]);
 
   const currentAnswer = quiz?.answer || null;
   const currentAnswerKey = currentAnswer ? getWordKey(currentAnswer) : "";
+  const currentWord = currentAnswer ? getWord(currentAnswer) : "";
+  const shouldShowPromptInline =
+    currentWord.length > 0 &&
+    currentWord.length <= 14 &&
+    !currentWord.includes(" ");
+  const totalTipCount = Object.values(tipCounts).reduce(
+    (total, count) => total + count,
+    0,
+  );
   const correctCount = Math.min(correctKeys.size, words.length);
-  const progress = words.length ? Math.round((correctCount / words.length) * 100) : 0;
+  const progress = words.length
+    ? Math.round((correctCount / words.length) * 100)
+    : 0;
   const isCorrect = selectedAnswerKey === currentAnswerKey;
+  const didUseCurrentTip = currentTipStage > 0;
 
   useEffect(() => {
     let isMounted = true;
@@ -213,6 +291,9 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
       setIsProgressLoaded(false);
       let nextCorrectKeys = new Set<string>();
       let nextWrongKeys = new Set<string>();
+      let nextTipCounts: Record<string, number> = {};
+      let nextTestElapsedSeconds = 0;
+      let nextCompletedAt = "";
       let currentUserId = "";
 
       if (supabase) {
@@ -220,17 +301,40 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
         currentUserId = userData.user?.id || "";
       }
 
-      const nextStorageKey = getStorageKey(level, getProgressOwnerKey(currentUserId));
+      const nextStorageKey = getStorageKey(
+        level,
+        getProgressOwnerKey(currentUserId),
+      );
       const rawProgress = window.localStorage.getItem(nextStorageKey);
 
       if (rawProgress) {
         try {
           const parsed = JSON.parse(rawProgress) as StoredProgress;
-          nextCorrectKeys = new Set((parsed.correctKeys || []).filter((key) => validKeys.has(key)));
-          nextWrongKeys = new Set((parsed.wrongKeys || []).filter((key) => validKeys.has(key)));
+          nextCorrectKeys = new Set(
+            (parsed.correctKeys || []).filter((key) => validKeys.has(key)),
+          );
+          nextWrongKeys = new Set(
+            (parsed.wrongKeys || []).filter((key) => validKeys.has(key)),
+          );
+          nextTipCounts = Object.fromEntries(
+            Object.entries(parsed.tipCounts || {})
+              .filter(
+                ([key, count]) =>
+                  validKeys.has(key) && Number.isFinite(count) && count > 0,
+              )
+              .map(([key, count]) => [key, Math.floor(count)]),
+          );
+          nextTestElapsedSeconds = Math.max(
+            0,
+            Math.floor(parsed.testElapsedSeconds || 0),
+          );
+          nextCompletedAt = parsed.completedAt || "";
         } catch {
           nextCorrectKeys = new Set();
           nextWrongKeys = new Set();
+          nextTipCounts = {};
+          nextTestElapsedSeconds = 0;
+          nextCompletedAt = "";
         }
       }
 
@@ -245,12 +349,18 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
           if (!error && Array.isArray(data)) {
             nextCorrectKeys = new Set(
               (data as ProgressRow[])
-                .filter((row) => row.status === "correct" && validKeys.has(row.word_key))
+                .filter(
+                  (row) =>
+                    row.status === "correct" && validKeys.has(row.word_key),
+                )
                 .map((row) => row.word_key),
             );
             nextWrongKeys = new Set(
               (data as ProgressRow[])
-                .filter((row) => row.status === "wrong" && validKeys.has(row.word_key))
+                .filter(
+                  (row) =>
+                    row.status === "wrong" && validKeys.has(row.word_key),
+                )
                 .map((row) => row.word_key),
             );
           }
@@ -268,6 +378,9 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
         }
         setCorrectKeys(nextCorrectKeys);
         setWrongKeys(nextWrongKeys);
+        setTipCounts(nextTipCounts);
+        setTestElapsedSeconds(nextTestElapsedSeconds);
+        setCompletedAt(nextCompletedAt);
         setIsProgressLoaded(true);
       }
     }
@@ -287,11 +400,52 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     window.localStorage.setItem(
       progressStorageKey,
       JSON.stringify({
+        completedAt,
         correctKeys: Array.from(correctKeys),
+        testElapsedSeconds,
+        tipCounts,
+        totalWords: words.length,
         wrongKeys: Array.from(wrongKeys),
       }),
     );
-  }, [correctKeys, isProgressLoaded, progressStorageKey, wrongKeys]);
+  }, [
+    completedAt,
+    correctKeys,
+    isProgressLoaded,
+    progressStorageKey,
+    testElapsedSeconds,
+    tipCounts,
+    words.length,
+    wrongKeys,
+  ]);
+
+  useEffect(() => {
+    if (
+      !isProgressLoaded ||
+      completedAt ||
+      words.length === 0 ||
+      correctKeys.size < words.length
+    ) {
+      return;
+    }
+
+    setCompletedAt(new Date().toISOString());
+  }, [completedAt, correctKeys.size, isProgressLoaded, words.length]);
+
+  useEffect(() => {
+    if (
+      !isProgressLoaded ||
+      !supabase ||
+      words.length === 0 ||
+      correctKeys.size < words.length
+    ) {
+      return;
+    }
+
+    void supabase.auth.getUser().then(({ data }) => {
+      void recordLevelCompletion(data.user, level, words.length);
+    });
+  }, [correctKeys.size, isProgressLoaded, level, words.length]);
 
   useEffect(() => {
     if (!isProgressLoaded || !supabase || !userId) {
@@ -316,7 +470,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     ];
 
     async function syncUserProgress() {
-      await supabase.from("vocabulary_progress").delete().eq("user_id", userId).eq("level", level);
+      await supabase
+        .from("vocabulary_progress")
+        .delete()
+        .eq("user_id", userId)
+        .eq("level", level);
 
       if (rows.length > 0) {
         await supabase.from("vocabulary_progress").upsert(rows, {
@@ -335,23 +493,67 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   }, [selectedWord, selectedWordKey]);
 
   useEffect(() => {
-    if (mode !== "test" || !isProgressLoaded || quiz || remainingWords.length === 0) {
+    if (
+      mode !== "test" ||
+      !isProgressLoaded ||
+      quiz ||
+      remainingWords.length === 0
+    ) {
       return;
     }
 
     setQuiz(pickQuestion(remainingWords, words));
   }, [isProgressLoaded, mode, quiz, remainingWords, words]);
 
+  useEffect(() => {
+    if (mode !== "test" || !isProgressLoaded || remainingWords.length === 0) {
+      return;
+    }
+
+    const timerId = window.setInterval(() => {
+      setTestElapsedSeconds((previous) => previous + 1);
+    }, 1000);
+
+    return () => window.clearInterval(timerId);
+  }, [isProgressLoaded, mode, remainingWords.length]);
+
   function resetQuestionState() {
     setSelectedAnswerKey("");
     setIsSubmitted(false);
     setFeedbackMessage("");
+    setCurrentTipStage(0);
+    setIsTipPopupOpen(false);
   }
 
   function startTest() {
+    if (!hasResolvedTestSessionRef.current && testElapsedSeconds > 0) {
+      hasResolvedTestSessionRef.current = true;
+
+      const shouldContinue = window.confirm(
+        `Bạn có phiên kiểm tra trước đó (${formatElapsedTime(testElapsedSeconds)}). Chọn OK để tiếp tục, Cancel để làm lại.`,
+      );
+
+      if (!shouldContinue) {
+        restartTestSession();
+        return;
+      }
+    }
+
     setMode("test");
     resetQuestionState();
     setQuiz((previous) => previous || pickQuestion(remainingWords, words));
+  }
+
+  function restartTestSession() {
+    hasResolvedTestSessionRef.current = true;
+    setMode("test");
+    setCorrectKeys(new Set());
+    setWrongKeys(new Set());
+    setTipCounts({});
+    setTestElapsedSeconds(0);
+    setCompletedAt("");
+    resetQuestionState();
+    setQuiz(pickQuestion(words, words));
   }
 
   function goNextQuestion() {
@@ -365,16 +567,31 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     }
 
     if (supabase) {
-      void supabase.auth.getUser().then(({ data }) => recordDailyStreak(data.user, level));
+      void supabase.auth
+        .getUser()
+        .then(({ data }) => recordDailyStreak(data.user, level));
     }
 
     setIsSubmitted(true);
 
+    if (didUseCurrentTip && isCorrect) {
+      setFeedbackMessage("Tôi sẽ kiểm tra từ này sau");
+      return;
+    }
+
     if (isCorrect) {
       setFeedbackMessage(getRandomMessage(correctFeedbackMessages));
+      recordTodayCorrectAnswer(currentAnswerKey);
       setCorrectKeys((previous) => {
         const next = new Set(previous);
         next.add(currentAnswerKey);
+
+        if (next.size >= words.length && supabase) {
+          void supabase.auth.getUser().then(({ data }) => {
+            void recordLevelCompletion(data.user, level, words.length);
+          });
+        }
+
         return next;
       });
       setWrongKeys((previous) => {
@@ -392,8 +609,42 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
   function resetProgress() {
     setCorrectKeys(new Set());
     setWrongKeys(new Set());
+    setTipCounts({});
+    setTestElapsedSeconds(0);
+    setCompletedAt("");
+    hasResolvedTestSessionRef.current = true;
     resetQuestionState();
     setQuiz(pickQuestion(words, words));
+  }
+
+  function requestTip() {
+    if (!currentAnswerKey || isSubmitted) {
+      return;
+    }
+
+    if (currentTipStage === 0) {
+      setCurrentTipStage(1);
+      setIsTipPopupOpen(true);
+      setTipCounts((previous) => ({
+        ...previous,
+        [currentAnswerKey]: (previous[currentAnswerKey] || 0) + 1,
+      }));
+      return;
+    }
+
+    if (currentTipStage === 1) {
+      setCurrentTipStage(2);
+    }
+
+    setIsTipPopupOpen(true);
+  }
+
+  function confirmResetProgress() {
+    if (!window.confirm("Bạn có chắc muốn xóa toàn bộ tiến độ của bài này?")) {
+      return;
+    }
+
+    resetProgress();
   }
 
   function shuffleLearnList() {
@@ -408,13 +659,56 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     return messages[Math.floor(Math.random() * messages.length)] || messages[0];
   }
 
+  function recordTodayCorrectAnswer(wordKey: string) {
+    if (!wordKey) {
+      return;
+    }
+
+    const storageKey = getDailyGoalStorageKey(
+      level,
+      getProgressOwnerKey(userId),
+    );
+
+    try {
+      const parsed = JSON.parse(
+        window.localStorage.getItem(storageKey) || "{}",
+      ) as {
+        correctKeys?: string[];
+      };
+      const nextCorrectKeys = new Set(parsed.correctKeys || []);
+      nextCorrectKeys.add(wordKey);
+
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          correctKeys: Array.from(nextCorrectKeys),
+        }),
+      );
+    } catch {
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          correctKeys: [wordKey],
+        }),
+      );
+    }
+
+    if (supabase) {
+      void supabase.auth.getUser().then(({ data }) => {
+        void recordDailyCorrectWord(data.user, level, wordKey);
+      });
+    }
+  }
+
   function selectEnglishVoice() {
     if (!("speechSynthesis" in window)) {
       return null;
     }
 
     const voices = window.speechSynthesis.getVoices();
-    const englishVoices = voices.filter((voice) => voice.lang.toLowerCase().startsWith("en"));
+    const englishVoices = voices.filter((voice) =>
+      voice.lang.toLowerCase().startsWith("en"),
+    );
 
     return (
       englishVoices
@@ -431,7 +725,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
           if (name.includes("google") || name.includes("microsoft")) {
             score += 7;
           }
-          if (name.includes("aria") || name.includes("jenny") || name.includes("samantha")) {
+          if (
+            name.includes("aria") ||
+            name.includes("jenny") ||
+            name.includes("samantha")
+          ) {
             score += 5;
           }
 
@@ -468,7 +766,10 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
     window.speechSynthesis.speak(utterance);
   }
 
-  async function getDictionaryAudioUrl(word: string, timeoutMs = audioLookupTimeoutMs) {
+  async function getDictionaryAudioUrl(
+    word: string,
+    timeoutMs = audioLookupTimeoutMs,
+  ) {
     const normalizedWord = word.trim().toLowerCase();
 
     if (!normalizedWord || normalizedWord.includes(" ")) {
@@ -495,11 +796,17 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
 
       const entries = await response.json();
       const phonetics = Array.isArray(entries)
-        ? entries.flatMap((entry) => (Array.isArray(entry?.phonetics) ? entry.phonetics : []))
+        ? entries.flatMap((entry) =>
+            Array.isArray(entry?.phonetics) ? entry.phonetics : [],
+          )
         : [];
       const audioUrl =
-        phonetics.find((item) => typeof item?.audio === "string" && item.audio.includes("-us."))?.audio ||
-        phonetics.find((item) => typeof item?.audio === "string" && item.audio)?.audio ||
+        phonetics.find(
+          (item) =>
+            typeof item?.audio === "string" && item.audio.includes("-us."),
+        )?.audio ||
+        phonetics.find((item) => typeof item?.audio === "string" && item.audio)
+          ?.audio ||
         null;
 
       audioCacheRef.current.set(normalizedWord, audioUrl);
@@ -558,7 +865,12 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
 
   useEffect(() => {
     function handleSpaceKey(event: KeyboardEvent) {
-      if (isTextEntryTarget(event.target) || mode !== "test" || event.code !== "Space" || !quiz) {
+      if (
+        isTextEntryTarget(event.target) ||
+        mode !== "test" ||
+        event.code !== "Space" ||
+        !quiz
+      ) {
         return;
       }
 
@@ -578,7 +890,7 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
 
     window.addEventListener("keydown", handleSpaceKey);
     return () => window.removeEventListener("keydown", handleSpaceKey);
-  }, [isSubmitted, mode, quiz, selectedAnswerKey]);
+  }, [didUseCurrentTip, isSubmitted, mode, quiz, selectedAnswerKey]);
 
   return (
     <main className="vocabStudyPage">
@@ -604,6 +916,10 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
             <span>Còn lại</span>
             <strong>{remainingWords.length}</strong>
           </div>
+          <div>
+            <span>Tổng số lần xin tip</span>
+            <strong>{totalTipCount}</strong>
+          </div>
         </div>
 
         <div className="vocabStudyTabs" aria-label="Chọn chế độ học">
@@ -614,7 +930,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
           >
             Học
           </button>
-          <button className={mode === "test" ? "active" : ""} type="button" onClick={startTest}>
+          <button
+            className={mode === "test" ? "active" : ""}
+            type="button"
+            onClick={startTest}
+          >
             Kiểm tra
           </button>
           <div aria-label={`${progress}% hoàn thành`}>
@@ -660,7 +980,9 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                 const key = getWordKey(item);
                 return (
                   <button
-                    className={key === getWordKey(selectedWord || item) ? "active" : ""}
+                    className={
+                      key === getWordKey(selectedWord || item) ? "active" : ""
+                    }
                     key={key}
                     type="button"
                     onClick={() => setSelectedWordKey(key)}
@@ -680,7 +1002,9 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                   <div>
                     <span>{getPartOfSpeech(selectedWord) || level}</span>
                     <h2>{getWord(selectedWord)}</h2>
-                    {getPronunciation(selectedWord) ? <p>{getPronunciation(selectedWord)}</p> : null}
+                    {getPronunciation(selectedWord) ? (
+                      <p>{getPronunciation(selectedWord)}</p>
+                    ) : null}
                   </div>
                   <div className="vocabLearnActions">
                     <button
@@ -692,7 +1016,11 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                     >
                       <SpeakerIcon />
                     </button>
-                    <button className="secondaryButton" type="button" onClick={shuffleLearnList}>
+                    <button
+                      className="secondaryButton"
+                      type="button"
+                      onClick={shuffleLearnList}
+                    >
                       Đổi từ
                     </button>
                   </div>
@@ -705,11 +1033,16 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                   </div>
                   <div>
                     <dt>Ví dụ</dt>
-                    <dd>{getExample(selectedWord) || "Chưa có ví dụ cho từ này."}</dd>
+                    <dd>
+                      {getExample(selectedWord) || "Chưa có ví dụ cho từ này."}
+                    </dd>
                   </div>
                   <div>
                     <dt>Dịch ví dụ</dt>
-                    <dd>{getExampleMeaning(selectedWord) || "Chưa có bản dịch ví dụ."}</dd>
+                    <dd>
+                      {getExampleMeaning(selectedWord) ||
+                        "Chưa có bản dịch ví dụ."}
+                    </dd>
                   </div>
                 </dl>
               </>
@@ -724,8 +1057,16 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
             {remainingWords.length === 0 ? (
               <div className="vocabEmptyState">
                 <p className="homeEyebrow">Hoàn thành</p>
-                <h2>Bạn đã trả lời đúng toàn bộ {words.length.toLocaleString("vi-VN")} từ.</h2>
-                <button className="primaryButton" type="button" onClick={resetProgress}>
+                <h2>
+                  Chúc mừng! Bạn đã trả lời đúng toàn bộ{" "}
+                  {words.length.toLocaleString("vi-VN")} từ.
+                </h2>
+                <p>Level này đã được đánh dấu Completed.</p>
+                <button
+                  className="primaryButton"
+                  type="button"
+                  onClick={resetProgress}
+                >
                   Làm lại từ đầu
                 </button>
               </div>
@@ -733,13 +1074,26 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
               <>
                 <div className="questionHead">
                   <span>Chọn nghĩa đúng</span>
-                  <strong>{progress}% hoàn thành</strong>
+                  <strong>
+                    {progress}% hoàn thành ·{" "}
+                    {formatElapsedTime(testElapsedSeconds)}
+                  </strong>
                 </div>
                 <div className="wordPromptCard">
-                  <strong>{getWord(currentAnswer).toUpperCase()}</strong>
-                  <div>
+                  <div
+                    className={`wordPromptText ${shouldShowPromptInline ? "inline" : ""}`}
+                  >
+                    <strong>{currentWord.toUpperCase()}</strong>
+                    <span aria-hidden="true" className="wordPromptDivider">
+                      |
+                    </span>
+                    <span>{currentWord.toLowerCase()}</span>
+                  </div>
+                  <div className="wordPromptMeta">
                     <span>{getPartOfSpeech(currentAnswer) || level}</span>
-                    {getPronunciation(currentAnswer) ? <span>{getPronunciation(currentAnswer)}</span> : null}
+                    {getPronunciation(currentAnswer) ? (
+                      <span>{getPronunciation(currentAnswer)}</span>
+                    ) : null}
                     <button
                       aria-label={`Phát âm ${getWord(currentAnswer)}`}
                       className={`audioIconButton ${speakingKey === currentAnswerKey ? "playing" : ""}`}
@@ -750,6 +1104,21 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                       <SpeakerIcon />
                     </button>
                   </div>
+                </div>
+
+                <div className="tipActionRow">
+                  <button
+                    className="secondaryButton"
+                    disabled={isSubmitted}
+                    type="button"
+                    onClick={requestTip}
+                  >
+                    {currentTipStage === 0
+                      ? "Xin tip"
+                      : currentTipStage === 1
+                        ? "Xem nghĩa ví dụ"
+                        : "Xem tip"}
+                  </button>
                 </div>
 
                 <fieldset className="answerList">
@@ -765,7 +1134,10 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                           : "";
 
                     return (
-                      <label className={`testAnswer ${statusClass}`} key={`${optionKey}-${letter}`}>
+                      <label
+                        className={`testAnswer ${statusClass}`}
+                        key={`${optionKey}-${letter}`}
+                      >
                         <input
                           checked={selectedAnswerKey === optionKey}
                           disabled={isSubmitted}
@@ -782,12 +1154,6 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                   })}
                 </fieldset>
 
-                {isSubmitted ? (
-                  <div className={`vocabAnswerFeedback ${isCorrect ? "correct" : "wrong"}`}>
-                    {feedbackMessage}
-                  </div>
-                ) : null}
-
                 <div className="testActions">
                   <button
                     className="primaryButton"
@@ -797,13 +1163,27 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
                   >
                     {isSubmitted ? "Câu tiếp theo" : "Trả lời"}
                   </button>
-                  <span className="vocabShortcutHint">
-                    {isSubmitted ? "Nhấn Space để sang câu tiếp theo" : "Chọn đáp án rồi nhấn Space để kiểm tra"}
-                  </span>
-                  <button className="secondaryButton" type="button" onClick={resetProgress}>
+                  <button
+                    className="secondaryButton"
+                    type="button"
+                    onClick={confirmResetProgress}
+                  >
                     Xóa tiến độ
                   </button>
                 </div>
+                <span className="vocabShortcutHint">
+                  {isSubmitted
+                    ? "Nhấn Space để sang câu tiếp theo"
+                    : "Chọn đáp án rồi nhấn Space để kiểm tra"}
+                </span>
+
+                {isSubmitted ? (
+                  <div
+                    className={`vocabAnswerFeedback ${didUseCurrentTip ? "neutral" : isCorrect ? "correct" : "wrong"}`}
+                  >
+                    {feedbackMessage}
+                  </div>
+                ) : null}
               </>
             ) : (
               <div className="vocabEmptyState">Đang chuẩn bị câu hỏi...</div>
@@ -826,6 +1206,65 @@ export default function VocabularyStudyPage({ level, vocabularyData }: Vocabular
           </aside>
         </section>
       )}
+
+      {isTipPopupOpen && currentAnswer && currentTipStage > 0 ? (
+        <div
+          aria-labelledby="tipPopupTitle"
+          aria-modal="true"
+          className="tipPopupOverlay"
+          role="dialog"
+        >
+          <div className="tipPopup">
+            <div className="tipPopupHead">
+              <div>
+                <span>Tip</span>
+                <h2 id="tipPopupTitle">{currentWord}</h2>
+              </div>
+              <button
+                aria-label="Đóng tip"
+                className="tipPopupClose"
+                type="button"
+                onClick={() => setIsTipPopupOpen(false)}
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="tipPopupBody">
+              <p>
+                <strong>Ví dụ:</strong>{" "}
+                {getExample(currentAnswer) || "Chưa có ví dụ cho từ này."}
+              </p>
+              {currentTipStage > 1 ? (
+                <p>
+                  <strong>Nghĩa ví dụ:</strong>{" "}
+                  {getExampleMeaning(currentAnswer) ||
+                    "Chưa có bản dịch ví dụ."}
+                </p>
+              ) : null}
+            </div>
+
+            <div className="tipPopupActions">
+              {currentTipStage === 1 ? (
+                <button
+                  className="primaryButton"
+                  type="button"
+                  onClick={requestTip}
+                >
+                  Xem nghĩa ví dụ
+                </button>
+              ) : null}
+              <button
+                className="secondaryButton"
+                type="button"
+                onClick={() => setIsTipPopupOpen(false)}
+              >
+                Đóng
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

@@ -2,124 +2,98 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import type { User } from "@supabase/supabase-js";
-import { isSupabaseConfigured, supabase } from "../../lib/supabase";
 
-type ResourceStatus = "checking" | "ready" | "missing" | "blocked";
+type ManagerTab = "overview" | "users" | "progress" | "events" | "setup";
 
-type ResourceState = {
-  description: string;
+type ResourceStatus = "ready" | "blocked" | "missing" | "checking";
+
+type ManagerResource = {
   error?: string;
   name: string;
-  rows?: number;
+  rows: number;
   status: ResourceStatus;
 };
 
-const managedTables: Array<Pick<ResourceState, "description" | "name">> = [
-  {
-    name: "profiles",
-    description: "Thông tin người học, tên hiển thị và ngày tạo tài khoản.",
-  },
-  {
-    name: "vocabulary_progress",
-    description: "Tiến độ đúng/sai theo từng từ và từng level.",
-  },
-  {
-    name: "quiz_attempts",
-    description: "Lịch sử làm bài kiểm tra, điểm và thời điểm hoàn thành.",
-  },
-  {
-    name: "learning_events",
-    description: "Nhật ký hành động học tập để tính streak, XP và thống kê.",
-  },
+type ManagerProfile = {
+  avatar_url?: string | null;
+  created_at?: string;
+  display_name?: string | null;
+  email?: string | null;
+  id: string;
+  role?: string | null;
+  username?: string | null;
+};
+
+type ManagerProgress = {
+  id: number;
+  level?: string | null;
+  status?: string | null;
+  updated_at?: string;
+  user_id?: string;
+  word_key?: string;
+};
+
+type ManagerAttempt = {
+  created_at?: string;
+  id: number;
+  level?: string | null;
+  score?: number | null;
+  skill?: string | null;
+  total?: number | null;
+  user_id?: string;
+};
+
+type ManagerEvent = {
+  created_at?: string;
+  event_type?: string | null;
+  id: number;
+  payload?: Record<string, unknown> | null;
+  user_id?: string;
+};
+
+type ManagerOverview = {
+  adminConfigured?: boolean;
+  error?: string;
+  eventsByType?: Record<string, number>;
+  managerUser?: string;
+  profiles?: ManagerProfile[];
+  progressByLevel?: Record<string, { correct: number; wrong: number }>;
+  recentAttempts?: ManagerAttempt[];
+  recentEvents?: ManagerEvent[];
+  recentProgress?: ManagerProgress[];
+  resources?: ManagerResource[];
+};
+
+const tabs: Array<{ id: ManagerTab; label: string }> = [
+  { id: "overview", label: "Tổng quan" },
+  { id: "users", label: "Người dùng" },
+  { id: "progress", label: "Tiến độ" },
+  { id: "events", label: "Sự kiện" },
+  { id: "setup", label: "Setup" },
 ];
 
-const setupSql = `create table if not exists public.profiles (
-  id uuid primary key references auth.users(id) on delete cascade,
-  display_name text,
-  username text unique,
-  email text unique,
-  role text default 'student',
-  created_at timestamptz default now()
-);
+const setupSql = `-- Manager cần SUPABASE_SERVICE_ROLE_KEY trong env server để quản lý toàn bộ dữ liệu.
+-- Các bảng chính:
+-- public.profiles
+-- public.vocabulary_progress
+-- public.quiz_attempts
+-- public.learning_events
 
-alter table public.profiles add column if not exists display_name text;
-alter table public.profiles add column if not exists username text unique;
-alter table public.profiles add column if not exists email text unique;
-alter table public.profiles add column if not exists role text default 'student';
-alter table public.profiles add column if not exists created_at timestamptz default now();
+-- Nếu thiếu bảng/policy, vào Supabase SQL Editor chạy SQL setup đã có trong Manager cũ hoặc trang /manager.`;
 
-create table if not exists public.vocabulary_progress (
-  id bigint generated always as identity primary key,
-  user_id uuid references auth.users(id) on delete cascade not null,
-  level text not null,
-  word_key text not null,
-  status text not null check (status in ('correct', 'wrong')),
-  updated_at timestamptz default now(),
-  unique (user_id, level, word_key)
-);
+function formatDate(value: string | undefined) {
+  if (!value) {
+    return "—";
+  }
 
-create table if not exists public.quiz_attempts (
-  id bigint generated always as identity primary key,
-  user_id uuid references auth.users(id) on delete cascade not null,
-  skill text not null,
-  level text,
-  score integer default 0,
-  total integer default 0,
-  created_at timestamptz default now()
-);
-
-create table if not exists public.learning_events (
-  id bigint generated always as identity primary key,
-  user_id uuid references auth.users(id) on delete cascade not null,
-  event_type text not null,
-  payload jsonb default '{}'::jsonb,
-  created_at timestamptz default now()
-);
-
-drop index if exists public.learning_events_daily_streak_unique;
-create unique index learning_events_daily_streak_unique
-on public.learning_events (user_id, ((payload->>'date')), ((payload->>'level')))
-where event_type = 'daily_streak';
-
-alter table public.profiles enable row level security;
-alter table public.vocabulary_progress enable row level security;
-alter table public.quiz_attempts enable row level security;
-alter table public.learning_events enable row level security;
-
-drop policy if exists "profiles_select_own" on public.profiles;
-create policy "profiles_select_own"
-on public.profiles for select
-to authenticated
-using (auth.uid() = id);
-
-drop policy if exists "profiles_update_own" on public.profiles;
-create policy "profiles_update_own"
-on public.profiles for update
-to authenticated
-using (auth.uid() = id)
-with check (auth.uid() = id);
-
-drop policy if exists "vocabulary_progress_own" on public.vocabulary_progress;
-create policy "vocabulary_progress_own"
-on public.vocabulary_progress for all
-to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
-
-drop policy if exists "quiz_attempts_own" on public.quiz_attempts;
-create policy "quiz_attempts_own"
-on public.quiz_attempts for all
-to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
-
-drop policy if exists "learning_events_own" on public.learning_events;
-create policy "learning_events_own"
-on public.learning_events for all
-to authenticated
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);`;
+  return new Intl.DateTimeFormat("vi-VN", {
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).format(new Date(value));
+}
 
 function getStatusLabel(status: ResourceStatus) {
   if (status === "ready") {
@@ -141,127 +115,112 @@ type ManagerPageClientProps = {
 export default function ManagerPageClient({
   managerUser,
 }: ManagerPageClientProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [resources, setResources] = useState<ResourceState[]>(
-    managedTables.map((item) => ({ ...item, status: "checking" })),
-  );
+  const [activeTab, setActiveTab] = useState<ManagerTab>("overview");
+  const [data, setData] = useState<ManagerOverview>({});
+  const [editingProfileId, setEditingProfileId] = useState("");
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const readyCount = useMemo(
-    () => resources.filter((resource) => resource.status === "ready").length,
-    [resources],
+  const resources = data.resources || [];
+  const profiles = data.profiles || [];
+  const recentProgress = data.recentProgress || [];
+  const recentAttempts = data.recentAttempts || [];
+  const recentEvents = data.recentEvents || [];
+  const progressByLevel = data.progressByLevel || {};
+  const eventsByType = data.eventsByType || {};
+
+  const readyCount = resources.filter(
+    (resource) => resource.status === "ready",
+  ).length;
+  const totalProgressRows = Object.values(progressByLevel).reduce(
+    (total, item) => total + item.correct + item.wrong,
+    0,
   );
+  const managerStats = useMemo(
+    () => [
+      { label: "Users", value: profiles.length.toLocaleString("vi-VN") },
+      { label: "Tables", value: `${readyCount}/${resources.length || 4}` },
+      { label: "Progress", value: totalProgressRows.toLocaleString("vi-VN") },
+      {
+        label: "Events",
+        value: Object.values(eventsByType)
+          .reduce((total, count) => total + count, 0)
+          .toLocaleString("vi-VN"),
+      },
+    ],
+    [
+      eventsByType,
+      profiles.length,
+      readyCount,
+      resources.length,
+      totalProgressRows,
+    ],
+  );
+
+  async function loadOverview() {
+    setIsLoading(true);
+    setMessage("");
+
+    const response = await fetch("/api/manager/overview", {
+      cache: "no-store",
+    });
+    const payload = (await response
+      .json()
+      .catch(() => ({}))) as ManagerOverview;
+
+    setData(payload);
+    setIsLoading(false);
+
+    if (!response.ok || payload.error) {
+      setMessage(payload.error || "Không tải được dữ liệu Manager.");
+    }
+  }
 
   useEffect(() => {
-    if (!supabase) {
-      setResources(
-        managedTables.map((item) => ({
-          ...item,
-          status: "blocked",
-          error: "Supabase chưa cấu hình.",
-        })),
-      );
-      return;
-    }
-
-    let isMounted = true;
-
-    async function loadManagerState() {
-      const { data: userData } = await supabase.auth.getUser();
-      if (!isMounted) {
-        return;
-      }
-      setUser(userData.user);
-
-      const nextResources = await Promise.all(
-        managedTables.map(async (table) => {
-          const { count, error } = await supabase
-            .from(table.name)
-            .select("*", { count: "exact", head: true });
-
-          if (!error) {
-            return {
-              ...table,
-              rows: count || 0,
-              status: "ready" as const,
-            };
-          }
-
-          const messageText = error.message || "";
-          const status: ResourceStatus =
-            messageText.toLowerCase().includes("does not exist") ||
-            messageText.toLowerCase().includes("could not find")
-              ? "missing"
-              : "blocked";
-
-          return {
-            ...table,
-            error: messageText,
-            status,
-          };
-        }),
-      );
-
-      if (isMounted) {
-        setResources(nextResources);
-      }
-    }
-
-    void loadManagerState();
-
-    return () => {
-      isMounted = false;
-    };
+    void loadOverview();
   }, []);
 
-  async function refreshResources() {
-    if (!supabase) {
-      setMessage("Supabase chưa được cấu hình.");
+  async function saveProfile(profile: ManagerProfile) {
+    setEditingProfileId(profile.id);
+    setMessage("");
+
+    const response = await fetch("/api/manager/overview", {
+      body: JSON.stringify(profile),
+      headers: { "Content-Type": "application/json" },
+      method: "PATCH",
+    });
+    const payload = (await response.json().catch(() => ({}))) as {
+      error?: string;
+    };
+
+    if (!response.ok) {
+      setMessage(payload.error || "Không cập nhật được profile.");
+      setEditingProfileId("");
       return;
     }
 
-    setMessage("Đang kiểm tra lại tài nguyên...");
-    setResources(
-      managedTables.map((item) => ({ ...item, status: "checking" })),
-    );
+    setMessage("Đã cập nhật profile.");
+    setEditingProfileId("");
+    await loadOverview();
+  }
 
-    const nextResources = await Promise.all(
-      managedTables.map(async (table) => {
-        const { count, error } = await supabase
-          .from(table.name)
-          .select("*", { count: "exact", head: true });
-
-        if (!error) {
-          return { ...table, rows: count || 0, status: "ready" as const };
-        }
-
-        return {
-          ...table,
-          error: error.message,
-          status: error.message.toLowerCase().includes("does not exist")
-            ? ("missing" as const)
-            : ("blocked" as const),
-        };
-      }),
-    );
-
-    setResources(nextResources);
-    setMessage("Đã cập nhật trạng thái.");
+  function updateProfileDraft(
+    profileId: string,
+    patch: Partial<ManagerProfile>,
+  ) {
+    setData((previous) => ({
+      ...previous,
+      profiles: (previous.profiles || []).map((profile) =>
+        profile.id === profileId ? { ...profile, ...patch } : profile,
+      ),
+    }));
   }
 
   function copySql() {
     navigator.clipboard
       .writeText(setupSql)
-      .then(() =>
-        setMessage(
-          "Đã copy SQL tạo bảng. Dán vào Supabase SQL Editor để chạy.",
-        ),
-      )
-      .catch(() =>
-        setMessage(
-          "Không copy được tự động. Bạn có thể chọn và copy thủ công.",
-        ),
-      );
+      .then(() => setMessage("Đã copy ghi chú setup."))
+      .catch(() => setMessage("Không copy được tự động."));
   }
 
   async function logoutManager() {
@@ -271,94 +230,258 @@ export default function ManagerPageClient({
 
   return (
     <main className="managerPage">
-      <section className="managerHero">
-        <div>
-          <p className="homeEyebrow">Manager</p>
-          <h1>Quản lý tài nguyên Supabase cho YENTH.</h1>
-          <p>
-            Kiểm tra kết nối, trạng thái bảng dữ liệu và chuẩn bị các tài nguyên
-            cần có để đồng bộ tiến độ học tập online.
-          </p>
-        </div>
-
-        <div className="managerSummary">
+      <section className="managerShell">
+        <aside className="managerSidebar">
           <div>
-            <span>Kết nối</span>
-            <strong>
-              {isSupabaseConfigured ? "Đã cấu hình" : "Thiếu env"}
-            </strong>
+            <p className="homeEyebrow">Manager</p>
+            <h1>YENTH Admin</h1>
+            <span>{managerUser}</span>
           </div>
-          <div>
-            <span>Bảng sẵn sàng</span>
-            <strong>
-              {readyCount}/{resources.length}
-            </strong>
-          </div>
-          <div>
-            <span>Admin</span>
-            <strong>{managerUser}</strong>
-          </div>
-          <div>
-            <span>Supabase user</span>
-            <strong>{user?.email || "Chưa đăng nhập"}</strong>
-          </div>
-        </div>
-      </section>
 
-      <section className="managerToolbar">
-        <button
-          className="primaryButton"
-          type="button"
-          onClick={refreshResources}
-        >
-          Kiểm tra lại
-        </button>
-        <button className="secondaryButton" type="button" onClick={copySql}>
-          Copy SQL tạo bảng
-        </button>
-        <Link className="secondaryButton" href="/login">
-          Đăng nhập
-        </Link>
-        <button
-          className="secondaryButton"
-          type="button"
-          onClick={logoutManager}
-        >
-          Thoát Manager
-        </button>
-      </section>
+          <nav className="managerNav" aria-label="Manager sections">
+            {tabs.map((tab) => (
+              <button
+                className={activeTab === tab.id ? "active" : ""}
+                key={tab.id}
+                type="button"
+                onClick={() => setActiveTab(tab.id)}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </nav>
 
-      {message ? <p className="managerMessage">{message}</p> : null}
+          <div className="managerSidebarActions">
+            <button
+              className="primaryButton"
+              type="button"
+              onClick={loadOverview}
+            >
+              Làm mới
+            </button>
+            <Link className="secondaryButton" href="/login">
+              Đăng nhập user
+            </Link>
+            <button
+              className="secondaryButton"
+              type="button"
+              onClick={logoutManager}
+            >
+              Thoát
+            </button>
+          </div>
+        </aside>
 
-      <section className="managerGrid">
-        {resources.map((resource) => (
-          <article
-            className={`managerResourceCard ${resource.status}`}
-            key={resource.name}
-          >
+        <section className="managerMain">
+          <section className="managerTopbar">
             <div>
-              <span>{getStatusLabel(resource.status)}</span>
-              <h2>{resource.name}</h2>
+              <p className="homeEyebrow">Quản lý toàn bộ</p>
+              <h2>
+                {activeTab === "overview"
+                  ? "Tổng quan hệ thống"
+                  : tabs.find((tab) => tab.id === activeTab)?.label}
+              </h2>
+              <p>
+                {data.adminConfigured === false
+                  ? "Thiếu SUPABASE_SERVICE_ROLE_KEY nên chưa thể đọc toàn bộ dữ liệu."
+                  : "Quản lý users, tiến độ học, lịch sử quiz và learning events từ Supabase."}
+              </p>
             </div>
-            <p>{resource.description}</p>
-            <strong>{resource.rows ?? 0} dòng</strong>
-            {resource.error ? <small>{resource.error}</small> : null}
-          </article>
-        ))}
-      </section>
+            <div className="managerStatePill">
+              {isLoading ? "Đang tải" : "Sẵn sàng"}
+            </div>
+          </section>
 
-      <section className="managerSqlPanel">
-        <div>
-          <p className="homeEyebrow">SQL setup</p>
-          <h2>Tạo bảng cơ bản trong Supabase</h2>
-          <p>
-            Vào Supabase Dashboard → SQL Editor → New query, dán đoạn này và
-            chạy. Sau đó quay lại trang này bấm “Kiểm tra lại”.
-          </p>
-        </div>
-        <pre>
-          <code>{setupSql}</code>
-        </pre>
+          {message ? <p className="managerMessage">{message}</p> : null}
+
+          {activeTab === "overview" ? (
+            <>
+              <section className="managerStatsGrid">
+                {managerStats.map((item) => (
+                  <div key={item.label}>
+                    <span>{item.label}</span>
+                    <strong>{item.value}</strong>
+                  </div>
+                ))}
+              </section>
+
+              <section className="managerResourceGrid">
+                {resources.map((resource) => (
+                  <article
+                    className={`managerResourceCard ${resource.status}`}
+                    key={resource.name}
+                  >
+                    <span>{getStatusLabel(resource.status)}</span>
+                    <h3>{resource.name}</h3>
+                    <strong>
+                      {resource.rows.toLocaleString("vi-VN")} dòng
+                    </strong>
+                    {resource.error ? <small>{resource.error}</small> : null}
+                  </article>
+                ))}
+              </section>
+
+              <section className="managerTwoColumn">
+                <article className="managerPanel">
+                  <h3>Progress theo level</h3>
+                  <div className="managerLevelList">
+                    {Object.entries(progressByLevel).map(([level, row]) => (
+                      <div key={level}>
+                        <strong>{level}</strong>
+                        <span>Đúng {row.correct.toLocaleString("vi-VN")}</span>
+                        <span>Sai {row.wrong.toLocaleString("vi-VN")}</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+                <article className="managerPanel">
+                  <h3>Learning events</h3>
+                  <div className="managerLevelList">
+                    {Object.entries(eventsByType).map(([eventType, count]) => (
+                      <div key={eventType}>
+                        <strong>{eventType}</strong>
+                        <span>{count.toLocaleString("vi-VN")} events</span>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              </section>
+            </>
+          ) : null}
+
+          {activeTab === "users" ? (
+            <section className="managerPanel">
+              <h3>Người dùng</h3>
+              <div className="managerTable">
+                <div className="managerTableHead users">
+                  <span>Email</span>
+                  <span>Username</span>
+                  <span>Role</span>
+                  <span>Ngày tạo</span>
+                  <span></span>
+                </div>
+                {profiles.map((profile) => (
+                  <div className="managerTableRow users" key={profile.id}>
+                    <input
+                      value={profile.email || ""}
+                      disabled
+                      aria-label="Email"
+                    />
+                    <input
+                      value={profile.username || ""}
+                      aria-label="Username"
+                      onChange={(event) =>
+                        updateProfileDraft(profile.id, {
+                          username: event.target.value,
+                        })
+                      }
+                    />
+                    <select
+                      value={profile.role || "student"}
+                      aria-label="Role"
+                      onChange={(event) =>
+                        updateProfileDraft(profile.id, {
+                          role: event.target.value,
+                        })
+                      }
+                    >
+                      <option value="student">student</option>
+                      <option value="manager">manager</option>
+                    </select>
+                    <span>{formatDate(profile.created_at)}</span>
+                    <button
+                      className="secondaryButton"
+                      disabled={editingProfileId === profile.id}
+                      type="button"
+                      onClick={() => saveProfile(profile)}
+                    >
+                      {editingProfileId === profile.id ? "Đang lưu" : "Lưu"}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {activeTab === "progress" ? (
+            <section className="managerPanel">
+              <h3>Tiến độ từ vựng gần đây</h3>
+              <div className="managerTable">
+                <div className="managerTableHead progress">
+                  <span>User</span>
+                  <span>Level</span>
+                  <span>Status</span>
+                  <span>Word key</span>
+                  <span>Updated</span>
+                </div>
+                {recentProgress.map((row) => (
+                  <div className="managerTableRow progress" key={row.id}>
+                    <span>{row.user_id}</span>
+                    <strong>{row.level}</strong>
+                    <span>{row.status}</span>
+                    <span>{row.word_key}</span>
+                    <span>{formatDate(row.updated_at)}</span>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
+
+          {activeTab === "events" ? (
+            <section className="managerTwoColumn">
+              <article className="managerPanel">
+                <h3>Learning events gần đây</h3>
+                <div className="managerEventList">
+                  {recentEvents.map((event) => (
+                    <div key={event.id}>
+                      <strong>{event.event_type}</strong>
+                      <span>{formatDate(event.created_at)}</span>
+                      <small>{JSON.stringify(event.payload || {})}</small>
+                    </div>
+                  ))}
+                </div>
+              </article>
+              <article className="managerPanel">
+                <h3>Quiz attempts</h3>
+                <div className="managerEventList">
+                  {recentAttempts.map((attempt) => (
+                    <div key={attempt.id}>
+                      <strong>{attempt.skill}</strong>
+                      <span>
+                        {attempt.level || "ALL"} · {attempt.score || 0}/
+                        {attempt.total || 0}
+                      </span>
+                      <small>{formatDate(attempt.created_at)}</small>
+                    </div>
+                  ))}
+                </div>
+              </article>
+            </section>
+          ) : null}
+
+          {activeTab === "setup" ? (
+            <section className="managerPanel managerSqlPanel">
+              <div>
+                <h3>Service role và SQL setup</h3>
+                <p>
+                  Để Manager quản lý toàn bộ, thêm{" "}
+                  <code>SUPABASE_SERVICE_ROLE_KEY</code> vào env server. Không
+                  đưa key này ra client.
+                </p>
+              </div>
+              <button
+                className="secondaryButton"
+                type="button"
+                onClick={copySql}
+              >
+                Copy ghi chú setup
+              </button>
+              <pre>
+                <code>{setupSql}</code>
+              </pre>
+            </section>
+          ) : null}
+        </section>
       </section>
     </main>
   );
