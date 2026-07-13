@@ -1121,17 +1121,23 @@ export default function VocabularyStudyPage({
                   </button>
                 </div>
 
-                <fieldset className="answerList">
+                <fieldset
+                  className={`answerList ${level === "B1" ? "b1AnswerReview" : ""}`}
+                >
                   <legend className="srOnly">Chọn đáp án</legend>
                   {quiz.options.map((option, index) => {
                     const optionKey = getWordKey(option);
                     const letter = String.fromCharCode(65 + index);
                     const statusClass =
-                      isSubmitted && optionKey === currentAnswerKey
+                      !isSubmitted
+                        ? optionKey === selectedAnswerKey
+                          ? "selected"
+                          : "unselected"
+                        : optionKey === currentAnswerKey
                         ? "correct"
-                        : isSubmitted && optionKey === selectedAnswerKey
+                        : optionKey === selectedAnswerKey
                           ? "wrong"
-                          : "";
+                          : "unselected";
 
                     return (
                       <label
@@ -1179,7 +1185,15 @@ export default function VocabularyStudyPage({
 
                 {isSubmitted ? (
                   <div
-                    className={`vocabAnswerFeedback ${didUseCurrentTip ? "neutral" : isCorrect ? "correct" : "wrong"}`}
+                    className={`vocabAnswerFeedback ${level === "B1" ? "b1VocabAnswerFeedback" : ""} ${
+                      level === "B1"
+                        ? "neutral"
+                        : didUseCurrentTip
+                          ? "neutral"
+                          : isCorrect
+                            ? "correct"
+                            : "wrong"
+                    }`}
                   >
                     {feedbackMessage}
                   </div>

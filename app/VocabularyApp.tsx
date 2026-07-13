@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { createQuizQuestion, shuffle, type QuizQuestion } from "../lib/quiz";
+import { getLocalDateKey } from "../lib/streak";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const levels: Array<{ id: string; href: string | null }> = [
@@ -52,15 +53,41 @@ function getMeaning(item: VocabularyItem) {
   return item?.["nghĩa"] || "";
 }
 
+function getYesterdayDateKey() {
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  return getLocalDateKey(yesterday);
+}
+
+function getActiveStreakState(savedStreak: string | null): StreakState {
+  if (!savedStreak) {
+    return { days: 0, lastDate: "" };
+  }
+
+  try {
+    const parsed = JSON.parse(savedStreak) as Partial<StreakState>;
+    const previousDays = Math.max(0, Math.floor(Number(parsed.days) || 0));
+    const previousDate =
+      typeof parsed.lastDate === "string" ? parsed.lastDate : "";
+    const today = getLocalDateKey();
+
+    if (previousDate === today) {
+      return { days: previousDays, lastDate: today };
+    }
+
+    if (previousDate === getYesterdayDateKey()) {
+      return { days: previousDays, lastDate: previousDate };
+    }
+  } catch {
+    return { days: 0, lastDate: "" };
+  }
+
+  return { days: 0, lastDate: "" };
+}
+
 function getFirstLetter(item: VocabularyItem) {
   const firstLetter = getWord(item).trim().charAt(0).toUpperCase();
   return alphabet.includes(firstLetter) ? firstLetter : "";
-}
-
-function getLocalDateKey() {
-  return new Intl.DateTimeFormat("en-CA", {
-    timeZone: "Asia/Ho_Chi_Minh",
-  }).format(new Date());
 }
 
 export default function VocabularyApp({
@@ -92,7 +119,7 @@ export default function VocabularyApp({
   const [letterPanelWidth, setLetterPanelWidth] = useState<number>(
     defaultLetterPanelWidth,
   );
-  const [streakDays, setStreakDays] = useState<number>(1);
+  const [streakDays, setStreakDays] = useState<number>(0);
   const learnViewRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -108,37 +135,9 @@ export default function VocabularyApp({
       setLetterPanelWidth(Math.max(minLetterPanelWidth, savedPanelWidth));
     }
 
-    const today = getLocalDateKey();
-    const savedStreak = window.localStorage.getItem(streakStorageKey);
-    let nextStreak: StreakState = { days: 1, lastDate: today };
-
-    if (savedStreak) {
-      try {
-        const parsed = JSON.parse(savedStreak) as Partial<StreakState>;
-        const previousDays = Number(parsed.days) || 1;
-        const previousDate =
-          typeof parsed.lastDate === "string" ? parsed.lastDate : "";
-        const yesterday = new Date();
-        yesterday.setDate(yesterday.getDate() - 1);
-        const yesterdayKey = new Intl.DateTimeFormat("en-CA", {
-          timeZone: "Asia/Ho_Chi_Minh",
-        }).format(yesterday);
-
-        if (previousDate === today) {
-          nextStreak = {
-            days: previousDays,
-            lastDate: today,
-          };
-        } else if (previousDate === yesterdayKey) {
-          nextStreak = {
-            days: previousDays + 1,
-            lastDate: today,
-          };
-        }
-      } catch {
-        nextStreak = { days: 1, lastDate: today };
-      }
-    }
+    const nextStreak = getActiveStreakState(
+      window.localStorage.getItem(streakStorageKey),
+    );
 
     window.localStorage.setItem(streakStorageKey, JSON.stringify(nextStreak));
     setStreakDays(nextStreak.days);
@@ -224,9 +223,30 @@ export default function VocabularyApp({
   function showWord(index: number) {
     const item = filteredWords[index];
     if (item) {
+      recordLocalStudyActivity();
       setSeenWords((previous) => new Set(previous).add(getWord(item)));
     }
     setCurrentIndex(index);
+  }
+
+  function recordLocalStudyActivity() {
+    const today = getLocalDateKey();
+    const previousStreak = getActiveStreakState(
+      window.localStorage.getItem(streakStorageKey),
+    );
+    let nextStreak = { days: 1, lastDate: today };
+
+    if (previousStreak.lastDate === today) {
+      nextStreak = previousStreak;
+    } else if (previousStreak.lastDate === getYesterdayDateKey()) {
+      nextStreak = {
+        days: previousStreak.days + 1,
+        lastDate: today,
+      };
+    }
+
+    window.localStorage.setItem(streakStorageKey, JSON.stringify(nextStreak));
+    setStreakDays(nextStreak.days);
   }
 
   function moveWord(step: number) {
@@ -290,6 +310,7 @@ export default function VocabularyApp({
       return;
     }
 
+    recordLocalStudyActivity();
     const isCorrect = option === quiz.answer;
     setSelectedAnswer(option);
     setScore((previous) => ({

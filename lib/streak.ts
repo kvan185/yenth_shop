@@ -59,6 +59,12 @@ export function calculateStreakDays(
   today = getLocalDateKey(),
 ) {
   const uniqueDates = new Set(dateKeys.filter(Boolean));
+  const yesterday = addDays(today, -1);
+
+  if (!uniqueDates.has(today) && !uniqueDates.has(yesterday)) {
+    return 0;
+  }
+
   let cursor = uniqueDates.has(today) ? today : addDays(today, -1);
   let streak = 0;
 

@@ -14,6 +14,12 @@ const cards = [
     meta: "Đang dùng",
   },
   {
+    href: "/grammar/tenses#test",
+    title: "Grammar Test",
+    description: "Vị trí kiểm tra ngữ pháp theo từng route chủ điểm.",
+    meta: "Mới",
+  },
+  {
     href: "/practice/fill-blank",
     title: "Fill in Blank",
     description: "Khung điền từ cho bài luyện tập sau này.",

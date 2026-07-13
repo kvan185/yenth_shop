@@ -245,6 +245,30 @@ body {
 .siteContent {
   min-height: 0;
   overflow: auto;
+  scrollbar-color: rgba(102, 115, 111, 0.42) transparent;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+}
+
+.siteContent::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.siteContent::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.siteContent::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: rgba(102, 115, 111, 0.42);
+  background-clip: content-box;
+}
+
+.siteContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(102, 115, 111, 0.62);
+  background-clip: content-box;
 }
 
 .siteContent > * {
@@ -1154,6 +1178,7 @@ body {
 .vocabIndexPage {
   display: grid;
   min-height: 100%;
+  overflow-x: hidden;
   background: var(--bg);
 }
 
@@ -1177,6 +1202,11 @@ body {
     ),
     linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
     #ffffff;
+}
+
+.vocabIndexHero .learnPathHeroCopy,
+.vocabIndexHero .vocabSummaryPanel {
+  min-width: 0;
 }
 
 .vocabSummaryPanel {
@@ -1225,8 +1255,9 @@ body {
 
 .vocabLevelGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
   gap: 14px;
+  width: 100%;
   max-width: 1180px;
 }
 
@@ -1315,9 +1346,68 @@ body {
   text-decoration: none;
 }
 
-.grammarPage {
+@media (max-width: 1100px) {
+  .vocabIndexHero,
+  .vocabIndexSection,
+  .grammarHero,
+  .grammarSection,
+  .examsHero,
+  .examsSection,
+  .blogHero,
+  .blogSection,
+  .blogContentSection {
+    padding: 32px 24px;
+  }
+
+  .vocabIndexHero,
+  .grammarHero,
+  .examsHero,
+  .blogHero,
+  .blogContentSection {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .vocabSummaryPanel,
+  .grammarPlanPanel,
+  .examsPlanPanel {
+    max-width: none;
+  }
+
+  .vocabLevelGrid,
+  .grammarTopicGrid,
+  .examTrackGrid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  }
+
+  .grammarHero .homeHeroActions,
+  .examsHero .homeHeroActions,
+  .blogHero .homeHeroActions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .grammarHero .homeHeroActions a,
+  .examsHero .homeHeroActions a,
+  .blogHero .homeHeroActions a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .blogFeaturePanel {
+    min-height: 0;
+  }
+
+  .blogReadingPanel {
+    position: static;
+  }
+}
+
+.grammarPage,
+.examsPage {
   display: grid;
   min-height: 100%;
+  overflow-x: hidden;
   background: var(--bg);
 }
 
@@ -1383,8 +1473,9 @@ body {
 
 .grammarTopicGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 14px;
+  width: 100%;
   max-width: 1120px;
 }
 
@@ -1396,7 +1487,15 @@ body {
   border-radius: 8px;
   padding: 20px;
   background: #ffffff;
+  color: var(--ink);
+  text-decoration: none;
   box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.grammarTopicCard:hover {
+  border-color: rgba(12, 116, 102, 0.35);
+  background: var(--soft);
+  transform: translateY(-1px);
 }
 
 .grammarTopicCard h3 {
@@ -1425,10 +1524,321 @@ body {
   background: #ffffff;
 }
 
-.examsPage {
+.grammarLessonPage {
   display: grid;
   min-height: 100%;
   background: var(--bg);
+}
+
+.grammarLessonHero,
+.grammarLessonSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(30px, 5vw, 60px) clamp(22px, 6vw, 82px);
+}
+
+.grammarLessonHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+  gap: clamp(20px, 4vw, 48px);
+  align-items: start;
+  background: #ffffff;
+}
+
+.tensesLessonPage .grammarLessonHero {
+  background:
+    linear-gradient(135deg, rgba(12, 116, 102, 0.12), rgba(196, 97, 52, 0.08)),
+    #ffffff;
+}
+
+.grammarLessonHero h1 {
+  margin: 0;
+  max-width: 820px;
+  color: var(--ink);
+  font-size: clamp(2.4rem, 6vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.grammarLessonHero p:not(.homeEyebrow) {
+  max-width: 760px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.tensesHeroStats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 160px));
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.tensesHeroStats span {
+  display: grid;
+  gap: 2px;
+  border: 1px solid rgba(12, 116, 102, 0.18);
+  border-radius: 8px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.76);
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.tensesHeroStats strong {
+  color: var(--primary-dark);
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.grammarLessonNav {
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+
+.grammarLessonNav a {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #ffffff;
+  color: var(--ink);
+  font-weight: 850;
+  text-align: center;
+  text-decoration: none;
+}
+
+.grammarLessonNav a:hover {
+  border-color: rgba(12, 116, 102, 0.35);
+  background: var(--soft);
+  color: var(--primary-dark);
+}
+
+.grammarLessonSection {
+  display: grid;
+  gap: 22px;
+}
+
+.grammarAccordion {
+  display: grid;
+  gap: 10px;
+  max-width: 980px;
+}
+
+.grammarAccordionItem,
+.grammarTestPlaceholder {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.grammarAccordionItem.open {
+  border-color: rgba(12, 116, 102, 0.42);
+  box-shadow: 0 16px 34px rgba(12, 116, 102, 0.1);
+}
+
+.tensesLessonPage .grammarAccordion {
+  max-width: 1040px;
+  counter-reset: tense-group;
+}
+
+.tensesLessonPage .grammarAccordionItem {
+  overflow: hidden;
+}
+
+.tensesLessonPage .grammarAccordionItem:nth-child(-n + 4) .grammarAccordionTrigger span {
+  background: #e8f5f2;
+  color: #0b6b5d;
+}
+
+.tensesLessonPage .grammarAccordionItem:nth-child(n + 5):nth-child(-n + 8) .grammarAccordionTrigger span {
+  background: #fff1e8;
+  color: #9f4f2f;
+}
+
+.tensesLessonPage .grammarAccordionItem:nth-child(n + 9):nth-child(-n + 12) .grammarAccordionTrigger span {
+  background: #eef2ff;
+  color: #3d5a9b;
+}
+
+.tensesLessonPage .grammarAccordionItem.open .grammarAccordionTrigger {
+  background: #f7fcfa;
+}
+
+.grammarAccordionTrigger {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) minmax(120px, auto);
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 62px;
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  background: #ffffff;
+  color: var(--ink);
+  text-align: left;
+}
+
+.grammarAccordionTrigger:hover {
+  background: var(--soft);
+}
+
+.grammarAccordionTrigger span {
+  display: grid;
+  place-items: center;
+  min-width: 42px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.grammarAccordionTrigger strong {
+  display: grid;
+  gap: 3px;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+  font-size: 1rem;
+}
+
+.grammarAccordionTrigger strong em {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-style: normal;
+  font-weight: 750;
+}
+
+.grammarAccordionTrigger small {
+  justify-self: end;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  text-align: right;
+}
+
+.grammarAccordionBody {
+  display: grid;
+  gap: 14px;
+  border-top: 1px solid var(--line);
+  padding: 14px;
+  background: var(--surface);
+}
+
+.tensesLessonPage .grammarAccordionBody {
+  background:
+    linear-gradient(180deg, rgba(12, 116, 102, 0.05), rgba(255, 255, 255, 0)),
+    var(--surface);
+}
+
+.grammarAccordionBody p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.grammarAccordionBody dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.grammarAccordionBody dl div {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.grammarAccordionBody dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.grammarAccordionBody dd {
+  margin: 4px 0 0;
+  color: var(--ink);
+  font-weight: 800;
+  line-height: 1.4;
+}
+
+.grammarAccordionBody ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.grammarExampleList {
+  display: grid;
+  gap: 10px;
+}
+
+.grammarExampleList div {
+  display: grid;
+  gap: 5px;
+  border-left: 4px solid var(--primary);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+
+.grammarExampleList strong {
+  color: var(--ink);
+}
+
+.grammarExampleList span,
+.grammarExampleList p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.grammarTestSection {
+  background: #ffffff;
+}
+
+.grammarTestPlaceholder {
+  display: grid;
+  gap: 10px;
+  max-width: 820px;
+  padding: 20px;
+}
+
+.grammarTestPlaceholder strong {
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+.grammarTestPlaceholder p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.grammarTestPlaceholder code {
+  border-radius: 6px;
+  padding: 2px 6px;
+  background: var(--soft);
+  color: var(--primary-dark);
+  font-weight: 850;
 }
 
 .examsHero,
@@ -1493,8 +1903,9 @@ body {
 
 .examTrackGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
   gap: 14px;
+  width: 100%;
   max-width: 1120px;
 }
 
@@ -1533,6 +1944,214 @@ body {
 
 .examsFlowSection {
   background: #ffffff;
+}
+
+.blogPage {
+  display: grid;
+  min-height: 100%;
+  overflow-x: hidden;
+  background: var(--bg);
+}
+
+.blogHero,
+.blogSection,
+.blogContentSection {
+  width: 100%;
+  border-bottom: 1px solid var(--line);
+  padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
+}
+
+.blogHero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
+  gap: clamp(28px, 5vw, 62px);
+  align-items: stretch;
+  background:
+    linear-gradient(135deg, rgba(12, 116, 102, 0.1), rgba(159, 79, 47, 0.06)),
+    #ffffff;
+}
+
+.blogHeroCopy {
+  display: grid;
+  gap: 16px;
+  align-content: center;
+  min-width: 0;
+  max-width: 760px;
+}
+
+.blogHeroCopy h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.25rem, 5vw, 4.6rem);
+  line-height: 0.98;
+}
+
+.blogHeroCopy p:not(.homeEyebrow) {
+  margin: 0;
+  max-width: 680px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+.blogFeaturePanel,
+.blogReadingPanel,
+.blogPostCard,
+.blogTopicCard {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(24, 36, 33, 0.05);
+}
+
+.blogFeaturePanel {
+  display: grid;
+  gap: 16px;
+  align-content: end;
+  min-height: 360px;
+  padding: 24px;
+  background:
+    linear-gradient(180deg, rgba(12, 116, 102, 0.04), rgba(255, 255, 255, 0)),
+    #ffffff;
+  box-shadow: 0 28px 70px rgba(20, 32, 29, 0.12);
+}
+
+.blogFeaturePanel > span,
+.blogPostCard span,
+.blogReadingPanel > span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.blogFeaturePanel h2,
+.blogReadingPanel h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.45rem, 2.6vw, 2.2rem);
+  line-height: 1.08;
+}
+
+.blogFeaturePanel p,
+.blogPostCard p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.blogPostMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.blogPostMeta small {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.blogPostMeta a,
+.blogReadingPanel a,
+.blogTopicCard {
+  color: var(--primary-dark);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.blogSection {
+  display: grid;
+  gap: 24px;
+}
+
+.blogTopicGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  gap: 14px;
+  width: 100%;
+  max-width: 1120px;
+}
+
+.blogTopicCard {
+  display: grid;
+  gap: 8px;
+  min-height: 112px;
+  align-content: center;
+  padding: 18px;
+}
+
+.blogTopicCard:hover {
+  border-color: rgba(12, 116, 102, 0.35);
+  background: var(--soft);
+}
+
+.blogTopicCard strong {
+  color: var(--ink);
+  font-size: 1.15rem;
+}
+
+.blogTopicCard span {
+  color: var(--muted);
+  font-weight: 850;
+}
+
+.blogContentSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  gap: 18px;
+  align-items: start;
+}
+
+.blogPostColumn,
+.blogPostList,
+.blogReadingPanel {
+  display: grid;
+  gap: 14px;
+}
+
+.blogPostCard {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(150px, auto);
+  gap: 18px;
+  align-items: end;
+  padding: 20px;
+}
+
+.blogPostCard > div:first-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.blogPostCard h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.22rem;
+  line-height: 1.18;
+}
+
+.blogReadingPanel {
+  position: sticky;
+  top: 18px;
+  padding: 20px;
+}
+
+.blogReadingPanel ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 22px;
+  color: var(--muted);
+  font-weight: 850;
+  line-height: 1.45;
+}
+
+.blogReadingPanel .secondaryButton {
+  justify-content: center;
+  text-align: center;
 }
 
 .loginPage {
@@ -2103,16 +2722,43 @@ body {
   color: var(--primary-dark);
 }
 
+.b1AnswerReview .testAnswer.unselected span {
+  border-color: var(--primary);
+  background: #ffffff;
+  color: var(--ink);
+}
+
+.b1AnswerReview .testAnswer.selected span,
+.b1AnswerReview .testAnswer.selected input:checked + span {
+  border-color: #d18b00;
+  background: #fff7d6;
+  color: #7a4b00;
+}
+
 .testAnswer.correct span {
   border-color: var(--right);
   background: #effaf3;
   color: var(--right);
 }
 
+.b1AnswerReview .testAnswer.correct span,
+.b1AnswerReview .testAnswer.correct input:checked + span {
+  border-color: #15803d;
+  background: #dcfce7;
+  color: #14532d;
+}
+
 .testAnswer.wrong span {
   border-color: var(--wrong);
   background: #fff1f0;
   color: var(--wrong);
+}
+
+.b1AnswerReview .testAnswer.wrong span,
+.b1AnswerReview .testAnswer.wrong input:checked + span {
+  border-color: #dc2626;
+  background: #fee2e2;
+  color: #991b1b;
 }
 
 .testActions {
@@ -4571,6 +5217,7 @@ dd {
   display: grid;
   gap: 14px;
   min-height: 100%;
+  overflow-x: hidden;
   padding: clamp(14px, 3vw, 28px);
   background: #f6f8f5;
 }
@@ -4693,6 +5340,10 @@ dd {
   gap: 14px;
   align-items: stretch;
   min-height: 0;
+}
+
+.vocabTestLayout {
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.32fr);
 }
 
 .vocabLearnPanel,
@@ -4854,6 +5505,12 @@ dd {
 .vocabAnswerFeedback.neutral {
   background: var(--soft);
   color: var(--primary-dark);
+}
+
+.b1VocabAnswerFeedback.neutral {
+  border: 1px solid #d4d4d8;
+  background: #f4f4f5;
+  color: #3f3f46;
 }
 
 .vocabShortcutHint {
@@ -5060,12 +5717,14 @@ dd {
     align-items: start;
   }
 
-  .learnPathHero {
+  .learnPathHero,
+  .grammarLessonHero {
     grid-template-columns: 1fr;
   }
 
   .vocabIndexHero {
     grid-template-columns: 1fr;
+    gap: 18px;
   }
 
   .grammarHero {
@@ -5080,6 +5739,72 @@ dd {
   .vocabLearnLayout,
   .vocabTestLayout,
   .managerHero {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabIndexHero .homeHeroActions,
+  .vocabLevelActions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vocabIndexHero .homeHeroActions a,
+  .vocabLevelActions a {
+    width: 100%;
+  }
+
+  .vocabLevelCard {
+    min-height: 0;
+  }
+
+  .vocabStudyHero {
+    align-items: stretch;
+  }
+
+  .vocabStudyStats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vocabStudyStats div {
+    min-width: 0;
+  }
+
+  .vocabStudyTabs {
+    align-self: stretch;
+  }
+
+  .vocabLearnPanel {
+    min-height: 0;
+  }
+
+  .vocabWordList {
+    max-height: 360px;
+  }
+
+  .vocabLearnCard,
+  .vocabTestCard {
+    min-height: 0;
+  }
+
+  .vocabTestLayout .vocabReviewPanel {
+    order: 2;
+  }
+
+  .questionHead {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .vocabReviewPanel {
+    min-height: 0;
+  }
+
+  .vocabReviewPanel > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vocabTestCard .answerList {
     grid-template-columns: 1fr;
   }
 
@@ -5530,13 +6255,83 @@ dd {
   .vocabIndexSection,
   .grammarHero,
   .grammarSection,
+  .grammarLessonHero,
+  .grammarLessonSection,
   .examsHero,
-  .examsSection {
-    padding: 24px 14px;
+  .examsSection,
+  .blogHero,
+  .blogSection,
+  .blogContentSection {
+    padding: 24px 12px;
+  }
+
+  .vocabIndexHero {
+    align-items: start;
+  }
+
+  .vocabIndexHero .learnPathHeroCopy {
+    gap: 12px;
+  }
+
+  .vocabIndexHero .learnPathHeroCopy h1 {
+    font-size: clamp(2rem, 12vw, 3rem);
+    line-height: 1;
+  }
+
+  .vocabSummaryPanel {
+    gap: 12px;
+  }
+
+  .vocabSummaryPanel h2 {
+    font-size: 2rem;
+  }
+
+  .vocabIndexHero .homeHeroActions,
+  .vocabLevelActions,
+  .grammarHero .homeHeroActions,
+  .examsHero .homeHeroActions,
+  .blogHero .homeHeroActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .grammarHero .homeHeroActions a,
+  .examsHero .homeHeroActions a,
+  .blogHero .homeHeroActions a {
+    width: 100%;
+    text-align: center;
+  }
+
+  .blogHeroCopy {
+    gap: 12px;
+  }
+
+  .blogHeroCopy h1 {
+    overflow-wrap: anywhere;
+    font-size: clamp(2rem, 12vw, 3rem);
+  }
+
+  .blogHeroCopy p:not(.homeEyebrow) {
+    font-size: 0.96rem;
+    line-height: 1.58;
+  }
+
+  .grammarHero .learnPathHeroCopy,
+  .examsHero .learnPathHeroCopy,
+  .grammarPlanPanel,
+  .examsPlanPanel {
+    min-width: 0;
+  }
+
+  .grammarHero .learnPathHeroCopy p:not(.homeEyebrow),
+  .examsHero .learnPathHeroCopy p:not(.homeEyebrow) {
+    font-size: 0.96rem;
+    line-height: 1.58;
   }
 
   .learnPathHeroCopy h1 {
     font-size: clamp(2rem, 12vw, 3.1rem);
+    overflow-wrap: anywhere;
   }
 
   .learnCurrentPanel,
@@ -5544,11 +6339,38 @@ dd {
   .vocabLevelCard,
   .grammarPlanPanel,
   .grammarTopicCard,
+  .grammarAccordionBody,
+  .grammarTestPlaceholder,
   .examsPlanPanel,
   .examTrackCard,
+  .blogFeaturePanel,
+  .blogTopicCard,
+  .blogPostCard,
+  .blogReadingPanel,
   .learnSkillCard,
   .learnFlowList li {
     padding: 16px;
+  }
+
+  .grammarPlanPanel,
+  .examsPlanPanel {
+    gap: 12px;
+  }
+
+  .grammarPlanPanel h2,
+  .examsPlanPanel h2 {
+    font-size: 1.65rem;
+  }
+
+  .grammarTopicCard,
+  .examTrackCard {
+    min-height: 0;
+  }
+
+  .grammarTopicCard h3,
+  .examTrackCard h3,
+  .reviewCard strong {
+    overflow-wrap: anywhere;
   }
 
   .learnCurrentStats,
@@ -5556,9 +6378,36 @@ dd {
   .learnSkillGrid,
   .vocabLevelGrid,
   .grammarTopicGrid,
+  .tensesHeroStats,
+  .grammarAccordionBody dl,
   .examTrackGrid,
+  .blogTopicGrid,
   .learnFlowList {
     grid-template-columns: 1fr;
+  }
+
+  .blogPostCard {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .blogPostMeta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .blogReadingPanel ol {
+    padding-left: 18px;
+  }
+
+  .grammarAccordionTrigger {
+    grid-template-columns: 44px minmax(0, 1fr);
+  }
+
+  .grammarAccordionTrigger small {
+    grid-column: 2;
+    justify-self: start;
+    text-align: left;
   }
 
   .learnLevelCard {
@@ -5607,8 +6456,8 @@ dd {
   }
 
   .vocabStudyPage {
-    gap: 14px;
-    padding: 18px 14px;
+    gap: 10px;
+    padding: 12px;
   }
 
   .managerPage {
@@ -5700,12 +6549,13 @@ dd {
   }
 
   .vocabStudyHero h1 {
-    font-size: 1.55rem;
+    overflow-wrap: anywhere;
+    font-size: 1.45rem;
   }
 
   .vocabStudyHero {
-    gap: 10px;
-    padding: 12px;
+    gap: 8px;
+    padding: 10px;
   }
 
   .vocabStudyHero p {
@@ -5715,6 +6565,7 @@ dd {
   .vocabStudyStats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: none;
+    gap: 5px;
   }
 
   .vocabStudyStats div {
@@ -5733,9 +6584,12 @@ dd {
   .vocabStudyTabs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     max-width: none;
+    padding: 4px;
   }
 
   .vocabStudyTabs button {
+    min-height: 40px;
+    padding-inline: 8px;
     width: 100%;
   }
 
@@ -5744,8 +6598,13 @@ dd {
     min-width: 0;
   }
 
+  .vocabTestLayout {
+    gap: 10px;
+  }
+
   .vocabLearnPanel {
     order: 2;
+    padding: 12px;
   }
 
   .vocabLearnCard {
@@ -5756,10 +6615,55 @@ dd {
     display: grid;
   }
 
+  .vocabLearnActions {
+    justify-content: stretch;
+  }
+
+  .vocabLearnActions button {
+    flex: 1 1 130px;
+  }
+
   .vocabLearnCard,
   .vocabTestCard,
   .vocabReviewPanel {
-    padding: 16px;
+    padding: 14px;
+  }
+
+  .vocabTestCard {
+    gap: 12px;
+  }
+
+  .vocabLearnDetails dd {
+    font-size: 0.96rem;
+  }
+
+  .vocabLetterFilter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+  }
+
+  .vocabLetterFilter button {
+    flex: 0 0 auto;
+  }
+
+  .vocabWordList {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0 4px;
+    scrollbar-width: thin;
+  }
+
+  .vocabWordList button {
+    flex: 0 0 min(78vw, 260px);
+  }
+
+  .vocabLearnCardHead h2 {
+    overflow-wrap: anywhere;
+    font-size: clamp(2rem, 12vw, 3.2rem);
   }
 
   .questionPanel {
@@ -5767,11 +6671,43 @@ dd {
   }
 
   .wordPromptCard {
-    min-height: 150px;
+    min-height: 132px;
+    padding: 16px;
+  }
+
+  .wordPromptText.inline {
+    display: grid;
+  }
+
+  .wordPromptText.inline .wordPromptDivider {
+    display: none;
+  }
+
+  .wordPromptText strong {
+    overflow-wrap: anywhere;
+    font-size: clamp(1.6rem, 13vw, 2.4rem);
+    text-align: center;
+  }
+
+  .wordPromptMeta {
+    gap: 10px;
+  }
+
+  .tipActionRow {
+    justify-items: stretch;
+  }
+
+  .tipActionRow button {
+    width: 100%;
   }
 
   .testActions {
     display: grid;
+    gap: 8px;
+  }
+
+  .testActions button {
+    width: 100%;
   }
 
   .testSidePanel {
@@ -5796,8 +6732,25 @@ dd {
     grid-template-columns: 1fr;
   }
 
+  .testAnswer span {
+    min-height: 46px;
+    align-items: flex-start;
+    padding: 11px 12px;
+    line-height: 1.35;
+  }
+
+  .vocabAnswerFeedback {
+    padding: 11px 12px;
+    line-height: 1.45;
+  }
+
   .vocabReviewPanel > div {
     grid-template-columns: 1fr;
+  }
+
+  .vocabReviewPanel span,
+  .vocabReviewPanel small {
+    overflow-wrap: anywhere;
   }
 
   .levelShell {
@@ -5956,6 +6909,105 @@ dd {
 
   .lookupStats {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 380px) {
+  .siteHeaderInner {
+    padding-inline: 10px;
+  }
+
+  .siteHeaderActions {
+    gap: 6px;
+  }
+
+  .siteLoginLink,
+  .siteStreakBadge {
+    min-height: 36px;
+    padding-inline: 9px;
+    font-size: 0.82rem;
+  }
+
+  .siteNav {
+    gap: 12px;
+  }
+
+  .learnPathHero,
+  .learnPathSection,
+  .vocabIndexHero,
+  .vocabIndexSection,
+  .grammarHero,
+  .grammarSection,
+  .grammarLessonHero,
+  .grammarLessonSection,
+  .examsHero,
+  .examsSection,
+  .blogHero,
+  .blogSection,
+  .blogContentSection {
+    padding: 20px 10px;
+  }
+
+  .learnPathHeroCopy h1,
+  .vocabIndexHero .learnPathHeroCopy h1,
+  .blogHeroCopy h1 {
+    font-size: 1.9rem;
+  }
+
+  .sectionHead h2 {
+    font-size: 1.55rem;
+    line-height: 1.08;
+  }
+
+  .learnCurrentStats div,
+  .vocabStudyStats div {
+    padding: 8px;
+  }
+
+  .learnCurrentStats strong,
+  .vocabStudyStats strong {
+    font-size: 1rem;
+  }
+
+  .grammarPlanPanel,
+  .examsPlanPanel,
+  .grammarTopicCard,
+  .examTrackCard,
+  .blogFeaturePanel,
+  .blogTopicCard,
+  .blogPostCard,
+  .blogReadingPanel,
+  .vocabLearnCard,
+  .vocabTestCard,
+  .vocabReviewPanel {
+    padding: 12px;
+  }
+
+  .vocabStudyPage {
+    padding: 10px;
+  }
+
+  .vocabStudyStats,
+  .vocabStudyTabs {
+    grid-template-columns: 1fr;
+  }
+
+  .vocabStudyTabs > div {
+    grid-column: auto;
+  }
+
+  .wordPromptCard {
+    min-height: 116px;
+    padding: 12px;
+  }
+
+  .wordPromptText strong {
+    font-size: 1.55rem;
+  }
+
+  .testAnswer span {
+    min-height: 44px;
+    padding: 10px;
   }
 }
 

@@ -1,54 +1,16 @@
 import Link from "next/link";
+import { grammarLessons } from "../../lib/grammar";
 
 export const metadata = {
   title: "Grammar | Lộ trình ngữ pháp tiếng Anh",
   description: "Ôn ngữ pháp theo chủ điểm, ví dụ ngắn và bài tập kiểm tra nhanh.",
 };
 
-const grammarTopics = [
-  {
-    code: "T01",
-    title: "Tenses",
-    description: "Hiện tại, quá khứ, tương lai và cách nhận diện trong câu.",
-    status: "Sắp có",
-  },
-  {
-    code: "T02",
-    title: "Sentence Structure",
-    description: "Chủ ngữ, động từ, tân ngữ, bổ ngữ và trật tự câu cơ bản.",
-    status: "Sắp có",
-  },
-  {
-    code: "T03",
-    title: "Modal Verbs",
-    description: "Can, could, should, must và cách dùng theo mức độ chắc chắn.",
-    status: "Sắp có",
-  },
-  {
-    code: "T04",
-    title: "Conditionals",
-    description: "Câu điều kiện loại 0, 1, 2, 3 và tình huống sử dụng.",
-    status: "Sắp có",
-  },
-  {
-    code: "T05",
-    title: "Relative Clauses",
-    description: "Who, which, that, where và cách nối ý tự nhiên hơn.",
-    status: "Sắp có",
-  },
-  {
-    code: "T06",
-    title: "Passive Voice",
-    description: "Câu bị động trong văn nói, văn viết và bài đọc học thuật.",
-    status: "Sắp có",
-  },
-];
-
 const learningFlow = [
   "Đọc quy tắc ngắn",
   "Xem 3 ví dụ đúng",
   "So sánh lỗi thường gặp",
-  "Làm quiz 8 câu",
+  "Làm phần kiểm tra",
   "Lưu chủ điểm cần ôn",
 ];
 
@@ -64,8 +26,8 @@ export default function GrammarPage() {
             quiz kiểm tra nhanh.
           </p>
           <div className="homeHeroActions">
-            <Link className="primaryButton" href="/practice/multiple-choice">
-              Làm quiz nhanh
+            <Link className="primaryButton" href="/grammar/tenses">
+              Học 12 thì
             </Link>
             <Link className="secondaryButton" href="/learn">
               Về lộ trình
@@ -82,12 +44,12 @@ export default function GrammarPage() {
           </div>
           <div className="learnCurrentStats">
             <div>
-              <strong>6</strong>
+              <strong>{grammarLessons.length}</strong>
               <span>Chủ điểm</span>
             </div>
             <div>
-              <strong>8</strong>
-              <span>Câu quiz</span>
+              <strong>2</strong>
+              <span>Phần/bài</span>
             </div>
             <div>
               <strong>35%</strong>
@@ -103,13 +65,17 @@ export default function GrammarPage() {
           <h2>Học theo phần nhỏ, dễ quay lại ôn</h2>
         </div>
         <div className="grammarTopicGrid">
-          {grammarTopics.map((topic) => (
-            <article className="grammarTopicCard" key={topic.code}>
-              <span>{topic.code}</span>
-              <h3>{topic.title}</h3>
+          {grammarLessons.map((topic, index) => (
+            <Link
+              className="grammarTopicCard"
+              href={topic.href}
+              key={topic.id}
+            >
+              <span>{`T${String(index + 1).padStart(2, "0")}`}</span>
+              <h3>{topic.label}</h3>
               <p>{topic.description}</p>
-              <strong>{topic.status}</strong>
-            </article>
+              <strong>Học + kiểm tra</strong>
+            </Link>
           ))}
         </div>
       </section>
@@ -136,9 +102,9 @@ export default function GrammarPage() {
             <strong>Ôn từ vựng</strong>
             <p>Nắm từ trước để ví dụ ngữ pháp dễ hiểu hơn.</p>
           </Link>
-          <Link className="reviewCard" href="/practice/multiple-choice">
-            <strong>Quiz trắc nghiệm</strong>
-            <p>Kiểm tra phản xạ chọn cấu trúc đúng trong câu.</p>
+          <Link className="reviewCard" href="/grammar/comparisons">
+            <strong>So sánh</strong>
+            <p>Học so sánh ngang bằng, hơn và nhất bằng ví dụ mẫu.</p>
           </Link>
           <Link className="reviewCard" href="/review/mistakes">
             <strong>Lỗi sai</strong>
