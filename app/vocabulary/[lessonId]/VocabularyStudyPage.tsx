@@ -27,7 +27,7 @@ type VocabularyStudyPageProps = {
   vocabularyData: VocabularyItem[];
 };
 
-type StudyMode = "learn" | "test";
+type StudyMode = "learn" | "test" | "wrong" | "progress";
 
 type StoredProgress = {
   completedAt?: string;
@@ -182,6 +182,7 @@ export default function VocabularyStudyPage({
   level,
   vocabularyData,
 }: VocabularyStudyPageProps) {
+  const isB1Level = level === "B1";
   const words = useMemo(
     () => vocabularyData.filter((item) => getWord(item) && getMeaning(item)),
     [vocabularyData],
@@ -892,6 +893,456 @@ export default function VocabularyStudyPage({
     return () => window.removeEventListener("keydown", handleSpaceKey);
   }, [didUseCurrentTip, isSubmitted, mode, quiz, selectedAnswerKey]);
 
+  if (isB1Level) {
+    return (
+      <main className="vocabStudyPage b1VocabStudyPage">
+        <section className="b1VocabFrame">
+          <header className="b1VocabHeader">
+            <div>
+              <Link href="/vocabulary" className="testBackLink">
+                Vocabulary
+              </Link>
+              <h1>B1 Vocabulary</h1>
+              <p>{words.length.toLocaleString("vi-VN")} từ vựng trung cấp</p>
+            </div>
+            <div className="b1VocabHeaderProgress">
+              <span>{progress}%</span>
+              <div aria-label={`${progress}% hoàn thành`}>
+                <i style={{ width: `${progress}%` }} />
+              </div>
+            </div>
+          </header>
+
+          <div className="b1VocabShell">
+            <nav className="b1VocabMenu" aria-label="B1 vocabulary menu">
+              <button
+                className={mode === "learn" ? "active" : ""}
+                type="button"
+                onClick={() => setMode("learn")}
+              >
+                <span>Học</span>
+                <strong>{words.length}</strong>
+              </button>
+              <button
+                className={mode === "test" ? "active" : ""}
+                type="button"
+                onClick={startTest}
+              >
+                <span>Kiểm tra</span>
+                <strong>{remainingWords.length}</strong>
+              </button>
+              <button
+                className={mode === "wrong" ? "active" : ""}
+                type="button"
+                onClick={() => setMode("wrong")}
+              >
+                <span>Từ sai</span>
+                <strong>{wrongWords.length}</strong>
+              </button>
+              <button
+                className={mode === "progress" ? "active" : ""}
+                type="button"
+                onClick={() => setMode("progress")}
+              >
+                <span>Tiến độ</span>
+                <strong>{progress}%</strong>
+              </button>
+            </nav>
+
+            <div className="b1VocabContent">
+              {mode === "learn" ? (
+                <section className="vocabLearnLayout">
+                  <aside className="vocabLearnPanel">
+                    <label className="searchBox">
+                      Tìm nhanh
+                      <input
+                        value={search}
+                        onChange={(event) => setSearch(event.target.value)}
+                        placeholder="Từ, nghĩa, ví dụ..."
+                      />
+                    </label>
+
+                    <div
+                      className="vocabLetterFilter"
+                      aria-label="Lọc theo chữ cái"
+                    >
+                      <button
+                        className={selectedLetter === "ALL" ? "active" : ""}
+                        type="button"
+                        onClick={() => setSelectedLetter("ALL")}
+                      >
+                        Tất cả
+                      </button>
+                      {letters.map((letter) => (
+                        <button
+                          className={selectedLetter === letter ? "active" : ""}
+                          key={letter}
+                          type="button"
+                          onClick={() => setSelectedLetter(letter)}
+                        >
+                          {letter}
+                        </button>
+                      ))}
+                    </div>
+
+                    <div className="vocabWordList" aria-label="Danh sách từ">
+                      {filteredWords.map((item) => {
+                        const key = getWordKey(item);
+                        return (
+                          <button
+                            className={
+                              key === getWordKey(selectedWord || item)
+                                ? "active"
+                                : ""
+                            }
+                            key={key}
+                            type="button"
+                            onClick={() => setSelectedWordKey(key)}
+                          >
+                            <strong>{getWord(item)}</strong>
+                            <span>{getMeaning(item)}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </aside>
+
+                  <article className="vocabLearnCard">
+                    {selectedWord ? (
+                      <>
+                        <div className="vocabLearnCardHead">
+                          <div>
+                            <span>
+                              {getPartOfSpeech(selectedWord) || level}
+                            </span>
+                            <h2>{getWord(selectedWord)}</h2>
+                            {getPronunciation(selectedWord) ? (
+                              <p>{getPronunciation(selectedWord)}</p>
+                            ) : null}
+                          </div>
+                          <div className="vocabLearnActions">
+                            <button
+                              aria-label={`Phát âm ${getWord(selectedWord)}`}
+                              className={`audioIconButton ${speakingKey === getWordKey(selectedWord) ? "playing" : ""}`}
+                              title="Phát âm"
+                              type="button"
+                              onClick={() => speakWord(selectedWord)}
+                            >
+                              <SpeakerIcon />
+                            </button>
+                            <button
+                              className="secondaryButton"
+                              type="button"
+                              onClick={shuffleLearnList}
+                            >
+                              Đổi từ
+                            </button>
+                          </div>
+                        </div>
+
+                        <dl className="vocabLearnDetails">
+                          <div>
+                            <dt>Nghĩa</dt>
+                            <dd>{getMeaning(selectedWord)}</dd>
+                          </div>
+                          <div>
+                            <dt>Ví dụ</dt>
+                            <dd>
+                              {getExample(selectedWord) ||
+                                "Chưa có ví dụ cho từ này."}
+                            </dd>
+                          </div>
+                          <div>
+                            <dt>Dịch ví dụ</dt>
+                            <dd>
+                              {getExampleMeaning(selectedWord) ||
+                                "Chưa có bản dịch ví dụ."}
+                            </dd>
+                          </div>
+                        </dl>
+                      </>
+                    ) : (
+                      <div className="vocabEmptyState">
+                        Không tìm thấy từ phù hợp.
+                      </div>
+                    )}
+                  </article>
+                </section>
+              ) : null}
+
+              {mode === "test" ? (
+                <section className="vocabTestLayout">
+                  <article className="vocabTestCard">
+                    {remainingWords.length === 0 ? (
+                      <div className="vocabEmptyState">
+                        <p className="homeEyebrow">Hoàn thành</p>
+                        <h2>
+                          Chúc mừng! Bạn đã trả lời đúng toàn bộ{" "}
+                          {words.length.toLocaleString("vi-VN")} từ.
+                        </h2>
+                        <p>Level này đã được đánh dấu Completed.</p>
+                        <button
+                          className="primaryButton"
+                          type="button"
+                          onClick={resetProgress}
+                        >
+                          Làm lại từ đầu
+                        </button>
+                      </div>
+                    ) : quiz && currentAnswer ? (
+                      <>
+                        <div className="questionHead">
+                          <span>Chọn nghĩa đúng</span>
+                          <strong>
+                            {progress}% hoàn thành ·{" "}
+                            {formatElapsedTime(testElapsedSeconds)}
+                          </strong>
+                        </div>
+                        <div className="wordPromptCard">
+                          <div
+                            className={`wordPromptText ${shouldShowPromptInline ? "inline" : ""}`}
+                          >
+                            <strong>{currentWord.toUpperCase()}</strong>
+                            <span
+                              aria-hidden="true"
+                              className="wordPromptDivider"
+                            >
+                              |
+                            </span>
+                            <span>{currentWord.toLowerCase()}</span>
+                          </div>
+                          <div className="wordPromptMeta">
+                            <span>
+                              {getPartOfSpeech(currentAnswer) || level}
+                            </span>
+                            {getPronunciation(currentAnswer) ? (
+                              <span>{getPronunciation(currentAnswer)}</span>
+                            ) : null}
+                            <button
+                              aria-label={`Phát âm ${getWord(currentAnswer)}`}
+                              className={`audioIconButton ${speakingKey === currentAnswerKey ? "playing" : ""}`}
+                              title="Phát âm"
+                              type="button"
+                              onClick={() => speakWord(currentAnswer)}
+                            >
+                              <SpeakerIcon />
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="tipActionRow">
+                          <button
+                            className="secondaryButton"
+                            disabled={isSubmitted}
+                            type="button"
+                            onClick={requestTip}
+                          >
+                            {currentTipStage === 0
+                              ? "Xin tip"
+                              : currentTipStage === 1
+                                ? "Xem nghĩa ví dụ"
+                                : "Xem tip"}
+                          </button>
+                        </div>
+
+                        <fieldset className="answerList b1AnswerReview">
+                          <legend className="srOnly">Chọn đáp án</legend>
+                          {quiz.options.map((option, index) => {
+                            const optionKey = getWordKey(option);
+                            const letter = String.fromCharCode(65 + index);
+                            const statusClass = !isSubmitted
+                              ? optionKey === selectedAnswerKey
+                                ? "selected"
+                                : "unselected"
+                              : optionKey === currentAnswerKey
+                                ? "correct"
+                                : optionKey === selectedAnswerKey
+                                  ? "wrong"
+                                  : "unselected";
+
+                            return (
+                              <label
+                                className={`testAnswer ${statusClass}`}
+                                key={`${optionKey}-${letter}`}
+                              >
+                                <input
+                                  checked={selectedAnswerKey === optionKey}
+                                  disabled={isSubmitted}
+                                  name="vocabulary-answer"
+                                  type="radio"
+                                  value={optionKey}
+                                  onChange={() =>
+                                    setSelectedAnswerKey(optionKey)
+                                  }
+                                />
+                                <span>
+                                  {letter}. {getMeaning(option)}
+                                </span>
+                              </label>
+                            );
+                          })}
+                        </fieldset>
+
+                        <div className="testActions">
+                          <button
+                            className="primaryButton"
+                            disabled={!selectedAnswerKey}
+                            type="button"
+                            onClick={
+                              isSubmitted ? goNextQuestion : submitAnswer
+                            }
+                          >
+                            {isSubmitted ? "Câu tiếp theo" : "Trả lời"}
+                          </button>
+                          <button
+                            className="secondaryButton"
+                            type="button"
+                            onClick={confirmResetProgress}
+                          >
+                            Xóa tiến độ
+                          </button>
+                        </div>
+                        <span className="vocabShortcutHint">
+                          {isSubmitted
+                            ? "Nhấn Space để sang câu tiếp theo"
+                            : "Chọn đáp án rồi nhấn Space để kiểm tra"}
+                        </span>
+
+                        {isSubmitted ? (
+                          <div className="vocabAnswerFeedback b1VocabAnswerFeedback neutral">
+                            {feedbackMessage}
+                          </div>
+                        ) : null}
+                      </>
+                    ) : (
+                      <div className="vocabEmptyState">
+                        Đang chuẩn bị câu hỏi...
+                      </div>
+                    )}
+                  </article>
+                </section>
+              ) : null}
+
+              {mode === "wrong" ? (
+                <section className="b1SimplePanel">
+                  <div className="b1SimplePanelHead">
+                    <span>Từ sai</span>
+                    <strong>{wrongWords.length}</strong>
+                  </div>
+                  <div className="b1WrongGrid">
+                    {wrongWords.length ? (
+                      wrongWords.map((item) => (
+                        <button
+                          key={getWordKey(item)}
+                          type="button"
+                          onClick={() => {
+                            setSelectedWordKey(getWordKey(item));
+                            setMode("learn");
+                          }}
+                        >
+                          <strong>{getWord(item)}</strong>
+                          <span>{getMeaning(item)}</span>
+                        </button>
+                      ))
+                    ) : (
+                      <p>Chưa có từ sai.</p>
+                    )}
+                  </div>
+                </section>
+              ) : null}
+
+              {mode === "progress" ? (
+                <section className="b1SimplePanel">
+                  <div className="b1SimplePanelHead">
+                    <span>Tiến độ</span>
+                    <strong>{progress}%</strong>
+                  </div>
+                  <div className="b1ProgressGrid">
+                    <div>
+                      <span>Đúng</span>
+                      <strong>{correctCount}</strong>
+                    </div>
+                    <div>
+                      <span>Sai cần ôn</span>
+                      <strong>{wrongWords.length}</strong>
+                    </div>
+                    <div>
+                      <span>Còn lại</span>
+                      <strong>{remainingWords.length}</strong>
+                    </div>
+                    <div>
+                      <span>Tổng số lần xin tip</span>
+                      <strong>{totalTipCount}</strong>
+                    </div>
+                  </div>
+                </section>
+              ) : null}
+            </div>
+          </div>
+        </section>
+
+        {isTipPopupOpen && currentAnswer && currentTipStage > 0 ? (
+          <div
+            aria-labelledby="tipPopupTitle"
+            aria-modal="true"
+            className="tipPopupOverlay"
+            role="dialog"
+          >
+            <div className="tipPopup">
+              <div className="tipPopupHead">
+                <div>
+                  <span>Tip</span>
+                  <h2 id="tipPopupTitle">{currentWord}</h2>
+                </div>
+                <button
+                  aria-label="Đóng tip"
+                  className="tipPopupClose"
+                  type="button"
+                  onClick={() => setIsTipPopupOpen(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+              <div className="tipPopupBody">
+                <p>
+                  <strong>Ví dụ:</strong>{" "}
+                  {getExample(currentAnswer) || "Chưa có ví dụ cho từ này."}
+                </p>
+                {currentTipStage > 1 ? (
+                  <p>
+                    <strong>Nghĩa ví dụ:</strong>{" "}
+                    {getExampleMeaning(currentAnswer) ||
+                      "Chưa có bản dịch ví dụ."}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="tipPopupActions">
+                {currentTipStage === 1 ? (
+                  <button
+                    className="primaryButton"
+                    type="button"
+                    onClick={requestTip}
+                  >
+                    Xem nghĩa ví dụ
+                  </button>
+                ) : null}
+                <button
+                  className="secondaryButton"
+                  type="button"
+                  onClick={() => setIsTipPopupOpen(false)}
+                >
+                  Đóng
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </main>
+    );
+  }
+
   return (
     <main className="vocabStudyPage">
       <section className="vocabStudyHero">
@@ -1121,19 +1572,16 @@ export default function VocabularyStudyPage({
                   </button>
                 </div>
 
-                <fieldset
-                  className={`answerList ${level === "B1" ? "b1AnswerReview" : ""}`}
-                >
+                <fieldset className="answerList">
                   <legend className="srOnly">Chọn đáp án</legend>
                   {quiz.options.map((option, index) => {
                     const optionKey = getWordKey(option);
                     const letter = String.fromCharCode(65 + index);
-                    const statusClass =
-                      !isSubmitted
-                        ? optionKey === selectedAnswerKey
-                          ? "selected"
-                          : "unselected"
-                        : optionKey === currentAnswerKey
+                    const statusClass = !isSubmitted
+                      ? optionKey === selectedAnswerKey
+                        ? "selected"
+                        : "unselected"
+                      : optionKey === currentAnswerKey
                         ? "correct"
                         : optionKey === selectedAnswerKey
                           ? "wrong"
@@ -1185,14 +1633,12 @@ export default function VocabularyStudyPage({
 
                 {isSubmitted ? (
                   <div
-                    className={`vocabAnswerFeedback ${level === "B1" ? "b1VocabAnswerFeedback" : ""} ${
-                      level === "B1"
+                    className={`vocabAnswerFeedback ${
+                      didUseCurrentTip
                         ? "neutral"
-                        : didUseCurrentTip
-                          ? "neutral"
-                          : isCorrect
-                            ? "correct"
-                            : "wrong"
+                        : isCorrect
+                          ? "correct"
+                          : "wrong"
                     }`}
                   >
                     {feedbackMessage}

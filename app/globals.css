@@ -5203,6 +5203,216 @@ dd {
   color: #3f3f46;
 }
 
+.b1VocabStudyPage {
+  align-content: start;
+  background: #f4f7f5;
+}
+
+.b1VocabFrame {
+  display: grid;
+  width: min(100%, 1120px);
+  justify-self: center;
+  overflow: hidden;
+  border: 2px solid #1f2a27;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 20px 55px rgba(24, 36, 33, 0.1);
+}
+
+.b1VocabHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 2px solid #1f2a27;
+  padding: clamp(14px, 2vw, 22px);
+  background: #fbfcfa;
+}
+
+.b1VocabHeader h1 {
+  margin: 4px 0;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 3vw, 2.6rem);
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.b1VocabHeader p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 850;
+}
+
+.b1VocabHeaderProgress {
+  display: grid;
+  gap: 8px;
+  width: min(260px, 38vw);
+}
+
+.b1VocabHeaderProgress span {
+  justify-self: end;
+  color: var(--ink);
+  font-size: 1.35rem;
+  font-weight: 950;
+}
+
+.b1VocabHeaderProgress div {
+  height: 10px;
+  overflow: hidden;
+  border: 1px solid #cfd9d4;
+  border-radius: 999px;
+  background: #edf2ef;
+}
+
+.b1VocabHeaderProgress i {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--primary);
+}
+
+.b1VocabShell {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  min-height: 590px;
+}
+
+.b1VocabMenu {
+  display: grid;
+  align-content: start;
+  border-right: 2px solid #1f2a27;
+  background: #f8faf8;
+}
+
+.b1VocabMenu button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 62px;
+  border: 0;
+  border-bottom: 1px solid #cfd9d4;
+  border-radius: 0;
+  padding: 0 16px;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+
+.b1VocabMenu button.active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.b1VocabMenu span {
+  font-size: 1rem;
+  font-weight: 950;
+}
+
+.b1VocabMenu strong {
+  color: inherit;
+  font-size: 0.86rem;
+  font-weight: 950;
+}
+
+.b1VocabContent {
+  min-width: 0;
+  padding: clamp(12px, 2vw, 18px);
+  background: #ffffff;
+}
+
+.b1VocabContent .vocabLearnLayout,
+.b1VocabContent .vocabTestLayout {
+  gap: 12px;
+}
+
+.b1VocabContent .vocabLearnPanel,
+.b1VocabContent .vocabLearnCard,
+.b1VocabContent .vocabTestCard {
+  min-height: 530px;
+  box-shadow: none;
+}
+
+.b1VocabContent .vocabTestLayout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.b1SimplePanel {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 530px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: clamp(16px, 2.4vw, 28px);
+  background: #ffffff;
+}
+
+.b1SimplePanelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+
+.b1SimplePanelHead span {
+  color: var(--ink);
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  font-weight: 950;
+}
+
+.b1SimplePanelHead strong {
+  color: var(--primary-dark);
+  font-size: 1.4rem;
+}
+
+.b1WrongGrid,
+.b1ProgressGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.b1WrongGrid button,
+.b1ProgressGrid div {
+  display: grid;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+}
+
+.b1WrongGrid button {
+  min-height: 74px;
+}
+
+.b1WrongGrid strong,
+.b1ProgressGrid strong {
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 950;
+}
+
+.b1WrongGrid span,
+.b1ProgressGrid span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 850;
+  line-height: 1.4;
+}
+
+.b1WrongGrid p {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 850;
+}
+
 .vocabShortcutHint {
   align-self: center;
   color: var(--muted);
@@ -5449,6 +5659,40 @@ dd {
 
   .vocabStudyHero {
     align-items: stretch;
+  }
+
+  .b1VocabHeader,
+  .b1VocabShell {
+    grid-template-columns: 1fr;
+  }
+
+  .b1VocabHeader {
+    display: grid;
+  }
+
+  .b1VocabHeaderProgress {
+    width: 100%;
+  }
+
+  .b1VocabHeaderProgress span {
+    justify-self: start;
+  }
+
+  .b1VocabMenu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-right: 0;
+    border-bottom: 2px solid #1f2a27;
+  }
+
+  .b1VocabMenu button {
+    min-height: 54px;
+    border-right: 1px solid #cfd9d4;
+  }
+
+  .b1VocabContent .vocabLearnLayout,
+  .b1WrongGrid,
+  .b1ProgressGrid {
+    grid-template-columns: 1fr;
   }
 
   .vocabStudyStats {
