@@ -111,6 +111,38 @@ export async function getDailyStreak(
   return calculateStreakDays(dateKeys, today);
 }
 
+export async function hasStudiedToday(
+  user: User | null | undefined,
+  level?: string,
+) {
+  if (!supabase || !user) {
+    return false;
+  }
+
+  const today = getLocalDateKey();
+  const normalizedLevel = level?.toUpperCase();
+
+  let query = supabase
+    .from("learning_events")
+    .select("id")
+    .eq("user_id", user.id)
+    .eq("event_type", "daily_streak")
+    .eq("payload->>date", today)
+    .limit(1);
+
+  if (normalizedLevel) {
+    query = query.eq("payload->>level", normalizedLevel);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    return false;
+  }
+
+  return Boolean(data?.length);
+}
+
 export async function getLevelStreaks(
   user: User | null | undefined,
   levels: string[],

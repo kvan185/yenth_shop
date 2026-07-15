@@ -1,8 +1,8 @@
 import VocabularyIndexClient from "./VocabularyIndexClient";
 
 export const metadata = {
-  title: "Vocabulary | Ôn từ vựng VSTEP",
-  description: "Chọn level từ vựng, làm quiz và ôn lại từ yếu theo lộ trình.",
+  title: "Từ vựng | YENTH",
+  description: "Ôn từ vựng VSTEP theo cấp độ.",
 };
 
 export default function VocabularyIndexPage() {

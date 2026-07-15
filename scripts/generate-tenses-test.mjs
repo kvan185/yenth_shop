@@ -491,14 +491,14 @@ function shuffleOptions(options, seed) {
 
 function promptFor(pattern, context) {
   const opening = [
-    "Choose the correct sentence.",
-    "Choose the best answer.",
-    "Which option uses the correct tense?",
-    "Complete the idea with the correct tense.",
-    "Select the sentence that fits the time clue.",
+    "Chọn câu đúng.",
+    "Chọn câu tốt nhất.",
+    "Đáp án nào đúng thì?",
+    "Hoàn thành ý tưởng bằng thì phù hợp.",
+    "Chọn câu phù hợp.",
   ];
 
-  return `${opening[context.index % opening.length]} Time clue: ${pattern.clue}. Context: ${context.objectDetail}.`;
+  return `${opening[context.index % opening.length]} Gợi ý về thời gian: ${pattern.clue}. Context: ${context.objectDetail}.`;
 }
 
 function buildContext(index, pattern) {

@@ -4,9 +4,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { User } from "@supabase/supabase-js";
-import { getOwnProfile, getUserDisplayName, type UserProfile } from "../lib/profile";
+import {
+  getOwnProfile,
+  getUserDisplayName,
+  type UserProfile,
+} from "../lib/profile";
 import { supabase } from "../lib/supabase";
-import { getCurrentStreakMilestone, getDailyStreak } from "../lib/streak";
+import {
+  getCurrentStreakMilestone,
+  getDailyStreak,
+  hasStudiedToday,
+} from "../lib/streak";
 
 const navItems = [
   { href: "/", label: "Trang chủ" },
@@ -26,6 +34,7 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [streakDays, setStreakDays] = useState(0);
+  const [didStudyToday, setDidStudyToday] = useState(false);
   const streakMilestone = getCurrentStreakMilestone(streakDays);
   const userLabel = getUserDisplayName(user, profile);
   const isManager = profile?.role === "manager";
@@ -60,8 +69,23 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
 
     if (!user) {
       setStreakDays(0);
+      setDidStudyToday(false);
       setProfile(null);
       return;
+    }
+
+    function refreshStreakState() {
+      getDailyStreak(user).then((days) => {
+        if (isMounted) {
+          setStreakDays(days);
+        }
+      });
+
+      hasStudiedToday(user).then((status) => {
+        if (isMounted) {
+          setDidStudyToday(status);
+        }
+      });
     }
 
     getOwnProfile(user).then((nextProfile) => {
@@ -70,14 +94,12 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
       }
     });
 
-    getDailyStreak(user).then((days) => {
-      if (isMounted) {
-        setStreakDays(days);
-      }
-    });
+    refreshStreakState();
+    window.addEventListener("yenth:streak-updated", refreshStreakState);
 
     return () => {
       isMounted = false;
+      window.removeEventListener("yenth:streak-updated", refreshStreakState);
     };
   }, [user]);
 
@@ -104,18 +126,27 @@ export default function SiteHeader({ compact = false }: SiteHeaderProps) {
                 <Link className="siteLoginLink siteUserLink" href="/profile">
                   {userLabel}
                 </Link>
-                {streakDays > 0 ? (
-                  <span className={`siteStreakBadge ${streakMilestone?.className || ""}`}>
-                    <span aria-hidden="true">{streakMilestone?.icon || "🔥"}</span>
-                    {streakDays} ngày
+                <span
+                  className={`siteStreakBadge ${
+                    streakMilestone?.className || ""
+                  } ${didStudyToday ? "activeToday" : "inactiveToday"}`}
+                  title={didStudyToday ? "Đã học hôm nay" : "Chưa học hôm nay"}
+                >
+                  <span aria-hidden="true">
+                    {didStudyToday ? streakMilestone?.icon || "🔥" : "◐"}
                   </span>
-                ) : null}
+                  {streakDays} ngày
+                </span>
                 {isManager ? (
                   <Link className="siteLoginLink" href="/manager">
                     Manager
                   </Link>
                 ) : null}
-                <button className="siteLoginLink" type="button" onClick={handleLogout}>
+                <button
+                  className="siteLoginLink"
+                  type="button"
+                  onClick={handleLogout}
+                >
                   Đăng xuất
                 </button>
               </>

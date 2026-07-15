@@ -35,8 +35,8 @@ export function getGrammarMetadata(topic: string) {
   }
 
   return {
-    title: `${lesson.label} | Grammar YENTH`,
-    description: lesson.description,
+    title: "Grammar | YENTH",
+    description: "Học và kiểm tra ngữ pháp tiếng Anh theo từng chủ điểm.",
   };
 }
 
@@ -47,10 +47,27 @@ export default function GrammarLessonRoute({ topic }: GrammarLessonRouteProps) {
     notFound();
   }
 
+  const clientLesson = {
+    ...lesson,
+    description: "",
+    label: "",
+    shortLabel: "",
+  };
+  const testData = grammarTestDataMap[lesson.id];
+
   return (
     <GrammarLessonClient
-      lesson={lesson}
-      testData={grammarTestDataMap[lesson.id]}
+      lesson={clientLesson}
+      testData={
+        testData
+          ? {
+              ...testData,
+              description: "",
+              sourceNotes: [],
+              title: "",
+            }
+          : undefined
+      }
     />
   );
 }

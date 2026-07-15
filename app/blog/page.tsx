@@ -50,31 +50,14 @@ const posts = [
   },
 ];
 
-const topics = [
-  { label: "Từ vựng", count: "5 level", href: "/vocabulary" },
-  { label: "Ngữ pháp", count: "6 chủ điểm", href: "/grammar" },
-  { label: "Luyện đề", count: "Mini test", href: "/exams" },
-  { label: "Ôn lỗi sai", count: "Theo tiến độ", href: "/review" },
-];
-
-const readingPlan = [
-  "Chọn một bài ngắn",
-  "Mở phần luyện liên quan",
-  "Làm kiểm tra ngay",
-  "Ghi lại lỗi cần ôn",
-];
-
 export default function BlogPage() {
   return (
     <main className="blogPage">
       <section className="blogHero">
         <div className="blogHeroCopy">
           <p className="homeEyebrow">Blog</p>
-          <h1>Mẹo học tiếng Anh ngắn, thực tế và dùng được ngay.</h1>
-          <p>
-            Đọc nhanh một ý, mở bài luyện liên quan, rồi kiểm tra lại bằng quiz.
-            Blog tập trung vào cách học từ vựng, ngữ pháp và luyện đề hiệu quả.
-          </p>
+          <h1>Mẹo học ngắn</h1>
+          <p>Đọc một ý, mở bài luyện liên quan, rồi kiểm tra lại bằng quiz.</p>
           <div className="homeHeroActions">
             <Link className="primaryButton" href="/vocabulary">
               Bắt đầu học
@@ -94,21 +77,6 @@ export default function BlogPage() {
             <Link href={featuredPost.href}>Đọc và luyện</Link>
           </div>
         </aside>
-      </section>
-
-      <section className="blogSection">
-        <div className="sectionHead">
-          <span>Chủ đề</span>
-          <h2>Chọn phần bạn đang cần cải thiện</h2>
-        </div>
-        <div className="blogTopicGrid">
-          {topics.map((topic) => (
-            <Link className="blogTopicCard" href={topic.href} key={topic.label}>
-              <strong>{topic.label}</strong>
-              <span>{topic.count}</span>
-            </Link>
-          ))}
-        </div>
       </section>
 
       <section className="blogContentSection">
@@ -133,19 +101,6 @@ export default function BlogPage() {
             ))}
           </div>
         </div>
-
-        <aside className="blogReadingPanel">
-          <span>Lộ trình đọc</span>
-          <h2>Mỗi bài blog nên kết thúc bằng một lần luyện.</h2>
-          <ol>
-            {readingPlan.map((item) => (
-              <li key={item}>{item}</li>
-            ))}
-          </ol>
-          <Link className="secondaryButton" href="/learn">
-            Xem lộ trình
-          </Link>
-        </aside>
       </section>
     </main>
   );

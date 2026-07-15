@@ -70,13 +70,6 @@
         "nghĩa ví dụ": "Ông ấy gật đầu chấp nhận."
     },
     {
-        "từ": "access",
-        "loại từ": "Danh từ/Động từ",
-        "nghĩa": "truy cập, lối vào",
-        "ví dụ": "Accessible from the top of a house.",
-        "nghĩa ví dụ": "Có thể vào đó từ trên nóc nhà."
-    },
-    {
         "từ": "accessible",
         "loại từ": "Tính từ",
         "nghĩa": "có thể tiếp cận",
@@ -138,6 +131,13 @@
         "nghĩa": "sự buộc tội",
         "ví dụ": "He denied the accusation of stealing the money.",
         "nghĩa ví dụ": "Anh ta phủ nhận cáo buộc ăn trộm tiền."
+    },
+    {
+        "từ": "accused",
+        "loại từ": "Danh từ",
+        "nghĩa": "Bị cáo/Người bị buộc tội",
+        "ví dụ": "The accused waited for the judge.",
+        "nghĩa ví dụ": "Bị cáo chờ thẩm phán."
     },
     {
         "từ": "acquisition",
@@ -238,6 +238,13 @@
         "nghĩa ví dụ": "Thanh thiếu niên trải qua những thay đổi về thể chất."
     },
     {
+        "từ": "adolescent",
+        "loại từ": "Danh từ",
+        "nghĩa": "Thanh thiếu niên",
+        "ví dụ": "The program supports adolescents at school.",
+        "nghĩa ví dụ": "Chương trình hỗ trợ thanh thiếu niên ở trường."
+    },
+    {
         "từ": "adoption",
         "loại từ": "Danh từ",
         "nghĩa": "sự nhận nuôi",
@@ -294,11 +301,11 @@
         "nghĩa ví dụ": "Giá đất nông nghiệp đang tăng cao."
     },
     {
-        "từ": "aid",
+        "từ": "aide",
         "loại từ": "Danh từ",
-        "nghĩa": "phụ tá, trợ lý",
-        "ví dụ": "A teacher and an aid taught us today.",
-        "nghĩa ví dụ": "Hôm nay giáo viên và một trợ giảng dạy chúng tôi."
+        "nghĩa": "Trợ lý/Phụ tá",
+        "ví dụ": "The aide prepared the report.",
+        "nghĩa ví dụ": "Người trợ lý đã chuẩn bị báo cáo."
     },
     {
         "từ": "albeit",
@@ -313,13 +320,6 @@
         "nghĩa": "báo động, cảnh báo",
         "ví dụ": "He alerted the authorities.",
         "nghĩa ví dụ": "Anh ấy đã báo cho chính quyền."
-    },
-    {
-        "từ": "alien",
-        "loại từ": "Tính từ",
-        "nghĩa": "xa lạ, không quen thuộc",
-        "ví dụ": "At first everything feels alien.",
-        "nghĩa ví dụ": "Ban đầu mọi thứ đều có cảm giác xa lạ."
     },
     {
         "từ": "align",
@@ -350,11 +350,11 @@
         "nghĩa ví dụ": "Tôi phủ nhận cáo buộc này."
     },
     {
-        "từ": "breach",
-        "loại từ": "Danh từ",
-        "nghĩa": "sự vi phạm",
-        "ví dụ": "He was sued for breach of contract.",
-        "nghĩa ví dụ": "Anh ta bị kiện vì vi phạm hợp đồng."
+        "từ": "allege",
+        "loại từ": "Động từ",
+        "nghĩa": "Cáo buộc/Cho là",
+        "ví dụ": "They allege that the rule was broken.",
+        "nghĩa ví dụ": "Họ cáo buộc rằng quy định đã bị vi phạm."
     },
     {
         "từ": "alleged",
@@ -362,6 +362,13 @@
         "nghĩa": "được cho là",
         "ví dụ": "She is alleged to have stolen the documents.",
         "nghĩa ví dụ": "Cô ấy được cho là đã đánh cắp các tài liệu."
+    },
+    {
+        "từ": "allegedly",
+        "loại từ": "Trạng từ",
+        "nghĩa": "Được cho là/Bị cáo buộc là",
+        "ví dụ": "The money was allegedly taken last night.",
+        "nghĩa ví dụ": "Số tiền được cho là đã bị lấy tối qua."
     },
     {
         "từ": "alliance",
@@ -397,6 +404,13 @@
         "nghĩa": "đồng minh",
         "ví dụ": "The two nations are close allies.",
         "nghĩa ví dụ": "Hai nước là đồng minh thân thiết."
+    },
+    {
+        "từ": "aluminium",
+        "loại từ": "Danh từ",
+        "nghĩa": "Nhôm",
+        "ví dụ": "The frame is made of aluminium.",
+        "nghĩa ví dụ": "Khung được làm bằng nhôm."
     },
     {
         "từ": "aluminum",
@@ -551,13 +565,6 @@
         "nghĩa": "được cho là, có thể cho rằng",
         "ví dụ": "The movie is arguably the year's finest.",
         "nghĩa ví dụ": "Bộ phim được cho là hay nhất của năm."
-    },
-    {
-        "từ": "arm",
-        "loại từ": "Động từ",
-        "nghĩa": "vũ trang, trang bị vũ khí",
-        "ví dụ": "They need to arm soldiers.",
-        "nghĩa ví dụ": "Họ cần trang bị vũ khí cho binh lính."
     },
     {
         "từ": "array",
@@ -798,13 +805,6 @@
         "nghĩa ví dụ": "Anh ấy hát giọng trầm."
     },
     {
-        "từ": "bat",
-        "loại từ": "Động từ",
-        "nghĩa": "đánh bóng bằng gậy",
-        "ví dụ": "She bats very well.",
-        "nghĩa ví dụ": "Cô ấy đánh bóng rất giỏi."
-    },
-    {
         "từ": "battlefield",
         "loại từ": "Danh từ",
         "nghĩa": "chiến trường",
@@ -827,10 +827,10 @@
     },
     {
         "từ": "beast",
-        "loại từ": "Danh từ",
-        "nghĩa": "con thú lớn, quái thú",
-        "ví dụ": "Oxen are used as beasts of burden.",
-        "nghĩa ví dụ": "Bò được dùng làm súc vật thồ."
+        "loại từ": "noun",
+        "nghĩa": "quái thú",
+        "ví dụ": "Beauty and the Beast",
+        "nghĩa ví dụ": "Người đẹp và Quái vật"
     },
     {
         "từ": "behalf",
@@ -994,11 +994,18 @@
         "nghĩa ví dụ": "Cô ấy cúi chào khán giả."
     },
     {
-        "từ": "break",
+        "từ": "breach",
         "loại từ": "Danh từ",
-        "nghĩa": "sự tan vỡ, vấn đề rắc rối",
-        "ví dụ": "Money problems cause marriage breaks.",
-        "nghĩa ví dụ": "Vấn đề tiền bạc khiến hôn nhân tan vỡ."
+        "nghĩa": "sự vi phạm",
+        "ví dụ": "He was sued for breach of contract.",
+        "nghĩa ví dụ": "Anh ta bị kiện vì vi phạm hợp đồng."
+    },
+    {
+        "từ": "breakdown",
+        "loại từ": "Danh từ",
+        "nghĩa": "Sự hỏng hóc/Sự suy sụp/Bản phân tích chi tiết",
+        "ví dụ": "The report gives a breakdown of the costs.",
+        "nghĩa ví dụ": "Báo cáo đưa ra bản phân tích chi tiết các chi phí."
     },
     {
         "từ": "breakthrough",
@@ -1194,6 +1201,13 @@
         "nguồn": ""
     },
     {
+        "từ": "catalogue",
+        "loại từ": "Danh từ",
+        "nghĩa": "Danh mục/Tập giới thiệu sản phẩm",
+        "ví dụ": "The catalogue lists all the books.",
+        "nghĩa ví dụ": "Danh mục liệt kê tất cả các cuốn sách."
+    },
+    {
         "từ": "cater",
         "loại từ": "Động từ",
         "nghĩa": "phục vụ (sự kiện, đám cưới...)",
@@ -1258,12 +1272,11 @@
         "nguồn": ""
     },
     {
-        "từ": "characteristic",
-        "loại từ": "Tính từ/Danh từ",
-        "nghĩa": "đặc trưng, tiêu biểu",
-        "ví dụ": "Tall buildings are characteristic of this area.",
-        "nghĩa ví dụ": "Nhà cao tầng là đặc trưng của vùng này.",
-        "nguồn": ""
+        "từ": "characterize",
+        "loại từ": "Động từ",
+        "nghĩa": "Đặc trưng hóa/Miêu tả đặc điểm",
+        "ví dụ": "High prices characterize the market.",
+        "nghĩa ví dụ": "Giá cao là đặc trưng của thị trường."
     },
     {
         "từ": "charm",
@@ -1408,6 +1421,13 @@
         "ví dụ": "Coastal regions may be flooded.",
         "nghĩa ví dụ": "Các vùng ven biển có thể bị ngập.",
         "nguồn": ""
+    },
+    {
+        "từ": "cocktail",
+        "loại từ": "Danh từ",
+        "nghĩa": "Cocktail/Đồ uống pha",
+        "ví dụ": "She ordered a fruit cocktail.",
+        "nghĩa ví dụ": "Cô ấy gọi một ly cocktail trái cây."
     },
     {
         "từ": "cognitive",
@@ -1863,6 +1883,13 @@
         "nghĩa ví dụ": "Anh ta nói điều đó với một giọng kìm nén."
     },
     {
+        "từ": "constraint",
+        "loại từ": "Danh từ",
+        "nghĩa": "Sự ràng buộc/Hạn chế",
+        "ví dụ": "Time is the main constraint.",
+        "nghĩa ví dụ": "Thời gian là hạn chế chính."
+    },
+    {
         "từ": "consultation",
         "loại từ": "Danh từ",
         "nghĩa": "sự tư vấn, sự tham khảo",
@@ -1898,13 +1925,6 @@
         "nghĩa ví dụ": "Cô ấy là một ứng cử viên nặng ký cho vị trí này."
     },
     {
-        "từ": "content",
-        "loại từ": "Tính từ/Động từ",
-        "nghĩa": "bằng lòng, mãn nguyện",
-        "ví dụ": "He had to content with third place.",
-        "nghĩa ví dụ": "Anh đành phải bằng lòng với vị trí thứ ba."
-    },
-    {
         "từ": "contention",
         "loại từ": "Danh từ",
         "nghĩa": "sự tranh cãi",
@@ -1917,6 +1937,13 @@
         "nghĩa": "liên tục, không ngớt",
         "ví dụ": "He complained continually about it.",
         "nghĩa ví dụ": "Anh ta rên rỉ than vãn liên tục về nó."
+    },
+    {
+        "từ": "continually",
+        "loại từ": "Trạng từ",
+        "nghĩa": "Liên tục",
+        "ví dụ": "The system is continually improving.",
+        "nghĩa ví dụ": "Hệ thống đang liên tục cải thiện."
     },
     {
         "từ": "contractor",
@@ -2094,6 +2121,13 @@
         "nghĩa ví dụ": "Sửa chữa một ngôi nhà cũ rất tốn kém."
     },
     {
+        "từ": "councillor",
+        "loại từ": "Danh từ",
+        "nghĩa": "Ủy viên hội đồng",
+        "ví dụ": "The councillor met local residents.",
+        "nghĩa ví dụ": "Ủy viên hội đồng đã gặp cư dân địa phương."
+    },
+    {
         "từ": "councilor",
         "loại từ": "Danh từ",
         "nghĩa": "hội viên hội đồng, ủy viên hội đồng",
@@ -2108,18 +2142,25 @@
         "nghĩa ví dụ": "Chúng ta đang tham gia các buổi tư vấn hôn nhân."
     },
     {
+        "từ": "counselling",
+        "loại từ": "Danh từ",
+        "nghĩa": "Sự tư vấn",
+        "ví dụ": "The school offers counselling for students.",
+        "nghĩa ví dụ": "Nhà trường cung cấp dịch vụ tư vấn cho học sinh."
+    },
+    {
+        "từ": "counsellor",
+        "loại từ": "Danh từ",
+        "nghĩa": "Nhân viên tư vấn/Cố vấn",
+        "ví dụ": "She spoke to a counsellor.",
+        "nghĩa ví dụ": "Cô ấy đã nói chuyện với một nhân viên tư vấn."
+    },
+    {
         "từ": "counselor",
         "loại từ": "Danh từ",
         "nghĩa": "người khuyên bảo, cố vấn",
         "ví dụ": "The counselor offered great advice.",
         "nghĩa ví dụ": "Người cố vấn đã đưa ra một lời khuyên tuyệt vời."
-    },
-    {
-        "từ": "counter",
-        "loại từ": "Động từ",
-        "nghĩa": "phản bác, phản đối",
-        "ví dụ": "He countered the argument easily.",
-        "nghĩa ví dụ": "Anh ấy phản bác lại lập luận một cách dễ dàng."
     },
     {
         "từ": "counterpart",
@@ -2148,13 +2189,6 @@
         "nghĩa": "lịch sự, nhã nhặn",
         "ví dụ": "She behaved with courtesy.",
         "nghĩa ví dụ": "Cô ấy cư xử một cách lịch sự."
-    },
-    {
-        "từ": "craft",
-        "loại từ": "Động từ",
-        "nghĩa": "tạo ra, làm ra (chủ yếu bằng tay)",
-        "ví dụ": "She crafted a beautiful vase.",
-        "nghĩa ví dụ": "Cô ấy làm ra một chiếc bình rất đẹp."
     },
     {
         "từ": "crawl",
@@ -2477,13 +2511,6 @@
         "nghĩa": "sự triển khai, sự dàn quân",
         "ví dụ": "The troop deployment was successful.",
         "nghĩa ví dụ": "Việc triển khai quân đã thành công."
-    },
-    {
-        "từ": "deposit",
-        "loại từ": "Danh từ",
-        "nghĩa": "gửi tiền vào ngân hàng, tiền đặt cọc",
-        "ví dụ": "He made a bank deposit.",
-        "nghĩa ví dụ": "Anh ta đã gửi tiền vào ngân hàng."
     },
     {
         "từ": "deprive",
@@ -2899,13 +2926,6 @@
         "nghĩa ví dụ": "Con thuyền trôi theo dòng nước."
     },
     {
-        "từ": "driving",
-        "loại từ": "Tính từ",
-        "nghĩa": "có sức ảnh hưởng lớn, thúc đẩy",
-        "ví dụ": "Who was the driving force in the band?",
-        "nghĩa ví dụ": "Ai là người ảnh hưởng lớn trong ban nhạc?"
-    },
-    {
         "từ": "drown",
         "loại từ": "Động từ",
         "nghĩa": "chết đuối, làm chết chìm",
@@ -2939,13 +2959,6 @@
         "nghĩa": "cặp đôi, bộ đôi",
         "ví dụ": "The singing duo performed at the concert.",
         "nghĩa ví dụ": "Bộ đôi ca sĩ đã biểu diễn tại buổi hòa nhạc."
-    },
-    {
-        "từ": "dynamic",
-        "loại từ": "Danh từ/Tính từ",
-        "nghĩa": "động lực, năng động",
-        "ví dụ": "The team needs a new dynamic.",
-        "nghĩa ví dụ": "Nhóm cần có một động lực mới."
     },
     {
         "từ": "eager",
@@ -3137,6 +3150,13 @@
         "nghĩa ví dụ": "Bạn phải nỗ lực làm việc chăm chỉ hơn."
     },
     {
+        "từ": "endeavour",
+        "loại từ": "Danh từ",
+        "nghĩa": "Nỗ lực/Cố gắng",
+        "ví dụ": "The project was a major scientific endeavour.",
+        "nghĩa ví dụ": "Dự án là một nỗ lực khoa học lớn."
+    },
+    {
         "từ": "endless",
         "loại từ": "Tính từ",
         "nghĩa": "vô tận, bất tận",
@@ -3193,11 +3213,25 @@
         "nghĩa ví dụ": "Cô ấy có một tính cách rất cuốn hút."
     },
     {
+        "từ": "enquire",
+        "loại từ": "Động từ",
+        "nghĩa": "Hỏi/Điều tra",
+        "ví dụ": "I called to enquire about the course.",
+        "nghĩa ví dụ": "Tôi đã gọi để hỏi về khóa học."
+    },
+    {
         "từ": "enrich",
         "loại từ": "Động từ",
         "nghĩa": "làm giàu, làm phong phú",
         "ví dụ": "Traveling can enrich your understanding.",
         "nghĩa ví dụ": "Du lịch có thể làm phong phú thêm hiểu biết của bạn."
+    },
+    {
+        "từ": "enrol",
+        "loại từ": "Động từ",
+        "nghĩa": "Ghi danh/Đăng ký học",
+        "ví dụ": "Students can enrol online.",
+        "nghĩa ví dụ": "Sinh viên có thể ghi danh trực tuyến."
     },
     {
         "từ": "enroll",
@@ -3396,13 +3430,6 @@
         "nghĩa ví dụ": "Họ đang sống lưu vong."
     },
     {
-        "từ": "exit",
-        "loại từ": "Động từ/Danh từ",
-        "nghĩa": "đi ra ngoài, rời khỏi",
-        "ví dụ": "We exited via a fire door.",
-        "nghĩa ví dụ": "Chúng tôi đã thoát ra qua cửa thoát hiểm."
-    },
-    {
         "từ": "expenditure",
         "loại từ": "Danh từ",
         "nghĩa": "chi phí, chi tiêu",
@@ -3450,13 +3477,6 @@
         "nghĩa": "dễ nổ, chất nổ",
         "ví dụ": "Explosives were found near the scene.",
         "nghĩa ví dụ": "Chất nổ được tìm thấy gần hiện trường."
-    },
-    {
-        "từ": "extract",
-        "loại từ": "Danh từ/Động từ",
-        "nghĩa": "đoạn trích, phần chiết xuất",
-        "ví dụ": "The extract is taken from that novel.",
-        "nghĩa ví dụ": "Đoạn trích được lấy từ cuốn tiểu thuyết đó."
     },
     {
         "từ": "extremist",
@@ -3522,6 +3542,13 @@
         "nghĩa ví dụ": "Điều kiện thuận lợi cho sự phát triển."
     },
     {
+        "từ": "favourable",
+        "loại từ": "Tính từ",
+        "nghĩa": "Thuận lợi/Có thiện cảm",
+        "ví dụ": "The proposal received a favourable response.",
+        "nghĩa ví dụ": "Đề xuất nhận được phản hồi thuận lợi."
+    },
+    {
         "từ": "feat",
         "loại từ": "Danh từ",
         "nghĩa": "kỳ công",
@@ -3543,11 +3570,25 @@
         "nghĩa ví dụ": "Trái cây sấy khô có nhiều chất xơ."
     },
     {
+        "từ": "fibre",
+        "loại từ": "Danh từ",
+        "nghĩa": "Chất xơ/Sợi",
+        "ví dụ": "Fruit is a good source of fibre.",
+        "nghĩa ví dụ": "Trái cây là nguồn chất xơ tốt."
+    },
+    {
         "từ": "fierce",
         "loại từ": "Tính từ",
         "nghĩa": "dữ dội, hung dữ",
         "ví dụ": "The race had fierce competition.",
         "nghĩa ví dụ": "Cuộc đua có sự cạnh tranh dữ dội."
+    },
+    {
+        "từ": "film-maker",
+        "loại từ": "Danh từ",
+        "nghĩa": "Nhà làm phim",
+        "ví dụ": "The film-maker won an award.",
+        "nghĩa ví dụ": "Nhà làm phim đã giành được một giải thưởng."
     },
     {
         "từ": "filmmaker",
@@ -3564,25 +3605,11 @@
         "nghĩa ví dụ": "Nước nên được lọc trước khi uống."
     },
     {
-        "từ": "fine",
-        "loại từ": "Động từ/Danh từ",
-        "nghĩa": "phạt, tiền phạt",
-        "ví dụ": "I was fined for speeding.",
-        "nghĩa ví dụ": "Tôi bị phạt vì chạy quá tốc độ."
-    },
-    {
         "từ": "firearm",
         "loại từ": "Danh từ",
         "nghĩa": "súng cầm tay",
         "ví dụ": "Carrying a firearm is illegal.",
         "nghĩa ví dụ": "Mang theo súng là bất hợp pháp."
-    },
-    {
-        "từ": "fit",
-        "loại từ": "Danh từ",
-        "nghĩa": "cơn (giận, bệnh...)",
-        "ví dụ": "In a fit of temper, he pushed the referee.",
-        "nghĩa ví dụ": "Trong cơn nóng giận, anh ta đã đẩy trọng tài."
     },
     {
         "từ": "fixture",
@@ -3872,13 +3899,6 @@
         "nghĩa ví dụ": "Chúng tôi đang gặp nguy hiểm nghiêm trọng."
     },
     {
-        "từ": "grave",
-        "loại từ": "Danh từ",
-        "nghĩa": "mộ, ngôi mộ",
-        "ví dụ": "She visited her mom's grave.",
-        "nghĩa ví dụ": "Cô ấy đến thăm mộ mẹ."
-    },
-    {
         "từ": "gravity",
         "loại từ": "Danh từ",
         "nghĩa": "trọng lực, tính nghiêm trọng",
@@ -4124,14 +4144,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "hook",
-        "loại từ": "Động từ/Danh từ",
-        "nghĩa": "móc lại, móc vào, mắc vào",
-        "ví dụ": "He hooked the rope over a branch.",
-        "nghĩa ví dụ": "Anh ta móc sợi dây vào một cành cây.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "hopeful",
         "loại từ": "Tính từ",
         "nghĩa": "đầy hy vọng, đầy hứa hẹn",
@@ -4202,6 +4214,13 @@
         "ví dụ": "He stayed humble despite his success.",
         "nghĩa ví dụ": "Anh ấy vẫn khiêm tốn mặc dù đã thành công.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "hydrogen",
+        "loại từ": "Danh từ",
+        "nghĩa": "Hiđrô",
+        "ví dụ": "Hydrogen is a chemical element.",
+        "nghĩa ví dụ": "Hiđrô là một nguyên tố hóa học."
     },
     {
         "từ": "identification",
@@ -4346,13 +4365,6 @@
         "loại từ": "Danh từ",
         "nghĩa": "chỉ số, dấu hiệu",
         "ví dụ": "Rising prices are an indicator of inflation.",
-        "nghĩa ví dụ": "Giá cả tăng là dấu hiệu của lạm phát."
-    },
-    {
-        "từ": "indication",
-        "loại từ": "Danh từ",
-        "nghĩa": "sự biểu thị, dấu hiệu",
-        "ví dụ": "Rising prices are an indication of inflation.",
         "nghĩa ví dụ": "Giá cả tăng là dấu hiệu của lạm phát."
     },
     {
@@ -4601,13 +4613,6 @@
         "nghĩa ví dụ": "Sự liêm chính là quan trọng đối với một nhà lãnh đạo."
     },
     {
-        "từ": "intellectual",
-        "loại từ": "Danh từ/Tính từ",
-        "nghĩa": "người tri thức, thuộc trí tuệ",
-        "ví dụ": "He was a leading intellectual of his day.",
-        "nghĩa ví dụ": "Ông là một nhà trí thức hàng đầu thời bấy giờ."
-    },
-    {
         "từ": "intensify",
         "loại từ": "Động từ",
         "nghĩa": "tăng cường, làm mạnh thêm",
@@ -4797,13 +4802,6 @@
         "nghĩa ví dụ": "Vụ án này thuộc thẩm quyền liên bang."
     },
     {
-        "từ": "just",
-        "loại từ": "Tính từ",
-        "nghĩa": "công bằng, đúng đắn",
-        "ví dụ": "I think it was a just decision.",
-        "nghĩa ví dụ": "Tôi nghĩ đó là một quyết định công bằng."
-    },
-    {
         "từ": "justification",
         "loại từ": "Danh từ",
         "nghĩa": "sự biện minh, lý lẽ bào chữa",
@@ -4865,6 +4863,13 @@
         "nghĩa": "quy mô lớn",
         "ví dụ": "They conducted a large-scale survey.",
         "nghĩa ví dụ": "Họ đã thực hiện một cuộc khảo sát quy mô lớn."
+    },
+    {
+        "từ": "laser",
+        "loại từ": "Danh từ",
+        "nghĩa": "Tia laser",
+        "ví dụ": "The doctor used a laser during the operation.",
+        "nghĩa ví dụ": "Bác sĩ đã dùng tia laser trong ca phẫu thuật."
     },
     {
         "từ": "latter",
@@ -4958,6 +4963,13 @@
         "nghĩa ví dụ": "Cuộc họp kéo dài và nhàm chán."
     },
     {
+        "từ": "lesbian",
+        "loại từ": "Tính từ",
+        "nghĩa": "Đồng tính nữ/Thuộc người đồng tính nữ",
+        "ví dụ": "The film tells a lesbian love story.",
+        "nghĩa ví dụ": "Bộ phim kể một câu chuyện tình yêu đồng tính nữ."
+    },
+    {
         "từ": "lesser",
         "loại từ": "Tính từ",
         "nghĩa": "nhỏ hơn, ít hơn, kém hơn",
@@ -5001,10 +5013,10 @@
     },
     {
         "từ": "license",
-        "loại từ": "Động từ/Danh từ",
-        "nghĩa": "cho phép, cấp phép",
-        "ví dụ": "They licensed me to sell the product.",
-        "nghĩa ví dụ": "Họ đã cấp phép cho tôi bán sản phẩm."
+        "loại từ": "noun",
+        "nghĩa": "giấy phép",
+        "ví dụ": "a driving license",
+        "nghĩa ví dụ": "bằng lái xe"
     },
     {
         "từ": "lifelong",
@@ -5222,13 +5234,6 @@
         "nghĩa": "bản thảo, bản viết tay",
         "ví dụ": "The author submitted the manuscript.",
         "nghĩa ví dụ": "Tác giả đã nộp bản thảo."
-    },
-    {
-        "từ": "march",
-        "loại từ": "Động từ/Danh từ",
-        "nghĩa": "diễu hành, hành quân, bước đều",
-        "ví dụ": "They marched through the city.",
-        "nghĩa ví dụ": "Họ diễu hành qua thành phố."
     },
     {
         "từ": "marginal",
@@ -5469,13 +5474,6 @@
         "nghĩa ví dụ": "Tôi làm việc cho bộ Giáo dục."
     },
     {
-        "từ": "minute",
-        "loại từ": "Tính từ",
-        "nghĩa": "cực kỳ nhỏ, cặn kẽ, tỉ mỉ",
-        "ví dụ": "She remembered everything in minute detail.",
-        "nghĩa ví dụ": "Cô ấy nhớ mọi thứ đến từng chi tiết nhỏ nhặt."
-    },
-    {
         "từ": "miracle",
         "loại từ": "Danh từ",
         "nghĩa": "phép màu, điều kỳ lạ",
@@ -5630,18 +5628,18 @@
         "nghĩa ví dụ": "Tôi thường đến thăm các bạn hàng xóm của tôi."
     },
     {
+        "từ": "neighbouring",
+        "loại từ": "Tính từ",
+        "nghĩa": "Lân cận",
+        "ví dụ": "People came from neighbouring villages.",
+        "nghĩa ví dụ": "Mọi người đến từ các làng lân cận."
+    },
+    {
         "từ": "nest",
         "loại từ": "Danh từ",
         "nghĩa": "tổ, nơi cư trú",
         "ví dụ": "The bird built a nest in the tree.",
         "nghĩa ví dụ": "Con chim đã làm tổ trên cây."
-    },
-    {
-        "từ": "net",
-        "loại từ": "Tính từ",
-        "nghĩa": "thực ròng (tịnh)",
-        "ví dụ": "What is your net income after taxes?",
-        "nghĩa ví dụ": "Thu nhập ròng của bạn sau thuế là bao nhiêu?"
     },
     {
         "từ": "newsletter",
@@ -5724,12 +5722,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "noteworthy",
+        "từ": "notable",
         "loại từ": "Tính từ",
-        "nghĩa": "đáng chú ý, đáng kể",
-        "ví dụ": "She made a noteworthy contribution to the team.",
-        "nghĩa ví dụ": "Cô ấy đã có những đóng góp đáng kể cho đội.",
-        "trích dẫn": ","
+        "nghĩa": "Đáng chú ý/Nổi bật",
+        "ví dụ": "There was a notable increase in sales.",
+        "nghĩa ví dụ": "Doanh số đã tăng đáng chú ý."
     },
     {
         "từ": "notably",
@@ -5738,6 +5735,14 @@
         "ví dụ": "The weather was cold, notably at night.",
         "nghĩa ví dụ": "Thời tiết lạnh, đặc biệt là vào ban đêm.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "noteworthy",
+        "loại từ": "Tính từ",
+        "nghĩa": "đáng chú ý, đáng kể",
+        "ví dụ": "She made a noteworthy contribution to the team.",
+        "nghĩa ví dụ": "Cô ấy đã có những đóng góp đáng kể cho đội.",
+        "trích dẫn": ","
     },
     {
         "từ": "notify",
@@ -5756,14 +5761,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "novel",
-        "loại từ": "Tính từ",
-        "nghĩa": "mới lạ, mới mẻ",
-        "ví dụ": "The plan sounds rather novel.",
-        "nghĩa ví dụ": "Kế hoạch này nghe có vẻ khá mới lạ.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "nursery",
         "loại từ": "Danh từ",
         "nghĩa": "nhà trẻ, vườn ươm",
@@ -5778,6 +5775,13 @@
         "ví dụ": "I raised an objection to the plan.",
         "nghĩa ví dụ": "Tôi đã phản đối kế hoạch này.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "oblige",
+        "loại từ": "Động từ",
+        "nghĩa": "Bắt buộc/Giúp đỡ",
+        "ví dụ": "The law obliges companies to keep records.",
+        "nghĩa ví dụ": "Luật bắt buộc các công ty phải lưu hồ sơ."
     },
     {
         "từ": "obliged",
@@ -6268,6 +6272,13 @@
         "nghĩa ví dụ": "Họ đã tiến hành một cuộc thăm dò."
     },
     {
+        "từ": "pond",
+        "loại từ": "Danh từ",
+        "nghĩa": "Ao/Hồ nhỏ",
+        "ví dụ": "There are fish in the pond.",
+        "nghĩa ví dụ": "Có cá trong ao."
+    },
+    {
         "từ": "portfolio",
         "loại từ": "Danh từ",
         "nghĩa": "danh mục đầu tư, hồ sơ năng lực",
@@ -6343,6 +6354,13 @@
         "nghĩa": "phần lớn, chủ yếu là",
         "ví dụ": "The population is predominantly young.",
         "nghĩa ví dụ": "Dân số chủ yếu là người trẻ."
+    },
+    {
+        "từ": "predominantly",
+        "loại từ": "Trạng từ",
+        "nghĩa": "Chủ yếu/Phần lớn",
+        "ví dụ": "The area is predominantly rural.",
+        "nghĩa ví dụ": "Khu vực này chủ yếu là nông thôn."
     },
     {
         "từ": "pregnancy",
@@ -6485,13 +6503,6 @@
         "nghĩa ví dụ": "Sư tử rình rập con mồi trong nhiều giờ."
     },
     {
-        "từ": "principal",
-        "loại từ": "Danh từ",
-        "nghĩa": "hiệu trưởng",
-        "ví dụ": "She is the principal of the school.",
-        "nghĩa ví dụ": "Cô ấy là hiệu trưởng của trường."
-    },
-    {
         "từ": "privatization",
         "loại từ": "Danh từ",
         "nghĩa": "sự tư nhân hóa",
@@ -6518,6 +6529,13 @@
         "nghĩa": "khó giải quyết, rắc rối",
         "ví dụ": "The situation seems more problematic than expected.",
         "nghĩa ví dụ": "Tình hình có vẻ rắc rối hơn dự kiến."
+    },
+    {
+        "từ": "proceeding",
+        "loại từ": "Danh từ",
+        "nghĩa": "Thủ tục tố tụng/Quá trình",
+        "ví dụ": "The legal proceeding lasted months.",
+        "nghĩa ví dụ": "Thủ tục pháp lý kéo dài nhiều tháng."
     },
     {
         "từ": "proceedings",
@@ -6744,6 +6762,13 @@
         "nghĩa ví dụ": "Họ đã đạt được chỉ tiêu bán hàng trong tháng này."
     },
     {
+        "từ": "radar",
+        "loại từ": "Danh từ",
+        "nghĩa": "Ra-đa",
+        "ví dụ": "The plane was detected by radar.",
+        "nghĩa ví dụ": "Máy bay được phát hiện bằng ra-đa."
+    },
+    {
         "từ": "radical",
         "loại từ": "Tính từ",
         "nghĩa": "cấp tiến, triệt để, căn bản",
@@ -6777,6 +6802,13 @@
         "nghĩa": "xếp hạng",
         "ví dụ": "They deserve top ranking.",
         "nghĩa ví dụ": "Họ xứng đáng được xếp hạng cao nhất."
+    },
+    {
+        "từ": "rape",
+        "loại từ": "Danh từ/Động từ",
+        "nghĩa": "Hiếp dâm/Tội hiếp dâm",
+        "ví dụ": "The law treats rape as a serious crime.",
+        "nghĩa ví dụ": "Luật coi hiếp dâm là một tội nghiêm trọng."
     },
     {
         "từ": "ratio",
@@ -7304,6 +7336,13 @@
         "trích dẫn": ""
     },
     {
+        "từ": "rifle",
+        "loại từ": "Danh từ",
+        "nghĩa": "Súng trường",
+        "ví dụ": "The soldier carried a rifle.",
+        "nghĩa ví dụ": "Người lính mang một khẩu súng trường."
+    },
+    {
         "từ": "riot",
         "loại từ": "Danh từ",
         "nghĩa": "cuộc bạo loạn",
@@ -7333,14 +7372,6 @@
         "nghĩa": "mạnh mẽ, cường tráng",
         "ví dụ": "He has a robust body.",
         "nghĩa ví dụ": "Anh ấy có một cơ thể cường tráng.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "rock",
-        "loại từ": "Động từ",
-        "nghĩa": "đu đưa, lúc lắc, rung chuyển",
-        "ví dụ": "The boat rocked slightly.",
-        "nghĩa ví dụ": "Chiếc thuyền lắc nhẹ.",
         "trích dẫn": ""
     },
     {
@@ -7382,6 +7413,13 @@
         "ví dụ": "Rumors quickly spread through the town.",
         "nghĩa ví dụ": "Tin đồn nhanh chóng lan truyền khắp thị trấn.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "rumour",
+        "loại từ": "Danh từ",
+        "nghĩa": "Tin đồn",
+        "ví dụ": "There is a rumour about the new manager.",
+        "nghĩa ví dụ": "Có một tin đồn về quản lý mới."
     },
     {
         "từ": "sack",
@@ -7432,20 +7470,26 @@
         "trích dẫn": ""
     },
     {
-        "từ": "say",
-        "loại từ": "Danh từ",
-        "nghĩa": "quyền ăn nói, tiếng nói",
-        "ví dụ": "His say in the matter is important.",
-        "nghĩa ví dụ": "Tiếng nói của ông ấy trong vấn đề này rất quan trọng.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "scatter",
         "loại từ": "Động từ",
         "nghĩa": "phân tán, rải rác",
         "ví dụ": "The toys were scattered all over the room.",
         "nghĩa ví dụ": "Đồ chơi nằm rải rác khắp phòng.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "scattered",
+        "loại từ": "Tính từ",
+        "nghĩa": "Rải rác/Phân tán",
+        "ví dụ": "There were scattered houses along the road.",
+        "nghĩa ví dụ": "Có những ngôi nhà rải rác dọc con đường."
+    },
+    {
+        "từ": "sceptical",
+        "loại từ": "Tính từ",
+        "nghĩa": "Hoài nghi",
+        "ví dụ": "Many experts are sceptical about the claim.",
+        "nghĩa ví dụ": "Nhiều chuyên gia hoài nghi về tuyên bố đó."
     },
     {
         "từ": "scope",
@@ -7576,12 +7620,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "setup",
+        "từ": "set-up",
         "loại từ": "Danh từ",
-        "nghĩa": "cơ cấu, bố trí",
-        "ví dụ": "The setup of the game is easy to understand.",
-        "nghĩa ví dụ": "Cách thiết lập trò chơi rất dễ hiểu.",
-        "trích dẫn": ""
+        "nghĩa": "Cách sắp xếp/Hệ thống",
+        "ví dụ": "The new set-up works well.",
+        "nghĩa ví dụ": "Cách sắp xếp mới hoạt động tốt."
     },
     {
         "từ": "settlement",
@@ -7590,6 +7633,21 @@
         "ví dụ": "The settlement was reached after long negotiations.",
         "nghĩa ví dụ": "Sự dàn xếp đã đạt được sau nhiều cuộc thương lượng.",
         "trích dẫn": ""
+    },
+    {
+        "từ": "setup",
+        "loại từ": "Danh từ",
+        "nghĩa": "cơ cấu, bố trí",
+        "ví dụ": "The setup of the game is easy to understand.",
+        "nghĩa ví dụ": "Cách thiết lập trò chơi rất dễ hiểu.",
+        "trích dẫn": ""
+    },
+    {
+        "từ": "sexuality",
+        "loại từ": "Danh từ",
+        "nghĩa": "Tính dục/Xu hướng tính dục",
+        "ví dụ": "The course explores gender and sexuality.",
+        "nghĩa ví dụ": "Khóa học tìm hiểu về giới và tính dục."
     },
     {
         "từ": "shareholder",
@@ -7629,14 +7687,6 @@
         "nghĩa": "việc vận chuyển, tàu thuyền nói chung",
         "ví dụ": "No shipping entered the port today.",
         "nghĩa ví dụ": "Hôm nay không có tàu thuyền nào cập cảng.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "shoot",
-        "loại từ": "Danh từ",
-        "nghĩa": "măng, cành non",
-        "ví dụ": "I like stir-fried bamboo shoots.",
-        "nghĩa ví dụ": "Tôi thích món măng xào.",
         "trích dẫn": ""
     },
     {
@@ -7848,14 +7898,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "sound",
-        "loại từ": "Tính từ",
-        "nghĩa": "đúng đắn, hợp lý, hoàn chỉnh",
-        "ví dụ": "He made a sound decision.",
-        "nghĩa ví dụ": "Ông ấy đã đưa ra một quyết định đúng đắn.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "sovereignty",
         "loại từ": "Danh từ",
         "nghĩa": "chủ quyền, quyền tối cao",
@@ -7878,14 +7920,6 @@
         "ví dụ": "The project spanned five months.",
         "nghĩa ví dụ": "Dự án kéo dài trong năm tháng.",
         "trích dẫn": ""
-    },
-    {
-        "từ": "spare",
-        "loại từ": "Động từ",
-        "nghĩa": "để dành, dành dụng",
-        "ví dụ": "Can you spare me a few minutes?",
-        "nghĩa ví dụ": "Bạn có thể dành cho tôi vài phút được không?",
-        "trích dẫn": ","
     },
     {
         "từ": "spark",
@@ -7934,14 +7968,6 @@
         "ví dụ": "Light has a visible spectrum.",
         "nghĩa ví dụ": "Ánh sáng có quang phổ nhìn thấy được.",
         "trích dẫn": ","
-    },
-    {
-        "từ": "spell",
-        "loại từ": "Danh từ",
-        "nghĩa": "một hồi, đợt, khoảng thời gian",
-        "ví dụ": "He had a spell of bad luck.",
-        "nghĩa ví dụ": "Anh ấy gặp xui một thời gian.",
-        "trích dẫn": ""
     },
     {
         "từ": "sphere",
@@ -8157,14 +8183,6 @@
         "nghĩa": "dải, mảnh dài",
         "ví dụ": "She took a strip of cloth.",
         "nghĩa ví dụ": "Cô ấy lấy một mảnh vải dài.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "strip",
-        "loại từ": "Động từ",
-        "nghĩa": "cởi bỏ, lột đồ",
-        "ví dụ": "He stripped off his wet clothes.",
-        "nghĩa ví dụ": "Anh ấy cởi bỏ quần áo ướt ra.",
         "trích dẫn": ""
     },
     {
@@ -8544,11 +8562,18 @@
         "trích dẫn": ""
     },
     {
-        "từ": "tackle",
+        "từ": "tactic",
         "loại từ": "Danh từ",
-        "nghĩa": "hành động tranh bóng, giải quyết (vấn đề)",
-        "ví dụ": "He lost the ball in a tackle.",
-        "nghĩa ví dụ": "Anh ấy đã mất bóng trong một pha tranh bóng.",
+        "nghĩa": "Chiến thuật",
+        "ví dụ": "The coach changed his tactic during the match.",
+        "nghĩa ví dụ": "Huấn luyện viên đã thay đổi chiến thuật trong trận đấu."
+    },
+    {
+        "từ": "tactical",
+        "loại từ": "Tính từ",
+        "nghĩa": "thuộc chiến thuật, thuộc sách lược",
+        "ví dụ": "The team made a tactical plan.",
+        "nghĩa ví dụ": "Đội đã lập ra một kế hoạch chiến thuật.",
         "trích dẫn": ""
     },
     {
@@ -8557,14 +8582,6 @@
         "nghĩa": "chiến thuật, biện pháp",
         "ví dụ": "They should switch tactics.",
         "nghĩa ví dụ": "Họ nên thay đổi chiến thuật.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "tactical",
-        "loại từ": "Tính từ",
-        "nghĩa": "thuộc chiến thuật, thuộc sách lược",
-        "ví dụ": "The team made a tactical plan.",
-        "nghĩa ví dụ": "Đội đã lập ra một kế hoạch chiến thuật.",
         "trích dẫn": ""
     },
     {
@@ -8605,14 +8622,6 @@
         "nghĩa": "nhiệm kỳ",
         "ví dụ": "Tenure as president lasts for 4 years.",
         "nghĩa ví dụ": "Nhiệm kỳ tổng thống kéo dài trong 4 năm.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "terminal",
-        "loại từ": "Tính từ",
-        "nghĩa": "thuộc giai đoạn cuối",
-        "ví dụ": "He has terminal lung cancer.",
-        "nghĩa ví dụ": "Ông ấy bị ung thư phổi giai đoạn cuối.",
         "trích dẫn": ""
     },
     {
@@ -8832,14 +8841,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "top",
-        "loại từ": "Động từ",
-        "nghĩa": "đứng đầu, cao hơn, vượt qua",
-        "ví dụ": "Sales top expectations.",
-        "nghĩa ví dụ": "Doanh số bán hàng đã vượt qua mong đợi.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "torture",
         "loại từ": "Danh từ/Động từ",
         "nghĩa": "tra tấn, tra khảo",
@@ -8856,27 +8857,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "total",
-        "loại từ": "Động từ",
-        "nghĩa": "tính tổng, tổng số lên tới",
-        "ví dụ": "We need to total up the expenses.",
-        "nghĩa ví dụ": "Chúng ta cần tính tổng các chi phí.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "toxic",
         "loại từ": "Tính từ",
         "nghĩa": "độc, độc hại",
         "ví dụ": "The factory released toxic chemicals.",
         "nghĩa ví dụ": "Nhà máy đã thải ra các hóa chất độc hại.",
-        "trích dẫn": ""
-    },
-    {
-        "từ": "trace",
-        "loại từ": "Danh từ/Động từ",
-        "nghĩa": "dấu vết, vết tích, chút ít",
-        "ví dụ": "I found a trace of blood on the floor.",
-        "nghĩa ví dụ": "Tôi tìm thấy vết máu trên sàn nhà.",
         "trích dẫn": ""
     },
     {
@@ -8936,12 +8921,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "transmit",
-        "loại từ": "Động từ",
-        "nghĩa": "truyền, truyền tải, truyền đạt",
-        "ví dụ": "Transmission of the signal was interrupted.",
-        "nghĩa ví dụ": "Việc truyền tín hiệu bị gián đoạn.",
-        "trích dẫn": ""
+        "từ": "transmission",
+        "loại từ": "Danh từ",
+        "nghĩa": "Sự truyền/Truyền tải",
+        "ví dụ": "The transmission of data was slow.",
+        "nghĩa ví dụ": "Việc truyền dữ liệu diễn ra chậm."
     },
     {
         "từ": "transparency",
@@ -9008,14 +8992,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "trigger",
-        "loại từ": "Danh từ/Động từ",
-        "nghĩa": "cò súng, nguyên nhân gây ra",
-        "ví dụ": "It's the trigger for the strike.",
-        "nghĩa ví dụ": "Đó là nguyên nhân dẫn đến cuộc đình công.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "trio",
         "loại từ": "Danh từ",
         "nghĩa": "bộ ba, nhóm ba",
@@ -9056,12 +9032,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "tutorial",
+        "từ": "tuition",
         "loại từ": "Danh từ",
-        "nghĩa": "sự giảng dạy nhóm nhỏ",
-        "ví dụ": "I paid my tuition fees for this semester.",
-        "nghĩa ví dụ": "Tôi đã trả học phí cho học kỳ này.",
-        "trích dẫn": ""
+        "nghĩa": "Học phí/Sự dạy kèm",
+        "ví dụ": "Tuition fees are increasing.",
+        "nghĩa ví dụ": "Học phí đang tăng."
     },
     {
         "từ": "turnout",
@@ -9077,6 +9052,14 @@
         "nghĩa": "doanh thu, doanh số",
         "ví dụ": "Sales turnover dropped during the winter.",
         "nghĩa ví dụ": "Doanh thu bán hàng giảm trong mùa đông.",
+        "trích dẫn": ""
+    },
+    {
+        "từ": "tutorial",
+        "loại từ": "Danh từ",
+        "nghĩa": "sự giảng dạy nhóm nhỏ",
+        "ví dụ": "I paid my tuition fees for this semester.",
+        "nghĩa ví dụ": "Tôi đã trả học phí cho học kỳ này.",
         "trích dẫn": ""
     },
     {
@@ -9472,14 +9455,6 @@
         "trích dẫn": ""
     },
     {
-        "từ": "well",
-        "loại từ": "Danh từ",
-        "nghĩa": "cái giếng",
-        "ví dụ": "The dog almost fell down a well.",
-        "nghĩa ví dụ": "Con chó suýt rơi xuống giếng.",
-        "trích dẫn": ""
-    },
-    {
         "từ": "well-being",
         "loại từ": "Danh từ",
         "nghĩa": "khỏe mạnh, hạnh phúc",
@@ -9488,12 +9463,11 @@
         "trích dẫn": ""
     },
     {
-        "từ": "whatever",
-        "loại từ": "Đại từ/Tính từ",
-        "nghĩa": "bất cứ điều gì",
-        "ví dụ": "I received no help whatsoever.",
-        "nghĩa ví dụ": "Tôi không nhận được sự giúp đỡ nào cả.",
-        "trích dẫn": ""
+        "từ": "whatsoever",
+        "loại từ": "Trạng từ",
+        "nghĩa": "Bất kỳ/Chút nào",
+        "ví dụ": "There is no evidence whatsoever.",
+        "nghĩa ví dụ": "Không có bất kỳ bằng chứng nào."
     },
     {
         "từ": "whereby",

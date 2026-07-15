@@ -42,13 +42,6 @@
     "nghĩa ví dụ": "thành tựu khoa học"
   },
   {
-    "từ": "act",
-    "loại từ": "noun/verb",
-    "nghĩa": "hành động, cách cư xử",
-    "ví dụ": "you need to clean up your act",
-    "nghĩa ví dụ": "bạn cần chấn chỉnh lại cách hành xử của mình"
-  },
-  {
     "từ": "ad",
     "loại từ": "noun",
     "nghĩa": "quảng cáo",
@@ -98,13 +91,6 @@
     "nghĩa ví dụ": "tôi không thể thuê luật sư"
   },
   {
-    "từ": "age",
-    "loại từ": "verb/noun",
-    "nghĩa": "già đi, tuổi",
-    "ví dụ": "you haven't aged a day",
-    "nghĩa ví dụ": "bạn chẳng già đi tí nào"
-  },
-  {
     "từ": "aged",
     "loại từ": "adjective",
     "nghĩa": "ở độ tuổi",
@@ -147,11 +133,25 @@
     "nghĩa ví dụ": "chuông báo thức của tôi đã không kêu"
   },
   {
-    "từ": "alternative",
-    "loại từ": "adjective/noun",
-    "nghĩa": "thay thế",
-    "ví dụ": "do you have an alternative solution",
-    "nghĩa ví dụ": "bạn có giải pháp thay thế nào không"
+    "từ": "album",
+    "loại từ": "Danh từ",
+    "nghĩa": "Album/Tập ảnh",
+    "ví dụ": "Her new album came out today.",
+    "nghĩa ví dụ": "Album mới của cô ấy ra mắt hôm nay."
+  },
+  {
+    "từ": "alcohol",
+    "loại từ": "Danh từ",
+    "nghĩa": "Rượu/Đồ uống có cồn",
+    "ví dụ": "This drink contains no alcohol.",
+    "nghĩa ví dụ": "Đồ uống này không chứa cồn."
+  },
+  {
+    "từ": "alcoholic",
+    "loại từ": "Tính từ",
+    "nghĩa": "Có cồn/Liên quan đến rượu",
+    "ví dụ": "They do not sell alcoholic drinks here.",
+    "nghĩa ví dụ": "Họ không bán đồ uống có cồn ở đây."
   },
   {
     "từ": "amazed",
@@ -175,11 +175,11 @@
     "nghĩa ví dụ": "tôi rất tham vọng"
   },
   {
-    "từ": "analyze",
-    "loại từ": "verb",
-    "nghĩa": "phân tích",
-    "ví dụ": "the next step is to analyze the problem",
-    "nghĩa ví dụ": "bước tiếp theo là phân tích vấn đề"
+    "từ": "analyse",
+    "loại từ": "Động từ",
+    "nghĩa": "Phân tích",
+    "ví dụ": "We need to analyse the results.",
+    "nghĩa ví dụ": "Chúng ta cần phân tích kết quả."
   },
   {
     "từ": "analysis",
@@ -187,6 +187,13 @@
     "nghĩa": "sự phân tích",
     "ví dụ": "this is a detailed analysis of the data",
     "nghĩa ví dụ": "đây là một bản phân tích chi tiết dữ liệu"
+  },
+  {
+    "từ": "analyze",
+    "loại từ": "verb",
+    "nghĩa": "phân tích",
+    "ví dụ": "the next step is to analyze the problem",
+    "nghĩa ví dụ": "bước tiếp theo là phân tích vấn đề"
   },
   {
     "từ": "announce",
@@ -336,20 +343,6 @@
     "nghĩa ví dụ": "tôi muốn gặp một người có thẩm quyền cao hơn"
   },
   {
-    "từ": "average",
-    "loại từ": "verb/adjective",
-    "nghĩa": "trung bình",
-    "ví dụ": "wages here average ten dollars an hour",
-    "nghĩa ví dụ": "tiền lương ở đây trung bình là mười đô la một giờ"
-  },
-  {
-    "từ": "award",
-    "loại từ": "verb/noun",
-    "nghĩa": "trao giải, giải thưởng",
-    "ví dụ": "he was awarded the first prize",
-    "nghĩa ví dụ": "anh ấy đã được trao giải nhất"
-  },
-  {
     "từ": "aware",
     "loại từ": "adjective",
     "nghĩa": "ý thức, nhận biết",
@@ -362,6 +355,13 @@
     "nghĩa": "về phía sau, lùi lại",
     "ví dụ": "I took a step backward",
     "nghĩa ví dụ": "tôi đã lùi lại một bước"
+  },
+  {
+    "từ": "backwards",
+    "loại từ": "Trạng từ",
+    "nghĩa": "Về phía sau/Ngược lại",
+    "ví dụ": "She took two steps backwards.",
+    "nghĩa ví dụ": "Cô ấy lùi lại hai bước."
   },
   {
     "từ": "bake",
@@ -383,13 +383,6 @@
     "nghĩa": "lệnh cấm",
     "ví dụ": "the ban has now been eased",
     "nghĩa ví dụ": "lệnh cấm hiện đã được nới lỏng"
-  },
-  {
-    "từ": "bank",
-    "loại từ": "noun",
-    "nghĩa": "bờ (sông)",
-    "ví dụ": "I strolled along the riverbank",
-    "nghĩa ví dụ": "tôi đi dạo dọc theo bờ sông"
   },
   {
     "từ": "base",
@@ -427,11 +420,11 @@
     "nghĩa ví dụ": "một cuộc chiến pháp lý"
   },
   {
-    "từ": "beast",
-    "loại từ": "noun",
-    "nghĩa": "quái thú",
-    "ví dụ": "Beauty and the Beast",
-    "nghĩa ví dụ": "Người đẹp và Quái vật"
+    "từ": "beauty",
+    "loại từ": "Danh từ",
+    "nghĩa": "Vẻ đẹp",
+    "ví dụ": "Everyone admired the beauty of the garden.",
+    "nghĩa ví dụ": "Mọi người đều ngưỡng mộ vẻ đẹp của khu vườn."
   },
   {
     "từ": "bee",
@@ -462,20 +455,6 @@
     "nghĩa ví dụ": "tôi đã uốn cong sợi dây"
   },
   {
-    "từ": "benefit",
-    "loại từ": "verb",
-    "nghĩa": "có lợi cho",
-    "ví dụ": "this will benefit the community",
-    "nghĩa ví dụ": "điều này sẽ có lợi cho cộng đồng"
-  },
-  {
-    "từ": "better",
-    "loại từ": "adjective",
-    "nghĩa": "tốt hơn",
-    "ví dụ": "it's the better of the two books",
-    "nghĩa ví dụ": "đó là cuốn sách tốt hơn trong hai cuốn"
-  },
-  {
     "từ": "bite",
     "loại từ": "verb",
     "nghĩa": "cắn",
@@ -490,11 +469,11 @@
     "nghĩa ví dụ": "tôi đã chặn cô ấy"
   },
   {
-    "từ": "board",
-    "loại từ": "verb",
-    "nghĩa": "lên (tàu, máy bay)",
-    "ví dụ": "I'm waiting to board the plane",
-    "nghĩa ví dụ": "tôi đang chờ để lên máy bay"
+    "từ": "bomb",
+    "loại từ": "Danh từ/Động từ",
+    "nghĩa": "Bom/Ném bom",
+    "ví dụ": "The bomb was found near the station.",
+    "nghĩa ví dụ": "Quả bom được tìm thấy gần nhà ga."
   },
   {
     "từ": "border",
@@ -589,10 +568,10 @@
   },
   {
     "từ": "campus",
-    "loại từ": "noun",
-    "nghĩa": "khuôn viên trường",
-    "ví dụ": "my campus is beautiful",
-    "nghĩa ví dụ": "khuôn viên trường tôi rất đẹp"
+    "loại từ": "danh từ",
+    "nghĩa": "khuôn viên trường học",
+    "ví dụ": "I live on campus",
+    "nghĩa ví dụ": "Tôi sống trong khuôn viên trường"
   },
   {
     "từ": "candidate",
@@ -642,13 +621,6 @@
     "nghĩa": "sự ăn mừng, lễ kỷ niệm",
     "ví dụ": "it's a cause for celebration",
     "nghĩa ví dụ": "đó là một lý do để ăn mừng"
-  },
-  {
-    "từ": "center",
-    "loại từ": "verb",
-    "nghĩa": "tập trung vào",
-    "ví dụ": "the story centers on his plan",
-    "nghĩa ví dụ": "câu chuyện tập trung vào kế hoạch của anh ta"
   },
   {
     "từ": "central",
@@ -707,11 +679,11 @@
     "nghĩa ví dụ": "chúng tôi không tính phí giao hàng"
   },
   {
-    "từ": "cheap",
-    "loại từ": "adjective/adverb",
-    "nghĩa": "rẻ",
-    "ví dụ": "I got this dress cheap",
-    "nghĩa ví dụ": "tôi đã mua chiếc váy này với giá rẻ"
+    "từ": "cheat",
+    "loại từ": "Danh từ/Động từ",
+    "nghĩa": "Gian lận/Người gian lận",
+    "ví dụ": "Do not cheat in the exam.",
+    "nghĩa ví dụ": "Đừng gian lận trong kỳ thi."
   },
   {
     "từ": "cheating",
@@ -763,20 +735,6 @@
     "nghĩa ví dụ": "dấu phẩy ngăn cách các mệnh đề trong câu"
   },
   {
-    "từ": "clear",
-    "loại từ": "verb",
-    "nghĩa": "dọn dẹp",
-    "ví dụ": "it's your turn to clear the table",
-    "nghĩa ví dụ": "đến lượt bạn dọn bàn rồi"
-  },
-  {
-    "từ": "clever",
-    "loại từ": "adjective",
-    "nghĩa": "khéo léo, thông minh",
-    "ví dụ": "he's clever with his hands",
-    "nghĩa ví dụ": "anh ấy rất khéo tay"
-  },
-  {
     "từ": "click",
     "loại từ": "verb",
     "nghĩa": "nhấp chuột",
@@ -791,13 +749,6 @@
     "nghĩa ví dụ": "họ là những khách hàng tiềm năng"
   },
   {
-    "từ": "close",
-    "loại từ": "adverb",
-    "nghĩa": "gần",
-    "ví dụ": "don't come too close",
-    "nghĩa ví dụ": "đừng lại quá gần"
-  },
-  {
     "từ": "cloth",
     "loại từ": "noun/adjective",
     "nghĩa": "(bằng) vải",
@@ -810,13 +761,6 @@
     "nghĩa": "manh mối, gợi ý",
     "ví dụ": "I have no clue",
     "nghĩa ví dụ": "tôi không có manh mối nào"
-  },
-  {
-    "từ": "coach",
-    "loại từ": "verb",
-    "nghĩa": "huấn luyện",
-    "ví dụ": "he has coached hundreds of players",
-    "nghĩa ví dụ": "ông đã huấn luyện hàng trăm cầu thủ"
   },
   {
     "từ": "coal",
@@ -847,18 +791,18 @@
     "nghĩa ví dụ": "tôi không có bút chì màu"
   },
   {
+    "từ": "coloured",
+    "loại từ": "Tính từ",
+    "nghĩa": "Có màu/Được tô màu",
+    "ví dụ": "The children used coloured pencils.",
+    "nghĩa ví dụ": "Bọn trẻ dùng bút chì màu."
+  },
+  {
     "từ": "combine",
     "loại từ": "verb",
     "nghĩa": "kết hợp",
     "ví dụ": "you are able to combine the two",
     "nghĩa ví dụ": "bạn có thể kết hợp hai thứ đó"
-  },
-  {
-    "từ": "comment",
-    "loại từ": "verb",
-    "nghĩa": "bình luận",
-    "ví dụ": "please comment below",
-    "nghĩa ví dụ": "vui lòng bình luận bên dưới"
   },
   {
     "từ": "commercial",
@@ -1050,13 +994,6 @@
     "nghĩa ví dụ": "rất khó để thuyết phục anh ta"
   },
   {
-    "từ": "cool",
-    "loại từ": "verb",
-    "nghĩa": "làm nguội, làm mát",
-    "ví dụ": "leave the cake to cool",
-    "nghĩa ví dụ": "để chiếc bánh nguội đi"
-  },
-  {
     "từ": "costume",
     "loại từ": "noun",
     "nghĩa": "trang phục hóa trang",
@@ -1064,39 +1001,32 @@
     "nghĩa ví dụ": "anh ấy mặc trang phục cao bồi"
   },
   {
-    "từ": "Cottage",
+    "từ": "cottage",
     "loại từ": "noun",
     "nghĩa": "nhà nhỏ ở miền quê, nhà tranh",
     "ví dụ": "I have a cottage in the woods",
     "nghĩa ví dụ": "tôi có một ngôi nhà nhỏ trong rừng"
   },
   {
-    "từ": "count",
-    "loại từ": "noun",
-    "nghĩa": "việc đếm, kiểm phiếu",
-    "ví dụ": "the vote count should be repeated",
-    "nghĩa ví dụ": "việc kiểm phiếu nên được lặp lại"
+    "từ": "cotton",
+    "loại từ": "Danh từ",
+    "nghĩa": "Bông/Vải cotton",
+    "ví dụ": "This shirt is made of cotton.",
+    "nghĩa ví dụ": "Chiếc áo này được làm từ cotton."
   },
   {
-    "từ": "Countryside",
+    "từ": "countryside",
     "loại từ": "noun",
     "nghĩa": "nông thôn",
     "ví dụ": "I like living in the countryside",
     "nghĩa ví dụ": "tôi thích sống ở nông thôn"
   },
   {
-    "từ": "Court",
+    "từ": "court",
     "loại từ": "noun",
     "nghĩa": "tòa án, trát tòa",
     "ví dụ": "he received a court summons",
     "nghĩa ví dụ": "anh ta đã nhận được trát hầu tòa"
-  },
-  {
-    "từ": "cover",
-    "loại từ": "noun",
-    "nghĩa": "ảnh bìa",
-    "ví dụ": "Her Image graced the magazine cover",
-    "nghĩa ví dụ": "hình ảnh của cô ấy xuất hiện trên trang bìa tạp chí"
   },
   {
     "từ": "covered",
@@ -1104,20 +1034,6 @@
     "nghĩa": "được che phủ, có mái che",
     "ví dụ": "we sat in the covered area",
     "nghĩa ví dụ": "chúng tôi ngồi trong khu vực có mái che"
-  },
-  {
-    "từ": "cream",
-    "loại từ": "adjective/noun",
-    "nghĩa": "màu kem",
-    "ví dụ": "she wears a cream hat",
-    "nghĩa ví dụ": "cô ấy đội một chiếc mũ màu kem"
-  },
-  {
-    "từ": "Criminal",
-    "loại từ": "adjective/noun",
-    "nghĩa": "thuộc về tội phạm, hình sự",
-    "ví dụ": "criminal law",
-    "nghĩa ví dụ": "luật hình sự"
   },
   {
     "từ": "cruel",
@@ -1169,32 +1085,11 @@
     "nghĩa ví dụ": "đó là phong tục ở đất nước tôi"
   },
   {
-    "từ": "cut",
-    "loại từ": "noun",
-    "nghĩa": "việc cắt giảm",
-    "ví dụ": "they proposed tax cuts",
-    "nghĩa ví dụ": "họ đã đề xuất cắt giảm thuế"
-  },
-  {
-    "từ": "daily",
-    "loại từ": "adverb",
-    "nghĩa": "hàng ngày",
-    "ví dụ": "I check my bank account daily",
-    "nghĩa ví dụ": "tôi kiểm tra tài khoản ngân hàng hàng ngày"
-  },
-  {
     "từ": "damage",
     "loại từ": "noun",
     "nghĩa": "sự thiệt hại",
     "ví dụ": "the storm didn't do much damage",
     "nghĩa ví dụ": "cơn bão không gây ra nhiều thiệt hại"
-  },
-  {
-    "từ": "deal",
-    "loại từ": "noun",
-    "nghĩa": "thỏa thuận",
-    "ví dụ": "I'll make a deal with you",
-    "nghĩa ví dụ": "tôi sẽ thực hiện một thỏa thuận với bạn"
   },
   {
     "từ": "decade",
@@ -1211,7 +1106,7 @@
     "nghĩa ví dụ": "chúng tôi sẽ trang trí cây Giáng sinh"
   },
   {
-    "từ": "Define",
+    "từ": "define",
     "loại từ": "verb",
     "nghĩa": "định nghĩa",
     "ví dụ": "love is difficult to Define",
@@ -1302,13 +1197,6 @@
     "nghĩa ví dụ": "chúng tôi đã gặp nhiều khó khăn"
   },
   {
-    "từ": "Direct",
-    "loại từ": "verb",
-    "nghĩa": "đạo diễn, chỉ đạo",
-    "ví dụ": "I directed the school play",
-    "nghĩa ví dụ": "tôi đã đạo diễn vở kịch của trường"
-  },
-  {
     "từ": "directly",
     "loại từ": "adverb",
     "nghĩa": "trực tiếp",
@@ -1379,13 +1267,6 @@
     "nghĩa ví dụ": "tôi đến để quyên góp những thứ này"
   },
   {
-    "từ": "double",
-    "loại từ": "adverb",
-    "nghĩa": "gấp đôi",
-    "ví dụ": "I thought I was seeing double",
-    "nghĩa ví dụ": "tôi tưởng mình đang nhìn một hóa hai"
-  },
-  {
     "từ": "doubt",
     "loại từ": "noun",
     "nghĩa": "sự nghi ngờ",
@@ -1398,13 +1279,6 @@
     "nghĩa": "mặc quần áo",
     "ví dụ": "the Twins were dressed identically",
     "nghĩa ví dụ": "cặp song sinh được mặc đồ giống hệt nhau"
-  },
-  {
-    "từ": "drop",
-    "loại từ": "noun",
-    "nghĩa": "giọt (nước)",
-    "ví dụ": "the first drops of rain fell",
-    "nghĩa ví dụ": "những giọt mưa đầu tiên đã rơi"
   },
   {
     "từ": "drum",
@@ -1421,6 +1295,13 @@
     "nghĩa ví dụ": "tôi say bét nhè / say không biết gì luôn"
   },
   {
+    "từ": "due",
+    "loại từ": "Tính từ",
+    "nghĩa": "Đến hạn/Dự kiến",
+    "ví dụ": "The report is due tomorrow.",
+    "nghĩa ví dụ": "Báo cáo đến hạn vào ngày mai."
+  },
+  {
     "từ": "dust",
     "loại từ": "noun",
     "nghĩa": "bụi",
@@ -1428,7 +1309,7 @@
     "nghĩa ví dụ": "bụi mịn rất có hại"
   },
   {
-    "từ": "Duty",
+    "từ": "duty",
     "loại từ": "noun",
     "nghĩa": "nghĩa vụ, bổn phận",
     "ví dụ": "civic duty",
@@ -1442,7 +1323,7 @@
     "nghĩa ví dụ": "trận động đất xảy ra khi mọi người đang ngủ"
   },
   {
-    "từ": "Eastern",
+    "từ": "eastern",
     "loại từ": "adjective",
     "nghĩa": "thuộc về phía đông",
     "ví dụ": "flooding has occurred in the eastern city",
@@ -1463,7 +1344,7 @@
     "nghĩa ví dụ": "nền kinh tế đã tăng trưởng trở lại"
   },
   {
-    "từ": "Edge",
+    "từ": "edge",
     "loại từ": "noun",
     "nghĩa": "mép, cạnh",
     "ví dụ": "the ball rolls to the table Edge",
@@ -1568,13 +1449,6 @@
     "nghĩa ví dụ": "tôi đã ký một hợp đồng lao động"
   },
   {
-    "từ": "empty",
-    "loại từ": "verb",
-    "nghĩa": "làm cạn, làm trống",
-    "ví dụ": "he emptied my account",
-    "nghĩa ví dụ": "anh ta đã rút cạn tài khoản của tôi"
-  },
-  {
     "từ": "encourage",
     "loại từ": "verb",
     "nghĩa": "khuyến khích",
@@ -1631,7 +1505,7 @@
     "nghĩa ví dụ": "không được vào"
   },
   {
-    "từ": "Environmental",
+    "từ": "environmental",
     "loại từ": "adjective",
     "nghĩa": "thuộc về môi trường",
     "ví dụ": "I'm an environmental lawyer now",
@@ -1659,7 +1533,7 @@
     "nghĩa ví dụ": "chúng quan trọng ngang nhau"
   },
   {
-    "từ": "Escape",
+    "từ": "escape",
     "loại từ": "verb",
     "nghĩa": "trốn thoát",
     "ví dụ": "The Prisoner has escaped",
@@ -1687,14 +1561,7 @@
     "nghĩa ví dụ": "bác sĩ đã khám cho tôi"
   },
   {
-    "từ": "except",
-    "loại từ": "preposition/conjunction",
-    "nghĩa": "ngoại trừ",
-    "ví dụ": "I remember nothing except that I'm a teacher",
-    "nghĩa ví dụ": "tôi không nhớ gì ngoại trừ việc tôi là một giáo viên"
-  },
-  {
-    "từ": "Exchange",
+    "từ": "exchange",
     "loại từ": "verb",
     "nghĩa": "đổi, trao đổi",
     "ví dụ": "I'd like to exchange it for a new one",
@@ -1729,18 +1596,11 @@
     "nghĩa ví dụ": "đó chỉ là một con số dự kiến"
   },
   {
-    "từ": "Expedition",
+    "từ": "expedition",
     "loại từ": "noun",
     "nghĩa": "cuộc thám hiểm",
     "ví dụ": "he led an expedition to the Arctic",
     "nghĩa ví dụ": "anh ấy đã dẫn đầu một cuộc thám hiểm đến Bắc Cực"
-  },
-  {
-    "từ": "experience",
-    "loại từ": "verb",
-    "nghĩa": "trải qua, kinh nghiệm",
-    "ví dụ": "they experienced poverty for a long time",
-    "nghĩa ví dụ": "họ đã phải trải qua cảnh nghèo đói trong một thời gian dài"
   },
   {
     "từ": "experienced",
@@ -1778,20 +1638,6 @@
     "nghĩa ví dụ": "trái cây được đóng gói để xuất khẩu"
   },
   {
-    "từ": "extra",
-    "loại từ": "adjective",
-    "nghĩa": "thêm",
-    "ví dụ": "they said they'd pay extra",
-    "nghĩa ví dụ": "họ nói họ sẽ trả thêm tiền"
-  },
-  {
-    "từ": "face",
-    "loại từ": "verb",
-    "nghĩa": "đối mặt",
-    "ví dụ": "today we are forced to face reality",
-    "nghĩa ví dụ": "hôm nay chúng ta buộc phải đối mặt với thực tế"
-  },
-  {
     "từ": "fairly",
     "loại từ": "adverb",
     "nghĩa": "khá",
@@ -1811,13 +1657,6 @@
     "nghĩa": "thích, muốn",
     "ví dụ": "do you fancy going out this evening",
     "nghĩa ví dụ": "bạn có muốn đi chơi tối nay không"
-  },
-  {
-    "từ": "far",
-    "loại từ": "adjective",
-    "nghĩa": "xa",
-    "ví dụ": "I saw it at the far end of the room",
-    "nghĩa ví dụ": "tôi đã thấy nó ở tận cuối phòng"
   },
   {
     "từ": "fascinating",
@@ -1848,18 +1687,11 @@
     "nghĩa ví dụ": "hãy giúp tôi một việc"
   },
   {
-    "từ": "fear",
-    "loại từ": "noun/verb",
-    "nghĩa": "sợ hãi",
-    "ví dụ": "never fear",
-    "nghĩa ví dụ": "đừng bao giờ sợ hãi"
-  },
-  {
-    "từ": "feature",
-    "loại từ": "noun/verb",
-    "nghĩa": "đặc điểm, tính năng",
-    "ví dụ": "the latest design features Pearl accents",
-    "nghĩa ví dụ": "thiết kế mới nhất có các điểm nhấn bằng ngọc trai"
+    "từ": "favour",
+    "loại từ": "Danh từ",
+    "nghĩa": "Sự giúp đỡ/Thiện ý",
+    "ví dụ": "Could you do me a favour?",
+    "nghĩa ví dụ": "Bạn có thể giúp tôi một việc không?"
   },
   {
     "từ": "fence",
@@ -1888,13 +1720,6 @@
     "nghĩa": "thuộc tài chính",
     "ví dụ": "I have financial problems",
     "nghĩa ví dụ": "tôi có các vấn đề về tài chính"
-  },
-  {
-    "từ": "fire",
-    "loại từ": "verb",
-    "nghĩa": "sa thải",
-    "ví dụ": "they fired him",
-    "nghĩa ví dụ": "họ đã sa thải anh ta"
   },
   {
     "từ": "fitness",
@@ -1953,13 +1778,6 @@
     "nghĩa ví dụ": "tôi sẽ đi xem một cuộc triển lãm nghệ thuật dân gian"
   },
   {
-    "từ": "following",
-    "loại từ": "adjective",
-    "nghĩa": "sau đây, tiếp theo",
-    "ví dụ": "the following have been chosen you and I",
-    "nghĩa ví dụ": "những người sau đây đã được chọn là bạn và tôi"
-  },
-  {
     "từ": "force",
     "loại từ": "noun",
     "nghĩa": "lực lượng, sức mạnh",
@@ -1972,13 +1790,6 @@
     "nghĩa": "mãi mãi",
     "ví dụ": "you can keep it forever",
     "nghĩa ví dụ": "bạn có thể giữ nó mãi mãi"
-  },
-  {
-    "từ": "foreign",
-    "loại từ": "adj",
-    "nghĩa": "nước ngoài",
-    "ví dụ": "local currency and foreign currency",
-    "nghĩa ví dụ": "nội tệ và ngoại tệ"
   },
   {
     "từ": "frame",
@@ -2065,13 +1876,6 @@
     "nghĩa ví dụ": "con mèo liếm lông của nó"
   },
   {
-    "từ": "further",
-    "loại từ": "adverb",
-    "nghĩa": "xa hơn",
-    "ví dụ": "I'm too tired to go further",
-    "nghĩa ví dụ": "tôi quá mệt để đi xa hơn"
-  },
-  {
     "từ": "garage",
     "loại từ": "noun",
     "nghĩa": "ga-ra",
@@ -2114,6 +1918,13 @@
     "nghĩa ví dụ": "cô ấy tốt bụng và dịu dàng"
   },
   {
+    "từ": "gentleman",
+    "loại từ": "Danh từ",
+    "nghĩa": "Quý ông/Người đàn ông lịch sự",
+    "ví dụ": "He behaved like a gentleman.",
+    "nghĩa ví dụ": "Anh ấy cư xử như một quý ông."
+  },
+  {
     "từ": "gentlemen",
     "loại từ": "noun",
     "nghĩa": "quý ông",
@@ -2128,7 +1939,7 @@
     "nghĩa ví dụ": "bạn đã bao giờ thấy ma chưa"
   },
   {
-    "từ": "Giant",
+    "từ": "giant",
     "loại từ": "adjective",
     "nghĩa": "khổng lồ",
     "ví dụ": "it's a giant dragon",
@@ -2156,14 +1967,7 @@
     "nghĩa ví dụ": "găng tay cao su"
   },
   {
-    "từ": "ago",
-    "loại từ": "adverb",
-    "nghĩa": "cách đây, trước đây",
-    "ví dụ": "it's two dollars ago",
-    "nghĩa ví dụ": "nó là hai đô la cách đây (một khoảng thời gian)"
-  },
-  {
-    "từ": "Goods",
+    "từ": "goods",
     "loại từ": "noun",
     "nghĩa": "hàng hóa",
     "ví dụ": "my shop sells electrical Goods",
@@ -2219,13 +2023,6 @@
     "nghĩa ví dụ": "anh ta đã phạm tội gian lận"
   },
   {
-    "từ": "hand",
-    "loại từ": "verb",
-    "nghĩa": "trao, đưa cho",
-    "ví dụ": "she handed me the book",
-    "nghĩa ví dụ": "cô ấy đã đưa cuốn sách cho tôi"
-  },
-  {
     "từ": "hang",
     "loại từ": "verb",
     "nghĩa": "treo",
@@ -2247,20 +2044,6 @@
     "nghĩa ví dụ": "tôi hiếm khi đi ngủ trước nửa đêm"
   },
   {
-    "từ": "hate",
-    "loại từ": "noun",
-    "nghĩa": "sự ghét bỏ",
-    "ví dụ": "my sister has a deep hate for spiders",
-    "nghĩa ví dụ": "em gái tôi cực kỳ ghét nhện"
-  },
-  {
-    "từ": "head",
-    "loại từ": "verb",
-    "nghĩa": "đi về hướng",
-    "ví dụ": "I'm heading to the office",
-    "nghĩa ví dụ": "tôi đang đi đến văn phòng"
-  },
-  {
     "từ": "headline",
     "loại từ": "noun",
     "nghĩa": "tiêu đề, hàng đầu (báo chí)",
@@ -2268,7 +2051,7 @@
     "nghĩa ví dụ": "tôi chỉ vừa đọc lướt qua các tiêu đề"
   },
   {
-    "từ": "Heating",
+    "từ": "heating",
     "loại từ": "noun",
     "nghĩa": "hệ thống sưởi",
     "ví dụ": "who turned the heating off",
@@ -2450,7 +2233,7 @@
     "nghĩa ví dụ": "màn trình diễn của bạn rất ấn tượng"
   },
   {
-    "từ": "Improvement",
+    "từ": "improvement",
     "loại từ": "noun",
     "nghĩa": "sự cải thiện",
     "ví dụ": "commit yourself to constant Improvement",
@@ -2590,7 +2373,7 @@
     "nghĩa ví dụ": "bạn đang né tránh vấn đề"
   },
   {
-    "từ": "Journal",
+    "từ": "journal",
     "loại từ": "noun",
     "nghĩa": "tạp chí (chuyên ngành), nhật ký",
     "ví dụ": "a scientific journal",
@@ -2604,18 +2387,11 @@
     "nghĩa ví dụ": "đừng đánh giá con người qua vẻ bề ngoài"
   },
   {
-    "từ": "Keen",
+    "từ": "keen",
     "loại từ": "adjective",
     "nghĩa": "thích, say mê",
     "ví dụ": "I'm keen on cars",
     "nghĩa ví dụ": "tôi thích xe hơi"
-  },
-  {
-    "từ": "key",
-    "loại từ": "verb",
-    "nghĩa": "nhập (bằng bàn phím)",
-    "ví dụ": "key in your password",
-    "nghĩa ví dụ": "nhập mật khẩu của bạn vào"
   },
   {
     "từ": "keyboard",
@@ -2632,11 +2408,11 @@
     "nghĩa ví dụ": "cô ấy đã đá vào đầu gối tôi"
   },
   {
-    "từ": "kind",
-    "loại từ": "adjective",
-    "nghĩa": "tốt bụng",
-    "ví dụ": "she has a kind heart",
-    "nghĩa ví dụ": "cô ấy có một trái tim nhân hậu"
+    "từ": "killing",
+    "loại từ": "Danh từ",
+    "nghĩa": "Việc giết người/Sự sát hại",
+    "ví dụ": "The killing shocked the whole town.",
+    "nghĩa ví dụ": "Vụ sát hại khiến cả thị trấn bàng hoàng."
   },
   {
     "từ": "kiss",
@@ -2646,13 +2422,6 @@
     "nghĩa ví dụ": "tôi hôn mẹ chúc ngủ ngon"
   },
   {
-    "từ": "knock",
-    "loại từ": "noun",
-    "nghĩa": "tiếng gõ",
-    "ví dụ": "there was a knock at the door",
-    "nghĩa ví dụ": "có tiếng gõ cửa"
-  },
-  {
     "từ": "label",
     "loại từ": "verb/noun",
     "nghĩa": "dán nhãn",
@@ -2660,7 +2429,7 @@
     "nghĩa ví dụ": "hành lý của tôi được dán nhãn rõ ràng"
   },
   {
-    "từ": "Laboratory",
+    "từ": "laboratory",
     "loại từ": "noun",
     "nghĩa": "phòng thí nghiệm",
     "ví dụ": "we work in a laboratory",
@@ -2695,13 +2464,6 @@
     "nghĩa ví dụ": "một lớp bụi bao phủ cuốn sách"
   },
   {
-    "từ": "lead",
-    "loại từ": "noun/verb",
-    "nghĩa": "vị trí dẫn đầu",
-    "ví dụ": "he took the lead in the race",
-    "nghĩa ví dụ": "anh ấy đã dẫn đầu cuộc đua"
-  },
-  {
     "từ": "leading",
     "loại từ": "adjective",
     "nghĩa": "hàng đầu",
@@ -2709,11 +2471,11 @@
     "nghĩa ví dụ": "anh ấy là một chuyên gia hàng đầu"
   },
   {
-    "từ": "leave",
-    "loại từ": "noun",
-    "nghĩa": "lá cây",
-    "ví dụ": "trees shed their leaves in winter",
-    "nghĩa ví dụ": "cây rụng lá vào mùa đông"
+    "từ": "leaf",
+    "loại từ": "Danh từ",
+    "nghĩa": "Lá cây",
+    "ví dụ": "A leaf fell from the tree.",
+    "nghĩa ví dụ": "Một chiếc lá rơi từ trên cây xuống."
   },
   {
     "từ": "leather",
@@ -2744,27 +2506,6 @@
     "nghĩa ví dụ": "tôi đã đo chiều dài của cái bàn"
   },
   {
-    "từ": "level",
-    "loại từ": "adjective",
-    "nghĩa": "bằng phẳng",
-    "ví dụ": "find level ground to pitch the tent on",
-    "nghĩa ví dụ": "tìm mặt đất bằng phẳng để dựng lều"
-  },
-  {
-    "từ": "lie",
-    "loại từ": "verb",
-    "nghĩa": "nằm",
-    "ví dụ": "I like to lie in bed and listen to music",
-    "nghĩa ví dụ": "tôi thích nằm trên giường và nghe nhạc"
-  },
-  {
-    "từ": "like",
-    "loại từ": "noun",
-    "nghĩa": "sở thích",
-    "ví dụ": "they discuss life likes and careers",
-    "nghĩa ví dụ": "họ thảo luận về sở thích cuộc sống và nghề nghiệp"
-  },
-  {
     "từ": "limit",
     "loại từ": "noun",
     "nghĩa": "giới hạn",
@@ -2793,25 +2534,11 @@
     "nghĩa ví dụ": "các tác phẩm văn học"
   },
   {
-    "từ": "live",
-    "loại từ": "adjective",
-    "nghĩa": "sống (mồi sống, chương trình trực tiếp)",
-    "ví dụ": "they use live bait to fish",
-    "nghĩa ví dụ": "họ dùng mồi sống để câu cá"
-  },
-  {
     "từ": "living",
     "loại từ": "adjective",
     "nghĩa": "đang sống, sinh vật sống",
     "ví dụ": "water is important for all living things",
     "nghĩa ví dụ": "nước quan trọng đối với mọi sinh vật sống"
-  },
-  {
-    "từ": "local",
-    "loại từ": "noun",
-    "nghĩa": "người địa phương",
-    "ví dụ": "the locals are very friendly",
-    "nghĩa ví dụ": "người dân địa phương rất thân thiện"
   },
   {
     "từ": "locate",
@@ -2878,10 +2605,10 @@
   },
   {
     "từ": "mall",
-    "loại từ": "noun",
-    "nghĩa": "trung tâm thương mại",
-    "ví dụ": "I hang out at the mall",
-    "nghĩa ví dụ": "tôi đi chơi ở trung tâm thương mại"
+    "loại từ": "Danh từ",
+    "nghĩa": "Trung tâm thương mại",
+    "ví dụ": "I'm shopping at the mall.",
+    "nghĩa ví dụ": "Tôi đang đi mua sắm ở trung tâm thương mại."
   },
   {
     "từ": "management",
@@ -2889,13 +2616,6 @@
     "nghĩa": "sự quản lý",
     "ví dụ": "I studied hotel management",
     "nghĩa ví dụ": "tôi đã học ngành quản lý khách sạn"
-  },
-  {
-    "từ": "market",
-    "loại từ": "verb",
-    "nghĩa": "tiếp thị",
-    "ví dụ": "they Market their products",
-    "nghĩa ví dụ": "họ tiếp thị sản phẩm của mình"
   },
   {
     "từ": "marketing",
@@ -2940,13 +2660,6 @@
     "nghĩa ví dụ": "một sự rối loạn tâm thần"
   },
   {
-    "từ": "mention",
-    "loại từ": "noun",
-    "nghĩa": "sự đề cập",
-    "ví dụ": "I made no mention of her work",
-    "nghĩa ví dụ": "tôi không đề cập gì đến công việc của cô ấy"
-  },
-  {
     "từ": "mess",
     "loại từ": "noun",
     "nghĩa": "sự bừa bộn",
@@ -2959,13 +2672,6 @@
     "nghĩa": "nhẹ",
     "ví dụ": "I have a mild allergy to pollen",
     "nghĩa ví dụ": "tôi bị dị ứng nhẹ với phấn hoa"
-  },
-  {
-    "từ": "mine",
-    "loại từ": "noun",
-    "nghĩa": "hầm mỏ",
-    "ví dụ": "he worked in the mine",
-    "nghĩa ví dụ": "anh ấy đã làm việc trong hầm mỏ"
   },
   {
     "từ": "mix",
@@ -2989,13 +2695,6 @@
     "nghĩa ví dụ": "tôi không có tâm trạng"
   },
   {
-    "từ": "move",
-    "loại từ": "noun",
-    "nghĩa": "hành động, động thái",
-    "ví dụ": "they're watching my every move",
-    "nghĩa ví dụ": "họ đang theo dõi mọi động thái của tôi"
-  },
-  {
     "từ": "mud",
     "loại từ": "noun",
     "nghĩa": "bùn",
@@ -3003,18 +2702,18 @@
     "nghĩa ví dụ": "chiếc xe bị kẹt trong bùn"
   },
   {
+    "từ": "murder",
+    "loại từ": "Danh từ/Động từ",
+    "nghĩa": "Vụ giết người/Giết người",
+    "ví dụ": "The police investigated the murder.",
+    "nghĩa ví dụ": "Cảnh sát đã điều tra vụ giết người."
+  },
+  {
     "từ": "muscle",
     "loại từ": "noun",
     "nghĩa": "cơ bắp",
     "ví dụ": "I want to build muscle",
     "nghĩa ví dụ": "tôi muốn xây dựng cơ bắp"
-  },
-  {
-    "từ": "musical",
-    "loại từ": "noun",
-    "nghĩa": "vở nhạc kịch",
-    "ví dụ": "I watched a musical at school",
-    "nghĩa ví dụ": "tôi đã xem một vở nhạc kịch ở trường"
   },
   {
     "từ": "mystery",
@@ -3080,11 +2779,11 @@
     "nghĩa ví dụ": "cả xóm đều biết về việc đó"
   },
   {
-    "từ": "neither",
-    "loại từ": "adverb",
-    "nghĩa": "cũng không",
-    "ví dụ": "me neither",
-    "nghĩa ví dụ": "tôi cũng không"
+    "từ": "neighbourhood",
+    "loại từ": "Danh từ",
+    "nghĩa": "Khu phố/Vùng lân cận",
+    "ví dụ": "This is a quiet neighbourhood.",
+    "nghĩa ví dụ": "Đây là một khu phố yên tĩnh."
   },
   {
     "từ": "net",
@@ -3094,18 +2793,11 @@
     "nghĩa ví dụ": "con rùa bị mắc vào lưới đánh cá"
   },
   {
-    "từ": "next",
-    "loại từ": "adjective",
-    "nghĩa": "tiếp theo",
-    "ví dụ": "the next to arrive was you",
-    "nghĩa ví dụ": "người tiếp theo đến là bạn"
-  },
-  {
-    "từ": "normal",
-    "loại từ": "adjective",
-    "nghĩa": "bình thường",
-    "ví dụ": "rainfall is above normal",
-    "nghĩa ví dụ": "lượng mưa trên mức bình thường"
+    "từ": "nor",
+    "loại từ": "Trạng từ/Liên từ",
+    "nghĩa": "Cũng không",
+    "ví dụ": "She does not smoke, nor does she drink.",
+    "nghĩa ví dụ": "Cô ấy không hút thuốc, cũng không uống rượu."
   },
   {
     "từ": "northern",
@@ -3113,20 +2805,6 @@
     "nghĩa": "(thuộc) phương bắc, giọng miền bắc",
     "ví dụ": "he speaks with a northern accent",
     "nghĩa ví dụ": "anh ấy nói giọng miền bắc"
-  },
-  {
-    "từ": "note",
-    "loại từ": "verb",
-    "nghĩa": "lưu ý",
-    "ví dụ": "note that the price includes tax",
-    "nghĩa ví dụ": "lưu ý rằng giá đã bao gồm thuế"
-  },
-  {
-    "từ": "now",
-    "loại từ": "conjunction",
-    "nghĩa": "giờ đây khi mà",
-    "ví dụ": "now that I have finished my work I can relax",
-    "nghĩa ví dụ": "giờ đây khi đã làm xong việc tôi có thể thư giãn"
   },
   {
     "từ": "nuclear",
@@ -3185,13 +2863,6 @@
     "nghĩa ví dụ": "hãy gọi tôi là người cổ hủ nhưng tôi tin vào điều đó"
   },
   {
-    "từ": "once",
-    "loại từ": "conjunction",
-    "nghĩa": "một khi",
-    "ví dụ": "once I decide I will follow through",
-    "nghĩa ví dụ": "một khi tôi đã quyết định tôi sẽ thực hiện đến cùng"
-  },
-  {
     "từ": "operation",
     "loại từ": "noun",
     "nghĩa": "ca phẫu thuật",
@@ -3213,18 +2884,25 @@
     "nghĩa ví dụ": "anh ấy là người tổ chức sự kiện này"
   },
   {
-    "từ": "original",
-    "loại từ": "noun/adjective",
-    "nghĩa": "bản gốc",
-    "ví dụ": "the Remake was better than the original",
-    "nghĩa ví dụ": "bản làm lại tốt hơn bản gốc"
-  },
-  {
     "từ": "originally",
     "loại từ": "adverb",
     "nghĩa": "ban đầu",
     "ví dụ": "I originally owned this house",
     "nghĩa ví dụ": "ban đầu tôi sở hữu ngôi nhà này"
+  },
+  {
+    "từ": "ought",
+    "loại từ": "Động từ khuyết thiếu",
+    "nghĩa": "Nên/Phải",
+    "ví dụ": "You ought to apologize.",
+    "nghĩa ví dụ": "Bạn nên xin lỗi."
+  },
+  {
+    "từ": "ours",
+    "loại từ": "Đại từ",
+    "nghĩa": "Của chúng tôi/Của chúng ta",
+    "ví dụ": "That car is ours.",
+    "nghĩa ví dụ": "Chiếc xe đó là của chúng tôi."
   },
   {
     "từ": "outdoor",
@@ -3239,13 +2917,6 @@
     "nghĩa": "ngoài trời",
     "ví dụ": "weddings are held Outdoors",
     "nghĩa ví dụ": "đám cưới được tổ chức ngoài trời"
-  },
-  {
-    "từ": "pack",
-    "loại từ": "noun",
-    "nghĩa": "cái gói, túi",
-    "ví dụ": "what is this pack",
-    "nghĩa ví dụ": "cái gói này là gì"
   },
   {
     "từ": "package",
@@ -3288,13 +2959,6 @@
     "nghĩa": "cụ thể, đặc biệt là",
     "ví dụ": "I liked the movie particularly the last episode",
     "nghĩa ví dụ": "tôi thích bộ phim này đặc biệt là tập cuối"
-  },
-  {
-    "từ": "pass",
-    "loại từ": "noun",
-    "nghĩa": "thẻ, vé (lên tàu/máy bay)",
-    "ví dụ": "a boarding pass",
-    "nghĩa ví dụ": "một thẻ lên máy bay"
   },
   {
     "từ": "passion",
@@ -3388,13 +3052,6 @@
     "nghĩa ví dụ": "ống nước bị tắc"
   },
   {
-    "từ": "place",
-    "loại từ": "verb",
-    "nghĩa": "đặt, để",
-    "ví dụ": "I placed the book in a drawer",
-    "nghĩa ví dụ": "tôi đã đặt cuốn sách vào ngăn kéo"
-  },
-  {
     "từ": "planning",
     "loại từ": "noun",
     "nghĩa": "sự lập kế hoạch",
@@ -3402,7 +3059,7 @@
     "nghĩa ví dụ": "giai đoạn lập kế hoạch rất quan trọng"
   },
   {
-    "từ": "Pleasant",
+    "từ": "pleasant",
     "loại từ": "adjective",
     "nghĩa": "dễ chịu, dễ mến",
     "ví dụ": "this is a pleasant family",
@@ -3430,6 +3087,13 @@
     "nghĩa ví dụ": "bộ phim có một cốt truyện đơn giản"
   },
   {
+    "từ": "plus",
+    "loại từ": "noun",
+    "nghĩa": "điểm cộng, ưu điểm",
+    "ví dụ": "knowledge of English is a plus in her job",
+    "nghĩa ví dụ": "kiến thức tiếng Anh là một điểm cộng trong công việc của cô ấy"
+  },
+  {
     "từ": "poem",
     "loại từ": "noun",
     "nghĩa": "bài thơ",
@@ -3449,13 +3113,6 @@
     "nghĩa": "thơ ca",
     "ví dụ": "I like lyric poetry",
     "nghĩa ví dụ": "tôi thích thơ trữ tình"
-  },
-  {
-    "từ": "point",
-    "loại từ": "verb",
-    "nghĩa": "chỉ",
-    "ví dụ": "I point to the toy I want",
-    "nghĩa ví dụ": "tôi chỉ vào món đồ chơi tôi muốn"
   },
   {
     "từ": "poison",
@@ -3710,13 +3367,6 @@
     "nghĩa ví dụ": "chúng tôi cố gắng tối đa hóa lợi nhuận"
   },
   {
-    "từ": "program",
-    "loại từ": "verb",
-    "nghĩa": "lập trình",
-    "ví dụ": "I taught myself to program",
-    "nghĩa ví dụ": "tôi đã tự học lập trình"
-  },
-  {
     "từ": "promote",
     "loại từ": "verb",
     "nghĩa": "thăng chức, thúc đẩy",
@@ -3766,13 +3416,6 @@
     "nghĩa ví dụ": "hãy chứng minh đi"
   },
   {
-    "từ": "pull",
-    "loại từ": "noun",
-    "nghĩa": "cú kéo",
-    "ví dụ": "I gave the door a sharp pull",
-    "nghĩa ví dụ": "tôi đã kéo mạnh cánh cửa"
-  },
-  {
     "từ": "punish",
     "loại từ": "verb",
     "nghĩa": "trừng phạt",
@@ -3785,13 +3428,6 @@
     "nghĩa": "hình phạt",
     "ví dụ": "let the punishment fit the crime",
     "nghĩa ví dụ": "hãy để hình phạt tương xứng với tội lỗi"
-  },
-  {
-    "từ": "push",
-    "loại từ": "noun",
-    "nghĩa": "cú đẩy",
-    "ví dụ": "I just gave it a gentle push",
-    "nghĩa ví dụ": "tôi chỉ đẩy nhẹ nó một cái"
   },
   {
     "từ": "qualification",
@@ -3843,25 +3479,11 @@
     "nghĩa ví dụ": "tôi trích dẫn từ sách giáo khoa"
   },
   {
-    "từ": "race",
-    "loại từ": "noun",
-    "nghĩa": "chủng tộc",
-    "ví dụ": "this country has many races",
-    "nghĩa ví dụ": "đất nước này có nhiều chủng tộc"
-  },
-  {
     "từ": "racing",
     "loại từ": "noun",
     "nghĩa": "cuộc đua",
     "ví dụ": "I used to watch racing",
     "nghĩa ví dụ": "tôi đã từng xem đua xe"
-  },
-  {
-    "từ": "raise",
-    "loại từ": "verb",
-    "nghĩa": "nâng cao, tăng cường",
-    "ví dụ": "it's time to raise public awareness",
-    "nghĩa ví dụ": "đã đến lúc nâng cao nhận thức của công chúng"
   },
   {
     "từ": "range",
@@ -4039,20 +3661,6 @@
     "nghĩa ví dụ": "bạn đang muốn mua hay thuê"
   },
   {
-    "từ": "repair",
-    "loại từ": "noun",
-    "nghĩa": "sự sửa chữa",
-    "ví dụ": "the house is in need of repair",
-    "nghĩa ví dụ": "ngôi nhà đang cần được sửa chữa"
-  },
-  {
-    "từ": "repeat",
-    "loại từ": "adjective/noun",
-    "nghĩa": "(khách hàng) cũ, lặp lại",
-    "ví dụ": "we have many repeat customers",
-    "nghĩa ví dụ": "chúng tôi có nhiều khách hàng cũ"
-  },
-  {
     "từ": "repeated",
     "loại từ": "adjective",
     "nghĩa": "lặp đi lặp lại",
@@ -4065,13 +3673,6 @@
     "nghĩa": "đại diện",
     "ví dụ": "my lawyer will represent me in court",
     "nghĩa ví dụ": "luật sư sẽ đại diện cho tôi trước tòa"
-  },
-  {
-    "từ": "request",
-    "loại từ": "verb",
-    "nghĩa": "yêu cầu",
-    "ví dụ": "she requested anonymity",
-    "nghĩa ví dụ": "cô ấy đã yêu cầu được ẩn danh"
   },
   {
     "từ": "require",
@@ -4116,13 +3717,6 @@
     "nghĩa ví dụ": "chúng tôi chịu trách nhiệm nấu ăn"
   },
   {
-    "từ": "result",
-    "loại từ": "verb",
-    "nghĩa": "dẫn đến (kết quả)",
-    "ví dụ": "his carelessness resulted in failure",
-    "nghĩa ví dụ": "sự bất cẩn của anh ta đã dẫn đến thất bại"
-  },
-  {
     "từ": "retire",
     "loại từ": "verb",
     "nghĩa": "nghỉ hưu",
@@ -4144,25 +3738,18 @@
     "nghĩa ví dụ": "tôi đang ôn tập cho kỳ thi của mình"
   },
   {
-    "từ": "ring",
-    "loại từ": "noun",
-    "nghĩa": "quầng, vòng tròn",
-    "ví dụ": "I have dark rings around my eyes",
-    "nghĩa ví dụ": "tôi có quầng thâm quanh mắt"
-  },
-  {
-    "từ": "rise",
-    "loại từ": "noun",
-    "nghĩa": "sự tăng (lương)",
-    "ví dụ": "I'm going to ask for a rise",
-    "nghĩa ví dụ": "tôi định xin tăng lương"
-  },
-  {
     "từ": "risk",
     "loại từ": "verb",
     "nghĩa": "mạo hiểm",
     "ví dụ": "I can't risk it",
     "nghĩa ví dụ": "tôi không thể mạo hiểm được"
+  },
+  {
+    "từ": "robot",
+    "loại từ": "Danh từ",
+    "nghĩa": "Người máy/Rô-bốt",
+    "ví dụ": "The robot can clean the floor.",
+    "nghĩa ví dụ": "Rô-bốt có thể lau sàn."
   },
   {
     "từ": "roll",
@@ -4214,13 +3801,6 @@
     "nghĩa ví dụ": "anh ấy là đội trưởng bóng bầu dục của trường"
   },
   {
-    "từ": "rule",
-    "loại từ": "verb",
-    "nghĩa": "cai trị",
-    "ví dụ": "the king rules the kingdom",
-    "nghĩa ví dụ": "nhà vua cai trị vương quốc"
-  },
-  {
     "từ": "safety",
     "loại từ": "noun",
     "nghĩa": "sự an toàn",
@@ -4228,18 +3808,18 @@
     "nghĩa ví dụ": "an toàn là trên hết"
   },
   {
-    "từ": "sale",
-    "loại từ": "noun",
-    "nghĩa": "cánh buồm",
-    "ví dụ": "Hoist the sale",
-    "nghĩa ví dụ": "hãy kéo buồm lên"
-  },
-  {
     "từ": "sailor",
     "loại từ": "noun",
     "nghĩa": "thủy thủ",
     "ví dụ": "he is an experienced sailor",
     "nghĩa ví dụ": "anh ấy là một thủy thủ giàu kinh nghiệm"
+  },
+  {
+    "từ": "sample",
+    "loại từ": "verb",
+    "nghĩa": "nếm thử, thử mẫu",
+    "ví dụ": "I sampled some roadside dishes",
+    "nghĩa ví dụ": "tôi đã nếm thử một vài món ăn lề đường"
   },
   {
     "từ": "sand",
@@ -4305,13 +3885,6 @@
     "nghĩa ví dụ": "cô ấy là kiểu người biết điều"
   },
   {
-    "từ": "separate",
-    "loại từ": "verb",
-    "nghĩa": "tách rời",
-    "ví dụ": "separate the eggs",
-    "nghĩa ví dụ": "hãy tách trứng ra"
-  },
-  {
     "từ": "seriously",
     "loại từ": "adverb",
     "nghĩa": "một cách nghiêm túc",
@@ -4324,6 +3897,13 @@
     "nghĩa": "người hầu",
     "ví dụ": "don't treat her like a servant",
     "nghĩa ví dụ": "đừng đối xử với cô ấy như một người hầu"
+  },
+  {
+    "từ": "set",
+    "loại từ": "Danh từ/Động từ",
+    "nghĩa": "Bộ/Đặt/Thiết lập",
+    "ví dụ": "Please set the table for dinner.",
+    "nghĩa ví dụ": "Vui lòng dọn bàn cho bữa tối."
   },
   {
     "từ": "set (1)",
@@ -4347,28 +3927,28 @@
     "nghĩa ví dụ": "bối cảnh của câu chuyện là một ngôi làng"
   },
   {
-    "từ": "Shake",
-    "loại từ": "noun",
-    "nghĩa": "cái lắc (đầu)",
-    "ví dụ": "I got a head shake from him",
-    "nghĩa ví dụ": "tôi nhận được một cái lắc đầu từ anh ấy"
+    "từ": "sex",
+    "loại từ": "Danh từ",
+    "nghĩa": "Giới tính/Tình dục",
+    "ví dụ": "The form asks for your age and sex.",
+    "nghĩa ví dụ": "Biểu mẫu hỏi tuổi và giới tính của bạn."
   },
   {
-    "từ": "share",
-    "loại từ": "noun",
-    "nghĩa": "phần chia, cổ phần",
-    "ví dụ": "I get a share of the profits",
-    "nghĩa ví dụ": "tôi nhận được một phần lợi nhuận"
+    "từ": "sexual",
+    "loại từ": "Tính từ",
+    "nghĩa": "Thuộc tình dục/Giới tính",
+    "ví dụ": "The report discusses sexual health.",
+    "nghĩa ví dụ": "Báo cáo thảo luận về sức khỏe tình dục."
   },
   {
-    "từ": "Sharp",
+    "từ": "sharp",
     "loại từ": "adjective",
     "nghĩa": "sắc bén",
     "ví dụ": "the new knife is very sharp",
     "nghĩa ví dụ": "con dao mới rất sắc"
   },
   {
-    "từ": "Shelf",
+    "từ": "shelf",
     "loại từ": "noun",
     "nghĩa": "giá sách, kệ",
     "ví dụ": "I put the book back on the Shelf",
@@ -4466,13 +4046,6 @@
     "nghĩa ví dụ": "tóm lại là tôi không quan tâm đến anh ta"
   },
   {
-    "từ": "since",
-    "loại từ": "conjunction",
-    "nghĩa": "kể từ khi",
-    "ví dụ": "I haven't seen him since",
-    "nghĩa ví dụ": "tôi chưa gặp lại anh ấy kể từ đó"
-  },
-  {
     "từ": "sink",
     "loại từ": "verb",
     "nghĩa": "chìm, lún",
@@ -4494,18 +4067,11 @@
     "nghĩa ví dụ": "cửa hơi hé mở"
   },
   {
-    "từ": "slow",
-    "loại từ": "verb",
-    "nghĩa": "làm chậm lại",
-    "ví dụ": "I try to slow down my breathing",
-    "nghĩa ví dụ": "tôi cố gắng làm chậm lại nhịp thở"
-  },
-  {
     "từ": "smart",
-    "loại từ": "adjective",
-    "nghĩa": "thông minh",
-    "ví dụ": "he is a smart guy",
-    "nghĩa ví dụ": "anh ấy là một anh chàng thông minh"
+    "loại từ": "Tính từ",
+    "nghĩa": "Thông minh",
+    "ví dụ": "He is a smart person.",
+    "nghĩa ví dụ": "Anh ấy là một người thông minh."
   },
   {
     "từ": "smooth",
@@ -4534,13 +4100,6 @@
     "nghĩa": "đặc, rắn (đồ ăn dặm)",
     "ví dụ": "my baby started eating solid foods",
     "nghĩa ví dụ": "con tôi đã bắt đầu ăn dặm (đồ ăn đặc)"
-  },
-  {
-    "từ": "sort",
-    "loại từ": "verb",
-    "nghĩa": "phân loại",
-    "ví dụ": "waste is sorted for recycling",
-    "nghĩa ví dụ": "rác thải được phân loại để tái chế"
   },
   {
     "từ": "southern",
@@ -4599,13 +4158,6 @@
     "nghĩa ví dụ": "tin tức lan truyền nhanh chóng"
   },
   {
-    "từ": "spring",
-    "loại từ": "verb",
-    "nghĩa": "bật dậy, nhảy ra",
-    "ví dụ": "I sprang out of bed",
-    "nghĩa ví dụ": "tôi bật dậy khỏi giường"
-  },
-  {
     "từ": "stadium",
     "loại từ": "noun",
     "nghĩa": "sân vận động",
@@ -4627,13 +4179,6 @@
     "nghĩa ví dụ": "công việc của cô ấy không đạt tiêu chuẩn"
   },
   {
-    "từ": "state",
-    "loại từ": "verb",
-    "nghĩa": "phát biểu, nêu ra",
-    "ví dụ": "I am merely stating the facts",
-    "nghĩa ví dụ": "tôi chỉ đang nêu ra các sự thật"
-  },
-  {
     "từ": "statistic",
     "loại từ": "noun",
     "nghĩa": "thống kê",
@@ -4648,6 +4193,13 @@
     "nghĩa ví dụ": "Tượng Nữ thần Tự do"
   },
   {
+    "từ": "stick",
+    "loại từ": "Danh từ/Động từ",
+    "nghĩa": "Cây gậy/Dán/Dính",
+    "ví dụ": "The label will stick to the bottle.",
+    "nghĩa ví dụ": "Nhãn sẽ dính vào chai."
+  },
+  {
     "từ": "stick (1)",
     "loại từ": "verb",
     "nghĩa": "dán, đính",
@@ -4660,20 +4212,6 @@
     "nghĩa": "cái gậy, nhánh cây",
     "ví dụ": "we collected sticks to start a fire",
     "nghĩa ví dụ": "chúng tôi nhặt những cành củi để nhóm lửa"
-  },
-  {
-    "từ": "still",
-    "loại từ": "adjective/adverb",
-    "nghĩa": "yên, bất động",
-    "ví dụ": "please sit still",
-    "nghĩa ví dụ": "làm ơn hãy ngồi yên"
-  },
-  {
-    "từ": "store",
-    "loại từ": "verb",
-    "nghĩa": "dự trữ, cất giữ",
-    "ví dụ": "animals store food for the winter",
-    "nghĩa ví dụ": "động vật dự trữ thức ăn cho mùa đông"
   },
   {
     "từ": "stranger",
@@ -4746,13 +4284,6 @@
     "nghĩa ví dụ": "bạn có bị đau đầu không"
   },
   {
-    "từ": "suit",
-    "loại từ": "verb",
-    "nghĩa": "hợp với",
-    "ví dụ": "it suits you",
-    "nghĩa ví dụ": "nó hợp với bạn đó"
-  },
-  {
     "từ": "suitable",
     "loại từ": "adjective",
     "nghĩa": "phù hợp",
@@ -4807,13 +4338,6 @@
     "nghĩa": "sống sót",
     "ví dụ": "there's a slim chance we'll survive",
     "nghĩa ví dụ": "có một cơ hội mong manh là chúng ta sẽ sống sót"
-  },
-  {
-    "từ": "swim",
-    "loại từ": "noun",
-    "nghĩa": "việc bơi lội",
-    "ví dụ": "let's go for a swim",
-    "nghĩa ví dụ": "chúng ta hãy đi bơi đi"
   },
   {
     "từ": "switch",
@@ -4893,11 +4417,11 @@
     "nghĩa ví dụ": "mọi người đều ngủ trong lều"
   },
   {
-    "từ": "that",
-    "loại từ": "adverb",
-    "nghĩa": "đến mức đó",
-    "ví dụ": "I can't walk that far",
-    "nghĩa ví dụ": "tôi không thể đi bộ xa đến thế"
+    "từ": "theirs",
+    "loại từ": "Đại từ",
+    "nghĩa": "Của họ",
+    "ví dụ": "This book is theirs.",
+    "nghĩa ví dụ": "Cuốn sách này là của họ."
   },
   {
     "từ": "theme",
@@ -4919,13 +4443,6 @@
     "nghĩa": "do đó, vì thế",
     "ví dụ": "my car is bigger and therefore more comfortable",
     "nghĩa ví dụ": "xe của tôi to hơn và do đó thoải mái hơn"
-  },
-  {
-    "từ": "this",
-    "loại từ": "adverb",
-    "nghĩa": "đến mức này",
-    "ví dụ": "I didn't think we'd get this far",
-    "nghĩa ví dụ": "tôi không nghĩ chúng ta sẽ đi xa đến mức này"
   },
   {
     "từ": "though",
@@ -4977,13 +4494,6 @@
     "nghĩa ví dụ": "tôi đến từ một thị trấn nhỏ bé"
   },
   {
-    "từ": "tip",
-    "loại từ": "verb",
-    "nghĩa": "cho tiền boa",
-    "ví dụ": "the boy tipped me a dollar",
-    "nghĩa ví dụ": "cậu bé đã boa cho tôi một đô la"
-  },
-  {
     "từ": "tire",
     "loại từ": "noun",
     "nghĩa": "lốp xe",
@@ -5019,32 +4529,11 @@
     "nghĩa ví dụ": "tôi hoàn toàn quên mất việc đó"
   },
   {
-    "từ": "touch",
-    "loại từ": "noun",
-    "nghĩa": "cú chạm, sự chạm",
-    "ví dụ": "the door opened at his touch",
-    "nghĩa ví dụ": "cánh cửa mở ra khi anh ấy chạm vào"
-  },
-  {
-    "từ": "tour",
-    "loại từ": "verb",
-    "nghĩa": "lưu diễn, đi dạo",
-    "ví dụ": "the band toured the U.S last year",
-    "nghĩa ví dụ": "ban nhạc đã lưu diễn quanh nước Mỹ năm ngoái"
-  },
-  {
     "từ": "trade",
     "loại từ": "noun",
     "nghĩa": "thương mại",
     "ví dụ": "Free Trade Agreement",
     "nghĩa ví dụ": "Hiệp định thương mại tự do"
-  },
-  {
-    "từ": "trainer",
-    "loại từ": "noun",
-    "nghĩa": "huấn luyện viên",
-    "ví dụ": "she married her personal trainer",
-    "nghĩa ví dụ": "cô ấy đã kết hôn với huấn luyện viên cá nhân của mình"
   },
   {
     "từ": "translate",
@@ -5059,13 +4548,6 @@
     "nghĩa": "bản dịch",
     "ví dụ": "is my translation correct",
     "nghĩa ví dụ": "bản dịch của tôi có đúng không"
-  },
-  {
-    "từ": "transport",
-    "loại từ": "verb",
-    "nghĩa": "vận chuyển",
-    "ví dụ": "most goods were transported by sea",
-    "nghĩa ví dụ": "hầu hết hàng hóa được vận chuyển bằng đường biển"
   },
   {
     "từ": "treat",
@@ -5110,18 +4592,18 @@
     "nghĩa ví dụ": "một ống kem đánh răng"
   },
   {
-    "từ": "type",
-    "loại từ": "verb",
-    "nghĩa": "đánh máy",
-    "ví dụ": "I typed a letter for her",
-    "nghĩa ví dụ": "tôi đã đánh một bức thư cho cô ấy"
-  },
-  {
     "từ": "typically",
     "loại từ": "adverb",
     "nghĩa": "thông thường",
     "ví dụ": "mothers typically worry about their children",
     "nghĩa ví dụ": "các bà mẹ thông thường hay lo lắng cho con cái"
+  },
+  {
+    "từ": "tyre",
+    "loại từ": "Danh từ",
+    "nghĩa": "Lốp xe",
+    "ví dụ": "The car has a flat tyre.",
+    "nghĩa ví dụ": "Chiếc xe bị xẹp lốp."
   },
   {
     "từ": "ugly",
@@ -5222,6 +4704,13 @@
     "nghĩa ví dụ": "tôi đã cập nhật phần mềm"
   },
   {
+    "từ": "upon",
+    "loại từ": "Giới từ",
+    "nghĩa": "Trên/Khi",
+    "ví dụ": "The decision depends upon the results.",
+    "nghĩa ví dụ": "Quyết định phụ thuộc vào kết quả."
+  },
+  {
     "từ": "upset",
     "loại từ": "adjective",
     "nghĩa": "buồn bã, thất vọng",
@@ -5271,18 +4760,18 @@
     "nghĩa ví dụ": "khách du lịch là nạn nhân dễ dàng của những kẻ móc túi"
   },
   {
-    "từ": "view",
-    "loại từ": "v",
-    "nghĩa": "xem/ngắm",
-    "ví dụ": "everyone comes to view her work",
-    "nghĩa ví dụ": "mọi người đến để xem tác phẩm của cô ấy"
-  },
-  {
     "từ": "viewer",
     "loại từ": "n",
     "nghĩa": "người xem",
     "ví dụ": "the program attracted millions of viewers",
     "nghĩa ví dụ": "chương trình đã thu hút hàng triệu người xem"
+  },
+  {
+    "từ": "violent",
+    "loại từ": "Tính từ",
+    "nghĩa": "Bạo lực/Dữ dội",
+    "ví dụ": "The storm became more violent at night.",
+    "nghĩa ví dụ": "Cơn bão trở nên dữ dội hơn vào ban đêm."
   },
   {
     "từ": "volunteer",
@@ -5297,13 +4786,6 @@
     "nghĩa": "bỏ phiếu",
     "ví dụ": "I have the right to vote",
     "nghĩa ví dụ": "tôi có quyền bỏ phiếu"
-  },
-  {
-    "từ": "warm",
-    "loại từ": "v",
-    "nghĩa": "làm ấm/hâm nóng",
-    "ví dụ": "I'll warm up some milk",
-    "nghĩa ví dụ": "tôi sẽ hâm nóng một ít sữa"
   },
   {
     "từ": "warn",
@@ -5327,21 +4809,21 @@
     "nghĩa ví dụ": "tôi không muốn lãng phí thời gian vào vấn đề đó"
   },
   {
-    "từ": "water",
-    "loại từ": "v",
-    "nghĩa": "tưới nước",
-    "ví dụ": "I'll water the flowers",
-    "nghĩa ví dụ": "tôi sẽ tưới hoa"
+    "từ": "weapon",
+    "loại từ": "Danh từ",
+    "nghĩa": "Vũ khí",
+    "ví dụ": "The police found a weapon in the car.",
+    "nghĩa ví dụ": "Cảnh sát tìm thấy một vũ khí trong xe."
   },
   {
-    "từ": "wave",
-    "loại từ": "v",
-    "nghĩa": "vẫy tay",
-    "ví dụ": "I waved her goodbye",
-    "nghĩa ví dụ": "tôi vẫy tay chào tạm biệt cô ấy"
+    "từ": "weigh",
+    "loại từ": "Động từ",
+    "nghĩa": "Nặng/Cân",
+    "ví dụ": "This bag weighs ten kilos.",
+    "nghĩa ví dụ": "Cái túi này nặng mười ki-lô."
   },
   {
-    "từ": "Western",
+    "từ": "western",
     "loại từ": "adj",
     "nghĩa": "thuộc về phương Tây",
     "ví dụ": "I love Western Art",
@@ -5367,34 +4849,6 @@
     "nghĩa": "liệu rằng",
     "ví dụ": "I'm coming whether she likes it or not",
     "nghĩa ví dụ": "tôi sẽ đến dù cô ấy có thích hay không"
-  },
-  {
-    "từ": "while",
-    "loại từ": "n",
-    "nghĩa": "một lát/một khoảng thời gian",
-    "ví dụ": "he left a while ago",
-    "nghĩa ví dụ": "anh ấy đã rời đi cách đây một lát"
-  },
-  {
-    "từ": "whole",
-    "loại từ": "adj",
-    "nghĩa": "toàn bộ",
-    "ví dụ": "the library takes up the whole first floor",
-    "nghĩa ví dụ": "thư viện chiếm toàn bộ tầng một"
-  },
-  {
-    "từ": "will",
-    "loại từ": "n",
-    "nghĩa": "ý chí",
-    "ví dụ": "she has a strong will",
-    "nghĩa ví dụ": "cô ấy có một ý chí mạnh mẽ"
-  },
-  {
-    "từ": "win",
-    "loại từ": "n",
-    "nghĩa": "trận thắng",
-    "ví dụ": "we have one win and two defeats",
-    "nghĩa ví dụ": "chúng tôi có một trận thắng và hai trận thua"
   },
   {
     "từ": "wing",
@@ -5432,27 +4886,6 @@
     "nghĩa ví dụ": "ban nhạc nổi tiếng trên toàn thế giới"
   },
   {
-    "từ": "worry",
-    "loại từ": "n",
-    "nghĩa": "sự lo lắng",
-    "ví dụ": "he couldn't sleep with worry",
-    "nghĩa ví dụ": "anh ấy không thể ngủ được vì lo lắng"
-  },
-  {
-    "từ": "worse",
-    "loại từ": "adj",
-    "nghĩa": "tệ hơn",
-    "ví dụ": "even worse she'd lost her house",
-    "nghĩa ví dụ": "thậm chí tệ hơn, cô ấy đã mất nhà"
-  },
-  {
-    "từ": "worst",
-    "loại từ": "adj",
-    "nghĩa": "tệ nhất",
-    "ví dụ": "worst of all I lost my watch",
-    "nghĩa ví dụ": "tệ nhất là tôi đã mất đồng hồ"
-  },
-  {
     "từ": "worth",
     "loại từ": "adj",
     "nghĩa": "đáng giá",
@@ -5467,25 +4900,11 @@
     "nghĩa ví dụ": "hướng dẫn bằng văn bản"
   },
   {
-    "từ": "wrong",
-    "loại từ": "adv",
-    "nghĩa": "sai",
-    "ví dụ": "my name is spelled wrong",
-    "nghĩa ví dụ": "tên của tôi bị đánh vần sai"
-  },
-  {
     "từ": "yard",
-    "loại từ": "n",
-    "nghĩa": "cái sân",
-    "ví dụ": "I had to cut the grass in the yard",
-    "nghĩa ví dụ": "tôi đã phải cắt cỏ trong sân"
-  },
-  {
-    "từ": "young",
-    "loại từ": "n",
-    "nghĩa": "giới trẻ",
-    "ví dụ": "the movie appeals to the young",
-    "nghĩa ví dụ": "bộ phim thu hút giới trẻ"
+    "loại từ": "Danh từ",
+    "nghĩa": "Cái sân",
+    "ví dụ": "I have to cut the yard's grass.",
+    "nghĩa ví dụ": "Tôi phải cắt cỏ trong sân."
   },
   {
     "từ": "youth",

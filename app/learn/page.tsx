@@ -55,25 +55,14 @@ const skills = [
   },
 ];
 
-const studyOrder = [
-  "Học từ mới theo level",
-  "Làm quiz ngắn để kiểm tra",
-  "Xem lại lỗi sai",
-  "Ôn từ yếu trong ngày",
-  "Mở bài tiếp theo",
-];
-
 export default function LearnPage() {
   return (
     <main className="learnPathPage">
       <section className="learnPathHero">
         <div className="learnPathHeroCopy">
           <p className="homeEyebrow">Lộ trình học</p>
-          <h1>Chọn đường học phù hợp với mục tiêu của bạn.</h1>
-          <p>
-            Bắt đầu từ level hiện tại, học theo kỹ năng, làm quiz ngắn và ôn lại điểm
-            yếu mỗi ngày.
-          </p>
+          <h1>Chọn phần cần học</h1>
+          <p>Bắt đầu từ level hiện tại, học theo kỹ năng và làm quiz ngắn.</p>
           <div className="homeHeroActions">
             <Link className="primaryButton" href="/vocabulary/a2">
               Tiếp tục A2 Vocabulary
@@ -85,12 +74,6 @@ export default function LearnPage() {
         </div>
 
         <aside className="learnCurrentPanel" aria-label="Bài học đang học">
-          <span>Đang học</span>
-          <h2>A2 Vocabulary</h2>
-          <p>Việc tiếp theo: ôn 12 từ yếu trước khi làm quiz mới.</p>
-          <div className="todayProgress" aria-label="Tiến độ A2 68%">
-            <span style={{ width: "68%" }} />
-          </div>
           <div className="learnCurrentStats">
             <div>
               <strong>68%</strong>
@@ -105,16 +88,13 @@ export default function LearnPage() {
               <span>Câu quiz</span>
             </div>
           </div>
-          <Link className="primaryButton" href="/vocabulary/a2">
-            Mở bài đang học
-          </Link>
         </aside>
       </section>
 
       <section className="learnPathSection">
         <div className="sectionHead">
           <span>Bản đồ level</span>
-          <h2>Đi từng cấp, không nhảy lung tung</h2>
+          <h2>Đi từng cấp</h2>
         </div>
         <div className="learnRoadmap" aria-label="Lộ trình A1 đến mục tiêu thi">
           {levels.map((level) => (
@@ -129,7 +109,7 @@ export default function LearnPage() {
       <section className="learnPathSection">
         <div className="sectionHead">
           <span>Kỹ năng</span>
-          <h2>Chọn module học</h2>
+          <h2>Module học</h2>
         </div>
         <div className="learnSkillGrid">
           {skills.map((skill) => (
@@ -137,42 +117,8 @@ export default function LearnPage() {
               <span>{skill.code}</span>
               <h3>{skill.title}</h3>
               <p>{skill.description}</p>
-              <strong>{skill.meta}</strong>
             </Link>
           ))}
-        </div>
-      </section>
-
-      <section className="learnPathSection learnFlowSection">
-        <div className="sectionHead">
-          <span>Thứ tự đề xuất</span>
-          <h2>Một phiên học nên đi như thế nào?</h2>
-        </div>
-        <ol className="learnFlowList">
-          {studyOrder.map((step) => (
-            <li key={step}>{step}</li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="learnPathSection">
-        <div className="sectionHead">
-          <span>Ôn tập nhanh</span>
-          <h2>Quay lại đúng phần cần sửa</h2>
-        </div>
-        <div className="reviewGrid">
-          <Link className="reviewCard" href="/review/today">
-            <strong>Ôn hôm nay</strong>
-            <p>Những từ và câu hỏi nên nhắc lại trong ngày.</p>
-          </Link>
-          <Link className="reviewCard" href="/review/weak-words">
-            <strong>Từ yếu</strong>
-            <p>Ưu tiên các từ sai nhiều hoặc nhớ chưa chắc.</p>
-          </Link>
-          <Link className="reviewCard" href="/review/mistakes">
-            <strong>Lỗi sai</strong>
-            <p>Xem lại đáp án sai để tránh lặp lại trong quiz sau.</p>
-          </Link>
         </div>
       </section>
     </main>
