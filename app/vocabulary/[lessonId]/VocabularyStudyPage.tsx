@@ -62,6 +62,14 @@ const wrongFeedbackMessages = [
 ];
 const audioLookupTimeoutMs = 850;
 
+function isFirefoxBrowser() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  return navigator.userAgent.toLowerCase().includes("firefox");
+}
+
 function getPartOfSpeech(item: VocabularyItem) {
   return item["loại từ"] || item["partOfSpeech"] || "";
 }
@@ -207,6 +215,7 @@ export default function VocabularyStudyPage({
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [speakingKey, setSpeakingKey] = useState("");
   const audioCacheRef = useRef<Map<string, string | null>>(new Map());
+  const hasWarnedAudioBrowserRef = useRef(false);
   const hasResolvedTestSessionRef = useRef(false);
 
   const letters = useMemo(() => {
@@ -625,16 +634,10 @@ export default function VocabularyStudyPage({
 
     if (currentTipStage === 0) {
       setCurrentTipStage(1);
-      setIsTipPopupOpen(true);
       setTipCounts((previous) => ({
         ...previous,
         [currentAnswerKey]: (previous[currentAnswerKey] || 0) + 1,
       }));
-      return;
-    }
-
-    if (currentTipStage === 1) {
-      setCurrentTipStage(2);
     }
 
     setIsTipPopupOpen(true);
@@ -744,6 +747,11 @@ export default function VocabularyStudyPage({
   }
 
   function warnUnsupportedAudioBrowser() {
+    if (hasWarnedAudioBrowserRef.current) {
+      return;
+    }
+
+    hasWarnedAudioBrowserRef.current = true;
     window.alert(
       "Trình duyệt này không hỗ trợ giọng đọc phù hợp. Hãy dùng Cốc Cốc, Chrome hoặc Edge để nghe ổn định hơn.",
     );
@@ -756,6 +764,10 @@ export default function VocabularyStudyPage({
     ) {
       warnUnsupportedAudioBrowser();
       return false;
+    }
+
+    if (isFirefoxBrowser()) {
+      warnUnsupportedAudioBrowser();
     }
 
     if (!word) {
@@ -925,13 +937,22 @@ export default function VocabularyStudyPage({
   }, [currentAnswerKey, selectedWordKey]);
 
   useEffect(() => {
-    function handleSpaceKey(event: KeyboardEvent) {
+    function handleTestShortcutKey(event: KeyboardEvent) {
       if (
         isTextEntryTarget(event.target) ||
         mode !== "test" ||
-        event.code !== "Space" ||
         !quiz
       ) {
+        return;
+      }
+
+      if (event.key.toLowerCase() === "a" && !isSubmitted) {
+        event.preventDefault();
+        requestTip();
+        return;
+      }
+
+      if (event.code !== "Space") {
         return;
       }
 
@@ -949,9 +970,17 @@ export default function VocabularyStudyPage({
       submitAnswer();
     }
 
-    window.addEventListener("keydown", handleSpaceKey);
-    return () => window.removeEventListener("keydown", handleSpaceKey);
-  }, [didUseCurrentTip, isSubmitted, mode, quiz, selectedAnswerKey]);
+    window.addEventListener("keydown", handleTestShortcutKey);
+    return () => window.removeEventListener("keydown", handleTestShortcutKey);
+  }, [
+    currentAnswerKey,
+    currentTipStage,
+    didUseCurrentTip,
+    isSubmitted,
+    mode,
+    quiz,
+    selectedAnswerKey,
+  ]);
 
   if (isB1Level) {
     return (
@@ -1214,11 +1243,7 @@ export default function VocabularyStudyPage({
                             type="button"
                             onClick={requestTip}
                           >
-                            {currentTipStage === 0
-                              ? "Xin tip"
-                              : currentTipStage === 1
-                                ? "Xem nghĩa ví dụ"
-                                : "Xem tip"}
+                            {currentTipStage === 0 ? "Xin tip" : "Xem tip"}
                           </button>
                         </div>
 
@@ -1282,7 +1307,7 @@ export default function VocabularyStudyPage({
                         <span className="vocabShortcutHint">
                           {isSubmitted
                             ? "Nhấn Space để sang câu tiếp theo"
-                            : "Chọn đáp án rồi nhấn Space để kiểm tra"}
+                            : "Nhấn A để xin tip, chọn đáp án rồi nhấn Space để kiểm tra"}
                         </span>
 
                         {isSubmitted ? (
@@ -1409,25 +1434,14 @@ export default function VocabularyStudyPage({
                     {getExample(currentAnswer) || "Chưa có ví dụ cho từ này."}
                   </span>
                 </p>
-                {currentTipStage > 1 ? (
-                  <p>
-                    <strong>Nghĩa ví dụ:</strong>{" "}
-                    {getExampleMeaning(currentAnswer) ||
-                      "Chưa có bản dịch ví dụ."}
-                  </p>
-                ) : null}
+                <p>
+                  <strong>Nghĩa ví dụ:</strong>{" "}
+                  {getExampleMeaning(currentAnswer) ||
+                    "Chưa có bản dịch ví dụ."}
+                </p>
               </div>
 
               <div className="tipPopupActions">
-                {currentTipStage === 1 ? (
-                  <button
-                    className="primaryButton"
-                    type="button"
-                    onClick={requestTip}
-                  >
-                    Xem nghĩa ví dụ
-                  </button>
-                ) : null}
                 <button
                   className="secondaryButton"
                   type="button"
@@ -1695,11 +1709,7 @@ export default function VocabularyStudyPage({
                         type="button"
                         onClick={requestTip}
                       >
-                        {currentTipStage === 0
-                          ? "Xin tip"
-                          : currentTipStage === 1
-                            ? "Xem nghĩa ví dụ"
-                            : "Xem tip"}
+                        {currentTipStage === 0 ? "Xin tip" : "Xem tip"}
                       </button>
                     </div>
 
@@ -1759,7 +1769,7 @@ export default function VocabularyStudyPage({
                     <span className="vocabShortcutHint">
                       {isSubmitted
                         ? "Nhấn Space để sang câu tiếp theo"
-                        : "Chọn đáp án rồi nhấn Space để kiểm tra"}
+                        : "Nhấn A để xin tip, chọn đáp án rồi nhấn Space để kiểm tra"}
                     </span>
 
                     {isSubmitted ? (
@@ -1853,25 +1863,14 @@ export default function VocabularyStudyPage({
                   {getExample(currentAnswer) || "Chưa có ví dụ cho từ này."}
                 </span>
               </p>
-              {currentTipStage > 1 ? (
-                <p>
-                  <strong>Nghĩa ví dụ:</strong>{" "}
-                  {getExampleMeaning(currentAnswer) ||
-                    "Chưa có bản dịch ví dụ."}
-                </p>
-              ) : null}
+              <p>
+                <strong>Nghĩa ví dụ:</strong>{" "}
+                {getExampleMeaning(currentAnswer) ||
+                  "Chưa có bản dịch ví dụ."}
+              </p>
             </div>
 
             <div className="tipPopupActions">
-              {currentTipStage === 1 ? (
-                <button
-                  className="primaryButton"
-                  type="button"
-                  onClick={requestTip}
-                >
-                  Xem nghĩa ví dụ
-                </button>
-              ) : null}
               <button
                 className="secondaryButton"
                 type="button"

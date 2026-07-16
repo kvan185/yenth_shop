@@ -20,6 +20,7 @@ import {
   getLocalDateKey,
   streakMilestones,
 } from "../../lib/streak";
+import { levelConfig, type LevelId } from "../../lib/vocabulary";
 
 const settingItems = [
   "Nhắc học từ vựng mỗi ngày",
@@ -36,8 +37,20 @@ type TodayGoal = {
   hasStudiedToday: boolean;
 };
 
+type LearningLevel = {
+  href: string;
+  level: LevelId;
+  progress: number;
+  status: string;
+  totalWords: number;
+};
+
 function getProfileProgressOwnerKey(userId: string) {
   return userId ? `user:${userId}` : "guest";
+}
+
+function getVocabularyProgressStorageKey(level: string, ownerKey: string) {
+  return `yenth:vocabulary:${ownerKey}:${level.toLowerCase()}:progress`;
 }
 
 function getVocabularyDailyGoalStorageKey(
@@ -66,6 +79,89 @@ function readLocalTodayCorrectCount(level: string, ownerKey: string) {
   }
 }
 
+function readLocalLearningLevels(
+  ownerKey: string,
+  completedLevels: CompletedLevel[],
+) {
+  if (typeof window === "undefined") {
+    return [] as LearningLevel[];
+  }
+
+  const completedLevelIds = new Set(completedLevels.map((item) => item.level));
+  const levels = levelConfig
+    .map((level) => {
+      let learnedWords = 0;
+      let hasProgress = false;
+
+      try {
+        const rawProgress = window.localStorage.getItem(
+          getVocabularyProgressStorageKey(level.id, ownerKey),
+        );
+        const parsed = rawProgress
+          ? (JSON.parse(rawProgress) as {
+              correctKeys?: string[];
+              wrongKeys?: string[];
+              testElapsedSeconds?: number;
+              tipCounts?: Record<string, number>;
+            })
+          : null;
+
+        learnedWords = parsed?.correctKeys?.length || 0;
+        hasProgress = Boolean(
+          learnedWords ||
+          parsed?.wrongKeys?.length ||
+          parsed?.testElapsedSeconds ||
+          Object.keys(parsed?.tipCounts || {}).length,
+        );
+      } catch {
+        hasProgress = false;
+      }
+
+      const todayWords = readLocalTodayCorrectCount(level.id, ownerKey);
+      learnedWords = Math.max(learnedWords, todayWords);
+      hasProgress = hasProgress || todayWords > 0;
+
+      if (completedLevelIds.has(level.id) || !hasProgress) {
+        return null;
+      }
+
+      const progress = Math.min(
+        100,
+        Math.round((Math.min(learnedWords, level.words) / level.words) * 100),
+      );
+
+      return {
+        href: level.href,
+        level: level.id,
+        progress,
+        status:
+          learnedWords > 0
+            ? `${learnedWords.toLocaleString("vi-VN")}/${level.words.toLocaleString("vi-VN")} từ`
+            : "Đã bắt đầu",
+        totalWords: level.words,
+      };
+    })
+    .filter((item): item is LearningLevel => Boolean(item));
+
+  if (!levels.length && !completedLevelIds.has(todayTargetLevel)) {
+    const targetConfig = levelConfig.find(
+      (item) => item.id === todayTargetLevel,
+    );
+
+    if (targetConfig) {
+      levels.push({
+        href: targetConfig.href,
+        level: targetConfig.id,
+        progress: 0,
+        status: "Bài gợi ý hôm nay",
+        totalWords: targetConfig.words,
+      });
+    }
+  }
+
+  return levels;
+}
+
 function getInitials(name: string) {
   return name
     .split(/\s+/)
@@ -86,6 +182,7 @@ export default function ProfilePageClient() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordMessage, setPasswordMessage] = useState("");
   const [completedLevels, setCompletedLevels] = useState<CompletedLevel[]>([]);
+  const [learningLevels, setLearningLevels] = useState<LearningLevel[]>([]);
   const [todayGoal, setTodayGoal] = useState<TodayGoal>({
     completedLevels: 0,
     correctWords: 0,
@@ -164,6 +261,12 @@ export default function ProfilePageClient() {
         getCompletedLevels(data.user).then((levels) => {
           if (isMounted) {
             setCompletedLevels(levels);
+            setLearningLevels(
+              readLocalLearningLevels(
+                getProfileProgressOwnerKey(data.user.id),
+                levels,
+              ),
+            );
             setTodayGoal((previous) => ({
               ...previous,
               completedLevels: levels.length,
@@ -302,113 +405,118 @@ export default function ProfilePageClient() {
 
   return (
     <main className="profilePage">
-      <section className="profileTopStrip">
-        <div className="profileTopIdentity">
-          {profile?.avatar_url ? (
-            <img
-              className="profileAvatar profileAvatarImage"
-              src={profile.avatar_url}
-              alt={displayName}
-            />
-          ) : (
-            <div className="profileAvatar" aria-hidden="true">
-              {initials || "Y"}
+      <section className="profileCompactShell">
+        <aside className="profileCompactSidebar">
+          <div className="profileTopIdentity">
+            {profile?.avatar_url ? (
+              <img
+                className="profileAvatar profileAvatarImage"
+                src={profile.avatar_url}
+                alt={displayName}
+              />
+            ) : (
+              <div className="profileAvatar" aria-hidden="true">
+                {initials || "Y"}
+              </div>
+            )}
+            <div>
+              <p className="homeEyebrow">Profile</p>
+              <h1>{displayName}</h1>
+              <p>{user.email}</p>
             </div>
-          )}
-          <div>
-            <p className="homeEyebrow">Profile</p>
-            <h1>{displayName}</h1>
-            <p>{user.email}</p>
           </div>
-        </div>
 
-        <div className="profileTopStats" aria-label="Tổng quan hồ sơ">
-          {achievementItems.map((item) => (
-            <div key={item.label}>
-              <span>{item.label}</span>
-              <strong>{item.value}</strong>
+          <div className="profileTopStats" aria-label="Tổng quan hồ sơ">
+            {achievementItems.map((item) => (
+              <div key={item.label}>
+                <span>{item.label}</span>
+                <strong>{item.value}</strong>
+              </div>
+            ))}
+          </div>
+
+          <section className="profileTodayPanel">
+            <div className="profileTodayHeader">
+              <div>
+                <p className="homeEyebrow">Học tập</p>
+                <h2>Mục tiêu hôm nay</h2>
+              </div>
+              <strong>{todayGoalProgress}%</strong>
             </div>
-          ))}
-        </div>
-
-        <div className="profileHeroActions">
-          <Link className="primaryButton profileActionLink" href="/vocabulary">
-            Tiếp tục học
-          </Link>
-        </div>
-      </section>
-
-      <section className="profileTodayPanel">
-        <div className="profileTodayHeader">
-          <div>
-            <p className="homeEyebrow">Học tập</p>
-            <h2>Mục tiêu hôm nay</h2>
-          </div>
-          <Link
-            className="primaryButton profileActionLink"
-            href={todayGoalHref}
-          >
-            {todayGoalAction}
-          </Link>
-        </div>
-        <p>{todayGoalDescription}</p>
-        <div className="profileTodayProgressRow">
-          <div
-            className="profileProgressTrack"
-            aria-label={`Tiến độ hôm nay ${todayGoalProgress}%`}
-          >
-            <span style={{ width: `${todayGoalProgress}%` }} />
-          </div>
-          <strong>{todayGoalProgress}%</strong>
-        </div>
-        <div
-          className="profileTodayStats"
-          aria-label="Chi tiết mục tiêu hôm nay"
-        >
-          <div>
-            <span>Từ đúng</span>
-            <strong>
-              {Math.min(todayCorrectWords, todayWordTarget).toLocaleString(
-                "vi-VN",
-              )}
-              /{todayWordTarget}
-            </strong>
-          </div>
-          <div>
-            <span>Đã học hôm nay</span>
-            <strong>
-              {todayGoal.hasStudiedToday || todayCorrectWords > 0
-                ? "Có"
-                : "Chưa"}
-            </strong>
-          </div>
-          <div>
-            <span>Completed</span>
-            <strong>{todayGoal.completedLevels.toLocaleString("vi-VN")}</strong>
-          </div>
-        </div>
-      </section>
-
-      <section className="profileBodyLayout">
-        <aside className="profileGroupNav" aria-label="Nhóm hồ sơ">
-          <a href="#profile-completed">Bài đã hoàn thành</a>
-          <a href="#profile-account">Tài khoản</a>
-          <a href="#profile-avatar">Avatar</a>
-          <a href="#profile-security">Đổi mật khẩu</a>
-          <a href="#profile-streak">Streak</a>
-          <a href="#profile-settings">Cài đặt</a>
+            <p>{todayGoalDescription}</p>
+            <div
+              className="profileProgressTrack"
+              aria-label={`Tiến độ hôm nay ${todayGoalProgress}%`}
+            >
+              <span style={{ width: `${todayGoalProgress}%` }} />
+            </div>
+            <div
+              className="profileTodayStats"
+              aria-label="Chi tiết mục tiêu hôm nay"
+            >
+              <div>
+                <span>Từ đúng</span>
+                <strong>
+                  {Math.min(todayCorrectWords, todayWordTarget).toLocaleString(
+                    "vi-VN",
+                  )}
+                  /{todayWordTarget}
+                </strong>
+              </div>
+              <div>
+                <span>Đã học</span>
+                <strong>
+                  {todayGoal.hasStudiedToday || todayCorrectWords > 0
+                    ? "Có"
+                    : "Chưa"}
+                </strong>
+              </div>
+            </div>
+            <div className="profileHeroActions">
+              <Link
+                className="primaryButton profileActionLink"
+                href={todayGoalHref}
+              >
+                {todayGoalAction}
+              </Link>
+              <Link
+                className="secondaryButton profileActionLink"
+                href="/vocabulary"
+              >
+                Từ vựng
+              </Link>
+            </div>
+          </section>
         </aside>
 
-        <section className="profileContentGrid">
+        <section className="profileCompactMain">
           <article
             className="profilePanel profileCompletedPanel"
             id="profile-completed"
           >
-            <div>
-              <p className="homeEyebrow">Completed</p>
-              <h2>Bài đã hoàn thành</h2>
+            <div className="profilePanelHead">
+              <div>
+                <p className="homeEyebrow">Completed</p>
+                <h2>Bài đã hoàn thành</h2>
+              </div>
+              <strong>
+                {todayGoal.completedLevels.toLocaleString("vi-VN")}
+              </strong>
             </div>
             <div className="profileCompletedList">
+              {learningLevels.map((item) => (
+                <div className="profileCurrentLesson" key={item.level}>
+                  <strong>{item.level}</strong>
+                  <span>{`Đang học ${item.level} Vocabulary`}</span>
+                  <small>{`${item.progress}% - ${item.status}`}</small>
+                  <Link
+                    className="primaryButton profileCompletedAction"
+                    href={item.href}
+                  >
+                    Học tiếp
+                  </Link>
+                </div>
+              ))}
               {completedLevels.length ? (
                 completedLevels.map((item) => (
                   <div key={item.level}>
@@ -440,139 +548,128 @@ export default function ProfilePageClient() {
             </div>
           </article>
 
-          <article className="profilePanel" id="profile-account">
-            <p className="homeEyebrow">Account</p>
-            <h2>Tài khoản</h2>
-            <dl className="profileAccountList">
-              <div>
-                <dt>Email</dt>
-                <dd>{user.email}</dd>
-              </div>
-              <div>
-                <dt>Username</dt>
-                <dd>{profile?.username || "Chưa đặt"}</dd>
-              </div>
-              <div>
-                <dt>Role</dt>
-                <dd>{profile?.role || "student"}</dd>
-              </div>
-              <div>
-                <dt>User ID</dt>
-                <dd>{user.id}</dd>
-              </div>
-            </dl>
-          </article>
-
-          <article className="profilePanel" id="profile-avatar">
-            <p className="homeEyebrow">Avatar</p>
-            <h2>Đổi avatar</h2>
-            <div className="profileForm">
-              <label>
-                <span>Avatar URL</span>
-                <input
-                  type="url"
-                  placeholder="https://..."
-                  value={avatarUrl}
-                  onChange={(event) => setAvatarUrl(event.target.value)}
-                />
-              </label>
-              <button
-                className="primaryButton"
-                type="button"
-                onClick={handleSaveAvatar}
-              >
-                Lưu avatar
-              </button>
-              {profileMessage ? <p>{profileMessage}</p> : null}
-            </div>
-          </article>
-
-          <article className="profilePanel" id="profile-security">
-            <p className="homeEyebrow">Security</p>
-            <h2>Đổi mật khẩu</h2>
-            <div className="profileForm">
-              <label>
-                <span>Mật khẩu mới</span>
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  value={newPassword}
-                  onChange={(event) => setNewPassword(event.target.value)}
-                />
-              </label>
-              <label>
-                <span>Nhập lại mật khẩu</span>
-                <input
-                  type="password"
-                  autoComplete="new-password"
-                  value={confirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                />
-              </label>
-              <button
-                className="primaryButton"
-                type="button"
-                onClick={handleChangePassword}
-              >
-                Đổi mật khẩu
-              </button>
-              {passwordMessage ? <p>{passwordMessage}</p> : null}
-            </div>
-          </article>
-
-          <article className="profilePanel profileStatsPanel">
-            <div>
-              <p className="homeEyebrow">Stats</p>
-              <h2>Thống kê học tập</h2>
-            </div>
-            <div className="profileStats" aria-label="Thống kê học tập">
-              {achievementItems.map((item) => (
-                <div key={item.label}>
-                  <span>{item.label}</span>
-                  <strong>{item.value}</strong>
+          <article className="profilePanel profileAccountTools">
+            <div id="profile-account">
+              <p className="homeEyebrow">Account</p>
+              <h2>Tài khoản</h2>
+              <dl className="profileAccountList">
+                <div>
+                  <dt>Email</dt>
+                  <dd>{user.email}</dd>
                 </div>
-              ))}
+                <div>
+                  <dt>Username</dt>
+                  <dd>{profile?.username || "Chưa đặt"}</dd>
+                </div>
+                <div>
+                  <dt>Role</dt>
+                  <dd>{profile?.role || "student"}</dd>
+                </div>
+                <div>
+                  <dt>User ID</dt>
+                  <dd>{user.id}</dd>
+                </div>
+              </dl>
             </div>
-          </article>
 
-          <article className="profilePanel" id="profile-streak">
-            <p className="homeEyebrow">Today</p>
-            <h2>Huy hiệu streak</h2>
-            <div
-              className="profileStreakMilestones"
-              aria-label="Huy hiệu streak"
-            >
-              {streakMilestones.map((milestone) => {
-                const unlocked = streakDays >= milestone.days;
-
-                return (
-                  <div
-                    className={`profileStreakBadge ${milestone.className} ${unlocked ? "unlocked" : ""}`}
-                    key={milestone.days}
-                  >
-                    <span aria-hidden="true">{milestone.icon}</span>
-                    <strong>{milestone.label}</strong>
-                    <small>
-                      {unlocked
-                        ? milestone.title
-                        : `Còn ${milestone.days - streakDays} ngày`}
-                    </small>
-                  </div>
-                );
-              })}
-            </div>
-          </article>
-
-          <article className="profilePanel" id="profile-settings">
-            <p className="homeEyebrow">Settings</p>
-            <h2>Cài đặt học tập</h2>
-            <div className="profileSettingList">
-              {settingItems.map((item) => (
-                <label key={item}>
-                  <input type="checkbox" defaultChecked />
-                  <span>{item}</span>
+            <div id="profile-avatar">
+              <p className="homeEyebrow">Avatar</p>
+              <h2>Đổi avatar</h2>
+              <div className="profileForm">
+                <label>
+                  <span>Avatar URL</span>
+                  <input
+                    type="url"
+                    placeholder="https://..."
+                    value={avatarUrl}
+                    onChange={(event) => setAvatarUrl(event.target.value)}
+                  />
                 </label>
-              ))}
+                <button
+                  className="primaryButton"
+                  type="button"
+                  onClick={handleSaveAvatar}
+                >
+                  Lưu avatar
+                </button>
+                {profileMessage ? <p>{profileMessage}</p> : null}
+              </div>
+            </div>
+
+            <div id="profile-security">
+              <p className="homeEyebrow">Security</p>
+              <h2>Đổi mật khẩu</h2>
+              <div className="profileForm">
+                <label>
+                  <span>Mật khẩu mới</span>
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    value={newPassword}
+                    onChange={(event) => setNewPassword(event.target.value)}
+                  />
+                </label>
+                <label>
+                  <span>Nhập lại mật khẩu</span>
+                  <input
+                    type="password"
+                    autoComplete="new-password"
+                    value={confirmPassword}
+                    onChange={(event) => setConfirmPassword(event.target.value)}
+                  />
+                </label>
+                <button
+                  className="primaryButton"
+                  type="button"
+                  onClick={handleChangePassword}
+                >
+                  Đổi mật khẩu
+                </button>
+                {passwordMessage ? <p>{passwordMessage}</p> : null}
+              </div>
+            </div>
+          </article>
+
+          <article className="profilePanel profileCompactBottom">
+            <div id="profile-streak">
+              <p className="homeEyebrow">Today</p>
+              <h2>Huy hiệu streak</h2>
+              <div
+                className="profileStreakMilestones"
+                aria-label="Huy hiệu streak"
+              >
+                {streakMilestones.map((milestone) => {
+                  const unlocked = streakDays >= milestone.days;
+
+                  return (
+                    <div
+                      className={`profileStreakBadge ${milestone.className} ${unlocked ? "unlocked" : ""}`}
+                      key={milestone.days}
+                    >
+                      <span aria-hidden="true">{milestone.icon}</span>
+                      <strong>{milestone.label}</strong>
+                      <small>
+                        {unlocked
+                          ? milestone.title
+                          : `Còn ${milestone.days - streakDays} ngày`}
+                      </small>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div id="profile-settings">
+              <p className="homeEyebrow">Settings</p>
+              <h2>Cài đặt học tập</h2>
+              <div className="profileSettingList">
+                {settingItems.map((item) => (
+                  <label key={item}>
+                    <input type="checkbox" defaultChecked />
+                    <span>{item}</span>
+                  </label>
+                ))}
+              </div>
             </div>
           </article>
         </section>

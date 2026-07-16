@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { type MouseEvent, useEffect, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import type {
   GrammarLesson,
   GrammarTestData,
@@ -45,6 +45,14 @@ function getGrammarProgressStorageKey(lessonId: string) {
   return `yenth:grammar:${lessonId}:test`;
 }
 
+function isFirefoxBrowser() {
+  if (typeof navigator === "undefined") {
+    return false;
+  }
+
+  return navigator.userAgent.toLowerCase().includes("firefox");
+}
+
 function formatElapsedTime(totalSeconds: number) {
   const safeSeconds = Math.max(0, Math.floor(totalSeconds));
   const hours = Math.floor(safeSeconds / 3600);
@@ -85,9 +93,15 @@ function SpeakerIcon() {
 
 function GrammarSpeakButton({ label, text }: { label: string; text: string }) {
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const hasWarnedAudioBrowserRef = useRef(false);
   const cleanText = text.trim();
 
   function warnUnsupportedAudioBrowser() {
+    if (hasWarnedAudioBrowserRef.current) {
+      return;
+    }
+
+    hasWarnedAudioBrowserRef.current = true;
     window.alert(
       "Trình duyệt này không hỗ trợ giọng đọc phù hợp. Hãy dùng Cốc Cốc, Chrome hoặc Edge để nghe ổn định hơn.",
     );
@@ -110,6 +124,10 @@ function GrammarSpeakButton({ label, text }: { label: string; text: string }) {
       setIsSpeaking(false);
       warnUnsupportedAudioBrowser();
       return;
+    }
+
+    if (isFirefoxBrowser()) {
+      warnUnsupportedAudioBrowser();
     }
 
     const utterance = new SpeechSynthesisUtterance(cleanText);

@@ -293,6 +293,7 @@ body {
   display: grid;
   gap: 0;
   min-height: 100%;
+  justify-items: center;
   background: var(--bg);
 }
 
@@ -301,7 +302,7 @@ body {
 .homeSection,
 .homeCta,
 .homeFooter {
-  width: 100%;
+  width: min(100%, 1120px);
   border-bottom: 1px solid var(--line);
 }
 
@@ -310,6 +311,7 @@ body {
   grid-template-columns: minmax(280px, 640px) minmax(260px, 380px);
   gap: clamp(16px, 3vw, 28px);
   align-items: center;
+  justify-content: center;
   padding: clamp(22px, 3vw, 36px) clamp(16px, 4vw, 42px);
   background:
     radial-gradient(
@@ -596,7 +598,9 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  width: 100%;
   max-width: 1040px;
+  justify-self: center;
 }
 
 .dashboardGrid {
@@ -954,12 +958,13 @@ body {
 .learnPathPage {
   display: grid;
   min-height: 100%;
+  justify-items: center;
   background: var(--bg);
 }
 
 .learnPathHero,
 .learnPathSection {
-  width: 100%;
+  width: min(100%, 1120px);
   border-bottom: 1px solid var(--line);
   padding: clamp(22px, 3vw, 36px) clamp(16px, 4vw, 42px);
 }
@@ -969,6 +974,7 @@ body {
   grid-template-columns: minmax(280px, 640px) minmax(260px, 360px);
   gap: clamp(16px, 3vw, 28px);
   align-items: center;
+  justify-content: center;
   background:
     radial-gradient(
       circle at 10% 8%,
@@ -1069,7 +1075,9 @@ body {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 8px;
+  width: 100%;
   max-width: 1120px;
+  justify-self: center;
 }
 
 .learnLevelCard {
@@ -1114,7 +1122,9 @@ body {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
+  width: 100%;
   max-width: 1100px;
+  justify-self: center;
 }
 
 .learnSkillCard {
@@ -1491,6 +1501,7 @@ body {
 .examsPage {
   display: grid;
   min-height: 100%;
+  justify-items: center;
   overflow-x: hidden;
   background: var(--bg);
 }
@@ -1507,7 +1518,7 @@ body {
 
 .grammarHero,
 .grammarSection {
-  width: 100%;
+  width: min(100%, 1120px);
   border-bottom: 1px solid var(--line);
   padding: clamp(22px, 3vw, 36px) clamp(16px, 4vw, 42px);
 }
@@ -1517,6 +1528,7 @@ body {
   grid-template-columns: minmax(280px, 640px) minmax(260px, 360px);
   gap: clamp(16px, 3vw, 28px);
   align-items: center;
+  justify-content: center;
   background:
     radial-gradient(
       circle at 10% 8%,
@@ -1576,6 +1588,7 @@ body {
   gap: 10px;
   width: 100%;
   max-width: 1120px;
+  justify-self: center;
 }
 
 .grammarTopicCard {
@@ -2308,7 +2321,7 @@ body {
 
 .examsHero,
 .examsSection {
-  width: 100%;
+  width: min(100%, 1120px);
   border-bottom: 1px solid var(--line);
   padding: clamp(34px, 5vw, 68px) clamp(22px, 6vw, 82px);
 }
@@ -2318,6 +2331,7 @@ body {
   grid-template-columns: minmax(0, 1fr) minmax(320px, 430px);
   gap: clamp(28px, 5vw, 62px);
   align-items: stretch;
+  justify-content: center;
   background: #ffffff;
 }
 
@@ -2365,6 +2379,7 @@ body {
   gap: 14px;
   width: 100%;
   max-width: 1120px;
+  justify-self: center;
 }
 
 .examTrackCard {
@@ -3735,11 +3750,55 @@ button:disabled {
 
 .profilePage {
   display: grid;
-  min-height: 100%;
-  align-content: start;
-  gap: 18px;
-  padding: clamp(18px, 4vw, 42px);
+  height: 100%;
+  min-height: 0;
+  align-content: stretch;
+  justify-items: center;
+  gap: 10px;
+  padding: 10px;
   background: #f5f7f4;
+  overflow: hidden;
+}
+
+.profilePage > section {
+  width: min(100%, 1040px);
+}
+
+.profileCompactShell {
+  display: grid;
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  height: 100%;
+  min-height: 0;
+}
+
+.profileCompactSidebar,
+.profileCompactMain {
+  min-height: 0;
+  max-height: 100%;
+}
+
+.profileCompactSidebar {
+  position: sticky;
+  top: 10px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(24, 36, 33, 0.06);
+  overflow: auto;
+}
+
+.profileCompactMain {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  gap: 10px;
+  min-width: 0;
+  overflow: auto;
 }
 
 .profileHero,
@@ -3766,34 +3825,35 @@ button:disabled {
 
 .profileTopStrip {
   display: grid;
-  grid-template-columns: minmax(260px, 1fr) minmax(320px, 0.9fr) auto;
-  gap: 14px;
+  grid-template-columns: minmax(240px, 1fr) minmax(280px, 0.7fr) auto;
+  gap: 12px;
   align-items: center;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: clamp(16px, 2.4vw, 24px);
+  padding: clamp(14px, 2vw, 18px);
   background: #ffffff;
-  box-shadow: 0 16px 40px rgba(24, 36, 33, 0.07);
+  box-shadow: 0 12px 30px rgba(24, 36, 33, 0.06);
 }
 
 .profileTopIdentity {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  align-items: flex-start;
+  gap: 12px;
   min-width: 0;
 }
 
 .profileTopIdentity h1 {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 0.98;
+  font-size: clamp(1.35rem, 2.4vw, 2rem);
+  line-height: 1;
   overflow-wrap: anywhere;
 }
 
 .profileTopIdentity p:not(.homeEyebrow) {
-  margin: 8px 0 0;
+  margin: 5px 0 0;
   color: var(--muted);
+  font-size: 0.9rem;
   overflow-wrap: anywhere;
 }
 
@@ -3806,11 +3866,11 @@ button:disabled {
 .profileTopStats div {
   display: grid;
   gap: 4px;
-  min-height: 58px;
+  min-height: 52px;
   align-content: center;
   border: 1px solid rgba(12, 116, 102, 0.14);
   border-radius: 8px;
-  padding: 10px 12px;
+  padding: 8px 10px;
   background: var(--surface);
 }
 
@@ -3823,7 +3883,7 @@ button:disabled {
 
 .profileTopStats strong {
   color: var(--primary-dark);
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .profileBodyLayout {
@@ -3908,8 +3968,8 @@ button:disabled {
 
 .profileTodayPanel {
   display: grid;
-  gap: 16px;
-  padding: clamp(18px, 3vw, 26px);
+  gap: 10px;
+  padding: 12px;
   background:
     linear-gradient(135deg, rgba(12, 116, 102, 0.08), rgba(159, 79, 47, 0.05)),
     #ffffff;
@@ -3917,9 +3977,9 @@ button:disabled {
 
 .profileTodayHeader {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 12px;
 }
 
 .profileTodayHeader h2,
@@ -3927,11 +3987,19 @@ button:disabled {
   margin: 0;
 }
 
+.profileTodayHeader > strong,
+.profilePanelHead > strong {
+  color: var(--primary-dark);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
 .profileTodayPanel > p {
   margin: 0;
   max-width: 760px;
   color: var(--muted);
-  line-height: 1.6;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 .profileTodayProgressRow {
@@ -3947,12 +4015,19 @@ button:disabled {
 }
 
 .profileContentGrid {
-  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.95fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
   align-items: start;
 }
 
 .profileCompletedPanel {
-  grid-row: span 3;
+  min-height: 0;
+}
+
+.profilePanelHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .profileCompactPanel {
@@ -3971,14 +4046,14 @@ button:disabled {
   display: grid;
   place-items: center;
   flex: 0 0 auto;
-  width: clamp(76px, 12vw, 118px);
-  height: clamp(76px, 12vw, 118px);
+  width: 54px;
+  height: 54px;
   border-radius: 8px;
   background:
     linear-gradient(135deg, rgba(12, 116, 102, 0.92), rgba(8, 79, 70, 0.98)),
     var(--primary);
   color: #ffffff;
-  font-size: clamp(1.65rem, 4vw, 2.8rem);
+  font-size: 1.25rem;
   font-weight: 950;
   letter-spacing: 0;
   box-shadow: 0 18px 40px rgba(12, 116, 102, 0.22);
@@ -4024,7 +4099,7 @@ button:disabled {
 .profileStats div {
   display: grid;
   gap: 5px;
-  min-height: 104px;
+  min-height: 78px;
   align-content: center;
   border: 1px solid rgba(12, 116, 102, 0.14);
   border-radius: 8px;
@@ -4047,17 +4122,17 @@ button:disabled {
 .profileStreakMilestones {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 8px;
 }
 
 .profileStreakBadge {
   display: grid;
   gap: 5px;
   align-content: center;
-  min-height: 92px;
+  min-height: 62px;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 14px;
+  padding: 10px;
   background: rgba(255, 255, 255, 0.76);
   color: var(--muted);
   box-shadow: 0 12px 28px rgba(24, 36, 33, 0.05);
@@ -4069,18 +4144,19 @@ button:disabled {
 }
 
 .profileStreakBadge > span {
-  font-size: 1.45rem;
+  font-size: 1.1rem;
   line-height: 1;
 }
 
 .profileStreakBadge strong {
   color: var(--ink);
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1;
 }
 
 .profileStreakBadge small {
   color: var(--muted);
+  font-size: 0.76rem;
   font-weight: 850;
 }
 
@@ -4128,14 +4204,14 @@ button:disabled {
 
 .profilePanel {
   display: grid;
-  gap: 16px;
+  gap: 10px;
   align-content: start;
-  padding: 20px;
+  padding: 12px;
 }
 
 .profilePanel h2 {
   color: var(--ink);
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
 }
 
 .profileProgressPanel {
@@ -4160,7 +4236,7 @@ button:disabled {
 
 .profileTodayStats {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
 }
 
@@ -4169,7 +4245,7 @@ button:disabled {
   gap: 4px;
   border: 1px solid rgba(12, 116, 102, 0.16);
   border-radius: 8px;
-  padding: 10px;
+  padding: 8px;
   background: rgba(255, 255, 255, 0.72);
 }
 
@@ -4182,7 +4258,7 @@ button:disabled {
 
 .profileTodayStats strong {
   color: var(--ink);
-  font-size: 1rem;
+  font-size: 0.95rem;
   line-height: 1.1;
 }
 
@@ -4197,11 +4273,11 @@ button:disabled {
 .profileCompletedList div {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto auto;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   border: 1px solid rgba(12, 116, 102, 0.18);
   border-radius: 8px;
-  padding: 12px;
+  padding: 10px;
   background: linear-gradient(
     135deg,
     rgba(12, 116, 102, 0.08),
@@ -4209,11 +4285,26 @@ button:disabled {
   );
 }
 
+.profileCompletedList .profileCurrentLesson {
+  border-color: rgba(204, 92, 34, 0.24);
+  background: linear-gradient(135deg, #fff8e5, #fff0e8);
+}
+
+.profileCompletedList .profileCurrentLesson strong {
+  background: var(--accent);
+}
+
+.profileCompletedPanel .profileCompletedList {
+  max-height: clamp(160px, 30dvh, 260px);
+  overflow: auto;
+  padding-right: 2px;
+}
+
 .profileCompletedList strong {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 34px;
+  height: 34px;
   border-radius: 8px;
   background: var(--primary);
   color: #ffffff;
@@ -4222,11 +4313,13 @@ button:disabled {
 
 .profileCompletedList span {
   color: var(--ink);
+  font-size: 0.9rem;
   font-weight: 900;
 }
 
 .profileCompletedList small {
   color: var(--muted);
+  font-size: 0.78rem;
   font-weight: 850;
   white-space: nowrap;
 }
@@ -4246,14 +4339,15 @@ button:disabled {
 
 .profileForm label {
   display: grid;
-  gap: 7px;
+  gap: 5px;
   color: var(--ink);
+  font-size: 0.9rem;
   font-weight: 900;
 }
 
 .profileForm input {
   width: 100%;
-  min-height: 44px;
+  min-height: 36px;
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 0 12px;
@@ -4280,7 +4374,7 @@ button:disabled {
   align-items: start;
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 12px;
+  padding: 8px;
   background: var(--surface);
   color: var(--ink);
   font-weight: 850;
@@ -4298,7 +4392,7 @@ button:disabled {
 }
 
 .profileAccountList div {
-  grid-template-columns: 92px minmax(0, 1fr);
+  grid-template-columns: 82px minmax(0, 1fr);
 }
 
 .profileAccountList dt {
@@ -4310,7 +4404,71 @@ button:disabled {
 .profileAccountList dd {
   min-width: 0;
   overflow-wrap: anywhere;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
+}
+
+.profileAccountTools,
+.profileCompactBottom {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
+.profileAccountTools {
+  grid-template-columns: minmax(0, 0.95fr) minmax(220px, 0.8fr) minmax(
+      220px,
+      0.8fr
+    );
+}
+
+.profileCompactBottom {
+  grid-template-columns: minmax(0, 1.05fr) minmax(220px, 0.65fr);
+}
+
+.profileAccountTools > div,
+.profileCompactBottom > div {
+  min-width: 0;
+}
+
+@media (max-width: 380px) {
+  .profilePage {
+    padding: 6px;
+  }
+
+  .profileCompactSidebar,
+  .profilePanel,
+  .profileTodayPanel {
+    padding: 8px;
+  }
+
+  .profileTopStats div {
+    min-height: 42px;
+    padding-inline: 4px;
+  }
+
+  .profileTopStats span,
+  .profileTodayStats span,
+  .profileAccountList dt {
+    font-size: 0.58rem;
+  }
+
+  .profilePanelHead {
+    align-items: flex-start;
+  }
+
+  .profileCompletedList div {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .profileCompletedAction {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    width: 100%;
+  }
+
+  .profileHeroActions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
 
 .eyebrow {
@@ -6197,6 +6355,7 @@ dd {
   }
 
   .profileHero,
+  .profileCompactShell,
   .profileTopStrip,
   .profileBodyLayout,
   .profileDashboard,
@@ -6211,12 +6370,30 @@ dd {
     position: static;
   }
 
+  .profileCompactSidebar,
+  .profileCompactMain {
+    min-height: 0;
+  }
+
+  .profileCompactSidebar {
+    position: static;
+  }
+
+  .profileTopStats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .profileGroupNav {
     position: static;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .profileContentGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profileAccountTools,
+  .profileCompactBottom {
     grid-template-columns: 1fr;
   }
 
@@ -6787,8 +6964,11 @@ dd {
   }
 
   .profilePage {
-    gap: 14px;
-    padding: 18px 14px;
+    height: auto;
+    min-height: 100%;
+    gap: 8px;
+    padding: 8px;
+    overflow: visible;
   }
 
   .profileHero {
@@ -6802,8 +6982,23 @@ dd {
   }
 
   .profileTopIdentity {
-    align-items: flex-start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .profileAvatar {
+    width: 46px;
+    height: 46px;
+    font-size: 1.08rem;
+  }
+
+  .profileTopIdentity h1 {
+    font-size: 1.3rem;
+  }
+
+  .profileTopIdentity p:not(.homeEyebrow) {
+    font-size: 0.82rem;
   }
 
   .profileHeroActions,
@@ -6814,11 +7009,34 @@ dd {
 
   .profileTopStats,
   .profileGroupNav {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .profileTopStats {
+    gap: 6px;
+  }
+
+  .profileTopStats div {
+    min-height: 46px;
+    padding: 7px 6px;
+  }
+
+  .profileTopStats span {
+    font-size: 0.62rem;
+  }
+
+  .profileTopStats strong {
+    font-size: 0.9rem;
+  }
+
+  .profileContentGrid,
+  .profileCompletedPanel,
+  .profileStreakMilestones {
     grid-template-columns: 1fr;
   }
 
   .profileTodayHeader {
-    display: grid;
+    display: flex;
   }
 
   .profileTodayHeader .profileActionLink {
@@ -6826,7 +7044,7 @@ dd {
   }
 
   .profileTodayStats {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .profileStats {
@@ -6838,9 +7056,35 @@ dd {
     grid-template-columns: 1fr;
   }
 
+  .profileCompactSidebar,
+  .profilePanel,
+  .profileTodayPanel {
+    padding: 10px;
+  }
+
+  .profileCompactShell,
+  .profileCompactMain {
+    gap: 8px;
+  }
+
+  .profileCompactShell {
+    height: auto;
+  }
+
+  .profileCompactSidebar,
+  .profileCompactMain {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .profileAccountTools,
+  .profileCompactBottom {
+    gap: 10px;
+  }
+
   .profileStats div,
   .profilePanel {
-    padding: 16px;
+    padding: 10px;
   }
 
   .profileAccountList div {
@@ -6848,7 +7092,37 @@ dd {
   }
 
   .profileCompletedList div {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 7px;
+    padding: 8px;
+  }
+
+  .profileCompletedList small {
+    grid-column: 2 / 3;
+    white-space: normal;
+  }
+
+  .profileCompletedAction {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    min-height: 34px;
+    padding-inline: 10px;
+  }
+
+  .profileCompletedPanel .profileCompletedList {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .profileForm input {
+    min-height: 34px;
+  }
+
+  .profileSettingList,
+  .profileAccountList,
+  .profileCompletedList,
+  .profileForm {
+    gap: 8px;
   }
 
   .managerHero h1 {
