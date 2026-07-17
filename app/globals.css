@@ -5323,6 +5323,30 @@ dd {
   overflow-wrap: anywhere;
 }
 
+.managerSetupSteps {
+  display: grid;
+  gap: 10px;
+}
+
+.managerSetupSteps div {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--surface);
+}
+
+.managerSetupSteps strong {
+  color: var(--ink);
+}
+
+.managerSetupSteps span {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
 .managerTable {
   overflow: auto;
 }
@@ -5376,6 +5400,18 @@ dd {
 .managerTableRow span,
 .managerTableRow strong {
   overflow-wrap: anywhere;
+}
+
+.managerStatusText {
+  font-weight: 900;
+}
+
+.managerStatusText.correct {
+  color: var(--correct);
+}
+
+.managerStatusText.wrong {
+  color: var(--wrong);
 }
 
 .vocabStudyPage {

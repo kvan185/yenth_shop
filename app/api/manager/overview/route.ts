@@ -16,6 +16,16 @@ const managedTables = [
   "learning_events",
 ] as const;
 
+type ProfileRow = {
+  avatar_url?: string | null;
+  created_at?: string;
+  display_name?: string | null;
+  email?: string | null;
+  id: string;
+  role?: string | null;
+  username?: string | null;
+};
+
 async function requireManagerSession() {
   const cookieStore = await cookies();
   return verifyManagerSessionToken(
@@ -69,6 +79,7 @@ export async function GET() {
     { data: recentEvents },
     { data: progressRows },
     { data: eventRows },
+    authUsersResult,
   ] = await Promise.all([
     supabaseAdmin
       .from("profiles")
@@ -92,7 +103,34 @@ export async function GET() {
       .limit(80),
     supabaseAdmin.from("vocabulary_progress").select("level, status"),
     supabaseAdmin.from("learning_events").select("event_type"),
+    supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 }),
   ]);
+
+  const profilesById = new Map(
+    ((profiles || []) as ProfileRow[]).map((profile) => [profile.id, profile]),
+  );
+  const mergedProfiles = authUsersResult.data.users
+    .map((user) => {
+      const profile = profilesById.get(user.id);
+      return {
+        avatar_url: profile?.avatar_url ?? null,
+        created_at: profile?.created_at || user.created_at,
+        display_name:
+          profile?.display_name ??
+          (typeof user.user_metadata?.display_name === "string"
+            ? user.user_metadata.display_name
+            : null),
+        email: profile?.email || user.email || null,
+        id: user.id,
+        role: profile?.role || "student",
+        username: profile?.username || user.email?.split("@")[0] || null,
+      };
+    })
+    .sort(
+      (first, second) =>
+        new Date(second.created_at || 0).getTime() -
+        new Date(first.created_at || 0).getTime(),
+    );
 
   const progressByLevel = (progressRows || []).reduce<
     Record<string, { correct: number; wrong: number }>
@@ -120,7 +158,7 @@ export async function GET() {
     adminConfigured: true,
     eventsByType,
     managerUser: session.username,
-    profiles: profiles || [],
+    profiles: mergedProfiles,
     progressByLevel,
     recentAttempts: recentAttempts || [],
     recentEvents: recentEvents || [],
@@ -151,6 +189,7 @@ export async function PATCH(request: Request) {
   const body = (await request.json().catch(() => null)) as {
     avatar_url?: string | null;
     display_name?: string | null;
+    email?: string | null;
     id?: string;
     role?: string;
     username?: string | null;
@@ -165,15 +204,17 @@ export async function PATCH(request: Request) {
     return NextResponse.json({ error: "Role không hợp lệ." }, { status: 400 });
   }
 
-  const { error } = await supabaseAdmin
-    .from("profiles")
-    .update({
+  const { error } = await supabaseAdmin.from("profiles").upsert(
+    {
       avatar_url: body.avatar_url || null,
       display_name: body.display_name || null,
+      email: body.email || null,
+      id: body.id,
       role: nextRole,
       username: body.username || null,
-    })
-    .eq("id", body.id);
+    },
+    { onConflict: "id" },
+  );
 
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
