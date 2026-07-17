@@ -834,10 +834,10 @@ export default function ManagerPageClient({
                 </div>
               </section>
 
-              <section className="managerTriplePanel">
-                <article className="managerPanel">
-                  <h3>Danh sách học viên</h3>
-                  <div className="managerUserList">
+              <section className="managerProgressLayout">
+                <article className="managerPanel managerProgressUsers">
+                  <h3>Học viên</h3>
+                  <div className="managerProgressUserList">
                     {progressUserRows.map(
                       ({
                         completedCount,
@@ -858,30 +858,41 @@ export default function ManagerPageClient({
                           type="button"
                           onClick={() => setSelectedProgressUserId(profile.id)}
                         >
-                          <strong>{getProfileLabel(profile)}</strong>
-                          <span>
-                            Xong {completedCount.toLocaleString("vi-VN")} bài ·
-                            Dở {inProgressCount.toLocaleString("vi-VN")} bài ·
-                            Sai nhiều nhất{" "}
-                            {maxWrongCount.toLocaleString("vi-VN")} từ
+                          <span className="managerProgressAvatar">
+                            {(profile.email || profile.username || "?")
+                              .charAt(0)
+                              .toUpperCase()}
                           </span>
-                          <small>
-                            {rows.length.toLocaleString("vi-VN")} dòng tiến độ ·
-                            Học {formatDuration(studyMs)} · Cập nhật{" "}
-                            {formatDate(lastUpdated)}
-                          </small>
+                          <span>
+                            <strong>{getProfileLabel(profile)}</strong>
+                            <small>
+                              {rows.length.toLocaleString("vi-VN")} dòng · cập
+                              nhật {formatDate(lastUpdated)}
+                            </small>
+                          </span>
+                          <span className="managerProgressMiniStats">
+                            <b>{completedCount.toLocaleString("vi-VN")}</b>xong
+                            <b>{inProgressCount.toLocaleString("vi-VN")}</b>dở
+                            <b>{maxWrongCount.toLocaleString("vi-VN")}</b>sai
+                          </span>
                         </button>
                       ),
                     )}
                   </div>
                 </article>
 
-                <article className="managerPanel">
-                  <h3>
-                    Thông tin học của {getProfileLabel(selectedProgressUser)}
-                  </h3>
+                <article className="managerPanel managerProgressDetail">
+                  <div className="managerProgressHeader">
+                    <div>
+                      <h3>{getProfileLabel(selectedProgressUser)}</h3>
+                      <span>
+                        Thời gian học ước tính{" "}
+                        {formatDuration(selectedProgressSummary?.studyMs || 0)}
+                      </span>
+                    </div>
+                  </div>
                   {selectedProgressSummary ? (
-                    <section className="managerStatsGrid compact">
+                    <section className="managerProgressSummary">
                       <div>
                         <span>Bài đã học xong</span>
                         <strong>
@@ -907,27 +918,35 @@ export default function ManagerPageClient({
                         </strong>
                       </div>
                       <div>
-                        <span>Thời gian học ước tính</span>
+                        <span>Dòng tiến độ</span>
                         <strong>
-                          {formatDuration(selectedProgressSummary.studyMs)}
+                          {selectedProgressSummary.rows.length.toLocaleString(
+                            "vi-VN",
+                          )}
                         </strong>
                       </div>
                     </section>
                   ) : null}
-                  <div className="managerLevelList detail">
+                  <div className="managerProgressLevelList">
                     {selectedProgressLevelSummaries.map((item) => (
                       <div key={item.level}>
-                        <strong>{item.level}</strong>
-                        <span>{item.status}</span>
-                        <span>
-                          Đúng {item.correct.toLocaleString("vi-VN")} · Sai{" "}
-                          {item.wrong.toLocaleString("vi-VN")}
+                        <span className="managerProgressLevelBadge">
+                          {item.level}
                         </span>
-                        <span>Học {formatDuration(item.studyMs)}</span>
                         <span>
-                          {item.completedAt
-                            ? `Xong ${formatDate(item.completedAt)}`
-                            : `Cập nhật ${formatDate(item.lastUpdated)}`}
+                          <strong>{item.status}</strong>
+                          <small>
+                            Đúng {item.correct.toLocaleString("vi-VN")} · Sai{" "}
+                            {item.wrong.toLocaleString("vi-VN")}
+                          </small>
+                        </span>
+                        <span>
+                          <strong>{formatDuration(item.studyMs)}</strong>
+                          <small>
+                            {item.completedAt
+                              ? `Xong ${formatDate(item.completedAt)}`
+                              : `Cập nhật ${formatDate(item.lastUpdated)}`}
+                          </small>
                         </span>
                       </div>
                     ))}

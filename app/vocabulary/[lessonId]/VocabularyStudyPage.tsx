@@ -1921,7 +1921,7 @@ export default function VocabularyStudyPage({
                 <h2>Từ trả lời sai</h2>
                 <div>
                   {wrongWords.length ? (
-                    wrongWords.slice(0, 12).map((item) => (
+                    wrongWords.map((item) => (
                       <span key={getWordKey(item)}>
                         {getWord(item)} <small>{getMeaning(item)}</small>
                       </span>
