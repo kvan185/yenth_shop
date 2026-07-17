@@ -72,14 +72,20 @@ const tabs: Array<{ id: ManagerTab; label: string }> = [
   { id: "setup", label: "Setup" },
 ];
 
-const setupSql = `-- Manager cần SUPABASE_SERVICE_ROLE_KEY trong env server để quản lý toàn bộ dữ liệu.
--- Các bảng chính:
--- public.profiles
--- public.vocabulary_progress
--- public.quiz_attempts
--- public.learning_events
+const setupSql = `# Manager cần service_role key ở env server, không phải anon key.
+# Lấy key tại Supabase Dashboard > Project Settings > API > service_role.
+# Sau đó thêm vào .env.local:
 
--- Nếu thiếu bảng/policy, vào Supabase SQL Editor chạy SQL setup đã có trong Manager cũ hoặc trang /manager.`;
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+
+# Restart dev server sau khi đổi .env.local:
+npm run dev
+
+# Các bảng Manager đang đọc:
+# public.profiles
+# public.vocabulary_progress
+# public.quiz_attempts
+# public.learning_events`;
 
 function formatDate(value: string | undefined) {
   if (!value) {
@@ -464,9 +470,10 @@ export default function ManagerPageClient({
               <div>
                 <h3>Service role và SQL setup</h3>
                 <p>
-                  Để Manager quản lý toàn bộ, thêm{" "}
-                  <code>SUPABASE_SERVICE_ROLE_KEY</code> vào env server. Không
-                  đưa key này ra client.
+                  Để Manager quản lý toàn bộ, lấy{" "}
+                  <code>service_role</code> key trong Supabase Dashboard rồi
+                  thêm <code>SUPABASE_SERVICE_ROLE_KEY</code> vào{" "}
+                  <code>.env.local</code>. Không đưa key này ra client.
                 </p>
               </div>
               <button

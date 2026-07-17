@@ -583,6 +583,7 @@ export default function VocabularyStudyPage({
     }
 
     setIsSubmitted(true);
+    playAnswerFeedbackSound(isCorrect);
 
     if (didUseCurrentTip && isCorrect) {
       setFeedbackMessage("Tôi sẽ kiểm tra từ này sau");
@@ -641,6 +642,15 @@ export default function VocabularyStudyPage({
     }
 
     setIsTipPopupOpen(true);
+  }
+
+  function toggleTipPopup() {
+    if (isTipPopupOpen) {
+      setIsTipPopupOpen(false);
+      return;
+    }
+
+    requestTip();
   }
 
   function confirmResetProgress() {
@@ -857,6 +867,72 @@ export default function VocabularyStudyPage({
     });
   }
 
+  function playAnswerFeedbackSound(isAnswerCorrect: boolean) {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const AudioContextConstructor =
+      window.AudioContext ||
+      (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+
+    if (!AudioContextConstructor) {
+      return;
+    }
+
+    try {
+      const audioContext = new AudioContextConstructor();
+      const startedAt = audioContext.currentTime;
+      const notes = isAnswerCorrect
+        ? [
+            { duration: 0.08, frequency: 659.25, start: 0 },
+            { duration: 0.1, frequency: 880, start: 0.09 },
+            { duration: 0.14, frequency: 1174.66, start: 0.2 },
+          ]
+        : [
+            { duration: 0.12, frequency: 220, start: 0 },
+            { duration: 0.18, frequency: 164.81, start: 0.13 },
+          ];
+      const totalDuration = Math.max(
+        ...notes.map((note) => note.start + note.duration),
+      );
+      const masterGain = audioContext.createGain();
+
+      masterGain.gain.setValueAtTime(0.0001, startedAt);
+      masterGain.gain.exponentialRampToValueAtTime(0.18, startedAt + 0.015);
+      masterGain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        startedAt + totalDuration + 0.05,
+      );
+      masterGain.connect(audioContext.destination);
+
+      notes.forEach((note) => {
+        const oscillator = audioContext.createOscillator();
+        const noteGain = audioContext.createGain();
+        const noteStart = startedAt + note.start;
+        const noteEnd = noteStart + note.duration;
+
+        oscillator.type = isAnswerCorrect ? "sine" : "triangle";
+        oscillator.frequency.setValueAtTime(note.frequency, noteStart);
+        noteGain.gain.setValueAtTime(0.0001, noteStart);
+        noteGain.gain.exponentialRampToValueAtTime(1, noteStart + 0.01);
+        noteGain.gain.exponentialRampToValueAtTime(0.0001, noteEnd);
+        oscillator.connect(noteGain);
+        noteGain.connect(masterGain);
+        oscillator.start(noteStart);
+        oscillator.stop(noteEnd + 0.02);
+      });
+
+      void audioContext.resume().catch(() => undefined);
+      window.setTimeout(() => {
+        void audioContext.close().catch(() => undefined);
+      }, (totalDuration + 0.2) * 1000);
+    } catch {
+      // Sound feedback is decorative; answering should never fail because audio did.
+    }
+  }
+
   async function playPremiumTextAudio(text: string) {
     const response = await fetch("/api/tts", {
       body: JSON.stringify({ text }),
@@ -946,9 +1022,15 @@ export default function VocabularyStudyPage({
         return;
       }
 
+      if (event.key === "Escape" && isTipPopupOpen) {
+        event.preventDefault();
+        setIsTipPopupOpen(false);
+        return;
+      }
+
       if (event.key.toLowerCase() === "a" && !isSubmitted) {
         event.preventDefault();
-        requestTip();
+        toggleTipPopup();
         return;
       }
 
@@ -977,6 +1059,7 @@ export default function VocabularyStudyPage({
     currentTipStage,
     didUseCurrentTip,
     isSubmitted,
+    isTipPopupOpen,
     mode,
     quiz,
     selectedAnswerKey,
@@ -1307,7 +1390,7 @@ export default function VocabularyStudyPage({
                         <span className="vocabShortcutHint">
                           {isSubmitted
                             ? "Nhấn Space để sang câu tiếp theo"
-                            : "Nhấn A để xin tip, chọn đáp án rồi nhấn Space để kiểm tra"}
+                            : "Nhấn A để bật/tắt tip, Esc để đóng tip"}
                         </span>
 
                         {isSubmitted ? (
@@ -1769,7 +1852,7 @@ export default function VocabularyStudyPage({
                     <span className="vocabShortcutHint">
                       {isSubmitted
                         ? "Nhấn Space để sang câu tiếp theo"
-                        : "Nhấn A để xin tip, chọn đáp án rồi nhấn Space để kiểm tra"}
+                        : "Nhấn A để bật/tắt tip, Esc để đóng tip"}
                     </span>
 
                     {isSubmitted ? (
