@@ -15,7 +15,6 @@ type ManagerResource = {
 };
 
 type ManagerProfile = {
-  avatar_url?: string | null;
   created_at?: string;
   display_name?: string | null;
   email?: string | null;
@@ -149,7 +148,9 @@ function getEventLabel(eventType: string | null | undefined) {
   return labels[eventType] || eventType.replaceAll("_", " ");
 }
 
-function formatEventPayload(payload: Record<string, unknown> | null | undefined) {
+function formatEventPayload(
+  payload: Record<string, unknown> | null | undefined,
+) {
   if (!payload || Object.keys(payload).length === 0) {
     return "Không có chi tiết";
   }
@@ -159,6 +160,10 @@ function formatEventPayload(payload: Record<string, unknown> | null | undefined)
     .join(" · ");
 
   return readable || "Không có chi tiết";
+}
+
+function getProfileLabel(profile: ManagerProfile | undefined) {
+  return profile?.email || profile?.username || profile?.id || "Không rõ user";
 }
 
 type ManagerPageClientProps = {
@@ -171,6 +176,9 @@ export default function ManagerPageClient({
   const [activeTab, setActiveTab] = useState<ManagerTab>("overview");
   const [data, setData] = useState<ManagerOverview>({});
   const [editingProfileId, setEditingProfileId] = useState("");
+  const [savingProfileId, setSavingProfileId] = useState("");
+  const [selectedEventsUserId, setSelectedEventsUserId] = useState("");
+  const [selectedProgressUserId, setSelectedProgressUserId] = useState("");
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
@@ -185,6 +193,50 @@ export default function ManagerPageClient({
     () => new Map(profiles.map((profile) => [profile.id, profile])),
     [profiles],
   );
+  const selectedProgressUser =
+    profilesById.get(selectedProgressUserId) || profiles[0];
+  const selectedEventsUser =
+    profilesById.get(selectedEventsUserId) || profiles[0];
+  const selectedProgressRows = selectedProgressUser
+    ? recentProgress.filter((row) => row.user_id === selectedProgressUser.id)
+    : [];
+  const selectedEventRows = selectedEventsUser
+    ? recentEvents.filter((event) => event.user_id === selectedEventsUser.id)
+    : [];
+  const selectedAttemptRows = selectedEventsUser
+    ? recentAttempts.filter(
+        (attempt) => attempt.user_id === selectedEventsUser.id,
+      )
+    : [];
+  const progressUserRows = profiles.map((profile) => {
+    const rows = recentProgress.filter((row) => row.user_id === profile.id);
+    const correct = rows.filter((row) => row.status === "correct").length;
+    const wrong = rows.filter((row) => row.status === "wrong").length;
+    const lastUpdated = rows
+      .map((row) => row.updated_at)
+      .filter((value): value is string => Boolean(value))
+      .sort(
+        (first, second) =>
+          new Date(second).getTime() - new Date(first).getTime(),
+      )[0];
+
+    return { correct, lastUpdated, profile, rows, wrong };
+  });
+  const eventUserRows = profiles.map((profile) => {
+    const events = recentEvents.filter((event) => event.user_id === profile.id);
+    const attempts = recentAttempts.filter(
+      (attempt) => attempt.user_id === profile.id,
+    );
+    const lastUpdated = [...events, ...attempts]
+      .map((item) => item.created_at)
+      .filter((value): value is string => Boolean(value))
+      .sort(
+        (first, second) =>
+          new Date(second).getTime() - new Date(first).getTime(),
+      )[0];
+
+    return { attempts, events, lastUpdated, profile };
+  });
 
   const readyCount = resources.filter(
     (resource) => resource.status === "ready",
@@ -217,11 +269,11 @@ export default function ManagerPageClient({
     data.adminConfigured === false
       ? "Thiếu SUPABASE_SERVICE_ROLE_KEY nên chưa thể đọc toàn bộ dữ liệu."
       : activeTab === "users"
-        ? "Xem tài khoản đã đăng ký, đặt username và phân quyền student/manager."
+        ? "Xem tài khoản đã đăng ký. Bấm Chỉnh sửa trước khi đổi username hoặc role."
         : activeTab === "progress"
-          ? "Theo dõi từ nào học viên đã trả lời đúng hoặc sai để biết ai cần ôn thêm."
+          ? "Chọn một học viên để xem các từ đã đúng, sai và cần ôn lại."
           : activeTab === "events"
-            ? "Xem hoạt động gần đây như streak, hoàn thành bài và lịch sử quiz."
+            ? "Chọn một học viên để xem hoạt động học, streak và lịch sử quiz."
             : activeTab === "setup"
               ? "Cấu hình key server để Manager đọc được dữ liệu quản trị."
               : "Tóm tắt số người dùng, bảng dữ liệu, tiến độ học và sự kiện hệ thống.";
@@ -250,7 +302,7 @@ export default function ManagerPageClient({
   }, []);
 
   async function saveProfile(profile: ManagerProfile) {
-    setEditingProfileId(profile.id);
+    setSavingProfileId(profile.id);
     setMessage("");
 
     const response = await fetch("/api/manager/overview", {
@@ -264,12 +316,13 @@ export default function ManagerPageClient({
 
     if (!response.ok) {
       setMessage(payload.error || "Không cập nhật được profile.");
-      setEditingProfileId("");
+      setSavingProfileId("");
       return;
     }
 
     setMessage("Đã cập nhật profile.");
     setEditingProfileId("");
+    setSavingProfileId("");
     await loadOverview();
   }
 
@@ -350,9 +403,7 @@ export default function ManagerPageClient({
                   ? "Tổng quan hệ thống"
                   : tabs.find((tab) => tab.id === activeTab)?.label}
               </h2>
-              <p>
-                {activeTabDescription}
-              </p>
+              <p>{activeTabDescription}</p>
             </div>
             <div className="managerStatePill">
               {isLoading ? "Đang tải" : "Sẵn sàng"}
@@ -427,45 +478,60 @@ export default function ManagerPageClient({
                   <span>Ngày tạo</span>
                   <span></span>
                 </div>
-                {profiles.map((profile) => (
-                  <div className="managerTableRow users" key={profile.id}>
-                    <input
-                      value={profile.email || ""}
-                      disabled
-                      aria-label="Email"
-                    />
-                    <input
-                      value={profile.username || ""}
-                      aria-label="Username"
-                      onChange={(event) =>
-                        updateProfileDraft(profile.id, {
-                          username: event.target.value,
-                        })
-                      }
-                    />
-                    <select
-                      value={profile.role || "student"}
-                      aria-label="Role"
-                      onChange={(event) =>
-                        updateProfileDraft(profile.id, {
-                          role: event.target.value,
-                        })
-                      }
-                    >
-                      <option value="student">student</option>
-                      <option value="manager">manager</option>
-                    </select>
-                    <span>{formatDate(profile.created_at)}</span>
-                    <button
-                      className="secondaryButton"
-                      disabled={editingProfileId === profile.id}
-                      type="button"
-                      onClick={() => saveProfile(profile)}
-                    >
-                      {editingProfileId === profile.id ? "Đang lưu" : "Lưu"}
-                    </button>
-                  </div>
-                ))}
+                {profiles.map((profile) => {
+                  const isEditing = editingProfileId === profile.id;
+                  const isSaving = savingProfileId === profile.id;
+
+                  return (
+                    <div className="managerTableRow users" key={profile.id}>
+                      <input
+                        value={profile.email || ""}
+                        disabled
+                        aria-label="Email"
+                      />
+                      <input
+                        value={profile.username || ""}
+                        disabled={!isEditing || isSaving}
+                        aria-label="Username"
+                        onChange={(event) =>
+                          updateProfileDraft(profile.id, {
+                            username: event.target.value,
+                          })
+                        }
+                      />
+                      <select
+                        value={profile.role || "student"}
+                        disabled={!isEditing || isSaving}
+                        aria-label="Role"
+                        onChange={(event) =>
+                          updateProfileDraft(profile.id, {
+                            role: event.target.value,
+                          })
+                        }
+                      >
+                        <option value="student">student</option>
+                        <option value="manager">manager</option>
+                      </select>
+                      <span>{formatDate(profile.created_at)}</span>
+                      <button
+                        className="secondaryButton"
+                        disabled={isSaving}
+                        type="button"
+                        onClick={() =>
+                          isEditing
+                            ? saveProfile(profile)
+                            : setEditingProfileId(profile.id)
+                        }
+                      >
+                        {isSaving
+                          ? "Đang lưu"
+                          : isEditing
+                            ? "Lưu"
+                            : "Chỉnh sửa"}
+                      </button>
+                    </div>
+                  );
+                })}
               </div>
             </section>
           ) : null}
@@ -474,8 +540,14 @@ export default function ManagerPageClient({
             <>
               <section className="managerStatsGrid">
                 <div>
-                  <span>Dòng tiến độ</span>
-                  <strong>{recentProgress.length.toLocaleString("vi-VN")}</strong>
+                  <span>Học viên</span>
+                  <strong>{profiles.length.toLocaleString("vi-VN")}</strong>
+                </div>
+                <div>
+                  <span>Tổng dòng tiến độ</span>
+                  <strong>
+                    {recentProgress.length.toLocaleString("vi-VN")}
+                  </strong>
                 </div>
                 <div>
                   <span>Đã đúng</span>
@@ -493,66 +565,51 @@ export default function ManagerPageClient({
                       .length.toLocaleString("vi-VN")}
                   </strong>
                 </div>
-                <div>
-                  <span>Level có dữ liệu</span>
-                  <strong>
-                    {Object.keys(progressByLevel).length.toLocaleString(
-                      "vi-VN",
+              </section>
+
+              <section className="managerSplitPanel">
+                <article className="managerPanel">
+                  <h3>Danh sách học viên</h3>
+                  <div className="managerUserList">
+                    {progressUserRows.map(
+                      ({ correct, lastUpdated, profile, rows, wrong }) => (
+                        <button
+                          className={
+                            selectedProgressUser?.id === profile.id
+                              ? "active"
+                              : ""
+                          }
+                          key={profile.id}
+                          type="button"
+                          onClick={() => setSelectedProgressUserId(profile.id)}
+                        >
+                          <strong>{getProfileLabel(profile)}</strong>
+                          <span>
+                            {rows.length.toLocaleString("vi-VN")} dòng · Đúng{" "}
+                            {correct.toLocaleString("vi-VN")} · Sai{" "}
+                            {wrong.toLocaleString("vi-VN")}
+                          </span>
+                          <small>{formatDate(lastUpdated)}</small>
+                        </button>
+                      ),
                     )}
-                  </strong>
-                </div>
-              </section>
-
-              <section className="managerTwoColumn">
-                <article className="managerPanel">
-                  <h3>Theo level</h3>
-                  <div className="managerLevelList">
-                    {Object.entries(progressByLevel).map(([level, row]) => (
-                      <div key={level}>
-                        <strong>{level}</strong>
-                        <span>Đúng {row.correct.toLocaleString("vi-VN")}</span>
-                        <span>Sai {row.wrong.toLocaleString("vi-VN")}</span>
-                      </div>
-                    ))}
                   </div>
                 </article>
-                <article className="managerPanel">
-                  <h3>Cách đọc</h3>
-                  <div className="managerEventList">
-                    <div>
-                      <strong>Đúng</strong>
-                      <span>Học viên đã chọn đúng nghĩa của từ.</span>
-                    </div>
-                    <div>
-                      <strong>Sai cần ôn</strong>
-                      <span>Từ này nằm trong danh sách cần luyện lại.</span>
-                    </div>
-                  </div>
-                </article>
-              </section>
 
-              <section className="managerPanel">
-                <h3>Tiến độ từ vựng gần đây</h3>
-                <div className="managerTable">
-                  <div className="managerTableHead progress">
-                    <span>Người học</span>
-                    <span>Level</span>
-                    <span>Kết quả</span>
-                    <span>Từ</span>
-                    <span>Cập nhật</span>
-                  </div>
-                  {recentProgress.map((row) => {
-                    const profile = row.user_id
-                      ? profilesById.get(row.user_id)
-                      : null;
-                    return (
-                      <div className="managerTableRow progress" key={row.id}>
-                        <span>
-                          {profile?.email ||
-                            profile?.username ||
-                            row.user_id ||
-                            "—"}
-                        </span>
+                <article className="managerPanel">
+                  <h3>Tiến độ của {getProfileLabel(selectedProgressUser)}</h3>
+                  <div className="managerTable">
+                    <div className="managerTableHead progressDetail">
+                      <span>Level</span>
+                      <span>Kết quả</span>
+                      <span>Từ</span>
+                      <span>Cập nhật</span>
+                    </div>
+                    {selectedProgressRows.map((row) => (
+                      <div
+                        className="managerTableRow progressDetail"
+                        key={row.id}
+                      >
                         <strong>{row.level || "—"}</strong>
                         <span
                           className={`managerStatusText ${row.status === "correct" ? "correct" : "wrong"}`}
@@ -564,9 +621,14 @@ export default function ManagerPageClient({
                         </span>
                         <span>{formatDate(row.updated_at)}</span>
                       </div>
-                    );
-                  })}
-                </div>
+                    ))}
+                    {selectedProgressRows.length === 0 ? (
+                      <p className="managerEmptyText">
+                        Học viên này chưa có tiến độ từ vựng.
+                      </p>
+                    ) : null}
+                  </div>
+                </article>
               </section>
             </>
           ) : null}
@@ -575,19 +637,17 @@ export default function ManagerPageClient({
             <>
               <section className="managerStatsGrid">
                 <div>
-                  <span>Sự kiện gần đây</span>
+                  <span>Học viên</span>
+                  <strong>{profiles.length.toLocaleString("vi-VN")}</strong>
+                </div>
+                <div>
+                  <span>Sự kiện</span>
                   <strong>{recentEvents.length.toLocaleString("vi-VN")}</strong>
                 </div>
                 <div>
                   <span>Lượt quiz</span>
                   <strong>
                     {recentAttempts.length.toLocaleString("vi-VN")}
-                  </strong>
-                </div>
-                <div>
-                  <span>Loại sự kiện</span>
-                  <strong>
-                    {Object.keys(eventsByType).length.toLocaleString("vi-VN")}
                   </strong>
                 </div>
                 <div>
@@ -600,82 +660,70 @@ export default function ManagerPageClient({
                 </div>
               </section>
 
-              <section className="managerTwoColumn">
+              <section className="managerSplitPanel">
                 <article className="managerPanel">
-                  <h3>Nhóm sự kiện</h3>
-                  <div className="managerLevelList">
-                    {Object.entries(eventsByType).map(([eventType, count]) => (
-                      <div key={eventType}>
-                        <strong>{getEventLabel(eventType)}</strong>
-                        <span>{count.toLocaleString("vi-VN")} lần</span>
-                        <span>{eventType}</span>
+                  <h3>Danh sách học viên</h3>
+                  <div className="managerUserList">
+                    {eventUserRows.map(
+                      ({ attempts, events, lastUpdated, profile }) => (
+                        <button
+                          className={
+                            selectedEventsUser?.id === profile.id
+                              ? "active"
+                              : ""
+                          }
+                          key={profile.id}
+                          type="button"
+                          onClick={() => setSelectedEventsUserId(profile.id)}
+                        >
+                          <strong>{getProfileLabel(profile)}</strong>
+                          <span>
+                            {events.length.toLocaleString("vi-VN")} sự kiện ·{" "}
+                            {attempts.length.toLocaleString("vi-VN")} quiz
+                          </span>
+                          <small>{formatDate(lastUpdated)}</small>
+                        </button>
+                      ),
+                    )}
+                  </div>
+                </article>
+
+                <article className="managerPanel">
+                  <h3>Hoạt động của {getProfileLabel(selectedEventsUser)}</h3>
+                  <div className="managerEventList">
+                    {selectedEventRows.map((event) => (
+                      <div key={event.id}>
+                        <strong>{getEventLabel(event.event_type)}</strong>
+                        <span>{formatDate(event.created_at)}</span>
+                        <small>{formatEventPayload(event.payload)}</small>
                       </div>
                     ))}
+                    {selectedEventRows.length === 0 ? (
+                      <p className="managerEmptyText">
+                        Học viên này chưa có learning event.
+                      </p>
+                    ) : null}
                   </div>
                 </article>
-                <article className="managerPanel">
-                  <h3>Cách dùng</h3>
-                  <div className="managerEventList">
-                    <div>
-                      <strong>Sự kiện</strong>
-                      <span>Ghi lại hành động học: streak, mục tiêu ngày, hoàn thành level.</span>
-                    </div>
-                    <div>
-                      <strong>Quiz</strong>
-                      <span>Cho biết bài kiểm tra nào vừa làm và điểm đạt được.</span>
-                    </div>
-                  </div>
-                </article>
-              </section>
 
-              <section className="managerTwoColumn">
                 <article className="managerPanel">
-                  <h3>Hoạt động gần đây</h3>
+                  <h3>Quiz của {getProfileLabel(selectedEventsUser)}</h3>
                   <div className="managerEventList">
-                    {recentEvents.map((event) => {
-                      const profile = event.user_id
-                        ? profilesById.get(event.user_id)
-                        : null;
-                      return (
-                        <div key={event.id}>
-                          <strong>{getEventLabel(event.event_type)}</strong>
-                          <span>
-                            {profile?.email ||
-                              profile?.username ||
-                              event.user_id ||
-                              "Không rõ user"}
-                          </span>
-                          <small>{formatDate(event.created_at)}</small>
-                          <small>{formatEventPayload(event.payload)}</small>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </article>
-                <article className="managerPanel">
-                  <h3>Lịch sử quiz</h3>
-                  <div className="managerEventList">
-                    {recentAttempts.map((attempt) => {
-                      const profile = attempt.user_id
-                        ? profilesById.get(attempt.user_id)
-                        : null;
-                      return (
-                        <div key={attempt.id}>
-                          <strong>{attempt.skill || "Quiz"}</strong>
-                          <span>
-                            {profile?.email ||
-                              profile?.username ||
-                              attempt.user_id ||
-                              "Không rõ user"}
-                          </span>
-                          <small>
-                            {attempt.level || "Tất cả level"} · Điểm{" "}
-                            {attempt.score || 0}/{attempt.total || 0}
-                          </small>
-                          <small>{formatDate(attempt.created_at)}</small>
-                        </div>
-                      );
-                    })}
+                    {selectedAttemptRows.map((attempt) => (
+                      <div key={attempt.id}>
+                        <strong>{attempt.skill || "Quiz"}</strong>
+                        <span>
+                          {attempt.level || "Tất cả level"} · Điểm{" "}
+                          {attempt.score || 0}/{attempt.total || 0}
+                        </span>
+                        <small>{formatDate(attempt.created_at)}</small>
+                      </div>
+                    ))}
+                    {selectedAttemptRows.length === 0 ? (
+                      <p className="managerEmptyText">
+                        Học viên này chưa có lượt quiz.
+                      </p>
+                    ) : null}
                   </div>
                 </article>
               </section>
@@ -687,17 +735,16 @@ export default function ManagerPageClient({
               <div>
                 <h3>Cấu hình Manager</h3>
                 <p>
-                  Manager cần key server để đọc Auth users, profiles, tiến độ
-                  và sự kiện. Key này chỉ đặt trong Vercel/server.
+                  Manager cần key server để đọc Auth users, profiles, tiến độ và
+                  sự kiện. Key này chỉ đặt trong Vercel/server.
                 </p>
               </div>
               <div className="managerSetupSteps">
                 <div>
                   <strong>1. Lấy key trong Supabase</strong>
                   <span>
-                    Project Settings → API Keys → copy{" "}
-                    <code>Secret key</code> hoặc legacy{" "}
-                    <code>service_role</code>.
+                    Project Settings → API Keys → copy <code>Secret key</code>{" "}
+                    hoặc legacy <code>service_role</code>.
                   </span>
                 </div>
                 <div>

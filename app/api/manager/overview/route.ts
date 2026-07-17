@@ -17,7 +17,6 @@ const managedTables = [
 ] as const;
 
 type ProfileRow = {
-  avatar_url?: string | null;
   created_at?: string;
   display_name?: string | null;
   email?: string | null;
@@ -83,24 +82,24 @@ export async function GET() {
   ] = await Promise.all([
     supabaseAdmin
       .from("profiles")
-      .select("id, email, username, display_name, avatar_url, role, created_at")
+      .select("id, email, username, display_name, role, created_at")
       .order("created_at", { ascending: false })
-      .limit(50),
+      .limit(1000),
     supabaseAdmin
       .from("vocabulary_progress")
       .select("id, user_id, level, word_key, status, updated_at")
       .order("updated_at", { ascending: false })
-      .limit(80),
+      .limit(1000),
     supabaseAdmin
       .from("quiz_attempts")
       .select("id, user_id, skill, level, score, total, created_at")
       .order("created_at", { ascending: false })
-      .limit(50),
+      .limit(1000),
     supabaseAdmin
       .from("learning_events")
       .select("id, user_id, event_type, payload, created_at")
       .order("created_at", { ascending: false })
-      .limit(80),
+      .limit(1000),
     supabaseAdmin.from("vocabulary_progress").select("level, status"),
     supabaseAdmin.from("learning_events").select("event_type"),
     supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 1000 }),
@@ -113,7 +112,6 @@ export async function GET() {
     .map((user) => {
       const profile = profilesById.get(user.id);
       return {
-        avatar_url: profile?.avatar_url ?? null,
         created_at: profile?.created_at || user.created_at,
         display_name:
           profile?.display_name ??
@@ -187,7 +185,6 @@ export async function PATCH(request: Request) {
   }
 
   const body = (await request.json().catch(() => null)) as {
-    avatar_url?: string | null;
     display_name?: string | null;
     email?: string | null;
     id?: string;
@@ -206,7 +203,6 @@ export async function PATCH(request: Request) {
 
   const { error } = await supabaseAdmin.from("profiles").upsert(
     {
-      avatar_url: body.avatar_url || null,
       display_name: body.display_name || null,
       email: body.email || null,
       id: body.id,

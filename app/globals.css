@@ -5292,6 +5292,13 @@ dd {
   gap: 12px;
 }
 
+.managerSplitPanel {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
 .managerLevelList,
 .managerEventList,
 .managerTable {
@@ -5347,6 +5354,38 @@ dd {
   line-height: 1.5;
 }
 
+.managerUserList {
+  display: grid;
+  gap: 8px;
+}
+
+.managerUserList button {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.managerUserList button.active {
+  border-color: var(--primary);
+  background: #eef8f0;
+}
+
+.managerUserList span,
+.managerUserList small,
+.managerEmptyText {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
 .managerTable {
   overflow: auto;
 }
@@ -5380,6 +5419,11 @@ dd {
     150px;
 }
 
+.managerTableHead.progressDetail,
+.managerTableRow.progressDetail {
+  grid-template-columns: 80px 110px minmax(220px, 1fr) 150px;
+}
+
 .managerTableRow {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -5395,6 +5439,12 @@ dd {
   padding: 0 10px;
   background: #ffffff;
   color: var(--ink);
+}
+
+.managerTableRow input:disabled,
+.managerTableRow select:disabled {
+  background: #f5f7f4;
+  color: var(--muted);
 }
 
 .managerTableRow span,
@@ -6995,7 +7045,8 @@ dd {
 
   .managerStatsGrid,
   .managerResourceGrid,
-  .managerNav {
+  .managerNav,
+  .managerSplitPanel {
     grid-template-columns: 1fr;
   }
 
