@@ -63,12 +63,32 @@ type ManagerOverview = {
   resources?: ManagerResource[];
 };
 
+type AdvancedSettings = {
+  accentColor: string;
+  answerSoundEnabled: boolean;
+  answerSoundVolume: number;
+};
+
 const tabs: Array<{ id: ManagerTab; label: string }> = [
   { id: "overview", label: "Tổng quan" },
   { id: "users", label: "Người dùng" },
   { id: "progress", label: "Tiến độ" },
   { id: "events", label: "Sự kiện" },
   { id: "setup", label: "Setup" },
+];
+const vocabularyLevels = ["A1", "A2", "B1", "B2", "C1"];
+const advancedSettingsStorageKey = "yenth:advanced-settings";
+const defaultAdvancedSettings: AdvancedSettings = {
+  accentColor: "#0c7466",
+  answerSoundEnabled: true,
+  answerSoundVolume: 70,
+};
+const colorPresets = [
+  { label: "Xanh lá", value: "#0c7466" },
+  { label: "Xanh dương", value: "#2563eb" },
+  { label: "Tím", value: "#7c3aed" },
+  { label: "Cam", value: "#c2410c" },
+  { label: "Hồng", value: "#be185d" },
 ];
 
 const setupSql = `# Manager cần service_role key ở env server, không phải anon key.
@@ -98,6 +118,22 @@ function formatDate(value: string | undefined) {
     month: "2-digit",
     year: "numeric",
   }).format(new Date(value));
+}
+
+function formatDuration(totalMs: number) {
+  if (!totalMs || totalMs <= 0) {
+    return "Chưa đủ dữ liệu";
+  }
+
+  const totalMinutes = Math.max(1, Math.round(totalMs / 60000));
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  if (hours > 0) {
+    return `${hours} giờ ${minutes} phút`;
+  }
+
+  return `${minutes} phút`;
 }
 
 function getStatusLabel(status: ResourceStatus) {
@@ -162,6 +198,12 @@ function formatEventPayload(
   return readable || "Không có chi tiết";
 }
 
+function getEventPayloadLevel(event: ManagerEvent) {
+  const level = event.payload?.level;
+
+  return typeof level === "string" ? level.toUpperCase() : "";
+}
+
 function getProfileLabel(profile: ManagerProfile | undefined) {
   return profile?.email || profile?.username || profile?.id || "Không rõ user";
 }
@@ -174,6 +216,9 @@ export default function ManagerPageClient({
   managerUser,
 }: ManagerPageClientProps) {
   const [activeTab, setActiveTab] = useState<ManagerTab>("overview");
+  const [advancedSettings, setAdvancedSettings] = useState<AdvancedSettings>(
+    defaultAdvancedSettings,
+  );
   const [data, setData] = useState<ManagerOverview>({});
   const [editingProfileId, setEditingProfileId] = useState("");
   const [savingProfileId, setSavingProfileId] = useState("");
@@ -210,8 +255,27 @@ export default function ManagerPageClient({
     : [];
   const progressUserRows = profiles.map((profile) => {
     const rows = recentProgress.filter((row) => row.user_id === profile.id);
-    const correct = rows.filter((row) => row.status === "correct").length;
-    const wrong = rows.filter((row) => row.status === "wrong").length;
+    const completedEvents = recentEvents.filter(
+      (event) =>
+        event.user_id === profile.id && event.event_type === "level_completed",
+    );
+    const completedLevels = new Set(
+      completedEvents.map(getEventPayloadLevel).filter(Boolean),
+    );
+    const startedLevels = new Set(
+      rows.map((row) => String(row.level || "").toUpperCase()).filter(Boolean),
+    );
+    const inProgressLevels = Array.from(startedLevels).filter(
+      (level) => !completedLevels.has(level),
+    );
+    const wrongByLevel = rows.reduce<Record<string, number>>((result, row) => {
+      const level = String(row.level || "UNKNOWN").toUpperCase();
+      if (row.status === "wrong") {
+        result[level] = (result[level] || 0) + 1;
+      }
+      return result;
+    }, {});
+    const maxWrongCount = Math.max(0, ...Object.values(wrongByLevel));
     const lastUpdated = rows
       .map((row) => row.updated_at)
       .filter((value): value is string => Boolean(value))
@@ -219,9 +283,82 @@ export default function ManagerPageClient({
         (first, second) =>
           new Date(second).getTime() - new Date(first).getTime(),
       )[0];
+    const firstUpdated = rows
+      .map((row) => row.updated_at)
+      .filter((value): value is string => Boolean(value))
+      .sort(
+        (first, second) =>
+          new Date(first).getTime() - new Date(second).getTime(),
+      )[0];
+    const studyMs =
+      firstUpdated && lastUpdated
+        ? new Date(lastUpdated).getTime() - new Date(firstUpdated).getTime()
+        : 0;
 
-    return { correct, lastUpdated, profile, rows, wrong };
+    return {
+      completedCount: completedLevels.size,
+      firstUpdated,
+      inProgressCount: inProgressLevels.length,
+      lastUpdated,
+      maxWrongCount,
+      profile,
+      rows,
+      studyMs,
+      wrongByLevel,
+    };
   });
+  const selectedProgressSummary = selectedProgressUser
+    ? progressUserRows.find(
+        (item) => item.profile.id === selectedProgressUser.id,
+      )
+    : undefined;
+  const selectedCompletedLevels = new Map(
+    recentEvents
+      .filter(
+        (event) =>
+          event.user_id === selectedProgressUser?.id &&
+          event.event_type === "level_completed",
+      )
+      .map((event) => [getEventPayloadLevel(event), event.created_at]),
+  );
+  const selectedProgressLevelSummaries = vocabularyLevels
+    .map((level) => {
+      const rows = selectedProgressRows.filter(
+        (row) => String(row.level || "").toUpperCase() === level,
+      );
+      const correct = rows.filter((row) => row.status === "correct").length;
+      const wrong = rows.filter((row) => row.status === "wrong").length;
+      const timestamps = rows
+        .map((row) => row.updated_at)
+        .filter((value): value is string => Boolean(value))
+        .sort(
+          (first, second) =>
+            new Date(first).getTime() - new Date(second).getTime(),
+        );
+      const completedAt = selectedCompletedLevels.get(level);
+      const hasStarted = rows.length > 0 || Boolean(completedAt);
+      const studyMs =
+        timestamps[0] && timestamps[timestamps.length - 1]
+          ? new Date(timestamps[timestamps.length - 1]).getTime() -
+            new Date(timestamps[0]).getTime()
+          : 0;
+
+      return {
+        completedAt,
+        correct,
+        hasStarted,
+        lastUpdated: timestamps[timestamps.length - 1],
+        level,
+        status: completedAt
+          ? "Đã học xong"
+          : hasStarted
+            ? "Chưa học xong"
+            : "Chưa học",
+        studyMs,
+        wrong,
+      };
+    })
+    .filter((item) => item.hasStarted);
   const eventUserRows = profiles.map((profile) => {
     const events = recentEvents.filter((event) => event.user_id === profile.id);
     const attempts = recentAttempts.filter(
@@ -271,7 +408,7 @@ export default function ManagerPageClient({
       : activeTab === "users"
         ? "Xem tài khoản đã đăng ký. Bấm Chỉnh sửa trước khi đổi username hoặc role."
         : activeTab === "progress"
-          ? "Chọn một học viên để xem các từ đã đúng, sai và cần ôn lại."
+          ? "Chọn một học viên để xem bài đã học, bài còn dở, số từ sai nhiều nhất và thời gian học."
           : activeTab === "events"
             ? "Chọn một học viên để xem hoạt động học, streak và lịch sử quiz."
             : activeTab === "setup"
@@ -300,6 +437,46 @@ export default function ManagerPageClient({
   useEffect(() => {
     void loadOverview();
   }, []);
+
+  useEffect(() => {
+    try {
+      const parsed = JSON.parse(
+        window.localStorage.getItem(advancedSettingsStorageKey) || "{}",
+      ) as Partial<AdvancedSettings>;
+
+      setAdvancedSettings({
+        accentColor:
+          typeof parsed.accentColor === "string"
+            ? parsed.accentColor
+            : defaultAdvancedSettings.accentColor,
+        answerSoundEnabled:
+          typeof parsed.answerSoundEnabled === "boolean"
+            ? parsed.answerSoundEnabled
+            : defaultAdvancedSettings.answerSoundEnabled,
+        answerSoundVolume:
+          typeof parsed.answerSoundVolume === "number"
+            ? Math.min(100, Math.max(0, parsed.answerSoundVolume))
+            : defaultAdvancedSettings.answerSoundVolume,
+      });
+    } catch {
+      setAdvancedSettings(defaultAdvancedSettings);
+    }
+  }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      advancedSettingsStorageKey,
+      JSON.stringify(advancedSettings),
+    );
+    document.documentElement.style.setProperty(
+      "--primary",
+      advancedSettings.accentColor,
+    );
+    document.documentElement.style.setProperty(
+      "--primary-dark",
+      advancedSettings.accentColor,
+    );
+  }, [advancedSettings]);
 
   async function saveProfile(profile: ManagerProfile) {
     setSavingProfileId(profile.id);
@@ -336,6 +513,10 @@ export default function ManagerPageClient({
         profile.id === profileId ? { ...profile, ...patch } : profile,
       ),
     }));
+  }
+
+  function updateAdvancedSettings(patch: Partial<AdvancedSettings>) {
+    setAdvancedSettings((previous) => ({ ...previous, ...patch }));
   }
 
   function copySql() {
@@ -572,7 +753,15 @@ export default function ManagerPageClient({
                   <h3>Danh sách học viên</h3>
                   <div className="managerUserList">
                     {progressUserRows.map(
-                      ({ correct, lastUpdated, profile, rows, wrong }) => (
+                      ({
+                        completedCount,
+                        inProgressCount,
+                        lastUpdated,
+                        maxWrongCount,
+                        profile,
+                        rows,
+                        studyMs,
+                      }) => (
                         <button
                           className={
                             selectedProgressUser?.id === profile.id
@@ -585,11 +774,16 @@ export default function ManagerPageClient({
                         >
                           <strong>{getProfileLabel(profile)}</strong>
                           <span>
-                            {rows.length.toLocaleString("vi-VN")} dòng · Đúng{" "}
-                            {correct.toLocaleString("vi-VN")} · Sai{" "}
-                            {wrong.toLocaleString("vi-VN")}
+                            Xong {completedCount.toLocaleString("vi-VN")} bài ·
+                            Dở {inProgressCount.toLocaleString("vi-VN")} bài ·
+                            Sai nhiều nhất{" "}
+                            {maxWrongCount.toLocaleString("vi-VN")} từ
                           </span>
-                          <small>{formatDate(lastUpdated)}</small>
+                          <small>
+                            {rows.length.toLocaleString("vi-VN")} dòng tiến độ ·
+                            Học {formatDuration(studyMs)} · Cập nhật{" "}
+                            {formatDate(lastUpdated)}
+                          </small>
                         </button>
                       ),
                     )}
@@ -597,32 +791,61 @@ export default function ManagerPageClient({
                 </article>
 
                 <article className="managerPanel">
-                  <h3>Tiến độ của {getProfileLabel(selectedProgressUser)}</h3>
-                  <div className="managerTable">
-                    <div className="managerTableHead progressDetail">
-                      <span>Level</span>
-                      <span>Kết quả</span>
-                      <span>Từ</span>
-                      <span>Cập nhật</span>
-                    </div>
-                    {selectedProgressRows.map((row) => (
-                      <div
-                        className="managerTableRow progressDetail"
-                        key={row.id}
-                      >
-                        <strong>{row.level || "—"}</strong>
-                        <span
-                          className={`managerStatusText ${row.status === "correct" ? "correct" : "wrong"}`}
-                        >
-                          {getProgressStatusLabel(row.status)}
+                  <h3>
+                    Thông tin học của {getProfileLabel(selectedProgressUser)}
+                  </h3>
+                  {selectedProgressSummary ? (
+                    <section className="managerStatsGrid compact">
+                      <div>
+                        <span>Bài đã học xong</span>
+                        <strong>
+                          {selectedProgressSummary.completedCount.toLocaleString(
+                            "vi-VN",
+                          )}
+                        </strong>
+                      </div>
+                      <div>
+                        <span>Bài chưa học xong</span>
+                        <strong>
+                          {selectedProgressSummary.inProgressCount.toLocaleString(
+                            "vi-VN",
+                          )}
+                        </strong>
+                      </div>
+                      <div>
+                        <span>Sai nhiều nhất</span>
+                        <strong>
+                          {selectedProgressSummary.maxWrongCount.toLocaleString(
+                            "vi-VN",
+                          )}
+                        </strong>
+                      </div>
+                      <div>
+                        <span>Thời gian học ước tính</span>
+                        <strong>
+                          {formatDuration(selectedProgressSummary.studyMs)}
+                        </strong>
+                      </div>
+                    </section>
+                  ) : null}
+                  <div className="managerLevelList detail">
+                    {selectedProgressLevelSummaries.map((item) => (
+                      <div key={item.level}>
+                        <strong>{item.level}</strong>
+                        <span>{item.status}</span>
+                        <span>
+                          Đúng {item.correct.toLocaleString("vi-VN")} · Sai{" "}
+                          {item.wrong.toLocaleString("vi-VN")}
                         </span>
-                        <span title={row.word_key || undefined}>
-                          {getWordFromProgressKey(row.word_key)}
+                        <span>Học {formatDuration(item.studyMs)}</span>
+                        <span>
+                          {item.completedAt
+                            ? `Xong ${formatDate(item.completedAt)}`
+                            : `Cập nhật ${formatDate(item.lastUpdated)}`}
                         </span>
-                        <span>{formatDate(row.updated_at)}</span>
                       </div>
                     ))}
-                    {selectedProgressRows.length === 0 ? (
+                    {selectedProgressLevelSummaries.length === 0 ? (
                       <p className="managerEmptyText">
                         Học viên này chưa có tiến độ từ vựng.
                       </p>
@@ -769,6 +992,73 @@ export default function ManagerPageClient({
                   </span>
                 </div>
               </div>
+              <section className="managerAdvancedSettings">
+                <div>
+                  <h3>Cài đặt nâng cao</h3>
+                  <p>
+                    Các lựa chọn này lưu trên trình duyệt hiện tại và áp dụng
+                    ngay cho giao diện quản trị, âm thanh đúng/sai.
+                  </p>
+                </div>
+                <label className="managerToggleRow">
+                  <span>Âm thanh đúng/sai</span>
+                  <input
+                    checked={advancedSettings.answerSoundEnabled}
+                    type="checkbox"
+                    onChange={(event) =>
+                      updateAdvancedSettings({
+                        answerSoundEnabled: event.target.checked,
+                      })
+                    }
+                  />
+                </label>
+                <label className="managerRangeRow">
+                  <span>Âm lượng {advancedSettings.answerSoundVolume}%</span>
+                  <input
+                    max="100"
+                    min="0"
+                    step="5"
+                    type="range"
+                    value={advancedSettings.answerSoundVolume}
+                    onChange={(event) =>
+                      updateAdvancedSettings({
+                        answerSoundVolume: Number(event.target.value),
+                      })
+                    }
+                  />
+                </label>
+                <div className="managerColorGrid">
+                  <span>Màu chủ đạo</span>
+                  <div>
+                    {colorPresets.map((preset) => (
+                      <button
+                        aria-label={`Chọn màu ${preset.label}`}
+                        className={
+                          advancedSettings.accentColor === preset.value
+                            ? "active"
+                            : ""
+                        }
+                        key={preset.value}
+                        style={{ background: preset.value }}
+                        title={preset.label}
+                        type="button"
+                        onClick={() =>
+                          updateAdvancedSettings({
+                            accentColor: preset.value,
+                          })
+                        }
+                      />
+                    ))}
+                  </div>
+                </div>
+                <button
+                  className="secondaryButton"
+                  type="button"
+                  onClick={() => setAdvancedSettings(defaultAdvancedSettings)}
+                >
+                  Khôi phục mặc định
+                </button>
+              </section>
               <button
                 className="secondaryButton"
                 type="button"

@@ -872,6 +872,34 @@ export default function VocabularyStudyPage({
       return;
     }
 
+    let answerSoundVolume = 0.7;
+
+    try {
+      const settings = JSON.parse(
+        window.localStorage.getItem("yenth:advanced-settings") || "{}",
+      ) as {
+        answerSoundEnabled?: boolean;
+        answerSoundVolume?: number;
+      };
+
+      if (settings.answerSoundEnabled === false) {
+        return;
+      }
+
+      if (typeof settings.answerSoundVolume === "number") {
+        answerSoundVolume = Math.min(
+          1,
+          Math.max(0, settings.answerSoundVolume / 100),
+        );
+      }
+    } catch {
+      answerSoundVolume = 0.7;
+    }
+
+    if (answerSoundVolume <= 0) {
+      return;
+    }
+
     const AudioContextConstructor =
       window.AudioContext ||
       (window as typeof window & { webkitAudioContext?: typeof AudioContext })
@@ -900,7 +928,10 @@ export default function VocabularyStudyPage({
       const masterGain = audioContext.createGain();
 
       masterGain.gain.setValueAtTime(0.0001, startedAt);
-      masterGain.gain.exponentialRampToValueAtTime(0.18, startedAt + 0.015);
+      masterGain.gain.exponentialRampToValueAtTime(
+        0.18 * answerSoundVolume,
+        startedAt + 0.015,
+      );
       masterGain.gain.exponentialRampToValueAtTime(
         0.0001,
         startedAt + totalDuration + 0.05,
@@ -925,9 +956,12 @@ export default function VocabularyStudyPage({
       });
 
       void audioContext.resume().catch(() => undefined);
-      window.setTimeout(() => {
-        void audioContext.close().catch(() => undefined);
-      }, (totalDuration + 0.2) * 1000);
+      window.setTimeout(
+        () => {
+          void audioContext.close().catch(() => undefined);
+        },
+        (totalDuration + 0.2) * 1000,
+      );
     } catch {
       // Sound feedback is decorative; answering should never fail because audio did.
     }
@@ -1014,11 +1048,7 @@ export default function VocabularyStudyPage({
 
   useEffect(() => {
     function handleTestShortcutKey(event: KeyboardEvent) {
-      if (
-        isTextEntryTarget(event.target) ||
-        mode !== "test" ||
-        !quiz
-      ) {
+      if (isTextEntryTarget(event.target) || mode !== "test" || !quiz) {
         return;
       }
 
@@ -1948,8 +1978,7 @@ export default function VocabularyStudyPage({
               </p>
               <p>
                 <strong>Nghĩa ví dụ:</strong>{" "}
-                {getExampleMeaning(currentAnswer) ||
-                  "Chưa có bản dịch ví dụ."}
+                {getExampleMeaning(currentAnswer) || "Chưa có bản dịch ví dụ."}
               </p>
             </div>
 

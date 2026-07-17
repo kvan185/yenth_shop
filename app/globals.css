@@ -5269,6 +5269,19 @@ dd {
   font-size: clamp(1.4rem, 3vw, 2rem);
 }
 
+.managerStatsGrid.compact {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.managerStatsGrid.compact div {
+  min-height: 78px;
+  padding: 12px;
+}
+
+.managerStatsGrid.compact strong {
+  font-size: 1.08rem;
+}
+
 .managerResourceGrid .managerResourceCard {
   min-height: 150px;
 }
@@ -5321,6 +5334,12 @@ dd {
   align-items: center;
 }
 
+.managerLevelList.detail div {
+  grid-template-columns:
+    70px minmax(110px, 0.8fr) minmax(150px, 1fr)
+    minmax(120px, 0.8fr) minmax(170px, 1fr);
+}
+
 .managerEventList span,
 .managerEventList small,
 .managerLevelList span {
@@ -5352,6 +5371,70 @@ dd {
   color: var(--muted);
   font-weight: 800;
   line-height: 1.5;
+}
+
+.managerAdvancedSettings {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--surface);
+}
+
+.managerAdvancedSettings h3,
+.managerAdvancedSettings p {
+  margin: 0;
+}
+
+.managerAdvancedSettings p {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.managerToggleRow,
+.managerRangeRow,
+.managerColorGrid {
+  display: grid;
+  gap: 8px;
+  color: var(--ink);
+  font-weight: 900;
+}
+
+.managerToggleRow {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.managerToggleRow input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+}
+
+.managerRangeRow input {
+  width: min(420px, 100%);
+  accent-color: var(--primary);
+}
+
+.managerColorGrid div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.managerColorGrid button {
+  width: 34px;
+  height: 34px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.managerColorGrid button.active {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px var(--line);
 }
 
 .managerUserList {
