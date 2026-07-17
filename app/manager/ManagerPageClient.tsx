@@ -63,6 +63,8 @@ type ManagerOverview = {
   resources?: ManagerResource[];
 };
 
+type EventsLayer = "completed" | "studying" | "wrong" | "time";
+
 type AdvancedSettings = {
   accentColor: string;
   answerSoundEnabled: boolean;
@@ -175,6 +177,7 @@ function getEventLabel(eventType: string | null | undefined) {
     daily_goal_completed: "Hoàn thành mục tiêu ngày",
     daily_streak: "Cập nhật streak",
     level_completed: "Hoàn thành level",
+    tip_requested: "Xin tip",
   };
 
   if (!eventType) {
@@ -222,6 +225,8 @@ export default function ManagerPageClient({
   const [data, setData] = useState<ManagerOverview>({});
   const [editingProfileId, setEditingProfileId] = useState("");
   const [savingProfileId, setSavingProfileId] = useState("");
+  const [selectedEventsLayer, setSelectedEventsLayer] =
+    useState<EventsLayer>("completed");
   const [selectedEventsUserId, setSelectedEventsUserId] = useState("");
   const [selectedProgressUserId, setSelectedProgressUserId] = useState("");
   const [message, setMessage] = useState("");
@@ -374,6 +379,87 @@ export default function ManagerPageClient({
 
     return { attempts, events, lastUpdated, profile };
   });
+  const selectedEventsProgressRows = selectedEventsUser
+    ? recentProgress.filter((row) => row.user_id === selectedEventsUser.id)
+    : [];
+  const selectedEventsCompletedLevels = new Map(
+    selectedEventRows
+      .filter((event) => event.event_type === "level_completed")
+      .map((event) => [getEventPayloadLevel(event), event.created_at]),
+  );
+  const selectedEventsStartedLevels = new Set(
+    selectedEventsProgressRows
+      .map((row) => String(row.level || "").toUpperCase())
+      .filter(Boolean),
+  );
+  const selectedEventsCompletedItems = Array.from(
+    selectedEventsCompletedLevels.entries(),
+  ).map(([level, completedAt]) => ({ completedAt, level }));
+  const selectedEventsStudyingItems = Array.from(selectedEventsStartedLevels)
+    .filter((level) => !selectedEventsCompletedLevels.has(level))
+    .map((level) => {
+      const rows = selectedEventsProgressRows.filter(
+        (row) => String(row.level || "").toUpperCase() === level,
+      );
+      const correct = rows.filter((row) => row.status === "correct").length;
+      const wrong = rows.filter((row) => row.status === "wrong").length;
+      const lastUpdated = rows
+        .map((row) => row.updated_at)
+        .filter((value): value is string => Boolean(value))
+        .sort(
+          (first, second) =>
+            new Date(second).getTime() - new Date(first).getTime(),
+        )[0];
+
+      return { correct, lastUpdated, level, wrong };
+    });
+  const selectedEventsWrongRows = selectedEventsProgressRows.filter(
+    (row) => row.status === "wrong",
+  );
+  const selectedEventsTipRows = selectedEventRows.filter(
+    (event) => event.event_type === "tip_requested",
+  );
+  const selectedEventsStudyTimestamps = selectedEventsProgressRows
+    .map((row) => row.updated_at)
+    .filter((value): value is string => Boolean(value))
+    .sort(
+      (first, second) => new Date(first).getTime() - new Date(second).getTime(),
+    );
+  const selectedEventsStudyMs =
+    selectedEventsStudyTimestamps[0] &&
+    selectedEventsStudyTimestamps[selectedEventsStudyTimestamps.length - 1]
+      ? new Date(
+          selectedEventsStudyTimestamps[
+            selectedEventsStudyTimestamps.length - 1
+          ],
+        ).getTime() - new Date(selectedEventsStudyTimestamps[0]).getTime()
+      : 0;
+  const eventLayerItems: Array<{
+    count: number;
+    id: EventsLayer;
+    label: string;
+  }> = [
+    {
+      count: selectedEventsCompletedItems.length,
+      id: "completed",
+      label: "Bài đã hoàn thành",
+    },
+    {
+      count: selectedEventsStudyingItems.length,
+      id: "studying",
+      label: "Đang học",
+    },
+    {
+      count: selectedEventsWrongRows.length,
+      id: "wrong",
+      label: "Từ sai",
+    },
+    {
+      count: selectedEventsProgressRows.length,
+      id: "time",
+      label: "Thời gian học",
+    },
+  ];
 
   const readyCount = resources.filter(
     (resource) => resource.status === "ready",
@@ -748,7 +834,7 @@ export default function ManagerPageClient({
                 </div>
               </section>
 
-              <section className="managerSplitPanel">
+              <section className="managerTriplePanel">
                 <article className="managerPanel">
                   <h3>Danh sách học viên</h3>
                   <div className="managerUserList">
@@ -897,7 +983,10 @@ export default function ManagerPageClient({
                           }
                           key={profile.id}
                           type="button"
-                          onClick={() => setSelectedEventsUserId(profile.id)}
+                          onClick={() => {
+                            setSelectedEventsUserId(profile.id);
+                            setSelectedEventsLayer("completed");
+                          }}
                         >
                           <strong>{getProfileLabel(profile)}</strong>
                           <span>
@@ -912,42 +1001,114 @@ export default function ManagerPageClient({
                 </article>
 
                 <article className="managerPanel">
-                  <h3>Hoạt động của {getProfileLabel(selectedEventsUser)}</h3>
-                  <div className="managerEventList">
-                    {selectedEventRows.map((event) => (
-                      <div key={event.id}>
-                        <strong>{getEventLabel(event.event_type)}</strong>
-                        <span>{formatDate(event.created_at)}</span>
-                        <small>{formatEventPayload(event.payload)}</small>
-                      </div>
+                  <h3>Thông tin</h3>
+                  <div className="managerUserList">
+                    {eventLayerItems.map((item) => (
+                      <button
+                        className={
+                          selectedEventsLayer === item.id ? "active" : ""
+                        }
+                        key={item.id}
+                        type="button"
+                        onClick={() => setSelectedEventsLayer(item.id)}
+                      >
+                        <strong>{item.label}</strong>
+                        <span>{item.count.toLocaleString("vi-VN")} mục</span>
+                      </button>
                     ))}
-                    {selectedEventRows.length === 0 ? (
-                      <p className="managerEmptyText">
-                        Học viên này chưa có learning event.
-                      </p>
-                    ) : null}
+                    <div className="managerInfoCard">
+                      <strong>Số lần xin tip</strong>
+                      <span>
+                        {selectedEventsTipRows.length.toLocaleString("vi-VN")}{" "}
+                        lần
+                      </span>
+                    </div>
                   </div>
                 </article>
 
                 <article className="managerPanel">
-                  <h3>Quiz của {getProfileLabel(selectedEventsUser)}</h3>
-                  <div className="managerEventList">
-                    {selectedAttemptRows.map((attempt) => (
-                      <div key={attempt.id}>
-                        <strong>{attempt.skill || "Quiz"}</strong>
-                        <span>
-                          {attempt.level || "Tất cả level"} · Điểm{" "}
-                          {attempt.score || 0}/{attempt.total || 0}
-                        </span>
-                        <small>{formatDate(attempt.created_at)}</small>
+                  <h3>Chi tiết của {getProfileLabel(selectedEventsUser)}</h3>
+                  {selectedEventsLayer === "completed" ? (
+                    <div className="managerEventList">
+                      {selectedEventsCompletedItems.map((item) => (
+                        <div key={item.level}>
+                          <strong>{item.level}</strong>
+                          <span>Đã hoàn thành</span>
+                          <small>{formatDate(item.completedAt)}</small>
+                        </div>
+                      ))}
+                      {selectedEventsCompletedItems.length === 0 ? (
+                        <p className="managerEmptyText">
+                          Học viên này chưa hoàn thành bài học nào.
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {selectedEventsLayer === "studying" ? (
+                    <div className="managerEventList">
+                      {selectedEventsStudyingItems.map((item) => (
+                        <div key={item.level}>
+                          <strong>{item.level}</strong>
+                          <span>
+                            Đúng {item.correct.toLocaleString("vi-VN")} · Sai{" "}
+                            {item.wrong.toLocaleString("vi-VN")}
+                          </span>
+                          <small>Cập nhật {formatDate(item.lastUpdated)}</small>
+                        </div>
+                      ))}
+                      {selectedEventsStudyingItems.length === 0 ? (
+                        <p className="managerEmptyText">
+                          Học viên này không có bài đang học dở.
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {selectedEventsLayer === "wrong" ? (
+                    <div className="managerEventList">
+                      {selectedEventsWrongRows.map((row) => (
+                        <div key={row.id}>
+                          <strong>
+                            {getWordFromProgressKey(row.word_key)}
+                          </strong>
+                          <span>{row.level || "—"}</span>
+                          <small>{formatDate(row.updated_at)}</small>
+                        </div>
+                      ))}
+                      {selectedEventsWrongRows.length === 0 ? (
+                        <p className="managerEmptyText">
+                          Học viên này chưa có từ sai.
+                        </p>
+                      ) : null}
+                    </div>
+                  ) : null}
+
+                  {selectedEventsLayer === "time" ? (
+                    <div className="managerEventList">
+                      <div>
+                        <strong>Thời gian học ước tính</strong>
+                        <span>{formatDuration(selectedEventsStudyMs)}</span>
+                        <small>
+                          Dựa trên lần cập nhật tiến độ đầu tiên và cuối cùng.
+                        </small>
                       </div>
-                    ))}
-                    {selectedAttemptRows.length === 0 ? (
-                      <p className="managerEmptyText">
-                        Học viên này chưa có lượt quiz.
-                      </p>
-                    ) : null}
-                  </div>
+                      <div>
+                        <strong>Số lần xin tip</strong>
+                        <span>
+                          {selectedEventsTipRows.length.toLocaleString("vi-VN")}{" "}
+                          lần
+                        </span>
+                      </div>
+                      <div>
+                        <strong>Lượt quiz</strong>
+                        <span>
+                          {selectedAttemptRows.length.toLocaleString("vi-VN")}{" "}
+                          lượt
+                        </span>
+                      </div>
+                    </div>
+                  ) : null}
                 </article>
               </section>
             </>

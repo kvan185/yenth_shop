@@ -639,6 +639,17 @@ export default function VocabularyStudyPage({
         ...previous,
         [currentAnswerKey]: (previous[currentAnswerKey] || 0) + 1,
       }));
+
+      if (supabase && userId) {
+        void supabase.from("learning_events").insert({
+          event_type: "tip_requested",
+          payload: {
+            level,
+            word_key: currentAnswerKey,
+          },
+          user_id: userId,
+        });
+      }
     }
 
     setIsTipPopupOpen(true);

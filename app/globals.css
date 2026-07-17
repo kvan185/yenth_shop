@@ -5312,6 +5312,16 @@ dd {
   align-items: start;
 }
 
+.managerTriplePanel {
+  display: grid;
+  grid-template-columns: minmax(260px, 320px) minmax(220px, 280px) minmax(
+      0,
+      1fr
+    );
+  gap: 12px;
+  align-items: start;
+}
+
 .managerLevelList,
 .managerEventList,
 .managerTable {
@@ -5458,6 +5468,24 @@ dd {
 .managerUserList button.active {
   border-color: var(--primary);
   background: #eef8f0;
+}
+
+.managerInfoCard {
+  display: grid;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 11px 12px;
+  background: var(--surface);
+}
+
+.managerInfoCard strong {
+  color: var(--ink);
+}
+
+.managerInfoCard span {
+  color: var(--primary-dark);
+  font-weight: 900;
 }
 
 .managerUserList span,
@@ -7129,7 +7157,8 @@ dd {
   .managerStatsGrid,
   .managerResourceGrid,
   .managerNav,
-  .managerSplitPanel {
+  .managerSplitPanel,
+  .managerTriplePanel {
     grid-template-columns: 1fr;
   }
 
