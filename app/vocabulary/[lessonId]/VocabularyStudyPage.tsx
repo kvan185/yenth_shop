@@ -1209,8 +1209,12 @@ export default function VocabularyStudyPage({
   }, [currentAnswerKey, mode]);
 
   useEffect(() => {
+    if (!isTipPopupOpen) {
+      lastTipSpokenKeyRef.current = "";
+      return;
+    }
+
     if (
-      !isTipPopupOpen ||
       !currentAnswer ||
       !currentAnswerKey ||
       currentTipStage === 0
