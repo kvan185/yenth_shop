@@ -2688,6 +2688,13 @@
         "nghĩa ví dụ": "Có một trăm trang."
     },
     {
+        "từ": "hundreds",
+        "loại từ": "Danh từ số nhiều",
+        "nghĩa": "Hàng trăm",
+        "ví dụ": "The hundreds digit is 4.",
+        "nghĩa ví dụ": "Chữ số hàng trăm là 4."
+    },
+    {
         "từ": "hungry",
         "loại từ": "Tính từ",
         "nghĩa": "Đói",
@@ -3855,6 +3862,13 @@
         "nghĩa": "Một",
         "ví dụ": "I have one brother.",
         "nghĩa ví dụ": "Tôi có một anh/em trai."
+    },
+    {
+        "từ": "ones",
+        "loại từ": "Danh từ số nhiều",
+        "nghĩa": "Hàng đơn vị",
+        "ví dụ": "The ones digit is 7.",
+        "nghĩa ví dụ": "Chữ số hàng đơn vị là 7."
     },
     {
         "từ": "onion",
@@ -5411,6 +5425,13 @@
         "nghĩa ví dụ": "Có mười học sinh trong phòng."
     },
     {
+        "từ": "tens",
+        "loại từ": "Danh từ số nhiều",
+        "nghĩa": "Hàng chục",
+        "ví dụ": "The tens digit is 3.",
+        "nghĩa ví dụ": "Chữ số hàng chục là 3."
+    },
+    {
         "từ": "tennis",
         "loại từ": "Danh từ",
         "nghĩa": "Quần vợt/Tennis",
@@ -5570,6 +5591,13 @@
         "nghĩa": "Nghìn",
         "ví dụ": "The town has five thousand people.",
         "nghĩa ví dụ": "Thị trấn có năm nghìn người."
+    },
+    {
+        "từ": "thousands",
+        "loại từ": "Danh từ số nhiều",
+        "nghĩa": "Hàng nghìn",
+        "ví dụ": "The thousands digit is 2.",
+        "nghĩa ví dụ": "Chữ số hàng nghìn là 2."
     },
     {
         "từ": "three",

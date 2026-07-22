@@ -20,6 +20,7 @@ const navItems = [
   { href: "/", label: "Trang chủ" },
   { href: "/learn", label: "Lộ trình" },
   { href: "/vocabulary", label: "Từ vựng" },
+  { href: "/phrases", label: "Cụm từ" },
   { href: "/grammar", label: "Ngữ pháp" },
   { href: "/exams", label: "Đề thi" },
   { href: "/blog", label: "Blog" },

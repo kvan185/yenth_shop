@@ -1,0 +1,212 @@
+[
+    {
+        "từ": "a cup of",
+        "loại từ": "Cụm danh từ",
+        "nghĩa": "Một cốc/một tách",
+        "ví dụ": "I want a cup of tea.",
+        "nghĩa ví dụ": "Tôi muốn một tách trà."
+    },
+    {
+        "từ": "a glass of",
+        "loại từ": "Cụm danh từ",
+        "nghĩa": "Một ly",
+        "ví dụ": "She drank a glass of water.",
+        "nghĩa ví dụ": "Cô ấy đã uống một ly nước."
+    },
+    {
+        "từ": "a lot of",
+        "loại từ": "Cụm hạn định",
+        "nghĩa": "Nhiều",
+        "ví dụ": "There are a lot of books here.",
+        "nghĩa ví dụ": "Có nhiều sách ở đây."
+    },
+    {
+        "từ": "at home",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Ở nhà",
+        "ví dụ": "I am at home today.",
+        "nghĩa ví dụ": "Hôm nay tôi ở nhà."
+    },
+    {
+        "từ": "at night",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Vào ban đêm",
+        "ví dụ": "I study at night.",
+        "nghĩa ví dụ": "Tôi học vào ban đêm."
+    },
+    {
+        "từ": "by bus",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Bằng xe buýt",
+        "ví dụ": "We go to school by bus.",
+        "nghĩa ví dụ": "Chúng tôi đi học bằng xe buýt."
+    },
+    {
+        "từ": "by car",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Bằng ô tô",
+        "ví dụ": "They travel by car.",
+        "nghĩa ví dụ": "Họ đi du lịch bằng ô tô."
+    },
+    {
+        "từ": "come from",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Đến từ",
+        "ví dụ": "Where do you come from?",
+        "nghĩa ví dụ": "Bạn đến từ đâu?"
+    },
+    {
+        "từ": "every day",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Mỗi ngày",
+        "ví dụ": "I read every day.",
+        "nghĩa ví dụ": "Tôi đọc sách mỗi ngày."
+    },
+    {
+        "từ": "get dressed",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Mặc quần áo",
+        "ví dụ": "I get dressed at seven.",
+        "nghĩa ví dụ": "Tôi mặc quần áo lúc bảy giờ."
+    },
+    {
+        "từ": "get up",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Thức dậy",
+        "ví dụ": "I get up early.",
+        "nghĩa ví dụ": "Tôi thức dậy sớm."
+    },
+    {
+        "từ": "go home",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Về nhà",
+        "ví dụ": "Let's go home now.",
+        "nghĩa ví dụ": "Bây giờ chúng ta về nhà thôi."
+    },
+    {
+        "từ": "go shopping",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Đi mua sắm",
+        "ví dụ": "We go shopping on Sunday.",
+        "nghĩa ví dụ": "Chúng tôi đi mua sắm vào Chủ nhật."
+    },
+    {
+        "từ": "good morning",
+        "loại từ": "Cụm chào hỏi",
+        "nghĩa": "Chào buổi sáng",
+        "ví dụ": "Good morning, teacher.",
+        "nghĩa ví dụ": "Chào buổi sáng, cô giáo."
+    },
+    {
+        "từ": "have breakfast",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Ăn sáng",
+        "ví dụ": "I have breakfast at home.",
+        "nghĩa ví dụ": "Tôi ăn sáng ở nhà."
+    },
+    {
+        "từ": "have dinner",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Ăn tối",
+        "ví dụ": "We have dinner at six.",
+        "nghĩa ví dụ": "Chúng tôi ăn tối lúc sáu giờ."
+    },
+    {
+        "từ": "have lunch",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Ăn trưa",
+        "ví dụ": "They have lunch at school.",
+        "nghĩa ví dụ": "Họ ăn trưa ở trường."
+    },
+    {
+        "từ": "how many",
+        "loại từ": "Cụm hỏi",
+        "nghĩa": "Bao nhiêu",
+        "ví dụ": "How many apples do you want?",
+        "nghĩa ví dụ": "Bạn muốn bao nhiêu quả táo?"
+    },
+    {
+        "từ": "how much",
+        "loại từ": "Cụm hỏi",
+        "nghĩa": "Bao nhiêu",
+        "ví dụ": "How much is this bag?",
+        "nghĩa ví dụ": "Cái túi này giá bao nhiêu?"
+    },
+    {
+        "từ": "in front of",
+        "loại từ": "Cụm giới từ",
+        "nghĩa": "Phía trước",
+        "ví dụ": "The car is in front of the house.",
+        "nghĩa ví dụ": "Chiếc xe ở phía trước ngôi nhà."
+    },
+    {
+        "từ": "on foot",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Đi bộ",
+        "ví dụ": "I go to school on foot.",
+        "nghĩa ví dụ": "Tôi đi bộ đến trường."
+    },
+    {
+        "từ": "on Monday",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Vào thứ Hai",
+        "ví dụ": "The class starts on Monday.",
+        "nghĩa ví dụ": "Lớp học bắt đầu vào thứ Hai."
+    },
+    {
+        "từ": "over there",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Ở đằng kia",
+        "ví dụ": "My bag is over there.",
+        "nghĩa ví dụ": "Cặp của tôi ở đằng kia."
+    },
+    {
+        "từ": "phone number",
+        "loại từ": "Cụm danh từ",
+        "nghĩa": "Số điện thoại",
+        "ví dụ": "What is your phone number?",
+        "nghĩa ví dụ": "Số điện thoại của bạn là gì?"
+    },
+    {
+        "từ": "this morning",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Sáng nay",
+        "ví dụ": "I saw him this morning.",
+        "nghĩa ví dụ": "Tôi đã gặp anh ấy sáng nay."
+    },
+    {
+        "từ": "this weekend",
+        "loại từ": "Cụm trạng từ",
+        "nghĩa": "Cuối tuần này",
+        "ví dụ": "We are busy this weekend.",
+        "nghĩa ví dụ": "Cuối tuần này chúng tôi bận."
+    },
+    {
+        "từ": "turn left",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Rẽ trái",
+        "ví dụ": "Turn left at the bank.",
+        "nghĩa ví dụ": "Rẽ trái ở ngân hàng."
+    },
+    {
+        "từ": "turn right",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Rẽ phải",
+        "ví dụ": "Turn right after the school.",
+        "nghĩa ví dụ": "Rẽ phải sau trường học."
+    },
+    {
+        "từ": "watch TV",
+        "loại từ": "Cụm động từ",
+        "nghĩa": "Xem ti vi",
+        "ví dụ": "I watch TV after dinner.",
+        "nghĩa ví dụ": "Tôi xem ti vi sau bữa tối."
+    },
+    {
+        "từ": "next to",
+        "loại từ": "Cụm giới từ",
+        "nghĩa": "Bên cạnh",
+        "ví dụ": "We sat next to each other.",
+        "nghĩa ví dụ": "Chúng tôi đã ngồi cạnh nhau."
+    }
+]

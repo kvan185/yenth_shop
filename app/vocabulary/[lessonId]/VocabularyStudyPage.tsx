@@ -98,6 +98,23 @@ function getPronunciation(item: VocabularyItem) {
   return "";
 }
 
+function getPreparedAudioUrl(item: VocabularyItem | null | undefined) {
+  if (!item) {
+    return "";
+  }
+
+  const audioUrl =
+    item["audio"] ||
+    item["audioUrl"] ||
+    item["audio_url"] ||
+    item["âm thanh"] ||
+    item["am thanh"] ||
+    item["sound"] ||
+    item["voice"];
+
+  return typeof audioUrl === "string" ? audioUrl.trim() : "";
+}
+
 function getWordKey(item: VocabularyItem) {
   return `${normalizeText(getWord(item))}::${normalizeText(getMeaning(item))}`;
 }
@@ -215,6 +232,16 @@ export default function VocabularyStudyPage({
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [speakingKey, setSpeakingKey] = useState("");
   const audioCacheRef = useRef<Map<string, string | null>>(new Map());
+  const audioLookupPromiseRef = useRef<Map<string, Promise<string | null>>>(
+    new Map(),
+  );
+  const audioElementCacheRef = useRef<Map<string, HTMLAudioElement>>(new Map());
+  const textAudioCacheRef = useRef<Map<string, Promise<string | null>>>(
+    new Map(),
+  );
+  const activeAudioRef = useRef<HTMLAudioElement | null>(null);
+  const lastAutoSpokenWordKeyRef = useRef("");
+  const lastTipSpokenKeyRef = useRef("");
   const hasWarnedAudioBrowserRef = useRef(false);
   const hasResolvedTestSessionRef = useRef(false);
 
@@ -814,6 +841,27 @@ export default function VocabularyStudyPage({
     return true;
   }
 
+  function preloadAudioUrl(audioUrl: string) {
+    const cleanAudioUrl = audioUrl.trim();
+
+    if (!cleanAudioUrl) {
+      return null;
+    }
+
+    const cachedAudio = audioElementCacheRef.current.get(cleanAudioUrl);
+
+    if (cachedAudio) {
+      return cachedAudio;
+    }
+
+    const audio = new Audio(cleanAudioUrl);
+    audio.preload = "auto";
+    audioElementCacheRef.current.set(cleanAudioUrl, audio);
+    audio.load();
+
+    return audio;
+  }
+
   async function getDictionaryAudioUrl(
     word: string,
     timeoutMs = audioLookupTimeoutMs,
@@ -828,53 +876,95 @@ export default function VocabularyStudyPage({
       return audioCacheRef.current.get(normalizedWord) || null;
     }
 
-    const controller = new AbortController();
-    const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+    const cachedLookupPromise = audioLookupPromiseRef.current.get(normalizedWord);
 
-    try {
-      const response = await fetch(
-        `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(normalizedWord)}`,
-        { signal: controller.signal },
-      );
-
-      if (!response.ok) {
-        audioCacheRef.current.set(normalizedWord, null);
-        return null;
-      }
-
-      const entries = await response.json();
-      const phonetics = Array.isArray(entries)
-        ? entries.flatMap((entry) =>
-            Array.isArray(entry?.phonetics) ? entry.phonetics : [],
-          )
-        : [];
-      const audioUrl =
-        phonetics.find(
-          (item) =>
-            typeof item?.audio === "string" && item.audio.includes("-us."),
-        )?.audio ||
-        phonetics.find((item) => typeof item?.audio === "string" && item.audio)
-          ?.audio ||
-        null;
-
-      audioCacheRef.current.set(normalizedWord, audioUrl);
-      return audioUrl;
-    } catch (error) {
-      if (!(error instanceof DOMException && error.name === "AbortError")) {
-        audioCacheRef.current.set(normalizedWord, null);
-      }
-      return null;
-    } finally {
-      window.clearTimeout(timeoutId);
+    if (cachedLookupPromise) {
+      return cachedLookupPromise;
     }
+
+    const lookupPromise = (async () => {
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), timeoutMs);
+
+      try {
+        const response = await fetch(
+          `https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(normalizedWord)}`,
+          { signal: controller.signal },
+        );
+
+        if (!response.ok) {
+          audioCacheRef.current.set(normalizedWord, null);
+          return null;
+        }
+
+        const entries = await response.json();
+        const phonetics = Array.isArray(entries)
+          ? entries.flatMap((entry) =>
+              Array.isArray(entry?.phonetics) ? entry.phonetics : [],
+            )
+          : [];
+        const audioUrl =
+          phonetics.find(
+            (item) =>
+              typeof item?.audio === "string" && item.audio.includes("-us."),
+          )?.audio ||
+          phonetics.find(
+            (item) => typeof item?.audio === "string" && item.audio,
+          )?.audio ||
+          null;
+
+        audioCacheRef.current.set(normalizedWord, audioUrl);
+        if (audioUrl) {
+          preloadAudioUrl(audioUrl);
+        }
+        return audioUrl;
+      } catch (error) {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          audioCacheRef.current.set(normalizedWord, null);
+        }
+        return null;
+      } finally {
+        window.clearTimeout(timeoutId);
+        audioLookupPromiseRef.current.delete(normalizedWord);
+      }
+    })();
+
+    audioLookupPromiseRef.current.set(normalizedWord, lookupPromise);
+    return lookupPromise;
+  }
+
+  async function getWordAudioUrl(
+    item: VocabularyItem | null | undefined,
+    timeoutMs = audioLookupTimeoutMs,
+  ) {
+    const preparedAudioUrl = getPreparedAudioUrl(item);
+
+    if (preparedAudioUrl) {
+      preloadAudioUrl(preparedAudioUrl);
+      return preparedAudioUrl;
+    }
+
+    return getDictionaryAudioUrl(item ? getWord(item) : "", timeoutMs);
   }
 
   async function playAudioUrl(audioUrl: string) {
+    const preparedAudio = preloadAudioUrl(audioUrl);
+
+    if (!preparedAudio) {
+      return;
+    }
+
     await new Promise<void>((resolve, reject) => {
-      const audio = new Audio(audioUrl);
-      audio.onended = () => resolve();
-      audio.onerror = () => reject(new Error("Audio failed"));
-      audio.play().catch(reject);
+      if (activeAudioRef.current && activeAudioRef.current !== preparedAudio) {
+        activeAudioRef.current.pause();
+      }
+
+      activeAudioRef.current = preparedAudio;
+      preparedAudio.pause();
+      preparedAudio.currentTime = 0;
+      preparedAudio.onended = () => resolve();
+      preparedAudio.onerror = () => reject(new Error("Audio failed"));
+      preparedAudio.play().catch(reject);
     });
   }
 
@@ -978,30 +1068,56 @@ export default function VocabularyStudyPage({
     }
   }
 
-  async function playPremiumTextAudio(text: string) {
-    const response = await fetch("/api/tts", {
-      body: JSON.stringify({ text }),
+  async function getPreparedTextAudioUrl(text: string) {
+    const cleanText = text.trim();
+
+    if (!cleanText) {
+      return null;
+    }
+
+    const cachedAudioPromise = textAudioCacheRef.current.get(cleanText);
+
+    if (cachedAudioPromise) {
+      return cachedAudioPromise;
+    }
+
+    const audioPromise = fetch("/api/tts", {
+      body: JSON.stringify({ text: cleanText }),
       headers: {
         "Content-Type": "application/json",
       },
       method: "POST",
-    });
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error("Premium TTS failed");
+        }
 
-    if (!response.ok) {
+        const blob = await response.blob();
+        const audioUrl = URL.createObjectURL(blob);
+        preloadAudioUrl(audioUrl);
+        return audioUrl;
+      })
+      .catch(() => null);
+
+    textAudioCacheRef.current.set(cleanText, audioPromise);
+    return audioPromise;
+  }
+
+  async function playPremiumTextAudio(text: string) {
+    const audioUrl = await getPreparedTextAudioUrl(text);
+
+    if (!audioUrl) {
       throw new Error("Premium TTS failed");
     }
 
-    const blob = await response.blob();
-    const audioUrl = URL.createObjectURL(blob);
-
-    try {
-      await playAudioUrl(audioUrl);
-    } finally {
-      URL.revokeObjectURL(audioUrl);
-    }
+    await playAudioUrl(audioUrl);
   }
 
-  async function speakWord(item: VocabularyItem | null | undefined) {
+  async function speakWord(
+    item: VocabularyItem | null | undefined,
+    options: { silentFailure?: boolean } = {},
+  ) {
     const word = item ? getWord(item).trim() : "";
 
     if (!word) {
@@ -1011,14 +1127,16 @@ export default function VocabularyStudyPage({
     setSpeakingKey(item ? getWordKey(item) : word);
 
     try {
-      const audioUrl = await getDictionaryAudioUrl(word);
+      const audioUrl = await getWordAudioUrl(item);
 
       if (audioUrl) {
         try {
           await playAudioUrl(audioUrl);
           return;
         } catch {
-          speakWithBrowserVoice(word);
+          if (!options.silentFailure) {
+            speakWithBrowserVoice(word);
+          }
           return;
         }
       }
@@ -1048,14 +1166,79 @@ export default function VocabularyStudyPage({
   }
 
   useEffect(() => {
-    const wordsToWarm = [selectedWord, currentAnswer]
-      .filter((item): item is VocabularyItem => Boolean(item))
-      .map((item) => getWord(item));
+    const itemsToWarm = [selectedWord, currentAnswer].filter(
+      (item): item is VocabularyItem => Boolean(item),
+    );
 
-    wordsToWarm.forEach((word) => {
-      void getDictionaryAudioUrl(word, 2200);
+    itemsToWarm.forEach((item) => {
+      void getWordAudioUrl(item, 2200);
+
+      const example = getExample(item);
+      if (example) {
+        void getPreparedTextAudioUrl(example);
+      }
     });
   }, [currentAnswerKey, selectedWordKey]);
+
+  useEffect(() => {
+    if (mode !== "learn" || !selectedWord) {
+      return;
+    }
+
+    const wordKey = getWordKey(selectedWord);
+
+    if (lastAutoSpokenWordKeyRef.current === wordKey) {
+      return;
+    }
+
+    lastAutoSpokenWordKeyRef.current = wordKey;
+    void speakWord(selectedWord, { silentFailure: true });
+  }, [mode, selectedWordKey]);
+
+  useEffect(() => {
+    if (mode !== "test" || !currentAnswer || !currentAnswerKey) {
+      return;
+    }
+
+    if (lastAutoSpokenWordKeyRef.current === currentAnswerKey) {
+      return;
+    }
+
+    lastAutoSpokenWordKeyRef.current = currentAnswerKey;
+    void speakWord(currentAnswer, { silentFailure: true });
+  }, [currentAnswerKey, mode]);
+
+  useEffect(() => {
+    if (
+      !isTipPopupOpen ||
+      !currentAnswer ||
+      !currentAnswerKey ||
+      currentTipStage === 0
+    ) {
+      return;
+    }
+
+    const tipSpeakKey = `${currentAnswerKey}:${currentTipStage}`;
+
+    if (lastTipSpokenKeyRef.current === tipSpeakKey) {
+      return;
+    }
+
+    lastTipSpokenKeyRef.current = tipSpeakKey;
+    void speakWord(currentAnswer, { silentFailure: true });
+  }, [currentAnswerKey, currentTipStage, isTipPopupOpen]);
+
+  useEffect(() => {
+    return () => {
+      textAudioCacheRef.current.forEach((audioPromise) => {
+        void audioPromise.then((audioUrl) => {
+          if (audioUrl?.startsWith("blob:")) {
+            URL.revokeObjectURL(audioUrl);
+          }
+        });
+      });
+    };
+  }, []);
 
   useEffect(() => {
     function handleTestShortcutKey(event: KeyboardEvent) {
