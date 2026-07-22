@@ -1488,6 +1488,31 @@ body {
   color: #ffffff;
 }
 
+.phraseModeTabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(112px, 1fr));
+  gap: 8px;
+  margin-bottom: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px;
+  background: #ffffff;
+}
+
+.phraseModeTabs button {
+  min-height: 40px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.phraseModeTabs button.active {
+  background: var(--primary);
+  color: #ffffff;
+}
+
 .phraseGrid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1548,6 +1573,41 @@ body {
   color: var(--ink);
   font-size: 0.95rem;
   line-height: 1.55;
+}
+
+.phraseTestLayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.28fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.phraseTestStats {
+  display: grid;
+  gap: 10px;
+}
+
+.phraseTestStats div {
+  display: grid;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: #ffffff;
+  box-shadow: 0 12px 28px rgba(20, 32, 29, 0.05);
+}
+
+.phraseTestStats span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.phraseTestStats strong {
+  color: var(--ink);
+  font-size: 1.55rem;
+  line-height: 1;
 }
 
 @media (max-width: 1100px) {

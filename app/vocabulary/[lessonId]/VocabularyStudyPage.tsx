@@ -1218,14 +1218,20 @@ export default function VocabularyStudyPage({
       return;
     }
 
-    const tipSpeakKey = `${currentAnswerKey}:${currentTipStage}`;
+    const example = getExample(currentAnswer);
+
+    if (!example) {
+      return;
+    }
+
+    const tipSpeakKey = `${currentAnswerKey}:${currentTipStage}:example`;
 
     if (lastTipSpokenKeyRef.current === tipSpeakKey) {
       return;
     }
 
     lastTipSpokenKeyRef.current = tipSpeakKey;
-    void speakWord(currentAnswer, { silentFailure: true });
+    void speakText(example, `${currentAnswerKey}::tip-example`);
   }, [currentAnswerKey, currentTipStage, isTipPopupOpen]);
 
   useEffect(() => {
